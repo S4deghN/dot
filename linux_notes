@@ -1,0 +1,18 @@
+# less key-repeat delay and higher key-repeat rate
+xset r rate 250 45
+
+# if experiencing slow internet and timeouts with wifi.
+sudo vim /etc/gai.conf # Locate "#precedence ::ffff:0:0/96 100" and and remove the #.
+sudo vim /etc/NetworkManager/conf.d/default-wifi-powersave-on.conf # change power saving option from 3 to 2.
+
+# append a user to a group.
+sudo usermod -aG [group] [user]
+
+# if you have a hanging internet, you might be using a broken DNS.
+dig csclub.uwaterloo.ca
+dig @8.8.8.8 dig csclub.uwaterloo.ca
+getent hosts csclub.uwaterloo.ca
+nslookup csclub.uwaterloo.ca
+stat /etc/resolv.conf
+cat /etc/resolv.conf
+cat /etc/nsswitch.conf
