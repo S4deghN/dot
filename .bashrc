@@ -19,13 +19,13 @@ then
   COLOR_PATH='\e[0;31m'
   COLOR_USER=$COLOR_PATH
 else
-  COLOR_PATH='\e[0;29m' # Yellow for sudoers
-  COLOR_ACCENT='\e[0;33m'
-  COLOR_USER='\e[1;29m'
+  COLOR_PATH='\e[0;28m' # Yellow for sudoers
+  COLOR_ACCENT='\e[0;32m'
+  COLOR_USER='\e[1;33m'
 fi
 
 trap "echo -ne '$COLOR_OUTPUT'" DEBUG
-PS1='$(RETURN=$?; if [ $RETURN != 0 ]; then echo -ne "err \[\e[1;38m\]$RETURN\n"; fi; echo -ne "\[\e[0m\]\[$COLOR_USER\]\u\[\[\e[1;38m\]@\[\e[1;36m\]\h \[$COLOR_PATH\]\w \[$COLOR_ACCENT\]\$ \[$COLOR_COMMAND\]")'
+PS1='$(RETURN=$?; if [ $RETURN != 0 ]; then echo -ne "err \[\e[1;38m\]$RETURN\n"; fi; echo -ne "\[\e[0m\]\[$COLOR_USER\]\u \[$COLOR_PATH\]\w \[$COLOR_ACCENT\]➜ \[$COLOR_COMMAND\]")'
 PS2='> '
 PS3='> '
 PS4='+ '
