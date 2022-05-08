@@ -41,4 +41,4 @@ fi
 #    PATH="/home/s4/.arduino15/packages/STMicroelectronics/tools/STM32Tools/2.1.1:$PATH"
 #fi
 
-. "$HOME/.cargo/env"
+#. "$HOME/.cargo/env"
