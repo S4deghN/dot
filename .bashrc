@@ -5,14 +5,15 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-#---------------------------------------------------
+#--------------------------------------------------
 # prompt
 #---------------------------------------------------
 userP='\e[0;35m\u\e[m'
 hostP='\e[0;34m\h\e[m'
 headP='\e[0;32m➜ \e[m'
+dirP='\e[0;29m\w\e[m'
 
-PS1="$userP@$hostP \w $headP "
+PS1="$userP@$hostP $dirP $headP "
 
 #---------------------------------------------------
 # aliases
