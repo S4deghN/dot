@@ -29,7 +29,9 @@ set tabstop=4
 " colors
 " -----------------------------------------------
 syntax on
-set termguicolors                       "uses gui colors
+if (has("termguicolors"))                       "uses gui colors
+  set termguicolors
+endif
 
 let g:gruvbox_sign_column = 'bg0'
 let g:gruvbox_color_column = 'bg0'

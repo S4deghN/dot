@@ -8,12 +8,17 @@
 #--------------------------------------------------
 # prompt
 #---------------------------------------------------
-userP='\[\e[0;35m\]\u\[\e[m\]' # this method of wrapping is importatn so the terminal knows where to put the curesur and doesn't overwrite your prompt
-hostP='\[\e[0;34m\]\h\[\e[m\]'
+userP='\[\e[0;33m\]\u\[\e[m\]' # this method of wrapping is importatn so the terminal knows where to put the curesur and doesn't overwrite your prompt
+hostP='\[\e[0;35m\]\h\[\e[m\]'
 headP='\[\e[0;32m\]➜ \[\e[m\]'
 dircP='\[\e[0;29m\]\w\[\e[m\]'
 
 PS1="$userP@$hostP $dircP $headP "
+
+#---------------------------------------------------
+# exports
+#---------------------------------------------------
+export TERM=xterm-256color
 
 #---------------------------------------------------
 # aliases
