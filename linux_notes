@@ -18,6 +18,6 @@ cat /etc/resolv.conf
 cat /etc/nsswitch.conf
 
 # Alacritty doesn't support tabs, it's recommended to use it with Tmux. 
-# to run alacritty with a command use -e. (.e.g : alacritty -e tmux).
+# to run alacritty with a command use -e (e.g., alacritty -e tmux).
 # this command runs alacritty with the latest available Tmux session if avialable othewise create one.
 alacritty -e sh -c "tmux attach || tmux"
