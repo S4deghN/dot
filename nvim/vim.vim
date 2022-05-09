@@ -2,13 +2,14 @@
 " options
 " -----------------------------------------------
 set timeoutlen=800
+set 
 
 set mouse+=a                            "mouse support
 
 set shortmess+=caoOtTI
 set nowrap
 
-set number                              "linen numbers 
+set number                              "linen numbers
 set cursorline
 set cursorlineopt=number
 set laststatus=0
@@ -51,13 +52,13 @@ nnoremap <leader>p "+p
 nnoremap <leader>P "+P
 
 " navigation
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
-nnoremap L :bn<CR>
-nnoremap H :bp<CR>
-nnoremap cb :bd<CR>
+nnoremap <C-h>     <C-w>h
+nnoremap <C-j>     <C-w>j
+nnoremap <C-k>     <C-w>k
+nnoremap <C-l>     <C-w>l
+nnoremap L         :bn<CR>
+nnoremap H         :bp<CR>
+nnoremap cb        :bd<CR>
 nnoremap <leader>e :Exp<CR>
 
 " open terminal at the bottom
