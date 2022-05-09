@@ -2,7 +2,6 @@
 " options
 " -----------------------------------------------
 set timeoutlen=800
-set 
 
 set mouse+=a                            "mouse support
 
