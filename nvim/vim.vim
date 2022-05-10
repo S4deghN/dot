@@ -23,8 +23,6 @@ set expandtab                           "convert tabs to spaces
 set shiftwidth=4                        "the number of spaces inserted for each indentation
 set tabstop=4
 
-
-
 " -----------------------------------------------
 " colors
 " -----------------------------------------------
@@ -36,8 +34,6 @@ endif
 let g:gruvbox_sign_column = 'bg0'
 let g:gruvbox_color_column = 'bg0'
 color gruvbox
-
-
 
 " -----------------------------------------------
 " remaps
@@ -68,8 +64,6 @@ tnoremap <Esc> <C-\><C-n>
 
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
-
-
 
 " -----------------------------------------------
 " cmds
