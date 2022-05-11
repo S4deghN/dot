@@ -21,3 +21,9 @@ cat /etc/nsswitch.conf
 # to run alacritty with a command use -e (e.g., alacritty -e tmux).
 # this command runs alacritty with the latest available Tmux session if avialable othewise create one.
 alacritty -e sh -c "tmux attach || tmux"
+
+# To exclude a file from the git tree that has been tracked before but you want it to be ignored now after adding it to your .gitignore file you can run these commands
+# for a file:
+git rm --cached file.log
+# and for a directory:
+git rm --cached -r directory
