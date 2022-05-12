@@ -6,6 +6,7 @@ sudo vim /etc/gai.conf # Locate "#precedence ::ffff:0:0/96 100" and and remove t
 sudo vim /etc/NetworkManager/conf.d/default-wifi-powersave-on.conf # change power saving option from 3 to 2.
 
 # append a user to a group.
+# for usb access on arch use uucp group and dialout on deb
 sudo usermod -aG [group] [user]
 
 # if you have a hanging internet, you might be using a broken DNS.
