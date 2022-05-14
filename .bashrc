@@ -25,6 +25,7 @@ export TERM=xterm-256color
 #---------------------------------------------------
 alias ls='ls --color=auto'
 alias la="ls -al"
+alias dot="$EDITOR $HOME/dot"
 
 #Pacman Shortcuts
 alias sync="sudo pacman -Syyy"

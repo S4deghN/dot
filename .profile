@@ -8,6 +8,9 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
+export EDITOR=nvim
+
+
 export QT_QPA_PLATFORMTHEME="qt5ct"
 
 # Highlighting for 'less'
