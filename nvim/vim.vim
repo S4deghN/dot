@@ -2,6 +2,7 @@
 " options
 " -----------------------------------------------
 set timeoutlen=800
+set autochdir
 
 set mouse+=a                            "mouse support
 
