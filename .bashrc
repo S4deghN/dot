@@ -13,7 +13,7 @@ hostP='\[\e[0;35m\]\h\[\e[m\]' # so the terminal knows where to put the
 headP='\[\e[0;32m\]➜ \[\e[m\]' # curesur and doesn't overwrite your prompt
 dircP='\[\e[0;29m\]\w\[\e[m\]'
 
-PS1="$dircP \n$userP@$hostP $headP "
+PS1="╔ $dircP \n╚ $userP@$hostP $headP "
 
 #---------------------------------------------------
 # exports
@@ -27,6 +27,7 @@ alias ls='ls --color=auto'
 alias la="ls -al"
 alias dot="$EDITOR $HOME/dot"
 alias note="$EDITOR $HOME/note"
+alias cf="clang-format -style='{BasedOnStyle: llvm, IndentWidth: 8}'"
 
 #Pacman Shortcuts
 alias sync="sudo pacman -Syyy"

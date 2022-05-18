@@ -89,7 +89,7 @@ scrolling:
 # Font configuration
 font:
   # Normal (roman) font face
-  size: 18
+  size: 17
   normal:
     # Font family
     #
