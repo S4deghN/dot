@@ -43,5 +43,3 @@ alias clr-cache="sudo pacman -Scc"
 alias unlock="sudo rm /var/lib/pacman/db.lck"
 alias remove="sudo pacman -R"
 alias autoremove="sudo pacman -Rns"
-
-#. "$HOME/.cargo/env"
