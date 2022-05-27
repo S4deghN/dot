@@ -12,8 +12,8 @@ userP='\[\e[0;33m\]\u\[\e[m\]' # this method of wrapping is importatn
 hostP='\[\e[0;35m\]\h\[\e[m\]' # so the terminal knows where to put the
 headP='\[\e[0;32m\]$\[\e[m\]' # curesur and doesn't overwrite your prompt
 dircP='\[\e[2;29m\]\w\[\e[m\]'
-topcorP='\[\e[2;29m\]┌\[\e[m\]'
-botcorP='\[\e[2;29m\]└─\[\e[m\]'
+topcorP='\[\e[2;29m\]┌─\[\e[m\]'
+botcorP='\[\e[2;29m\]└\[\e[m\]'
 
 PS1="$topcorP $dircP \n$botcorP $userP@$hostP$headP "
 
