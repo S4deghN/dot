@@ -45,3 +45,6 @@ alias clr-cache="sudo pacman -Scc"
 alias unlock="sudo rm /var/lib/pacman/db.lck"
 alias remove="sudo pacman -R"
 alias autoremove="sudo pacman -Rns"
+alias pac-size="pacman -Qq | pacman -Qi - | egrep '(Size|Name[^s])' |
+    sed -E 's/ ([KM])iB/\1/' | sed -z 's/\nInstalled/ /g' |
+    perl -pe 's/(Name|Size) *: //g' | column -t | sort -hk2 -r | cat -n | tac"
