@@ -34,7 +34,10 @@ endif
 
 let g:gruvbox_sign_column = 'bg0'
 let g:gruvbox_color_column = 'bg0'
-color gruvbox
+let ayucolor="dark"
+color ayu
+
+highlight Normal    guifg=0xB3B1AD
 
 " -----------------------------------------------
 " remaps

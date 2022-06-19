@@ -158,7 +158,7 @@ font:
   #use_thin_strokes: true
 
 # If `true`, bold text is drawn using the bright color variants.
-draw_bold_text_with_bright_colors: true
+draw_bold_text_with_bright_colors: false
 
 
 # Colors (Gruvbox dark)
@@ -191,6 +191,36 @@ colors:
     magenta: '0xd3869b'
     cyan:    '0x8ec07c'
     white:   '0xebdbb2'
+
+  # Colors (Ayu Dark)
+colors:
+  # Default colors
+  primary:
+    background: '#0F1419'
+    foreground: '#B3B1AD'
+
+  # Normal colors
+  normal:
+    black:   '0x01060E'
+    red:     '0xFF3333'
+    green:   '0xB8CC52'
+    yellow:  '0xE7C547'
+    blue:    '0x36A3D9'
+    magenta: '0xF07178'
+    cyan:    '0x95E6CB'
+    white:   '0xC7C7C7'
+
+  # Bright colors
+  bright:
+    black:   '0x686868'
+    red:     '0xF07178'
+    green:   '0xC2D94C'
+    yellow:  '0xFFB454'
+    blue:    '0x59C2FF'
+    magenta: '0xFFEE99'
+    cyan:    '0x95E6CB'
+    white:   '0xFFFFFF'
+
   # Indexed Colors
   #
   # The indexed colors include all colors from 16 to 256.
