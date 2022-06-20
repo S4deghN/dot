@@ -196,8 +196,8 @@ colors:
 colors:
   # Default colors
   primary:
-    background: '#0F1419'
-    foreground: '#B3B1AD'
+    background: '#191F26'
+    foreground: '#D9D5C9'
 
   # Normal colors
   normal:

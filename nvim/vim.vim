@@ -37,7 +37,8 @@ let g:gruvbox_color_column = 'bg0'
 let ayucolor="dark"
 color ayu
 
-highlight Normal    guifg=0xB3B1AD
+" lighter background for ayu
+highlight Normal guibg=#191F26 guifg=#D9D5C9
 
 " -----------------------------------------------
 " remaps
