@@ -1,0 +1,46 @@
+---
+BasedOnStyle: LLVM
+IndentWidth: 4
+AccessModifierOffset: -4
+UseTab: Never
+ColumnLimit: 120
+
+IndentPPDirectives: BeforeHash
+
+AlignConsecutiveAssignments: false
+AlignConsecutiveDeclarations: true
+AlignConsecutiveMacros: true
+AlignAfterOpenBracket: true
+AlignTrailingComments: true
+AlignArrayOfStructures: Left
+PointerAlignment: Left
+# SeparateDefinitionBlocks: Always # clang 14
+
+# Disable formatting options which may break tests.
+# SortIncludes: false
+ReflowComments: false
+
+# AllowShortBlocksOnASingleLine (bool)
+# Allows contracting simple braced statements to a single line.
+AllowShortBlocksOnASingleLine: true
+
+# AllowShortCaseLabelsOnASingleLine (bool)
+# If true, short case labels will be contracted to a single line.
+AllowShortCaseLabelsOnASingleLine: true
+
+# AllowShortFunctionsOnASingleLine (ShortFunctionStyle)
+# Dependent on the value, int f() { return 0; } can be put on a single line.
+# Possible values:
+#   SFS_None (in configuration: None) Never merge functions into a single line.
+#   SFS_Empty (in configuration: Empty) Only merge empty functions.
+#   SFS_Inline (in configuration: Inline) Only merge functions defined inside a class. Implies “empty”.
+#   SFS_All (in configuration: All) Merge all functions fitting on a single line.
+AllowShortFunctionsOnASingleLine: true
+
+# AllowShortIfStatementsOnASingleLine (bool)
+# If true, if (a) return; can be put on a single line.
+AllowShortIfStatementsOnASingleLine: false
+
+# AllowShortLoopsOnASingleLine (bool)
+# If true, while (true) continue; can be put on a single line.
+AllowShortLoopsOnASingleLine: false
