@@ -83,6 +83,11 @@ return packer.startup(function(use)
   use "tamago324/nlsp-settings.nvim" -- language server settings defined in json for
   use "jose-elias-alvarez/null-ls.nvim" -- for formatters and linters
 
+  -- LSP extras
+  use "p00f/clangd_extensions.nvim"
+  -- use "jackguo380/vim-lsp-cxx-highlight"
+  use "simrat39/rust-tools.nvim"
+
   -- Telescope
   use "nvim-telescope/telescope.nvim"
 

@@ -7,7 +7,7 @@ set autochdir
 set mouse+=a                            "mouse support
 
 set shortmess+=caoOtTI
-set nowrap
+" set nowrap
 
 set number                              "linen numbers
 set cursorline
@@ -76,3 +76,11 @@ nmap ga <Plug>(EasyAlign)
 " doesn't work for neovim until version 0.8 aparently
 " https://github.com/neovim/neovim/issues/1496
 command! W w !sudo ehco hello    " Save with root permission
+
+" -----------------------------------------------
+" auto cmds
+" -----------------------------------------------
+augroup _fileName
+    autocmd!
+    autocmd BufEnter * :echo expand('%')
+augroup end
