@@ -32,7 +32,9 @@ export TERM=xterm-256color
 #---------------------------------------------------
 alias ls='ls --color=auto'
 alias la="ls -al"
-alias v="$EDITOR"
+alias grep="grep --color=auto"
+alias e="$EDITOR"
+alias e.="$EDITOR ."
 alias dot="$EDITOR $HOME/dot"
 alias note="$EDITOR $HOME/note"
 alias enw="$EDITOR $HOME/note/en/words.md"
