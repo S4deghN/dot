@@ -42,6 +42,9 @@ let g:gruvbox_material_enable_bold = 1
 let g:gruvbox_material_enable_italic = 1
 let g:gruvbox_material_better_performance = 1
 color gruvbox-material
+highlight NormalFloat	guibg=bg
+highlight FloatBorder   guibg=bg
+
 " lighter background for ayu
 " let _fg=0xD9D5C9
 " let _bg=0x283A4D
