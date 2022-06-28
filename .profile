@@ -12,6 +12,8 @@ export EDITOR=nvim
 
 
 export QT_QPA_PLATFORMTHEME="qt5ct"
+# export QT_SCALE_FACTOR=1
+export QT_AUTO_SCREEN_SCALE_FACTOR=1
 
 # Highlighting for 'less'
 export LESS_TERMCAP_mb=$'\e[1;32m'
@@ -46,4 +48,4 @@ xset r rate 200 45
 #    PATH="/home/s4/.arduino15/packages/STMicroelectronics/tools/STM32Tools/2.1.1:$PATH"
 #fi
 
-. "$HOME/.cargo/env"
+#. "$HOME/.cargo/env"

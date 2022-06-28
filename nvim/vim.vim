@@ -32,13 +32,27 @@ if (has("termguicolors"))                       "uses gui colors
   set termguicolors
 endif
 
-let g:gruvbox_sign_column = 'bg0'
-let g:gruvbox_color_column = 'bg0'
-let ayucolor="dark"
-color ayu
-
+" let g:gruvbox_sign_column = 'bg0'
+" let g:gruvbox_color_column = 'bg0'
+" let ayucolor="dark"
+let g:gruvbox_material_background = 'medium'
+let g:gruvbox_material_foreground = 'original'
+let g:gruvbox_material_disable_italic_comment = 1
+let g:gruvbox_material_enable_bold = 1
+let g:gruvbox_material_enable_italic = 1
+let g:gruvbox_material_better_performance = 1
+color gruvbox-material
 " lighter background for ayu
-highlight Normal guibg=#191F26 guifg=#D9D5C9
+" let _fg=0xD9D5C9
+" let _bg=0x283A4D
+" highlight Normal        guibg=_bg guifg=_fg
+" highlight NormalFloat	guibg=_bg guifg=_fg
+" highlight FloatBorder   guibg=_bg guifg=_fg
+" highlight Signcolumn    guibg=_bg
+" highlight LineNr        guibg=_bg
+" highlight CursorLineNr  guibg=_bg
+" highlight Search        guibg=#626A73 guifg=Orange
+" highlight Visual        guibg=#283A4D
 
 " -----------------------------------------------
 " remaps
@@ -84,3 +98,21 @@ augroup _fileName
     autocmd!
     autocmd BufEnter * :echo expand('%')
 augroup end
+
+" -----------------------------------------------
+" netrw
+" -----------------------------------------------
+function! NetrwMapping()
+  nmap <buffer> h -^
+  nmap <buffer> l <CR>
+
+  nmap <buffer> . gh
+  nmap <buffer> P <C-w>z
+
+  nmap <buffer> <Leader>dd :Lexplore<CR>
+endfunction
+
+augroup netrw_mapping
+  autocmd!
+  autocmd filetype netrw call NetrwMapping()
+augroup END

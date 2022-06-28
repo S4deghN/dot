@@ -23,7 +23,9 @@ require("nvim-treesitter.configs").setup {
 -- cmp
 ------------------------------------------------------------
 --   פּ ﯟ   some other good icons
-local kind_icons = {
+local
+
+kind_icons = {
     Text = "",
     Method = "m",
     Function = "",
@@ -53,11 +55,13 @@ local kind_icons = {
 -- find more here: https://www.nerdfonts.com/cheat-sheet
 
 -- Setup nvim-cmp.
-local cmp = require("cmp");
+local
+cmp = require("cmp");
 cmp.setup {
     snippet = {
         -- REQUIRED - you must specify a snippet engine
-        expand = function(args)
+        expand =
+        function(args)
             -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
             require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
             -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
@@ -65,11 +69,11 @@ cmp.setup {
         end,
     },
     completion = {
-        completeopt = 'menu,menuone,noisert'
+        -- completeopt = 'menu,menuone,noisert'
     },
     window = {
-        -- completion = cmp.config.window.bordered(),
-        -- documentation = cmp.config.window.bordered(),
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered(),
     },
     mapping = cmp.mapping.preset.insert({
         ['<C-d>'] = cmp.mapping.scroll_docs(-4),
@@ -152,16 +156,28 @@ local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protoco
 ------------------------------------------------------------
 -- lsp
 ------------------------------------------------------------
--- vim.cmd [[autocmd! ColorScheme * highlight NormalFloat guibg=#1f2335]]
--- vim.cmd [[autocmd! ColorScheme * highlight FloatBorder guifg=white guibg=#1f2335]]
---
+-- ╭──────╮
+-- │ test │
+-- ╰──────╯
+
+local border = {
+      {"╭", "FloatBorder"},
+      {"─", "FloatBorder"},
+      {"╮", "FloatBorder"},
+      {"│", "FloatBorder"},
+      {"╯", "FloatBorder"},
+      {"─", "FloatBorder"},
+      {"╰", "FloatBorder"},
+      {"│", "FloatBorder"},
+}
+
 -- -- To instead override globally
--- local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
--- function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
---   opts = opts or {}
---   opts.border = opts.border
---   return orig_util_open_floating_preview(contents, syntax, opts, ...)
--- end
+local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+  opts = opts or {}
+  opts.border = opts.border or border
+  return orig_util_open_floating_preview(contents, syntax, opts, ...)
+end
 
 -- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
@@ -212,6 +228,13 @@ require("lspconfig").vimls.setup {
     on_attach    = on_attach,
     capabilities = capabilities,
     flags        = lsp_flags,
+}
+
+require("lspconfig").cmake.setup {
+    on_attach      = on_attach,
+    capabilities   = capabilities,
+    flags          = lsp_flags,
+    buildDirectory = "build",
 }
 
 require("lspconfig").sumneko_lua.setup {
@@ -270,24 +293,29 @@ require("lspconfig").ccls.setup {
     flags        = lsp_flags,
     init_options = {
         compilationDatabaseDirectory = "build";
-        -- index = {
-        --     threads = 0;
-        -- };
+        index = {
+            threads = 0;
+        };
         -- clang = {
-        --     excludeArgs = { "-frounding-math" };
+        --     -- excludeArgs = { "-frounding-math" };
+        --     -- extraArgs = { "-I /usr/include/c++/v1/experimental/*", }
         -- };
-    }
+    },
 }
+--
 -- using https://github.com/p00f/clangd_extensions.nvim instead
--- require("lspconfig").clangd.setup{
+-- require("lspconfig").clangd.setup {
 --     on_attach = on_attach,
+--     capabilities = capabilities,
 --     flags = lsp_flags,
---     cmd = {
---         "clangd",
---     }
+--     cmd = { "clangd", "--background-index", "--log=verbose" },
+--     root_dir = function()
+--         print("clangd-Rootdir", vim.loop.cwd())
+--         return vim.loop.cwd()
+--     end,
 -- }
 --
---the extension calls require("lspconfig").clangd.setup{} automatically
+-- the extension calls require("lspconfig").clangd.setup{} automatically
 -- require("clangd_extensions").setup {
 --     server = {
 --         -- options to pass to nvim-lspconfig
@@ -297,14 +325,14 @@ require("lspconfig").ccls.setup {
 --         flags        = lsp_flags,
 --         cmd          = {
 --             "clangd",
---             -- "--compile-commands-dir=./build/",
 --             "--all-scopes-completion",
 --             "--background-index", --index in background and persist on disk
---             "-log=verbose",
---             "--suggest-missing-includes",
---             "--limit-references=0",
---             "--limit-results=0",
---         }
+--             "--log=verbose",
+--         },
+--         root_dir     = function()
+--             print("clangd-Rootdir", vim.loop.cwd())
+--             return vim.loop.cwd()
+--         end,
 --
 --     },
 --     extensions = {
