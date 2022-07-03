@@ -63,13 +63,16 @@ return packer.startup(function(use)
     -- Colorschemes
     use "morhetz/gruvbox"
     use "sainnhe/gruvbox-material"
+    use "sainnhe/everforest"
+    use "sainnhe/sonokai"
     use "Shatur/neovim-ayu"
-    use "netsgnut/arctheme.vim"
     use "projekt0n/github-nvim-theme"
-    use "flrnd/plastic.vim"
-    use "EdenEast/nightfox.nvim"
-    use "rmehri01/onenord.nvim"
-    use "olimorris/onedarkpro.nvim"
+    use "ful1e5/onedark.nvim"
+    use "folke/tokyonight.nvim"
+    use {
+        "mcchrish/zenbones.nvim",
+        requires = "rktjmp/lush.nvim"
+    }
 
 
     -- cmp plugins

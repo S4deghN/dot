@@ -42,7 +42,7 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
-xset r rate 200 45
+xset r rate 200 60
 
 #if [ -d "/home/s4/.arduino15/packages/STMicroelectronics/tools/STM32Tools/2.1.1" ] ; then
 #    PATH="/home/s4/.arduino15/packages/STMicroelectronics/tools/STM32Tools/2.1.1:$PATH"

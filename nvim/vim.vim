@@ -11,13 +11,14 @@ set shortmess+=caoOtTI
 
 set number                              "linen numbers
 set cursorline
-set cursorlineopt=number
+" set cursorlineopt=number
 set laststatus=0
-set signcolumn=yes:1                    "always show sign column with fixed width of 1
+set signcolumn=yes:1                    "always show sign column with fixed width of
 
 set guicursor=n-v-c-sm-i-ci-ve:block,r-cr-o:hor20
 
 set scrolloff=10
+" set colorcolumn=120
 
 set autoindent
 set expandtab                           "convert tabs to spaces
@@ -34,18 +35,32 @@ endif
 
 " let g:gruvbox_sign_column = 'bg0'
 " let g:gruvbox_color_column = 'bg0'
-" let ayucolor="dark"
-let g:gruvbox_material_background = 'medium'
-let g:gruvbox_material_foreground = 'original'
-let g:gruvbox_material_disable_italic_comment = 1
-let g:gruvbox_material_enable_bold = 1
-let g:gruvbox_material_enable_italic = 1
-let g:gruvbox_material_better_performance = 1
-color gruvbox-material
-highlight NormalFloat	guibg=bg
-highlight FloatBorder   guibg=bg
+" color gruvbox
+"
+" let g:gruvbox_material_background = 'medium'
+" let g:gruvbox_material_foreground = 'mix'
+" let g:gruvbox_material_disable_italic_comment = 1
+" let g:gruvbox_material_enable_bold = 1
+" let g:gruvbox_material_enable_italic = 1
+" let g:gruvbox_material_better_performance = 1
+" color gruvbox-material
+" highlight NormalFloat	guibg=bg
+" highlight FloatBorder   guibg=bg
+"
+color github_dimmed
+" highlight String    guifg=#57ab5a
+
+" color github_dark_default
+" let _bg=0x22272E
+" highlight Normal        guibg=_bg
+" highlight LineNr        guibg=_bg
+" highlight CursorLineNr  guibg=_bg
+" highlight Signcolumn    guibg=_bg
+" highlight NormalFloat	guibg=_bg
+" highlight FloatBorder   guibg=_bg
 
 " lighter background for ayu
+" color ayu
 " let _fg=0xD9D5C9
 " let _bg=0x283A4D
 " highlight Normal        guibg=_bg guifg=_fg
@@ -57,6 +72,15 @@ highlight FloatBorder   guibg=bg
 " highlight Search        guibg=#626A73 guifg=Orange
 " highlight Visual        guibg=#283A4D
 
+" let g:sonokai_style = 'default'
+" let g:sonokai_better_performance = 1
+" let g:sonokai_disable_italic_comment = 1
+" let g:sonokai_enable_bold = 1
+" let g:sonokai_enable_italic = 1
+" color sonokai
+" highlight NormalFloat	guibg=bg
+" highlight FloatBorder   guibg=bg
+
 " -----------------------------------------------
 " remaps
 " -----------------------------------------------
@@ -65,10 +89,10 @@ inoremap <C-c> <esc>
 
 " yank
 nmap Y y$
-nnoremap <leader>y "+y
-nnoremap <leader>Y "+Y
-nnoremap <leader>p "+p
-nnoremap <leader>P "+P
+noremap <leader>y "+y
+noremap <leader>Y "+Y
+noremap <leader>p "+p
+noremap <leader>P "+P
 
 " navigation
 nnoremap <C-h>     <C-w>h
@@ -77,7 +101,7 @@ nnoremap <C-k>     <C-w>k
 nnoremap <C-l>     <C-w>l
 nnoremap L         :bn<CR>
 nnoremap H         :bp<CR>
-nnoremap cb        :bd<CR>
+nnoremap <leader>d :bd<CR>
 nnoremap <leader>e :Exp<CR>
 
 " open terminal at the bottom
