@@ -39,8 +39,6 @@ alias dot="$EDITOR $HOME/dot"
 alias note="$EDITOR $HOME/note"
 alias enw="$EDITOR $HOME/note/en/words.md"
 
-alias cf="clang-format -style='{BasedOnStyle: llvm, IndentWidth: 8}'"
-
 #Pacman Shortcuts
 alias sync="sudo pacman -Syyy"
 alias install="sudo pacman -S"
