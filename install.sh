@@ -3,6 +3,7 @@ ln -sfv $PWD/.profile      $HOME/
 ln -sfv $PWD/.bashrc       $HOME/
 ln -sfv $PWD/.tmux.conf    $HOME/
 ln -sfv $PWD/.clang-format $HOME/
+ln -sfv $PWD/fish          $HOME/.config/
 ln -sfv $PWD/nvim          $HOME/.config/
 ln -sfv $PWD/alacritty     $HOME/.config/
 

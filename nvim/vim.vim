@@ -20,12 +20,14 @@ set guicursor=n-v-c-sm-i-ci-ve:block,r-cr-o:hor20
 set scrolloff=10
 " set colorcolumn=120
 
+set smartcase
+set smartindent
 set autoindent
 set expandtab                           "convert tabs to spaces
 set shiftwidth=4                        "the number of spaces inserted for each indentation
 set tabstop=4
 
-setlocal spell spelllang=en_us
+set spell spelllang=en_us
 
 " -----------------------------------------------
 " colors
@@ -88,6 +90,9 @@ color github_dimmed
 " -----------------------------------------------
 let mapleader = " "
 inoremap <C-c> <esc>
+
+" spell
+nnoremap <leader>z 1z=
 
 " yank
 nmap Y y$

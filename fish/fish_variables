@@ -1,6 +1,11 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
 SETUVAR __fish_initialized:3400
+SETUVAR _fish_abbr_dot:nvim\x20/home/s4/dot
+SETUVAR _fish_abbr_e:nvim
+SETUVAR _fish_abbr_e_2E_:nvim\x20\x2e
+SETUVAR _fish_abbr_enw:nvim\x20/home/s4/note/en/words\x2emd
+SETUVAR _fish_abbr_note:nvim\x20/home/s4/note
 SETUVAR fish_color_autosuggestion:555
 SETUVAR fish_color_cancel:\x2d\x2dreverse
 SETUVAR fish_color_command:blue
