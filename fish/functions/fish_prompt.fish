@@ -2,13 +2,13 @@ function fish_prompt --description 'Write out the prompt'
     set -l last_status $status
     set -g fish_prompt_pwd_dir_length 0 # disable shortening
 
-    set_color black
+    set_color grey
     echo -n '┌─ '
     set_color normal
 
     # PWD
     # set_color $fish_color_cwd
-    set_color black
+    set_color grey
     echo -n (prompt_pwd)
     set_color normal
 
@@ -20,7 +20,7 @@ function fish_prompt --description 'Write out the prompt'
         set_color $fish_color_error
     end
 
-    set_color black
+    set_color grey
     echo -n '└ '
     set_color normal
 

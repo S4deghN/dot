@@ -89,7 +89,7 @@ scrolling:
 # Font configuration
 font:
   # Normal (roman) font face
-  size: 18
+  size: 16
   normal:
     # Font family
     #
@@ -140,16 +140,16 @@ font:
 
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
-  #offset:
-  #  x: 0
-  #  y: 0
+  offset:
+   x: 0
+   y: 5
 
   # Glyph offset determines the locations of the glyphs within their cells with
   # the default being at the bottom. Increasing `x` moves the glyph to the right,
   # increasing `y` moves the glyph upwards.
-  #glyph_offset:
-  #  x: 0
-  #  y: 0
+  glyph_offset:
+   x: 0
+   y: 3
 
   # Thin stroke font rendering (macOS only)
   #
@@ -161,7 +161,7 @@ font:
 draw_bold_text_with_bright_colors: false
 
 
-# # Colors (Gruvbox dark)
+# # # Colors (Gruvbox dark)
 # colors:
 #   # Default colors
 #   primary:
@@ -192,38 +192,100 @@ draw_bold_text_with_bright_colors: false
 #     cyan:    '0x8ec07c'
 #     white:   '0xebdbb2'
 
-# github Alacritty Colors
+
+# Colors (Gruvbox dark)
 colors:
-  # Default colors
   primary:
-    background: '0x22272e'
-    foreground: '0x909dab' #'0x768390'
-
-  # Normal colors
-  normal:
-    black:   '0x545d68'
-    red:     '0xf47067'
-    green:   '0x57ab5a'
-    yellow:  '0xc69026'
-    blue:    '0x539bf5'
-    magenta: '0xb083f0'
-    cyan:    '0x39c5cf'
-    white:   '0x909dab'
-
-  # Bright colors
+    # hard contrast background - '#1d2021'
+    background:        &gruvbox_dark_bg '#282828'
+    # soft contrast background - '#32302f'
+    foreground:        '#d5c4a1' #'#ebdbb2'
+    bright_foreground: '#fbf1c7'
+    dim_foreground:    '#a89984'
+  cursor:
+    text:   CellBackground
+    cursor: CellForeground
+  vi_mode_cursor:
+    text:   CellBackground
+    cursor: CellForeground
+  # search:
+  #   matches:
+  #     foreground: '#000000'
+  #     background: '#ffffff'
+  #   focused_match:
+  #    foreground: CellBackground
+  #    background: CellForeground
+  #   bar:
+  #     background: ''
+  #     foreground: ''
+  # line_indicator:
+  #   foreground: None
+  #   background: None
+  selection:
+    text:       CellBackground
+    background: CellForeground
   bright:
-    black:   '0x636e7b'
-    red:     '0xff938a'
-    green:   '0x6bc46d'
-    yellow:  '0xdaaa3f'
-    blue:    '0x6cb6ff'
-    magenta: '0xdcbdfb'
-    cyan:    '0x56d4dd'
-    white:   '0xcdd9e5'
+    black:   '#928374'
+    red:     '#fb4934'
+    green:   '#b8bb26'
+    yellow:  '#fabd2f'
+    blue:    '#83a598'
+    magenta: '#d3869b'
+    cyan:    '#8ec07c'
+    white:   '#ebdbb2'
+  normal:
+    black:   *gruvbox_dark_bg
+    red:     '#cc241d'
+    green:   '#98971a'
+    yellow:  '#d79921'
+    blue:    '#458588'
+    magenta: '#b16286'
+    cyan:    '#689d6a'
+    white:   '#a89984'
+  dim:
+    black:   '#32302f'
+    red:     '#9d0006'
+    green:   '#79740e'
+    yellow:  '#b57614'
+    blue:    '#076678'
+    magenta: '#8f3f71'
+    cyan:    '#427b58'
+    white:   '#928374'
+  # indexed_colors: []
 
-  indexed_colors:
-    - { index: 16, color: '0xd18616' }
-    - { index: 17, color: '0xff938a' }
+
+# github Alacritty Colors
+# colors:
+#   # Default colors
+#   primary:
+#     background: '0x22272e'
+#     foreground: '0x909dab' #'0x768390'
+#
+#   # Normal colors
+#   normal:
+#     black:   '0x545d68'
+#     red:     '0xf47067'
+#     green:   '0x57ab5a'
+#     yellow:  '0xc69026'
+#     blue:    '0x539bf5'
+#     magenta: '0xb083f0'
+#     cyan:    '0x39c5cf'
+#     white:   '0x909dab'
+#
+#   # Bright colors
+#   bright:
+#     black:   '0x636e7b'
+#     red:     '0xff938a'
+#     green:   '0x6bc46d'
+#     yellow:  '0xdaaa3f'
+#     blue:    '0x6cb6ff'
+#     magenta: '0xdcbdfb'
+#     cyan:    '0x56d4dd'
+#     white:   '0xcdd9e5'
+#
+#   indexed_colors:
+#     - { index: 16, color: '0xd18616' }
+#     - { index: 17, color: '0xff938a' }
 
 #   # Colors (Ayu Dark)
 # colors:

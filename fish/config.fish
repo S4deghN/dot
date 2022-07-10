@@ -1,5 +1,6 @@
 if status is-interactive
     set fish_greeting
+    # theme_gruvbox dark medium
 
     # abbreviations
     abbr e    $EDITOR

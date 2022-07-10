@@ -142,7 +142,7 @@ _G.packer_plugins = {
   gruvbox = {
     loaded = true,
     path = "/home/s4/.local/share/nvim/site/pack/packer/start/gruvbox",
-    url = "https://github.com/morhetz/gruvbox"
+    url = "https://github.com/gruvbox-community/gruvbox"
   },
   ["gruvbox-material"] = {
     loaded = true,

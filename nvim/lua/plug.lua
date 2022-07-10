@@ -61,7 +61,8 @@ return packer.startup(function(use)
     use "junegunn/vim-easy-align"
 
     -- Colorschemes
-    use "morhetz/gruvbox"
+    -- use "morhetz/gruvbox"
+    use "gruvbox-community/gruvbox"
     use "sainnhe/gruvbox-material"
     use "sainnhe/everforest"
     use "sainnhe/sonokai"

@@ -11,7 +11,7 @@ set shortmess+=caoOtTI
 
 set number                              "linen numbers
 set cursorline
-" set cursorlineopt=number
+set cursorlineopt=number
 set laststatus=0
 set signcolumn=yes:1                    "always show sign column with fixed width of
 
@@ -27,7 +27,7 @@ set expandtab                           "convert tabs to spaces
 set shiftwidth=4                        "the number of spaces inserted for each indentation
 set tabstop=4
 
-set spell spelllang=en_us
+setlocal spell spelllang=en_us
 
 " -----------------------------------------------
 " colors
@@ -37,9 +37,13 @@ if (has("termguicolors"))                       "uses gui colors
   set termguicolors
 endif
 
-" let g:gruvbox_sign_column = 'bg0'
-" let g:gruvbox_color_column = 'bg0'
-" color gruvbox
+let g:gruvbox_sign_column = 'bg0'
+let g:gruvbox_color_column = 'bg0'
+let g:gruvbox_invert_selection = 0
+let g:gruvbox_italic = 0
+color gruvbox
+highlight NormalFloat	guibg=bg
+highlight FloatBorder   guibg=bg
 "
 " let g:gruvbox_material_background = 'medium'
 " let g:gruvbox_material_foreground = 'mix'
@@ -51,7 +55,7 @@ endif
 " highlight NormalFloat	guibg=bg
 " highlight FloatBorder   guibg=bg
 "
-color github_dimmed
+" color github_dimmed
 " highlight String    guifg=#57ab5a
 
 " color github_dark_default
