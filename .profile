@@ -9,6 +9,7 @@
 #umask 022
 
 export EDITOR=nvim
+export TERMINAL=alacritty
 
 
 export QT_QPA_PLATFORMTHEME="qt5ct"

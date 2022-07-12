@@ -18,6 +18,7 @@ set signcolumn=yes:1                    "always show sign column with fixed widt
 set guicursor=n-v-c-sm-i-ci-ve:block,r-cr-o:hor20
 
 set scrolloff=10
+set textwidth=100
 " set colorcolumn=120
 
 set smartcase
@@ -46,7 +47,7 @@ highlight NormalFloat	guibg=bg
 highlight FloatBorder   guibg=bg
 "
 " let g:gruvbox_material_background = 'medium'
-" let g:gruvbox_material_foreground = 'mix'
+" let g:gruvbox_material_foreground = 'original'
 " let g:gruvbox_material_disable_italic_comment = 1
 " let g:gruvbox_material_enable_bold = 1
 " let g:gruvbox_material_enable_italic = 1
