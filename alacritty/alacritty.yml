@@ -89,7 +89,7 @@ scrolling:
 # Font configuration
 font:
   # Normal (roman) font face
-  size: 16
+  size: 17
   normal:
     # Font family
     #
@@ -158,7 +158,7 @@ font:
   #use_thin_strokes: true
 
 # If `true`, bold text is drawn using the bright color variants.
-draw_bold_text_with_bright_colors: false
+draw_bold_text_with_bright_colors: true
 
 
 # # # Colors (Gruvbox dark)
@@ -199,6 +199,8 @@ colors:
     # hard contrast background - '#1d2021'
     background:        &gruvbox_dark_bg '#282828'
     # soft contrast background - '#32302f'
+    # using fg2 (#d5c4a1) from gruvbox palete instead of 
+    # original fg. it's easier on the eyes.
     foreground:        '#d5c4a1' #'#ebdbb2'
     bright_foreground: '#fbf1c7'
     dim_foreground:    '#a89984'

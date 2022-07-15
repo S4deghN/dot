@@ -18,7 +18,7 @@ set signcolumn=yes:1                    "always show sign column with fixed widt
 set guicursor=n-v-c-sm-i-ci-ve:block,r-cr-o:hor20
 
 set scrolloff=10
-set textwidth=100
+set textwidth=80
 " set colorcolumn=120
 
 set smartcase
@@ -29,6 +29,7 @@ set shiftwidth=4                        "the number of spaces inserted for each 
 set tabstop=4
 
 setlocal spell spelllang=en_us
+match Visual '\s\+$'                    " mark trailing spaces as errors
 
 " -----------------------------------------------
 " colors
@@ -95,6 +96,8 @@ highlight FloatBorder   guibg=bg
 " -----------------------------------------------
 let mapleader = " "
 inoremap <C-c> <esc>
+
+nnoremap gk K
 
 " spell
 nnoremap <leader>z 1z=
