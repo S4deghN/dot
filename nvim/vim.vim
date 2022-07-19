@@ -28,8 +28,8 @@ set expandtab                           "convert tabs to spaces
 set shiftwidth=4                        "the number of spaces inserted for each indentation
 set tabstop=4
 
-" setlocal spell spelllang=en_us
-" match Visual '\s\+$'                    " mark trailing spaces as errors
+setlocal spell spelllang=en_us
+match Visual '\s\+$'                    " mark trailing spaces as errors
 
 " -----------------------------------------------
 " colors
@@ -44,6 +44,7 @@ let g:gruvbox_color_column = 'bg0'
 let g:gruvbox_invert_selection = 0
 let g:gruvbox_italic = 0
 color gruvbox
+highlight Normal guifg=fg2
 highlight NormalFloat	guibg=bg
 highlight FloatBorder   guibg=bg
 "
@@ -101,6 +102,8 @@ nnoremap gk K
 
 " spell
 nnoremap <leader>z 1z=
+" substitute trailing white spaces with nothing. e flag suppresses errors.
+nnoremap zs :%s/\s\+$//e<CR><C-o>
 
 " yank
 nmap Y y$
@@ -117,10 +120,10 @@ nnoremap <C-l>     <C-w>l
 nnoremap L         :bn<CR>
 nnoremap H         :bp<CR>
 nnoremap <leader>d :bd<CR>
-nnoremap <leader>e :Lex<CR>
+nnoremap <leader>e :Exp<CR>
 
 " open terminal at the bottom
-nnoremap <leader>t :sp<bar>term<cr><c-w>J:resize10<cr> 
+nnoremap <leader>t :sp<bar>term<cr><c-w>J:resize10<cr>
 tnoremap <Esc> <C-\><C-n>
 
 xmap ga <Plug>(EasyAlign)

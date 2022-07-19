@@ -199,7 +199,7 @@ colors:
     # hard contrast background - '#1d2021'
     background:        &gruvbox_dark_bg '#282828'
     # soft contrast background - '#32302f'
-    # using fg2 (#d5c4a1) from gruvbox palete instead of 
+    # using fg2 (#d5c4a1) from gruvbox palete instead of
     # original fg. it's easier on the eyes.
     foreground:        '#d5c4a1' #'#ebdbb2'
     bright_foreground: '#fbf1c7'
