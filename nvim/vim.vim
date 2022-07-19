@@ -28,8 +28,8 @@ set expandtab                           "convert tabs to spaces
 set shiftwidth=4                        "the number of spaces inserted for each indentation
 set tabstop=4
 
-setlocal spell spelllang=en_us
-match Visual '\s\+$'                    " mark trailing spaces as errors
+" setlocal spell spelllang=en_us
+" match Visual '\s\+$'                    " mark trailing spaces as errors
 
 " -----------------------------------------------
 " colors
@@ -117,7 +117,7 @@ nnoremap <C-l>     <C-w>l
 nnoremap L         :bn<CR>
 nnoremap H         :bp<CR>
 nnoremap <leader>d :bd<CR>
-nnoremap <leader>e :Exp<CR>
+nnoremap <leader>e :Lex<CR>
 
 " open terminal at the bottom
 nnoremap <leader>t :sp<bar>term<cr><c-w>J:resize10<cr> 
@@ -146,7 +146,9 @@ augroup end
 " -----------------------------------------------
 function! NetrwMapping()
   nmap <buffer> h -^
+  nmap <buffer> <Left> -^
   nmap <buffer> l <CR>
+  nmap <buffer> <Right> <CR>
 
   nmap <buffer> . gh
   nmap <buffer> P <C-w>z

@@ -20,7 +20,7 @@ PS1="$topcorP $dircP \n$botcorP $userP@$hostP$headP "
 #---------------------------------------------------
 # exports
 #---------------------------------------------------
-export TERM=xterm-256color
+# export TERM=xterm-256color
 
 #---------------------------------------------------
 # env

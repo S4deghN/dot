@@ -2,16 +2,16 @@
 -- treesiter
 ------------------------------------------------------------
 local tshl = require("nvim-treesitter.configs").setup {
-    ensure_installed = "all", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+    ensure_installed = {"c", "cpp", "lua" }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
     sync_install = true, -- install languages synchronously (only applied to `ensure_installed`)
-    ignore_install = {}, -- List of parsers to ignore installing
+    -- ignore_install = { "comment" }, -- List of parsers to ignore installing
     autopairs = {
         enable = true,
     },
     highlight = {
         enable = true, -- false will disable the whole extension
-        disable = { "" }, -- list of language that will be disabled
-        additional_vim_regex_highlighting = true,
+        disable = {}, -- list of language that will be disabled
+        additional_vim_regex_highlighting = false,
     },
     indent = { enable = true, disable = { "yaml" } },
     context_commentstring = {
@@ -26,31 +26,31 @@ local tshl = require("nvim-treesitter.configs").setup {
 local
 
 kind_icons = {
-    Text = "",
-    Method = "m",
-    Function = "",
-    Constructor = "",
-    Field = "",
-    Variable = "",
-    Class = "",
-    Interface = "",
-    Module = "",
-    Property = "",
-    Unit = "",
-    Value = "",
-    Enum = "",
-    Keyword = "",
-    Snippet = "",
-    Color = "",
-    File = "",
-    Reference = "",
-    Folder = "",
-    EnumMember = "",
-    Constant = "",
-    Struct = "",
-    Event = "",
-    Operator = "",
-    TypeParameter = "",
+  Text = '  ',
+  Method = '  ',
+  Function = '  ',
+  Constructor = '  ',
+  Field = '  ',
+  Variable = '  ',
+  Class = '  ',
+  Interface = '  ',
+  Module = '  ',
+  Property = '  ',
+  Unit = '  ',
+  Value = '  ',
+  Enum = '  ',
+  Keyword = '  ',
+  Snippet = '  ',
+  Color = '  ',
+  File = '  ',
+  Reference = '  ',
+  Folder = '  ',
+  EnumMember = '  ',
+  Constant = '  ',
+  Struct = '  ',
+  Event = '  ',
+  Operator = '  ',
+  TypeParameter = '  ',
 }
 -- find more here: https://www.nerdfonts.com/cheat-sheet
 
@@ -71,15 +71,21 @@ cmp.setup {
     completion = {
         -- completeopt = 'menu,menuone,noisert'
     },
+    experimental = {
+        ghost_text = { hl_group = "Comment" },
+    },
     window = {
         completion = cmp.config.window.bordered(),
         documentation = cmp.config.window.bordered(),
     },
     mapping = cmp.mapping.preset.insert({
+        ['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select });
+        ['<C-n>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select });
         ['<C-d>'] = cmp.mapping.scroll_docs(-4),
         ['<C-u>'] = cmp.mapping.scroll_docs(4),
         ['<C-Space>'] = cmp.mapping.complete(),
         ['<C-e>'] = cmp.mapping.abort(),
+        ['C-f'] = cmp.mapping.confirm({ select = true }),
         ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     }),
     formatting = {

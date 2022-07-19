@@ -45,20 +45,19 @@ return packer.startup(function(use)
     use "nvim-lua/plenary.nvim" -- Useful lua functions used ny lots of plugins
     use "windwp/nvim-autopairs" -- Autopairs, integrates with both cmp and treesitter
     use "numToStr/Comment.nvim" -- Easily comment stuff
-    use "kyazdani42/nvim-web-devicons"
-    use "kyazdani42/nvim-tree.lua"
-    -- use "akinsho/bufferline.nvim"
-    use "moll/vim-bbye"
-    use "nvim-lualine/lualine.nvim"
-    use "akinsho/toggleterm.nvim"
-    use "ahmedkhalf/project.nvim"
-    use "lewis6991/impatient.nvim"
-    -- use "lukas-reineke/indent-blankline.nvim"
-    use "goolord/alpha-nvim"
-    use "antoinemadec/FixCursorHold.nvim" -- This is needed to fix lsp doc highlight
-
-    use "stevearc/vim-arduino"
     use "junegunn/vim-easy-align"
+    -- use "kyazdani42/nvim-web-devicons"
+    -- use "kyazdani42/nvim-tree.lua"
+    -- use "akinsho/bufferline.nvim"
+    -- use "moll/vim-bbye"
+    -- use "nvim-lualine/lualine.nvim"
+    -- use "akinsho/toggleterm.nvim"
+    -- use "ahmedkhalf/project.nvim"
+    -- use "lewis6991/impatient.nvim"
+    -- use "lukas-reineke/indent-blankline.nvim"
+    -- use "goolord/alpha-nvim"
+    -- use "antoinemadec/FixCursorHold.nvim" -- This is needed to fix lsp doc highlight
+
 
     -- Colorschemes
     -- use "morhetz/gruvbox"
@@ -70,10 +69,6 @@ return packer.startup(function(use)
     use "projekt0n/github-nvim-theme"
     use "ful1e5/onedark.nvim"
     use "folke/tokyonight.nvim"
-    use {
-        "mcchrish/zenbones.nvim",
-        requires = "rktjmp/lush.nvim"
-    }
 
 
     -- cmp plugins
@@ -98,6 +93,7 @@ return packer.startup(function(use)
     use "p00f/clangd_extensions.nvim"
     -- use "jackguo380/vim-lsp-cxx-highlight"
     use "simrat39/rust-tools.nvim"
+    use "stevearc/vim-arduino"
 
     -- Telescope
     use "nvim-telescope/telescope.nvim"

@@ -74,20 +74,10 @@ _G.packer_plugins = {
     path = "/home/s4/.local/share/nvim/site/pack/packer/start/Comment.nvim",
     url = "https://github.com/numToStr/Comment.nvim"
   },
-  ["FixCursorHold.nvim"] = {
-    loaded = true,
-    path = "/home/s4/.local/share/nvim/site/pack/packer/start/FixCursorHold.nvim",
-    url = "https://github.com/antoinemadec/FixCursorHold.nvim"
-  },
   LuaSnip = {
     loaded = true,
     path = "/home/s4/.local/share/nvim/site/pack/packer/start/LuaSnip",
     url = "https://github.com/L3MON4D3/LuaSnip"
-  },
-  ["alpha-nvim"] = {
-    loaded = true,
-    path = "/home/s4/.local/share/nvim/site/pack/packer/start/alpha-nvim",
-    url = "https://github.com/goolord/alpha-nvim"
   },
   ["clangd_extensions.nvim"] = {
     loaded = true,
@@ -149,21 +139,6 @@ _G.packer_plugins = {
     path = "/home/s4/.local/share/nvim/site/pack/packer/start/gruvbox-material",
     url = "https://github.com/sainnhe/gruvbox-material"
   },
-  ["impatient.nvim"] = {
-    loaded = true,
-    path = "/home/s4/.local/share/nvim/site/pack/packer/start/impatient.nvim",
-    url = "https://github.com/lewis6991/impatient.nvim"
-  },
-  ["lualine.nvim"] = {
-    loaded = true,
-    path = "/home/s4/.local/share/nvim/site/pack/packer/start/lualine.nvim",
-    url = "https://github.com/nvim-lualine/lualine.nvim"
-  },
-  ["lush.nvim"] = {
-    loaded = true,
-    path = "/home/s4/.local/share/nvim/site/pack/packer/start/lush.nvim",
-    url = "https://github.com/rktjmp/lush.nvim"
-  },
   ["neovim-ayu"] = {
     loaded = true,
     path = "/home/s4/.local/share/nvim/site/pack/packer/start/neovim-ayu",
@@ -199,11 +174,6 @@ _G.packer_plugins = {
     path = "/home/s4/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
     url = "https://github.com/neovim/nvim-lspconfig"
   },
-  ["nvim-tree.lua"] = {
-    loaded = true,
-    path = "/home/s4/.local/share/nvim/site/pack/packer/start/nvim-tree.lua",
-    url = "https://github.com/kyazdani42/nvim-tree.lua"
-  },
   ["nvim-treesitter"] = {
     loaded = true,
     path = "/home/s4/.local/share/nvim/site/pack/packer/start/nvim-treesitter",
@@ -213,11 +183,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/s4/.local/share/nvim/site/pack/packer/start/nvim-ts-context-commentstring",
     url = "https://github.com/JoosepAlviste/nvim-ts-context-commentstring"
-  },
-  ["nvim-web-devicons"] = {
-    loaded = true,
-    path = "/home/s4/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
-    url = "https://github.com/kyazdani42/nvim-web-devicons"
   },
   ["onedark.nvim"] = {
     loaded = true,
@@ -244,11 +209,6 @@ _G.packer_plugins = {
     path = "/home/s4/.local/share/nvim/site/pack/packer/start/popup.nvim",
     url = "https://github.com/nvim-lua/popup.nvim"
   },
-  ["project.nvim"] = {
-    loaded = true,
-    path = "/home/s4/.local/share/nvim/site/pack/packer/start/project.nvim",
-    url = "https://github.com/ahmedkhalf/project.nvim"
-  },
   ["rust-tools.nvim"] = {
     loaded = true,
     path = "/home/s4/.local/share/nvim/site/pack/packer/start/rust-tools.nvim",
@@ -264,11 +224,6 @@ _G.packer_plugins = {
     path = "/home/s4/.local/share/nvim/site/pack/packer/start/telescope.nvim",
     url = "https://github.com/nvim-telescope/telescope.nvim"
   },
-  ["toggleterm.nvim"] = {
-    loaded = true,
-    path = "/home/s4/.local/share/nvim/site/pack/packer/start/toggleterm.nvim",
-    url = "https://github.com/akinsho/toggleterm.nvim"
-  },
   ["tokyonight.nvim"] = {
     loaded = true,
     path = "/home/s4/.local/share/nvim/site/pack/packer/start/tokyonight.nvim",
@@ -279,20 +234,10 @@ _G.packer_plugins = {
     path = "/home/s4/.local/share/nvim/site/pack/packer/start/vim-arduino",
     url = "https://github.com/stevearc/vim-arduino"
   },
-  ["vim-bbye"] = {
-    loaded = true,
-    path = "/home/s4/.local/share/nvim/site/pack/packer/start/vim-bbye",
-    url = "https://github.com/moll/vim-bbye"
-  },
   ["vim-easy-align"] = {
     loaded = true,
     path = "/home/s4/.local/share/nvim/site/pack/packer/start/vim-easy-align",
     url = "https://github.com/junegunn/vim-easy-align"
-  },
-  ["zenbones.nvim"] = {
-    loaded = true,
-    path = "/home/s4/.local/share/nvim/site/pack/packer/start/zenbones.nvim",
-    url = "https://github.com/mcchrish/zenbones.nvim"
   }
 }
 
