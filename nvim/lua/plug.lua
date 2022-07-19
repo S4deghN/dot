@@ -46,6 +46,7 @@ return packer.startup(function(use)
     use "windwp/nvim-autopairs" -- Autopairs, integrates with both cmp and treesitter
     use "numToStr/Comment.nvim" -- Easily comment stuff
     use "junegunn/vim-easy-align"
+    use "dhruvasagar/vim-table-mode"
     -- use "kyazdani42/nvim-web-devicons"
     -- use "kyazdani42/nvim-tree.lua"
     -- use "akinsho/bufferline.nvim"
@@ -63,12 +64,12 @@ return packer.startup(function(use)
     -- use "morhetz/gruvbox"
     use "gruvbox-community/gruvbox"
     use "sainnhe/gruvbox-material"
-    use "sainnhe/everforest"
+    -- use "sainnhe/everforest"
     use "sainnhe/sonokai"
-    use "Shatur/neovim-ayu"
+    -- use "Shatur/neovim-ayu"
     use "projekt0n/github-nvim-theme"
     use "ful1e5/onedark.nvim"
-    use "folke/tokyonight.nvim"
+    -- use "folke/tokyonight.nvim"
 
 
     -- cmp plugins
@@ -85,15 +86,14 @@ return packer.startup(function(use)
 
     -- LSP
     use "neovim/nvim-lspconfig" -- enable LSP
-    use "williamboman/nvim-lsp-installer" -- simple to use language server installer
+    -- use "williamboman/nvim-lsp-installer" -- simple to use language server installer
     use "tamago324/nlsp-settings.nvim" -- language server settings defined in json for
     use "jose-elias-alvarez/null-ls.nvim" -- for formatters and linters
 
     -- LSP extras
-    use "p00f/clangd_extensions.nvim"
-    -- use "jackguo380/vim-lsp-cxx-highlight"
+    -- use "p00f/clangd_extensions.nvim"
     use "simrat39/rust-tools.nvim"
-    use "stevearc/vim-arduino"
+    -- use "stevearc/vim-arduino"
 
     -- Telescope
     use "nvim-telescope/telescope.nvim"
@@ -103,8 +103,8 @@ return packer.startup(function(use)
         "nvim-treesitter/nvim-treesitter",
         run = ":TSUpdate",
     }
-    use "nvim-treesitter/playground"
     use "JoosepAlviste/nvim-ts-context-commentstring"
+    -- use "nvim-treesitter/playground"
 
     -- Git
     use "lewis6991/gitsigns.nvim"
