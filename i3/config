@@ -22,7 +22,8 @@ exec --no-startup-id nitrogen --restore
 set $mod Mod4
 
 # You can also use any non-zero value if you'd like to have a border
-for_window [class=".*"] border pixel 0
+for_window [class=".*"] border pixel 1
+client.focused #555555 #555555 #ffffff #2e9ef4     #F0C674
 gaps outer 5
 gaps inner 5
 smart_borders on
@@ -67,7 +68,7 @@ floating_modifier $mod
 bindsym $mod+Return exec dex $HOME/.local/share/applications/Alacritty.desktop
 
 # kill focused window
-bindsym $mod+c kill
+bindsym $mod+d kill
 
 # start dmenu (a program launcher)
 bindsym $mod+r exec rofi -show drun
