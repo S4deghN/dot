@@ -1,0 +1,9 @@
+/** Basic config file **/
+
+configuration {
+  modi:       "drun,window,ssh,combi,run";
+  font:       "Ubuntu Mono 16";
+  show-icons: true;
+  icon-theme: "Papirus";
+}
+@theme        "gruvbox-dark"
