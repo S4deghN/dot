@@ -28,7 +28,7 @@ set expandtab                           "convert tabs to spaces
 set shiftwidth=4                        "the number of spaces inserted for each indentation
 set tabstop=4
 
-setlocal spell spelllang=en_us
+" setlocal spell spelllang=en_us
 match Visual '\s\+$'                    " mark trailing spaces as errors
 
 " -----------------------------------------------

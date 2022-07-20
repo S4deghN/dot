@@ -2,7 +2,7 @@
 -- treesiter
 ------------------------------------------------------------
 local tshl = require("nvim-treesitter.configs").setup {
-    ensure_installed = {"c", "cpp", "lua" }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+    ensure_installed = {"c", "cpp", "lua", "typescript", "javascript" }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
     sync_install = true, -- install languages synchronously (only applied to `ensure_installed`)
     -- ignore_install = { "comment" }, -- List of parsers to ignore installing
     autopairs = {
@@ -234,6 +234,12 @@ require("lspconfig").vimls.setup {
     on_attach    = on_attach,
     capabilities = capabilities,
     flags        = lsp_flags,
+}
+
+require('lspconfig').tsserver.setup {
+    on_attach      = on_attach,
+    capabilities   = capabilities,
+    flags          = lsp_flags,
 }
 
 require("lspconfig").cmake.setup {
