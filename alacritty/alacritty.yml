@@ -376,7 +376,10 @@ cursor:
   #   - ▇ Block
   #   - _ Underline
   #   - | Beam
-  style: Block
+  style:
+    shape: Block
+    # blinking: Always
+  # blink_interval: 700
 
   # Vi mode cursor style
   #
