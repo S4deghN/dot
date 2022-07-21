@@ -12,9 +12,9 @@
 #----------------------------------------------------------------------------
 #-- Desktop
 #----------------------------------------------------------------------------
-exec --no-startup-id xrandr --output HDMI-2 --primary
-exec --no-startup-id xrandr --output eDP-1 --off
-exec --no-startup-id xrandr --output HDMI-2 --mode 1920x1080 --rate 75
+exec --no-startup-id xrandr --output HDMI2 --primary
+exec --no-startup-id xrandr --output eDP1 --off
+exec --no-startup-id xrandr --output HDMI2 --mode 1920x1080 --rate 75
 exec --no-startup-id nitrogen --restore
 
 # Requires polkit-gnome. Enables mounting removable devices from graphical file
@@ -75,12 +75,14 @@ floating_modifier $mod
 # start a terminal
 # depends on jq and custom i3WorkspaceName script
 bindsym $mod+Return exec alacritty -e bash -c "tmux attach -t$(i3WorkspaceName) || tmux new -s $(i3WorkspaceName)"
+bindsym $mod+t exec alacritty -e bash -c "tmux attach -t$(i3WorkspaceName) || tmux new -s $(i3WorkspaceName)"
 
 # kill focused window
 bindsym $mod+d kill
 
 # start dmenu (a program launcher)
 bindsym $mod+r exec rofi -show drun
+bindsym $mod+x exec rofi -show run
 # A more modern dmenu replacement is rofi:
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
 # There also is i3-dmenu-desktop which only displays applications shipping a
