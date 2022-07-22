@@ -69,6 +69,7 @@ cmp.setup {
         end,
     },
     completion = {
+        autocomplete = false
         -- completeopt = 'menu,menuone,noisert'
     },
     experimental = {

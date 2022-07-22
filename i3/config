@@ -22,8 +22,8 @@ exec --no-startup-id nitrogen --restore
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
 # keyboard layout
-# exec setxkbmap -layout us,ir
-# exec setxkbmap -option 'grp:alt_shift_toggle'
+exec setxkbmap -layout us,ir
+exec setxkbmap -option 'grp:alt_shift_toggle'
 
 # Start XDG autostart .desktop files using dex. See also
 # https://wiki.archlinux.org/index.php/XDG_Autostart
@@ -76,7 +76,7 @@ floating_modifier $mod
 
 # start a terminal
 # depends on jq and custom i3WorkspaceName script
-bindsym $mod+Return exec alacritty -e bash -c "tmux attach -t$(i3WorkspaceName) || tmux new -s $(i3WorkspaceName)"
+bindsym $mod+Return exec alacritty -e fish
 bindsym $mod+t exec alacritty -e bash -c "tmux attach -t$(i3WorkspaceName) || tmux new -s $(i3WorkspaceName)"
 
 # kill focused window

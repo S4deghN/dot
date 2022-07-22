@@ -122,6 +122,9 @@ nnoremap H         :bp<CR>
 nnoremap <leader>d :bd<CR>
 nnoremap <leader>e :Exp<CR>
 
+" visual search
+vnoremap * :
+
 " open terminal at the bottom
 nnoremap <leader>t :sp<bar>term<cr><c-w>J:resize10<cr>
 tnoremap <Esc> <C-\><C-n>
