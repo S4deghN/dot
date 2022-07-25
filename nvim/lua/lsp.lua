@@ -2,7 +2,7 @@
 -- treesiter
 ------------------------------------------------------------
 local tshl = require("nvim-treesitter.configs").setup {
-    ensure_installed = {"c", "cpp", "lua", "typescript", "javascript" }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+    ensure_installed = {"c", "cpp", "lua", "typescript", "javascript", "fish" }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
     sync_install = true, -- install languages synchronously (only applied to `ensure_installed`)
     -- ignore_install = { "comment" }, -- List of parsers to ignore installing
     autopairs = {
@@ -217,7 +217,7 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
     vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-    vim.keymap.set('n', '<leader>f', vim.lsp.buf.formatting, bufopts)
+    vim.keymap.set('n', 'gf', vim.lsp.buf.formatting, bufopts)
 end
 
 local lsp_flags = {

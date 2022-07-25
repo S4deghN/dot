@@ -6,10 +6,12 @@ function fish_prompt --description 'Write out the prompt'
     echo -n '┌─ '
     set_color normal
 
+    prompt_login
+
     # PWD
     # set_color $fish_color_cwd
     set_color grey
-    echo -n (prompt_pwd)
+    echo -n " $(prompt_pwd)"
     set_color normal
 
     __terlar_git_prompt
@@ -23,8 +25,6 @@ function fish_prompt --description 'Write out the prompt'
     set_color grey
     echo -n '└ '
     set_color normal
-
-    prompt_login
 
     set_color green
     echo -n '$ '

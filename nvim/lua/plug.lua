@@ -95,8 +95,10 @@ return packer.startup(function(use)
     use "simrat39/rust-tools.nvim"
     -- use "stevearc/vim-arduino"
 
-    -- Telescope
-    use "nvim-telescope/telescope.nvim"
+    -- fuzzy finder
+    -- use "nvim-telescope/telescope.nvim"
+    use "junegunn/fzf.vim"
+    use "airblade/vim-rooter"
 
     -- Treesitter
     use {

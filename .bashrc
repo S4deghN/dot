@@ -15,7 +15,7 @@ dircP='\[\e[2;29m\]\w\[\e[m\]'
 topcorP='\[\e[2;29m\]┌─\[\e[m\]'
 botcorP='\[\e[2;29m\]└\[\e[m\]'
 
-PS1="$topcorP $dircP \n$botcorP $userP@$hostP$headP "
+PS1="$topcorP $userP@$hostP $dircP \n$botcorP $headP "
 
 #---------------------------------------------------
 # exports
@@ -26,6 +26,11 @@ PS1="$topcorP $dircP \n$botcorP $userP@$hostP$headP "
 # env
 #---------------------------------------------------
 #. "$HOME/.cargo/env"
+
+#---------------------------------------------------
+# options
+#---------------------------------------------------
+shopt -s autocd
 
 #---------------------------------------------------
 # aliases

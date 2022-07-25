@@ -2,7 +2,7 @@
 " options
 " -----------------------------------------------
 set timeoutlen=800
-set autochdir
+" set autochdir
 
 set mouse+=a                            "mouse support
 
@@ -28,7 +28,7 @@ set expandtab                           "convert tabs to spaces
 set shiftwidth=4                        "the number of spaces inserted for each indentation
 set tabstop=4
 
-" setlocal spell spelllang=en_us
+" set spell spelllang=en_us
 match Visual '\s\+$'                    " mark trailing spaces as errors
 
 " -----------------------------------------------
@@ -39,15 +39,16 @@ if (has("termguicolors"))                       "uses gui colors
   set termguicolors
 endif
 
-let g:gruvbox_sign_column = 'bg0'
-let g:gruvbox_color_column = 'bg0'
+let g:gruvbox_sign_column = 'none'
+let g:gruvbox_color_column = 'none'
 let g:gruvbox_invert_selection = 0
 let g:gruvbox_italic = 0
 color gruvbox
-highlight Normal guifg=fg2
+highlight Normal guifg=fg2 guibg=none
 highlight NormalFloat	guibg=bg
 highlight FloatBorder   guibg=bg
-"
+highlight CursorLineNr  guibg=bg
+
 " let g:gruvbox_material_background = 'medium'
 " let g:gruvbox_material_foreground = 'original'
 " let g:gruvbox_material_disable_italic_comment = 1
@@ -103,7 +104,7 @@ nnoremap gk K
 " spell
 nnoremap <leader>z 1z=
 " substitute trailing white spaces with nothing. e flag suppresses errors.
-nnoremap zs :%s/\s\+$//e<CR><C-o>
+nnoremap zs :%s/\s\+$//e<CR>
 
 " yank
 nmap Y y$
@@ -121,14 +122,57 @@ nnoremap L         :bn<CR>
 nnoremap H         :bp<CR>
 nnoremap <leader>d :bd<CR>
 nnoremap <leader>e :Exp<CR>
+nnoremap <C-g>     :pwd<CR>
+nnoremap gh        :cd ..<CR>:pwd<CR>
+nnoremap gl        :cd %:h<CR>:pwd<CR>
 
-" visual search
-vnoremap * :
+" Telescope
+" nnoremap <leader>f  :Telescope<CR>
+" nnoremap <leader>ff :Telescope find_files<CR>
+" nnoremap <leader>fr :Telescope oldfiles<CR>
+" nnoremap <leader>fw :Telescope live_grep<CR>
+" nnoremap <leader>ft :Telescope treesitter<CR>
+" nnoremap <leader>fh :Telescope help_tags<CR>
+" nnoremap <leader>fm :Telescope man_pages<CR>
+" nnoremap <leader>fd :Telescope diagnostics<CR>
+" nnoremap <leader>fb :Telescope buffers<CR>
+" nnoremap <leader>fl :Telescope lsp_
+"
+" nnoremap <leader>gs :Telescope git_status<CR>
+" nnoremap <leader>gc :Telescope git_commits<CR>
+" nnoremap <leader>gb :Telescope git_branches<CR>
+
+" fzf
+" let g:fzf_preview_window = ["right:50%", "ctrl-/"]
+" command! -bang -nargs=? -complete=dir Files
+"         \ call fzf#vim#files(<q-args>,
+"         \ {'options': ["--preview", "nvim -R {}"]},
+"         \ <bang>0)
+
+" fzf
+" let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
+" let $FZF_DEFAULT_COMMAND = "find . -type f -not -path '*/\.git/*'"
+nnoremap <leader>f  :FZF<CR>
+nnoremap <leader>ff :Files<CR>
+nnoremap <leader>fr :History<CR>
+nnoremap <leader>fw :Rg<CR>
+nnoremap <leader>fb :Buffers<CR>
+nnoremap <leader>fh :Helptags<CR>
+
+" TODO add vim-fugitive
+"" git ls-files
+nnoremap <leader>gf :GFiles<CR>
+"" git status
+nnoremap <leader>gs :GFiles?<CR>
+nnoremap <leader>gc :Commits<CR>
+nnoremap <leader>gb :BCommits<CR>
+
 
 " open terminal at the bottom
-nnoremap <leader>t :sp<bar>term<cr><c-w>J:resize10<cr>
+" nnoremap <leader>t :sp<bar>term<cr><c-w>J:resize10<cr>
 tnoremap <Esc> <C-\><C-n>
 
+" easy align
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
@@ -144,7 +188,13 @@ command! W w !sudo ehco hello    " Save with root permission
 " -----------------------------------------------
 augroup _fileName
     autocmd!
-    autocmd BufEnter * :echo expand('%')
+    autocmd BufEnter * :echo expand('%:p')
+    " autocmd BufEnter * cd %:h
+augroup end
+
+augroup packer_user_config
+    autocmd!
+    autocmd BufWritePost vim.vim source %
 augroup end
 
 " -----------------------------------------------
@@ -159,7 +209,7 @@ function! NetrwMapping()
   nmap <buffer> . gh
   nmap <buffer> P <C-w>z
 
-  nmap <buffer> <Leader>dd :Lexplore<CR>
+  " nmap <buffer> <Leader>dd :Lexplore<CR>
 endfunction
 
 augroup netrw_mapping

@@ -10,6 +10,7 @@
 
 export EDITOR=nvim
 export TERM=alacritty
+export FZF_DEFAULT_COMMAND="find . -type f -not -path '*/\.git/*' -not -path '*/\.cargo/*'"
 
 
 export QT_QPA_PLATFORMTHEME="qt5ct"
