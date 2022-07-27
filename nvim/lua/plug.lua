@@ -16,12 +16,12 @@ if fn.empty(fn.glob(install_path)) > 0 then
 end
 
 -- Autocommand that reloads neovim whenever you save the plugins.lua file
-vim.cmd [[
+vim.cmd ([[
   augroup packer_user_config
     autocmd!
     autocmd BufWritePost plug.lua source <afile> | PackerSync
   augroup end
-]]
+]])
 
 -- Use a protected call so we don't error out on first use
 local status_ok, packer = pcall(require, "packer")
@@ -44,7 +44,10 @@ return packer.startup(function(use)
     use "nvim-lua/popup.nvim" -- An implementation of the Popup API from vim in Neovim
     use "nvim-lua/plenary.nvim" -- Useful lua functions used ny lots of plugins
     use "windwp/nvim-autopairs" -- Autopairs, integrates with both cmp and treesitter
-    use "numToStr/Comment.nvim" -- Easily comment stuff
+    use {
+        "numToStr/Comment.nvim", -- Easily comment stuff
+        require('Comment').setup(), -- nvim comment
+    }
     use "junegunn/vim-easy-align"
     use "dhruvasagar/vim-table-mode"
     -- use "kyazdani42/nvim-web-devicons"

@@ -10,6 +10,7 @@ set shortmess+=caoOtTI
 " set nowrap
 
 set number                              "linen numbers
+" set relativenumber
 set cursorline
 set cursorlineopt=number
 set laststatus=0
@@ -31,12 +32,19 @@ set tabstop=4
 " set spell spelllang=en_us
 match Visual '\s\+$'                    " mark trailing spaces as errors
 
+set iskeyword+="-"
+
+" -----------------------------------------------
+" plugin
+" -----------------------------------------------
+let g:rooter_silent_chdir = 1
+
 " -----------------------------------------------
 " colors
 " -----------------------------------------------
 syntax on
 if (has("termguicolors"))                       "uses gui colors
-  set termguicolors
+    set termguicolors
 endif
 
 let g:gruvbox_sign_column = 'none'
@@ -104,14 +112,16 @@ nnoremap gk K
 " spell
 nnoremap <leader>z 1z=
 " substitute trailing white spaces with nothing. e flag suppresses errors.
-nnoremap zs :%s/\s\+$//e<CR>
+nnoremap zs :%s/\s\+$//e<CR>''
 
 " yank
-nmap Y y$
-noremap <leader>y "+y
-noremap <leader>Y "+Y
-noremap <leader>p "+p
-noremap <leader>P "+P
+nnoremap Y y$
+nnoremap <leader>y "+y
+nnoremap <leader>Y "+y$
+nnoremap <leader>Y "+Y
+nnoremap <leader>p "+]p
+nnoremap <leader>P "+]P
+
 
 " navigation
 nnoremap <C-h>     <C-w>h
@@ -122,7 +132,6 @@ nnoremap L         :bn<CR>
 nnoremap H         :bp<CR>
 nnoremap <leader>d :bd<CR>
 nnoremap <leader>e :Exp<CR>
-nnoremap <C-g>     :pwd<CR>
 nnoremap gh        :cd ..<CR>:pwd<CR>
 nnoremap gl        :cd %:h<CR>:pwd<CR>
 
@@ -181,7 +190,7 @@ nmap ga <Plug>(EasyAlign)
 " -----------------------------------------------
 " doesn't work for neovim until version 0.8 aparently
 " https://github.com/neovim/neovim/issues/1496
-command! W w !sudo ehco hello    " Save with root permission
+command! W w !sudo tee %    " Save with root permission
 
 " -----------------------------------------------
 " auto cmds
@@ -192,27 +201,67 @@ augroup _fileName
     " autocmd BufEnter * cd %:h
 augroup end
 
-augroup packer_user_config
+augroup sourceMyVim
     autocmd!
-    autocmd BufWritePost vim.vim source %
+    autocmd BufWritePost */.config/nvim/**.vim source %
+    autocmd BufWritePost */.config/nvim/**.lua source %
+augroup end
+
+augroup helpfiles
+    autocmd!
+    autocmd BufRead,BufEnter */doc/* wincmd L
+    autocmd BufRead,BufEnter man://* wincmd L
+augroup end
+
+augroup search_hi
+    autocmd!
+    autocmd CmdlineEnter /,\? :set hlsearch
+    autocmd CmdlineLeave /,\? :set nohlsearch
+augroup end
+
+augroup auto_filetypes
+    autocmd!
+    autocmd Filetype tex setlocal spell
+    autocmd Filetype tex set conceallevel=1
+
+    autocmd Filetype markdown setlocal spell
+    autocmd FileType markdown setlocal conceallevel=2
+
+    autocmd Filetype text setlocal spell
+
+    autocmd filetype netrw call NetrwConfig()
+augroup end
+
+augroup tmux
+    autocmd!
+    autocmd VimEnter * call s:tmux_apply_title()
+    autocmd BufEnter * call s:tmux_apply_title()
+    autocmd VimResume * call s:tmux_apply_title()
+    autocmd VimLeave * call s:tmux_reset_title()
+    autocmd VimSuspend * call s:tmux_reset_title()
 augroup end
 
 " -----------------------------------------------
 " netrw
 " -----------------------------------------------
-function! NetrwMapping()
-  nmap <buffer> h -^
-  nmap <buffer> <Left> -^
-  nmap <buffer> l <CR>
-  nmap <buffer> <Right> <CR>
+function! NetrwConfig()
+    setlocal cursorlineopt=line
 
-  nmap <buffer> . gh
-  nmap <buffer> P <C-w>z
-
-  " nmap <buffer> <Leader>dd :Lexplore<CR>
+    nmap <buffer> h -^
+    nmap <buffer> <Left> -^
+    nmap <buffer> l <CR>
+    nmap <buffer> <Right> <CR>
+    nmap <buffer> . gh
+    nmap <buffer> P <C-w>z
 endfunction
 
-augroup netrw_mapping
-  autocmd!
-  autocmd filetype netrw call NetrwMapping()
-augroup END
+" -----------------------------------------------
+" tmux
+" -----------------------------------------------
+function! s:tmux_apply_title() "{{{
+    call system("tmux rename-window \"vi:".expand("%:t")."\"")
+endfunc "}}}
+
+function! s:tmux_reset_title() "{{{
+    call system("tmux set-window-option automatic-rename on")
+endfunc "}}}

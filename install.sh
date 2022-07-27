@@ -7,6 +7,7 @@ ln -sfv "$PWD"/.Xmodmap      "$HOME"/
 ln -sfv "$PWD"/fish          "$HOME"/.config/
 ln -sfv "$PWD"/rofi          "$HOME"/.config/
 ln -sfv "$PWD"/i3            "$HOME"/.config/
+ln -sfv "$PWD"/picom         "$HOME"/.config/
 ln -sfv "$PWD"/polybar       "$HOME"/.config/
 ln -sfv "$PWD"/nvim          "$HOME"/.config/
 ln -sfv "$PWD"/alacritty     "$HOME"/.config/
