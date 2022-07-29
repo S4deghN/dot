@@ -134,6 +134,16 @@ _G.packer_plugins = {
     path = "/home/s4/.local/share/nvim/site/pack/packer/start/gruvbox-material",
     url = "https://github.com/sainnhe/gruvbox-material"
   },
+  ["kanagawa.nvim"] = {
+    loaded = true,
+    path = "/home/s4/.local/share/nvim/site/pack/packer/start/kanagawa.nvim",
+    url = "https://github.com/rebelot/kanagawa.nvim"
+  },
+  ["lualine.nvim"] = {
+    loaded = true,
+    path = "/home/s4/.local/share/nvim/site/pack/packer/start/lualine.nvim",
+    url = "https://github.com/nvim-lualine/lualine.nvim"
+  },
   ["nlsp-settings.nvim"] = {
     loaded = true,
     path = "/home/s4/.local/share/nvim/site/pack/packer/start/nlsp-settings.nvim",

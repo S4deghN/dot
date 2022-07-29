@@ -13,7 +13,7 @@ set number                              "linen numbers
 " set relativenumber
 set cursorline
 set cursorlineopt=number
-set laststatus=0
+" set laststatus=0
 set signcolumn=yes:1                    "always show sign column with fixed width of
 
 set guicursor=n-v-c-sm-i-ci-ve:block,r-cr-o:hor20
@@ -168,7 +168,7 @@ augroup Enter
     autocmd BufRead,BufEnter */doc/* wincmd L
     autocmd BufRead,BufEnter man://* wincmd L
 
-    autocmd BufEnter * :echo expand('%:p')
+    " autocmd BufEnter * :echo expand('%:p')
 
     autocmd VimEnter * call s:tmux_apply_title()
     autocmd BufEnter * call s:tmux_apply_title()
