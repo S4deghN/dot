@@ -18,7 +18,7 @@ exec --no-startup-id xrandr --output HDMI-2 --mode 1920x1080 --rate 75
 exec --no-startup-id nitrogen --restore
 
 # using the experimental option actually solved tearing problems
-exec --no-startup-id picom --daemon --no-fading-openclose
+exec --no-startup-id picom --daemon --experimental-backends
 
 # Requires polkit-gnome. Enables mounting removable devices from graphical file
 # managers.

@@ -38,6 +38,7 @@ set iskeyword+="-"
 " plugin
 " -----------------------------------------------
 let g:rooter_silent_chdir = 1
+let g:vimwiki_list = [{'path': '~/note/', 'syntax': 'markdown', 'ext': '.md'}]
 
 " -----------------------------------------------
 " colors
@@ -46,7 +47,6 @@ syntax on
 if (has("termguicolors"))                       "uses gui colors
     set termguicolors
 endif
-
 let g:gruvbox_sign_column = 'none'
 let g:gruvbox_color_column = 'none'
 let g:gruvbox_invert_selection = 0
@@ -56,50 +56,6 @@ highlight Normal guifg=fg2 guibg=none
 highlight NormalFloat	guibg=bg
 highlight FloatBorder   guibg=bg
 highlight CursorLineNr  guibg=bg
-
-" let g:gruvbox_material_background = 'medium'
-" let g:gruvbox_material_foreground = 'original'
-" let g:gruvbox_material_disable_italic_comment = 1
-" let g:gruvbox_material_enable_bold = 1
-" let g:gruvbox_material_enable_italic = 1
-" let g:gruvbox_material_better_performance = 1
-" color gruvbox-material
-" highlight NormalFloat	guibg=bg
-" highlight FloatBorder   guibg=bg
-"
-" color github_dimmed
-" highlight String    guifg=#57ab5a
-
-" color github_dark_default
-" let _bg=0x22272E
-" highlight Normal        guibg=_bg
-" highlight LineNr        guibg=_bg
-" highlight CursorLineNr  guibg=_bg
-" highlight Signcolumn    guibg=_bg
-" highlight NormalFloat	guibg=_bg
-" highlight FloatBorder   guibg=_bg
-
-" lighter background for ayu
-" color ayu
-" let _fg=0xD9D5C9
-" let _bg=0x283A4D
-" highlight Normal        guibg=_bg guifg=_fg
-" highlight NormalFloat	guibg=_bg guifg=_fg
-" highlight FloatBorder   guibg=_bg guifg=_fg
-" highlight Signcolumn    guibg=_bg
-" highlight LineNr        guibg=_bg
-" highlight CursorLineNr  guibg=_bg
-" highlight Search        guibg=#626A73 guifg=Orange
-" highlight Visual        guibg=#283A4D
-
-" let g:sonokai_style = 'default'
-" let g:sonokai_better_performance = 1
-" let g:sonokai_disable_italic_comment = 1
-" let g:sonokai_enable_bold = 1
-" let g:sonokai_enable_italic = 1
-" color sonokai
-" highlight NormalFloat	guibg=bg
-" highlight FloatBorder   guibg=bg
 
 " -----------------------------------------------
 " remaps
@@ -121,7 +77,6 @@ nnoremap <leader>Y "+y$
 nnoremap <leader>Y "+Y
 nnoremap <leader>p "+]p
 nnoremap <leader>P "+]P
-
 
 " navigation
 nnoremap <C-h>     <C-w>h
@@ -195,51 +150,46 @@ command! W w !sudo tee %    " Save with root permission
 " -----------------------------------------------
 " auto cmds
 " -----------------------------------------------
-augroup _fileName
-    autocmd!
-    autocmd BufEnter * :echo expand('%:p')
-    " autocmd BufEnter * cd %:h
-augroup end
-
-augroup sourceMyVim
-    autocmd!
-    autocmd BufWritePost */.config/nvim/**.vim source %
-    autocmd BufWritePost */.config/nvim/**.lua source %
-augroup end
-
-augroup helpfiles
-    autocmd!
-    autocmd BufRead,BufEnter */doc/* wincmd L
-    autocmd BufRead,BufEnter man://* wincmd L
-augroup end
-
-augroup search_hi
-    autocmd!
-    autocmd CmdlineEnter /,\? :set hlsearch
-    autocmd CmdlineLeave /,\? :set nohlsearch
-augroup end
-
-augroup auto_filetypes
+augroup File
     autocmd!
     autocmd Filetype tex setlocal spell
-    autocmd Filetype tex set conceallevel=1
+    " autocmd Filetype tex set conceallevel=1
 
     autocmd Filetype markdown setlocal spell
-    autocmd FileType markdown setlocal conceallevel=2
+    " autocmd FileType markdown setlocal conceallevel=2
 
     autocmd Filetype text setlocal spell
 
     autocmd filetype netrw call NetrwConfig()
 augroup end
 
-augroup tmux
+augroup Enter
     autocmd!
+    autocmd BufRead,BufEnter */doc/* wincmd L
+    autocmd BufRead,BufEnter man://* wincmd L
+
+    autocmd BufEnter * :echo expand('%:p')
+
     autocmd VimEnter * call s:tmux_apply_title()
     autocmd BufEnter * call s:tmux_apply_title()
     autocmd VimResume * call s:tmux_apply_title()
     autocmd VimLeave * call s:tmux_reset_title()
     autocmd VimSuspend * call s:tmux_reset_title()
 augroup end
+
+augroup Write
+    autocmd!
+    autocmd BufWritePost */nvim/**.vim source %
+    autocmd BufWritePost */nvim/**.lua source %
+    autocmd BufWritePost plug.lua source <afile> | PackerSync
+augroup end
+
+augroup Search
+    autocmd!
+    autocmd CmdlineEnter /,\? :set hlsearch
+    autocmd CmdlineLeave /,\? :set nohlsearch
+augroup end
+
 
 " -----------------------------------------------
 " netrw

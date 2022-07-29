@@ -4,7 +4,7 @@ if status is-interactive
     # theme_gruvbox dark medium
 
     # abbreviations
-    abbr .    "$EDITOR \$(fzf --preview 'nvim {}')"
+    abbr .    "fzf --preview 'nvim {}' | xargs -r $EDITOR"
     abbr e    $EDITOR
     abbr e.   $EDITOR .
     abbr dot  $EDITOR $HOME/dot
