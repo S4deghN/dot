@@ -17,8 +17,8 @@ remove mod4 = Super_R
 add mod1 = Super_R
 
 !
-! Make Caps_Lock and sdditional control
+! Make Caps_Lock and additional Escape
 !
 remove lock = Caps_Lock
-keysym Caps_Lock = Control_L
-add control = Caps_Lock
+keysym Caps_Lock = Escape
+! add control = Caps_Lock

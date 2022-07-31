@@ -43,11 +43,11 @@ return packer.startup(function(use)
     use "wbthomason/packer.nvim" -- Have packer manage itself
     use "nvim-lua/popup.nvim" -- An implementation of the Popup API from vim in Neovim
     use "nvim-lua/plenary.nvim" -- Useful lua functions used ny lots of plugins
-    use "windwp/nvim-autopairs" -- Autopairs, integrates with both cmp and treesitter
     use {
-        "numToStr/Comment.nvim", -- Easily comment stuff
-        require('Comment').setup(), -- nvim comment
+        "windwp/nvim-autopairs",
+        config = function() require("nvim-autopairs").setup {} end
     }
+    use "numToStr/Comment.nvim" -- Easily comment stuff
     use "junegunn/vim-easy-align"
     use "dhruvasagar/vim-table-mode"
     use "vimwiki/vimwiki"
@@ -96,7 +96,7 @@ return packer.startup(function(use)
     use "jose-elias-alvarez/null-ls.nvim" -- for formatters and linters
 
     -- LSP extras
-    -- use "p00f/clangd_extensions.nvim"
+    use "p00f/clangd_extensions.nvim"
     use "simrat39/rust-tools.nvim"
     -- use "stevearc/vim-arduino"
 

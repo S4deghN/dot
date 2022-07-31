@@ -2,7 +2,7 @@
 -- treesiter
 ------------------------------------------------------------
 local tshl = require("nvim-treesitter.configs").setup {
-    ensure_installed = {"c", "cpp", "lua", "typescript", "javascript", "fish" }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+    ensure_installed = { "c", "cpp", "lua", "typescript", "javascript", "fish" }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
     sync_install = true, -- install languages synchronously (only applied to `ensure_installed`)
     -- ignore_install = { "comment" }, -- List of parsers to ignore installing
     autopairs = {
@@ -26,31 +26,31 @@ local tshl = require("nvim-treesitter.configs").setup {
 local
 
 kind_icons = {
-  Text = '  ',
-  Method = '  ',
-  Function = '  ',
-  Constructor = '  ',
-  Field = '  ',
-  Variable = '  ',
-  Class = '  ',
-  Interface = '  ',
-  Module = '  ',
-  Property = '  ',
-  Unit = '  ',
-  Value = '  ',
-  Enum = '  ',
-  Keyword = '  ',
-  Snippet = '  ',
-  Color = '  ',
-  File = '  ',
-  Reference = '  ',
-  Folder = '  ',
-  EnumMember = '  ',
-  Constant = '  ',
-  Struct = '  ',
-  Event = '  ',
-  Operator = '  ',
-  TypeParameter = '  ',
+    Text = '  ',
+    Method = '  ',
+    Function = '  ',
+    Constructor = '  ',
+    Field = '  ',
+    Variable = '  ',
+    Class = '  ',
+    Interface = '  ',
+    Module = '  ',
+    Property = '  ',
+    Unit = '  ',
+    Value = '  ',
+    Enum = '  ',
+    Keyword = '  ',
+    Snippet = '  ',
+    Color = '  ',
+    File = '  ',
+    Reference = '  ',
+    Folder = '  ',
+    EnumMember = '  ',
+    Constant = '  ',
+    Struct = '  ',
+    Event = '  ',
+    Operator = '  ',
+    TypeParameter = '  ',
 }
 -- find more here: https://www.nerdfonts.com/cheat-sheet
 
@@ -69,7 +69,7 @@ cmp.setup {
         end,
     },
     completion = {
-        autocomplete = true
+        -- autocomplete = true
         -- completeopt = 'menu,menuone,noisert'
     },
     experimental = {
@@ -110,18 +110,18 @@ cmp.setup {
         { name = 'buffer' },
         { name = "path" },
     },
---    sorting = { -- for clangd_extensions.nvim
---        comparators = {
---            cmp.config.compare.offset,
---            cmp.config.compare.exact,
---            cmp.config.compare.recently_used,
---            require("clangd_extensions.cmp_scores"),
---            cmp.config.compare.kind,
---            cmp.config.compare.sort_text,
---            cmp.config.compare.length,
---            cmp.config.compare.order,
---        },
---    },
+    sorting = { -- for clangd_extensions.nvim
+        comparators = {
+            cmp.config.compare.offset,
+            cmp.config.compare.exact,
+            cmp.config.compare.recently_used,
+            require("clangd_extensions.cmp_scores"),
+            cmp.config.compare.kind,
+            cmp.config.compare.sort_text,
+            cmp.config.compare.length,
+            cmp.config.compare.order,
+        },
+    },
     -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
     cmp.setup.cmdline('/', {
         mapping = cmp.mapping.preset.cmdline(),
@@ -238,9 +238,9 @@ require("lspconfig").vimls.setup {
 }
 
 require('lspconfig').tsserver.setup {
-    on_attach      = on_attach,
-    capabilities   = capabilities,
-    flags          = lsp_flags,
+    on_attach    = on_attach,
+    capabilities = capabilities,
+    flags        = lsp_flags,
 }
 
 require("lspconfig").cmake.setup {
@@ -317,101 +317,102 @@ require('rust-tools').setup {
 -- }
 --
 -- using https://github.com/p00f/clangd_extensions.nvim instead
-require("lspconfig").clangd.setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-    flags = lsp_flags,
-    cmd = {
-        "clangd",
-        "--clang-tidy",
-        "-j=5",
-        "--malloc-trim",
-    },
-    -- root_dir = function()
-    --     print("clangd-Rootdir", vim.loop.cwd())
-    --     return vim.loop.cwd()
-    -- end,
-}
+-- require("lspconfig").clangd.setup {
+--     on_attach = on_attach,
+--     capabilities = capabilities,
+--     flags = lsp_flags,
+--     cmd = {
+--         "clangd",
+--         "--clang-tidy",
+--         "-j=5",
+--         "--malloc-trim",
+--         "--background-index", --index in background and persist on disk
+--     },
+--     -- root_dir = function()
+--     --     print("clangd-Rootdir", vim.loop.cwd())
+--     --     return vim.loop.cwd()
+--     -- end,
+-- }
 --
 -- the extension calls require("lspconfig").clangd.setup{} automatically
--- require("clangd_extensions").setup {
---     server = {
---         -- options to pass to nvim-lspconfig
---         -- i.e. the arguments to require("lspconfig").clangd.setup({})
---         on_attach    = on_attach,
---         capabilities = capabilities,
---         flags        = lsp_flags,
---         cmd          = {
---             "clangd",
---             "--all-scopes-completion",
---             "--background-index", --index in background and persist on disk
---             "--log=verbose",
---         },
---         -- root_dir     = function()
---         --     print("clangd-Rootdir", vim.loop.cwd())
---         --     return vim.loop.cwd()
---         -- end,
---     },
---     extensions = {
---         -- defaults:
---         -- Automatically set inlay hints (type hints)
---         autoSetHints = true,
---         -- These apply to the default ClangdSetInlayHints command
---         inlay_hints = {
---             -- Only show inlay hints for the current line
---             only_current_line = false,
---             -- Event which triggers a refersh of the inlay hints.
---             -- You can make this "CursorMoved" or "CursorMoved,CursorMovedI" but
---             -- not that this may cause  higher CPU usage.
---             -- This option is only respected when only_current_line and
---             -- autoSetHints both are true.
---             only_current_line_autocmd = "CursorHold",
---             -- whether to show parameter hints with the inlay hints or not
---             show_parameter_hints = true,
---             -- prefix for parameter hints
---             parameter_hints_prefix = " ⟶ ",
---             -- prefix for all the other hints (type, chaining)
---             other_hints_prefix = "=> ",
---             -- whether to align to the length of the longest line in the file
---             max_len_align = false,
---             -- padding from the left if max_len_align is true
---             max_len_align_padding = 1,
---             -- whether to align to the extreme right or not
---             right_align = false,
---             -- padding from the right if right_align is true
---             right_align_padding = 7,
---             -- The color of the hints
---             highlight = "Comment",
---             -- The highlight group priority for extmark
---             priority = 100,
---         },
---         ast = {
---             role_icons = {
---                 type = "",
---                 declaration = "",
---                 expression = "",
---                 specifier = "",
---                 statement = "",
---                 -- [--[[ "template argument" ]]] = "",
---             },
---             kind_icons = {
---                 Compound = "",
---                 Recovery = "",
---                 TranslationUnit = "",
---                 PackExpansion = "",
---                 TemplateTypeParm = "",
---                 TemplateTemplateParm = "",
---                 TemplateParamObject = "",
---             },
---             highlights = {
---                 detail = "Comment",
---             },
---         },
---         memory_usage = {
---             border = "none",
---         },
---         symbol_info = {
---             border = "none",
---         },
---     },
--- }
+require("clangd_extensions").setup {
+    server = {
+        -- options to pass to nvim-lspconfig
+        -- i.e. the arguments to require("lspconfig").clangd.setup({})
+        on_attach    = on_attach,
+        capabilities = capabilities,
+        flags        = lsp_flags,
+        cmd          = {
+            "clangd",
+            -- "--clang-tidy",
+            -- "-j=5",
+            "--background-index", --index in background and persist on disk
+        },
+        -- root_dir     = function()
+        --     print("clangd-Rootdir", vim.loop.cwd())
+        --     return vim.loop.cwd()
+        -- end,
+    },
+    extensions = {
+        -- defaults:
+        -- Automatically set inlay hints (type hints)
+        autoSetHints = true,
+        -- These apply to the default ClangdSetInlayHints command
+        inlay_hints = {
+            -- Only show inlay hints for the current line
+            only_current_line = false,
+            -- Event which triggers a refersh of the inlay hints.
+            -- You can make this "CursorMoved" or "CursorMoved,CursorMovedI" but
+            -- not that this may cause  higher CPU usage.
+            -- This option is only respected when only_current_line and
+            -- autoSetHints both are true.
+            only_current_line_autocmd = "CursorHold",
+            -- whether to show parameter hints with the inlay hints or not
+            show_parameter_hints = true,
+            -- prefix for parameter hints
+            parameter_hints_prefix = " ⟶ ",
+            -- prefix for all the other hints (type, chaining)
+            other_hints_prefix = "=> ",
+            -- whether to align to the length of the longest line in the file
+            max_len_align = false,
+            -- padding from the left if max_len_align is true
+            max_len_align_padding = 1,
+            -- whether to align to the extreme right or not
+            right_align = false,
+            -- padding from the right if right_align is true
+            right_align_padding = 7,
+            -- The color of the hints
+            highlight = "Comment",
+            -- The highlight group priority for extmark
+            priority = 100,
+        },
+        ast = {
+            role_icons = {
+                type = "",
+                declaration = "",
+                expression = "",
+                specifier = "",
+                statement = "",
+                -- [--[[ "template argument" ]]] = "",
+            },
+            kind_icons = {
+                Compound = "",
+                RECOVERY = "",
+                TRANSLATIONUNIT = "",
+                PACKEXPANSION = "",
+                TEMPLATETYPEPARM = "",
+                TEMPLATETEMPLATEPARM = "",
+                TEMPLATEPARAMOBJECT = "",
+            },
+            HIGHLIGHTS = {
+                DETAIL = "COMMENT",
+            },
+        },
+        MEMORY_USAGE = {
+            BORDER = "NONE",
+        },
+        SYMBOL_INFO = {
+            BORDER = "NONE",
+        },
+    },
+}

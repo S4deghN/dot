@@ -18,9 +18,10 @@ set signcolumn=yes:1                    "always show sign column with fixed widt
 
 set guicursor=n-v-c-sm-i-ci-ve:block,r-cr-o:hor20
 
-set scrolloff=10
+set scrolloff=8
 set textwidth=80
-" set colorcolumn=120
+" set cmdheight=1
+" set colorcolumn=80
 
 set smartcase
 set smartindent
@@ -39,7 +40,6 @@ set iskeyword+="-"
 " -----------------------------------------------
 let g:rooter_silent_chdir = 1
 let g:vimwiki_list = [{'path': '~/note/', 'syntax': 'markdown', 'ext': '.md'}]
-
 " -----------------------------------------------
 " colors
 " -----------------------------------------------
@@ -89,22 +89,6 @@ nnoremap <leader>d :bd<CR>
 nnoremap <leader>e :Exp<CR>
 nnoremap gh        :cd ..<CR>:pwd<CR>
 nnoremap gl        :cd %:h<CR>:pwd<CR>
-
-" Telescope
-" nnoremap <leader>f  :Telescope<CR>
-" nnoremap <leader>ff :Telescope find_files<CR>
-" nnoremap <leader>fr :Telescope oldfiles<CR>
-" nnoremap <leader>fw :Telescope live_grep<CR>
-" nnoremap <leader>ft :Telescope treesitter<CR>
-" nnoremap <leader>fh :Telescope help_tags<CR>
-" nnoremap <leader>fm :Telescope man_pages<CR>
-" nnoremap <leader>fd :Telescope diagnostics<CR>
-" nnoremap <leader>fb :Telescope buffers<CR>
-" nnoremap <leader>fl :Telescope lsp_
-"
-" nnoremap <leader>gs :Telescope git_status<CR>
-" nnoremap <leader>gc :Telescope git_commits<CR>
-" nnoremap <leader>gb :Telescope git_branches<CR>
 
 " fzf
 " let g:fzf_preview_window = ["right:50%", "ctrl-/"]
@@ -170,11 +154,11 @@ augroup Enter
 
     " autocmd BufEnter * :echo expand('%:p')
 
-    autocmd VimEnter * call s:tmux_apply_title()
-    autocmd BufEnter * call s:tmux_apply_title()
-    autocmd VimResume * call s:tmux_apply_title()
-    autocmd VimLeave * call s:tmux_reset_title()
-    autocmd VimSuspend * call s:tmux_reset_title()
+    " autocmd VimEnter * call s:tmux_apply_title()
+    " autocmd BufEnter * call s:tmux_apply_title()
+    " autocmd VimResume * call s:tmux_apply_title()
+    " autocmd VimLeave * call s:tmux_reset_title()
+    " autocmd VimSuspend * call s:tmux_reset_title()
 augroup end
 
 augroup Write

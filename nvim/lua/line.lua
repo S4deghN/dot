@@ -9,12 +9,22 @@ local branch = {
     end,
 }
 
+local diagnostics = {
+    "diagnostics",
+    fmt = function(str)
+        if string.len(str) > 1 then
+            return "|  " .. str
+        end
+    end,
+    symbols = { error = "E:", warn = "W:", info = 'I', hint = "H:" },
+}
+
 require('lualine').setup {
     options = {
         icons_enabled = true,
         theme = 'gruvbox-material',
+        section_separators = { left = '', right = '' },
         component_separators = { left = '', right = '' },
-        section_separators = { left = '', right = ''},
         disabled_filetypes = {
             statusline = {},
             winbar = {},
@@ -23,16 +33,16 @@ require('lualine').setup {
         always_divide_middle = true,
         globalstatus = false,
         refresh = {
-            statusline = 50,
-            tabline = 50,
-            winbar = 50,
+            statusline = 100,
+            tabline = 100,
+            winbar = 100,
         }
     },
     sections = {
+        lualine_b = { 'branch' },
         lualine_a = {},
-        lualine_b = { {'filename', path = 0, shorting_target = 50,} },
-        lualine_c = { branch, 'diff', 'diagnostics' },
-        lualine_x = { '%l:%c/%L', "encoding", 'filetype' },
+        lualine_c = { 'filename', 'diff', diagnostics },
+        lualine_x = { '%l|%L:%c', "encoding", 'filetype' },
         lualine_y = {},
         lualine_z = {},
     },
@@ -45,7 +55,8 @@ require('lualine').setup {
         lualine_z = {}
     },
     tabline = {},
-    winbar = {},
     inactive_winbar = {},
-    extensions = {}
+    extensions = {},
+    winbar = {
+    }
 }
