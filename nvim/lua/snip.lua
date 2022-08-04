@@ -11,8 +11,7 @@ local ls = require "luasnip"
 -- local events = require("luasnip.util.events")
 -- local ai = require("luasnip.nodes.absolute_indexer")
 -- local fmt = require("luasnip.extras.fmt").fmt
--- local m = require("luasnip.extras").m
--- local lambda = require("luasnip.extras").l
+-- local m = require("luasnip.extras").m local lambda = require("luasnip.extras").l
 -- local postfix = require("luasnip.extras.postfix").postfix
 
 ls.config.set_config {
@@ -32,7 +31,7 @@ ls.config.set_config {
 -- end)
 -- <c-k> is my expansion key
 -- this will expand the current item or jump to the next item within the snippet.
-vim.keymap.set({ "i", "s" }, "<Tab>", function()
+vim.keymap.set({ "i", "s" }, "<C-j>", function()
     if ls.expand_or_jumpable() then
         ls.expand_or_jump()
     end
@@ -40,7 +39,7 @@ end, { silent = true })
 
 -- <c-j> is my jump backwards key.
 -- this always moves to the previous item within the snippet
-vim.keymap.set({ "i", "s" }, "<S-Tab>", function()
+vim.keymap.set({ "i", "s" }, "<C-k>", function()
     if ls.expand_or_jumpable() then
         ls.jump(-1)
     end

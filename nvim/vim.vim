@@ -71,12 +71,16 @@ nnoremap <leader>z 1z=
 nnoremap zs :%s/\s\+$//e<CR>''
 
 " yank
-nnoremap Y y$
+map Y y$
+
 nnoremap <leader>y "+y
-nnoremap <leader>Y "+y$
 nnoremap <leader>Y "+Y
 nnoremap <leader>p "+]p
 nnoremap <leader>P "+]P
+
+vnoremap <leader>y "+y
+vnoremap <leader>p "+]p
+vnoremap <leader>P "+]P
 
 " navigation
 nnoremap <C-h>     <C-w>h
@@ -87,8 +91,8 @@ nnoremap L         :bn<CR>
 nnoremap H         :bp<CR>
 nnoremap <leader>d :bd<CR>
 nnoremap <leader>e :Exp<CR>
-nnoremap gh        :cd ..<CR>:pwd<CR>
-nnoremap gl        :cd %:h<CR>:pwd<CR>
+nnoremap <C-g>k    :cd ..<CR>:pwd<CR>
+nnoremap <C-g>j    :cd %:h<CR>:pwd<CR>
 
 " fzf
 " let g:fzf_preview_window = ["right:50%", "ctrl-/"]

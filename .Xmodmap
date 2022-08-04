@@ -11,10 +11,10 @@ add control = Super_L
 !
 ! Swap Alt_R and Super_R
 !
-remove mod1 = Alt_R
-add mod4 = Alt_R
-remove mod4 = Super_R
-add mod1 = Super_R
+! remove mod1 = Alt_R
+! add mod4 = Alt_R
+! remove mod4 = Super_R
+! add mod1 = Super_R
 
 !
 ! Make Caps_Lock and additional Escape
