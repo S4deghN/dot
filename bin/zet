@@ -3,7 +3,6 @@
 zetCode="$HOME/note/zet/$(date +%Y%m%d%H%M%S).md"
 
 nvim -c "e $zetCode" \
-    -c "norm o
----
-$(date +%Y-%m-%d\ -\ %H:%M)" \
-    -c "norm ggI# $1"
+     -c "norm o---" \
+     -c "norm o$(date +%Y-%m-%d\ -\ %H:%M)" \
+     -c "norm ggI# $1"

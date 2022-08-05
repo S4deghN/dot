@@ -8,7 +8,9 @@ SETUVAR _fish_abbr_e:nvim
 SETUVAR _fish_abbr_e_2E_:nvim\x20\x2e
 SETUVAR _fish_abbr_enw:nvim\x20/home/s4/note/en/words\x2emd
 SETUVAR _fish_abbr_ff:fzf
+SETUVAR _fish_abbr_mv:mv\x20\x2di
 SETUVAR _fish_abbr_note:nvim\x20/home/s4/note
+SETUVAR _fish_abbr_rm:rm\x20\x2di
 SETUVAR _fisher_jomik_2F_fish_2D_gruvbox_files:\x7e/\x2econfig/fish/functions/theme_gruvbox\x2efish
 SETUVAR _fisher_jorgebucaran_2F_fisher_files:\x7e/\x2econfig/fish/functions/fisher\x2efish\x1e\x7e/\x2econfig/fish/completions/fisher\x2efish
 SETUVAR _fisher_plugins:jorgebucaran/fisher\x1ejomik/fish\x2dgruvbox

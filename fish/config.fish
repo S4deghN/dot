@@ -10,4 +10,7 @@ if status is-interactive
     abbr dot  $EDITOR $HOME/dot
     abbr note $EDITOR $HOME/note
     abbr enw  $EDITOR $HOME/note/en/words.md
+
+    abbr rm 'rm -i'
+    abbr mv 'mv -i'
 end
