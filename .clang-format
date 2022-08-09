@@ -1,9 +1,9 @@
 ---
-BasedOnStyle: LLVM
+BasedOnStyle: Google
 IndentWidth: 4
 AccessModifierOffset: -4
 UseTab: Never
-ColumnLimit: 80
+ColumnLimit: 90
 
 IndentPPDirectives: BeforeHash
 

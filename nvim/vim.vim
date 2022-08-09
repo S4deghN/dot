@@ -158,11 +158,11 @@ augroup Enter
 
     " autocmd BufEnter * :echo expand('%:p')
 
-    " autocmd VimEnter * call s:tmux_apply_title()
-    " autocmd BufEnter * call s:tmux_apply_title()
-    " autocmd VimResume * call s:tmux_apply_title()
-    " autocmd VimLeave * call s:tmux_reset_title()
-    " autocmd VimSuspend * call s:tmux_reset_title()
+    autocmd VimEnter * call s:tmux_apply_title()
+    autocmd BufEnter * call s:tmux_apply_title()
+    autocmd VimResume * call s:tmux_apply_title()
+    autocmd VimLeave * call s:tmux_reset_title()
+    autocmd VimSuspend * call s:tmux_reset_title()
 augroup end
 
 augroup Write

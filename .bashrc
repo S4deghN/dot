@@ -25,7 +25,7 @@ PS1="$topcorP $userP@$hostP $dircP \n$botcorP $headP "
 #---------------------------------------------------
 # env
 #---------------------------------------------------
-#. "$HOME/.cargo/env"
+# . "$HOME/.cargo/env"
 
 #---------------------------------------------------
 # options
@@ -59,3 +59,4 @@ alias autoremove="sudo pacman -Rns"
 alias pac-size="pacman -Qq | pacman -Qi - | egrep '(Size|Name[^s])' |
     sed -E 's/ ([KM])iB/\1/' | sed -z 's/\nInstalled/ /g' |
     perl -pe 's/(Name|Size) *: //g' | column -t | sort -hk2 -r | cat -n | tac"
+alias pack-view="pacman -Slq | fzf --preview 'pacman -Si {}' --layout=reverse"

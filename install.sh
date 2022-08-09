@@ -1,4 +1,7 @@
 #! /usr/bin/bash
+
+pushd ~/dot/ || return
+
 ln -sfv "$PWD"/.profile      "$HOME"/
 ln -sfv "$PWD"/.bashrc       "$HOME"/
 ln -sfv "$PWD"/.tmux.conf    "$HOME"/
@@ -20,3 +23,5 @@ ln    -sfv "$PWD"/autostart/*    "$HOME"/.config/autostart/
 
 mkdir -p   "$HOME"/.local/share/applications/
 ln    -sfv "$PWD"/applications/* "$HOME"/.local/share/applications/
+
+popd || return

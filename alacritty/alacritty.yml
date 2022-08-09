@@ -113,34 +113,34 @@ font:
     #style: Regular
 
   # Bold font face
-  bold:
-    # Font family
-    #
-    # If the bold family is not specified, it will fall back to the
-    # value specified for the normal font.
-    family:  Ubuntu Mono
+  # bold:
+  #   # Font family
+  #   #
+  #   # If the bold family is not specified, it will fall back to the
+  #   # value specified for the normal font.
+  #   family:  Ubuntu Mono
 
     # The `style` can be specified to pick a specific face.
     #style: Bold
 
   # Italic font face
-  italic:
-    # Font family
-    #
-    # If the italic family is not specified, it will fall back to the
-    # value specified for the normal font.
-    family:  Ubuntu Mono
+  # italic:
+  #   # Font family
+  #   #
+  #   # If the italic family is not specified, it will fall back to the
+  #   # value specified for the normal font.
+  #   family:  Ubuntu Mono
 
     # The `style` can be specified to pick a specific face.
     #style: Italic
 
   # Bold italic font face
-  bold_italic:
-    # Font family
-    #
-    # If the bold italic family is not specified, it will fall back to the
-    # value specified for the normal font.
-    family:  Ubuntu Mono
+  # bold_italic:
+  #   # Font family
+  #   #
+  #   # If the bold italic family is not specified, it will fall back to the
+  #   # value specified for the normal font.
+  #   family:  Ubuntu Mono
 
     # The `style` can be specified to pick a specific face.
     #style: Bold Italic
@@ -207,7 +207,7 @@ draw_bold_text_with_bright_colors: true
 colors:
   primary:
     # hard contrast background - '#1d2021'
-    background:        &gruvbox_dark_bg  '#232323'    #'#282828'
+    background:        &gruvbox_dark_bg  '#1d2021'    #'#282828'
     # soft contrast background - '#32302f'
     # using fg2 (#d5c4a1) from gruvbox palete instead of
     # original fg. it's easier on the eyes.
