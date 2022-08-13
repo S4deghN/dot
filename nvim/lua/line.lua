@@ -16,7 +16,7 @@ local diagnostics = {
             return "|  " .. str
         end
     end,
-    symbols = { error = "E:", warn = "W:", info = 'I', hint = "H:" },
+    symbols = { error = "E:", warn = "W:", info = "I:", hint = "H:" },
 }
 
 require('lualine').setup {

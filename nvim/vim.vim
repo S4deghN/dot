@@ -6,17 +6,17 @@ set timeoutlen=800
 
 set mouse+=a                            "mouse support
 
-set shortmess+=caoOtTI
+set shortmess+=a
 " set nowrap
 
 set number                              "linen numbers
 " set relativenumber
 set cursorline
 set cursorlineopt=number
-" set laststatus=0
+set laststatus=0
 set signcolumn=yes:1                    "always show sign column with fixed width of
 
-set guicursor=n-v-c-sm-i-ci-ve:block,r-cr-o:hor20
+" set guicursor=n-v-c-sm-i-ci-ve:block,r-cr-o:hor20
 
 set scrolloff=8
 set textwidth=80
@@ -40,6 +40,7 @@ set iskeyword+="-"
 " -----------------------------------------------
 let g:rooter_silent_chdir = 1
 let g:vimwiki_list = [{'path': '~/note/', 'syntax': 'markdown', 'ext': '.md'}]
+
 " -----------------------------------------------
 " colors
 " -----------------------------------------------
@@ -51,11 +52,47 @@ let g:gruvbox_sign_column = 'none'
 let g:gruvbox_color_column = 'none'
 let g:gruvbox_invert_selection = 0
 let g:gruvbox_italic = 0
+let g:gruvbox_bold = 1
 color gruvbox
-highlight Normal guifg=fg2 guibg=none
+highlight Normal        guibg=none  guifg=fg2e
 highlight NormalFloat	guibg=bg
 highlight FloatBorder   guibg=bg
 highlight CursorLineNr  guibg=bg
+highlight Error         guifg=Red   gui=bold
+
+" -----------------------------------------------
+" ruler
+" -----------------------------------------------
+lua << EOF
+function GetDiag()
+    local str = ""
+    if vim.api.nvim_get_mode()["mode"] == 'n' then
+        local err = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
+        local warn = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
+        local hint = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT })
+        local info = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO })
+
+        if err ~= 0 then
+            str = str .. "%#DiagnosticError# E:" .. err .. "%*"
+        end
+        if warn ~= 0 then
+            str = str .. "%#DiagnosticWarn# W:" .. warn .. "%*"
+        end
+        if hint ~= 0 then
+            std = str .. "%#DiagnosticHint# H:" .. hint .. "%*"
+        end
+        if info ~= 0 then
+            std = str .. "%#DiagnosticInfo# I:" .. info .. "%*"
+        end
+    end
+    return str
+end
+EOF
+
+" set ruf=%30(%=%#LineNr#%.50F\ [%{strlen(&ft)?&ft:'none'}]\ %l:%c\ %p%%%)
+" set rulerformat=%36(%5l,%-6(%c%V%)\ %y%)%*
+
+set rulerformat=%50(%=%{%v:lua.GetDiag()%}\ %m\ %l,%c/%L\ %y%)
 
 " -----------------------------------------------
 " remaps
@@ -156,11 +193,13 @@ augroup Enter
     autocmd BufRead,BufEnter */doc/* wincmd L
     autocmd BufRead,BufEnter man://* wincmd L
 
-    " autocmd BufEnter * :echo expand('%:p')
+    autocmd BufEnter * :echo expand('%:p')
 
     autocmd VimEnter * call s:tmux_apply_title()
+    autocmd WinEnter * call s:tmux_apply_title()
     autocmd BufEnter * call s:tmux_apply_title()
     autocmd VimResume * call s:tmux_apply_title()
+
     autocmd VimLeave * call s:tmux_reset_title()
     autocmd VimSuspend * call s:tmux_reset_title()
 augroup end
@@ -178,6 +217,9 @@ augroup Search
     autocmd CmdlineLeave /,\? :set nohlsearch
 augroup end
 
+augroup yank
+    autocmd TextYankPost * silent! lua vim.highlight.on_yank({ higroup="Visual", timeout=100 })
+augroup end
 
 " -----------------------------------------------
 " netrw
@@ -196,10 +238,14 @@ endfunction
 " -----------------------------------------------
 " tmux
 " -----------------------------------------------
-function! s:tmux_apply_title() "{{{
-    call system("tmux rename-window \"vi:".expand("%:t")."\"")
-endfunc "}}}
+function! s:tmux_apply_title()
+    " call system("tmux rename-window \"vi:".expand("%:t")."\"")
+    let filename = expand("%:t")
+    if strlen(filename)
+        call system("tmux rename-window \"".filename."\"")
+    endif
+endfunc
 
-function! s:tmux_reset_title() "{{{
+function! s:tmux_reset_title()
     call system("tmux set-window-option automatic-rename on")
-endfunc "}}}
+endfunc
