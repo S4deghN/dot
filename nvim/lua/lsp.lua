@@ -19,6 +19,7 @@ local tshl = require("nvim-treesitter.configs").setup {
         enable_autocmd = false,
     },
 }
+
 ------------------------------------------------------------
 -- cmp
 ------------------------------------------------------------
@@ -26,33 +27,51 @@ local tshl = require("nvim-treesitter.configs").setup {
 local
 
 kind_icons = {
-    Text = '  ',
-    Method = '  ',
-    Function = '  ',
-    Constructor = '  ',
-    Field = '  ',
-    Variable = '  ',
-    Class = '  ',
-    Interface = '  ',
-    Module = '  ',
-    Property = '  ',
-    Unit = '  ',
-    Value = '  ',
-    Enum = '  ',
-    Keyword = '  ',
-    Snippet = '  ',
-    Color = '  ',
-    File = '  ',
-    Reference = '  ',
-    Folder = '  ',
-    EnumMember = '  ',
-    Constant = '  ',
-    Struct = '  ',
-    Event = '  ',
-    Operator = '  ',
-    TypeParameter = '  ',
+    Text = ' ',
+    Method = ' ',
+    Function = ' ',
+    Constructor = ' ',
+    Field = '',
+    Variable = ' ',
+    Class = ' ',
+    Interface = ' ',
+    Module = ' ',
+    Property = ' ',
+    Unit = ' ',
+    Value = ' ',
+    Enum = ' ',
+    Keyword = ' ',
+    Snippet = ' ',
+    Color = ' ',
+    File = ' ',
+    Reference = ' ',
+    Folder = ' ',
+    EnumMember = ' ',
+    Constant = ' ',
+    Struct = ' ',
+    Event = ' ',
+    Operator = ' ',
+    TypeParameter = ' ',
 }
+
 -- find more here: https://www.nerdfonts.com/cheat-sheet
+
+-- ╭──────╮
+-- │ test │
+-- ╰──────╯
+
+local border = {
+    { "╭", "FloatBorder" },
+    { "─", "FloatBorder" },
+    { "╮", "FloatBorder" },
+    { "│", "FloatBorder" },
+    { "╯", "FloatBorder" },
+    { "─", "FloatBorder" },
+    { "╰", "FloatBorder" },
+    { "│", "FloatBorder" },
+}
+
+-- local border = { '┌', '─', '┐', '│', '┘', '─', '└', '│' }
 
 -- Setup nvim-cmp.
 local
@@ -69,15 +88,24 @@ cmp.setup {
         end,
     },
     completion = {
-        -- autocomplete = true
+        autocomplete = false,
         -- completeopt = 'menu,menuone,noisert'
     },
     experimental = {
-        ghost_text = { hl_group = "Comment" },
+        -- ghost_text = { hl_group = "Comment" },
     },
     window = {
-        completion = cmp.config.window.bordered(),
-        documentation = cmp.config.window.bordered(),
+        -- completion = cmp.config.window.bordered(),
+        -- documentation = cmp.config.window.bordered(),
+        completion = {
+            border = border,
+            winhighlight = 'Normal:Normal,FloatBorder:CmpPmenuBorder,CursorLine:CursorLine,Search:None',
+            zindex = 100,
+        },
+        documentation = {
+            border = border,
+            zindex = 50,
+        },
     },
     mapping = cmp.mapping.preset.insert({
         ['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select });
@@ -88,6 +116,7 @@ cmp.setup {
         ['<C-e>'] = cmp.mapping.abort(),
         ['<C-f>'] = cmp.mapping.confirm({ select = true }),
         ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        ['<Tab>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     }),
     formatting = {
         fields = { "kind", "abbr", "menu" },
@@ -97,8 +126,9 @@ cmp.setup {
             -- vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
             vim_item.menu = ({
                 nvim_lsp = "[LSP]",
-                luasnip = "[Snippet]",
-                buffer = "[Buffer]",
+                -- nvim_lsp_signature_help = "[Sig]",
+                luasnip = "[Snip]",
+                buffer = "[Buf]",
                 path = "[Path]",
             })[entry.source.name]
             return vim_item
@@ -106,6 +136,7 @@ cmp.setup {
     },
     sources = {
         { name = 'nvim_lsp' },
+        { name = 'nvim_lsp_signature_help' },
         { name = 'luasnip' }, -- For luasnip users.
         { name = 'buffer' },
         { name = "path" },
@@ -163,21 +194,21 @@ local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protoco
 ------------------------------------------------------------
 -- lsp
 ------------------------------------------------------------
--- ╭──────╮
--- │ test │
--- ╰──────╯
 
-local border = {
-    { "╭", "FloatBorder" },
-    { "─", "FloatBorder" },
-    { "╮", "FloatBorder" },
-    { "│", "FloatBorder" },
-    { "╯", "FloatBorder" },
-    { "─", "FloatBorder" },
-    { "╰", "FloatBorder" },
-    { "│", "FloatBorder" },
-}
-
+-- require('hover').setup {
+--     init = function()
+--         -- Require providers
+--         require('hover.providers.lsp')
+--         -- require('hover.providers.gh')
+--         -- require('hover.providers.man')
+--         -- require('hover.providers.dictionary')
+--     end,
+--     preview_opts = {
+--         border = nil
+--     },
+--     -- requires nvim >= 0.8
+--     title = false
+-- }
 -- -- To instead override globally
 local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
 function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
@@ -206,8 +237,9 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts) -- hover
+    -- vim.keymap.set('n', 'K', require('hover').hover, bufopts) -- hover
     -- vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-    -- vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+    vim.keymap.set('n', 'gs', vim.lsp.buf.signature_help, bufopts)
     vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
     vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
     vim.keymap.set('n', '<leader>wl', function()
@@ -250,15 +282,52 @@ require("lspconfig").cmake.setup {
     buildDirectory = "build",
 }
 
-require("lspconfig").sumneko_lua.setup {
+-- require("lspconfig").sumneko_lua.setup {
+--     on_attach    = on_attach,
+--     capabilities = capabilities,
+--     flags        = lsp_flags,
+--     settings     = {
+--         Lua = {
+--             runtime = {
+--                 -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+--                 version = 'LuaJIT',
+--                 path = vim.split(package.path, ';'),
+--             },
+--             diagnostics = {
+--                 -- Get the language server to recognize the `vim` global
+--                 globals = { 'vim' },
+--             },
+--             workspace = {
+--                 -- Make the server aware of Neovim runtime files
+--                 library = vim.api.nvim_get_runtime_file("", true),
+--             },
+--             -- Do not send telemetry data containing a randomized but unique identifier
+--             telemetry = {
+--                 enable = false,
+--             },
+--         },
+--     },
+-- }
+
+local sumneko_binary_path = vim.fn.exepath('lua-language-server')
+local sumneko_root_path = vim.fn.fnamemodify(sumneko_binary_path, ':h:h:h')
+
+local runtime_path = vim.split(package.path, ';')
+table.insert(runtime_path, "lua/?.lua")
+table.insert(runtime_path, "lua/?/init.lua")
+
+require 'lspconfig'.sumneko_lua.setup {
     on_attach    = on_attach,
     capabilities = capabilities,
     flags        = lsp_flags,
+    cmd          = { sumneko_binary_path, "-E", sumneko_root_path .. "/main.lua" };
     settings     = {
         Lua = {
             runtime = {
                 -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
                 version = 'LuaJIT',
+                -- Setup your lua path
+                path = runtime_path,
             },
             diagnostics = {
                 -- Get the language server to recognize the `vim` global
@@ -344,7 +413,7 @@ require("lspconfig").clangd.setup {
 --         flags        = lsp_flags,
 --         cmd          = {
 --             "clangd",
---             -- "--clang-tidy",
+--             "--clang-tidy",
 --             -- "-j=5",
 --             "--background-index", --index in background and persist on disk
 --         },
