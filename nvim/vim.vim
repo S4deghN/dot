@@ -23,6 +23,7 @@ set textwidth=80
 " set cmdheight=1
 " set colorcolumn=80
 
+set ignorecase
 set smartcase
 set smartindent
 set autoindent
@@ -67,7 +68,7 @@ lua << EOF
 function GetDiag()
     local str = ""
     if vim.api.nvim_get_mode()["mode"] == 'n' then
-        local err = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
+        local err  = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
         local warn = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
         local hint = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT })
         local info = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO })
@@ -78,13 +79,21 @@ function GetDiag()
         if warn ~= 0 then
             str = str .. "%#DiagnosticWarn# W:" .. warn .. "%*"
         end
-        if hint ~= 0 then
-            std = str .. "%#DiagnosticHint# H:" .. hint .. "%*"
-        end
+        if hint ~= 0 then str = str .. "%#DiagnosticHint# H:" .. hint .. "%*" end
         if info ~= 0 then
-            std = str .. "%#DiagnosticInfo# I:" .. info .. "%*"
+            str = str .. "%#DiagnosticInfo# I:" .. info .. "%*"
         end
     end
+    return str
+end
+EOF
+
+lua << EOF
+function running_lsp()
+    local str = ""
+    vim.lsp.for_each_buffer_client(0, function(client, client_id, bufnr)
+        str = str .. "[%#String#" .. client.name .. "%*]"
+    end)
     return str
 end
 EOF
@@ -92,15 +101,35 @@ EOF
 " set ruf=%30(%=%#LineNr#%.50F\ [%{strlen(&ft)?&ft:'none'}]\ %l:%c\ %p%%%)
 " set rulerformat=%36(%5l,%-6(%c%V%)\ %y%)%*
 
-set rulerformat=%50(%=%{%v:lua.GetDiag()%}\ %m\ %l,%c/%L\ %y%)
+set rulerformat=%50(%{%v:lua.running_lsp()%}%{%v:lua.GetDiag()%}%=[%l,%c/%L]\ %m\ [%Y]%)
+
+" ...
+" let w:file_perm=<sid>Get_file_perm()
+" ...
+function Get_file_perm()
+  let a=getfperm(expand('%:p'))
+  if strlen(a)
+    return a
+  else
+     let b=printf("%o", xor(0777,system("umask")))
+     let c=""
+     for d in [0, 1, 2]
+       let c.=and(b[d], 4) ? "r" : "-"
+       let c.=and(b[d], 2) ? "w" : "-"
+       let c.=and(b[d], 1) ? "x" : "-"
+     endfor
+     return c
+   endif
+endfunction
+
 
 " -----------------------------------------------
-" remaps
+" keymaps
 " -----------------------------------------------
 let mapleader = " "
 inoremap <C-c> <esc>
 
-nnoremap gk K
+noremap gk K
 
 " spell
 nnoremap <leader>z 1z=
@@ -110,26 +139,27 @@ nnoremap zs :%s/\s\+$//e<CR>''
 " yank
 map Y y$
 
-nnoremap <leader>y "+y
-nnoremap <leader>Y "+Y
-nnoremap <leader>p "+]p
-nnoremap <leader>P "+]P
-
-vnoremap <leader>y "+y
-vnoremap <leader>p "+]p
-vnoremap <leader>P "+]P
+noremap <leader>y "+y
+noremap <leader>Y "+Y
+noremap <leader>p "+]p
+noremap <leader>P "+]P
 
 " navigation
 nnoremap <C-h>     <C-w>h
 nnoremap <C-j>     <C-w>j
 nnoremap <C-k>     <C-w>k
 nnoremap <C-l>     <C-w>l
+nnoremap <C-n>     <C-f>
+nnoremap <C-p>     <C-b>
+nnoremap <C-e>     <C-e>j
+nnoremap <C-y>     <C-y>k
 nnoremap L         :bn<CR>
 nnoremap H         :bp<CR>
 nnoremap <leader>d :bd<CR>
 nnoremap <leader>e :Exp<CR>
-nnoremap <C-g>k    :cd ..<CR>:pwd<CR>
-nnoremap <C-g>j    :cd %:h<CR>:pwd<CR>
+nnoremap <C-g>     :echo expand("%:p:~") '-' Get_file_perm()<CR>
+" nnoremap <C-g>k    :cd ..<CR>:pwd<CR>
+" nnoremap <C-g>j    :cd %:h<CR>:pwd<CR>
 
 " fzf
 " let g:fzf_preview_window = ["right:50%", "ctrl-/"]
@@ -141,12 +171,11 @@ nnoremap <C-g>j    :cd %:h<CR>:pwd<CR>
 " fzf
 " let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
 " let $FZF_DEFAULT_COMMAND = "find . -type f -not -path '*/\.git/*'"
-nnoremap <leader>f  :FZF<CR>
-nnoremap <leader>ff :Files<CR>
-nnoremap <leader>fr :History<CR>
-nnoremap <leader>fw :Rg<CR>
-nnoremap <leader>fb :Buffers<CR>
-nnoremap <leader>fh :Helptags<CR>
+nnoremap \f :Files<CR>
+nnoremap \r :History<CR>
+nnoremap \w :Rg<CR>
+nnoremap \b :Buffers<CR>
+nnoremap \h :Helptags<CR>
 
 " TODO add vim-fugitive
 "" git ls-files
@@ -193,7 +222,7 @@ augroup Enter
     autocmd BufRead,BufEnter */doc/* wincmd L
     autocmd BufRead,BufEnter man://* wincmd L
 
-    autocmd BufEnter * :echo expand('%:p')
+    autocmd BufEnter * :echo expand('%:p:~')
 
     autocmd VimEnter * call s:tmux_apply_title()
     autocmd WinEnter * call s:tmux_apply_title()
@@ -224,6 +253,9 @@ augroup end
 " -----------------------------------------------
 " netrw
 " -----------------------------------------------
+let g:netrw_localrmdir='rm -r'
+let g:netrw_keepdir=0
+
 function! NetrwConfig()
     setlocal cursorlineopt=line
 
@@ -233,6 +265,7 @@ function! NetrwConfig()
     nmap <buffer> <Right> <CR>
     nmap <buffer> . gh
     nmap <buffer> P <C-w>z
+    nmap <buffer> D yiw:call system(rm -ri getreg("@0"))<CR>
 endfunction
 
 " -----------------------------------------------
