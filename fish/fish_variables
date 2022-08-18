@@ -8,6 +8,7 @@ SETUVAR _fish_abbr_e:nvim
 SETUVAR _fish_abbr_e_2E_:nvim\x20\x2e
 SETUVAR _fish_abbr_enw:nvim\x20/home/s4/note/en/words\x2emd
 SETUVAR _fish_abbr_ff:fzf
+SETUVAR _fish_abbr_la:la\x20\x2dal
 SETUVAR _fish_abbr_mv:mv\x20\x2di
 SETUVAR _fish_abbr_note:nvim\x20/home/s4/note
 SETUVAR _fish_abbr_rm:rm\x20\x2di

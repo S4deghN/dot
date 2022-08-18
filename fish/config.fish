@@ -13,4 +13,5 @@ if status is-interactive
 
     abbr rm 'rm -i'
     abbr mv 'mv -i'
+    abbr la 'la -al'
 end

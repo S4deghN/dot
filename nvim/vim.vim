@@ -253,8 +253,12 @@ augroup end
 " -----------------------------------------------
 " netrw
 " -----------------------------------------------
-let g:netrw_localrmdir='rm -r'
 let g:netrw_keepdir=0
+
+function NetrwDel()
+    normal yiw
+    call system("mv \"".getreg('@0')."\" /tmp/")
+endfunction
 
 function! NetrwConfig()
     setlocal cursorlineopt=line
@@ -265,7 +269,17 @@ function! NetrwConfig()
     nmap <buffer> <Right> <CR>
     nmap <buffer> . gh
     nmap <buffer> P <C-w>z
-    nmap <buffer> D yiw:call system(rm -ri getreg("@0"))<CR>
+
+    " TODO: add and delete and undo function.
+    " the idea is to have a netrw undo file in /tmp and `mv` deleted
+    " file/folders to it with directory information so that we can move theme
+    " back to the correct place in system with undo function.
+    " g:netrw_keepdir has to be unset so we change directory as we borows.
+
+    " delete file/directory under cursor recursively
+    nmap <buffer> D :call NetrwDel()<CR><C-l>
+    " retrieve the last deleted file
+    " nmap <buffer> u
 endfunction
 
 " -----------------------------------------------

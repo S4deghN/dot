@@ -237,7 +237,7 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts) -- hover
-    -- vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+    vim.keymap.set('n', 'gI', vim.lsp.buf.implementation, bufopts)
     vim.keymap.set('n', 'gs', vim.lsp.buf.signature_help, bufopts)
     vim.keymap.set('n', '<leader>lwa', vim.lsp.buf.add_workspace_folder, bufopts)
     vim.keymap.set('n', '<leader>lwr', vim.lsp.buf.remove_workspace_folder, bufopts)
@@ -392,9 +392,13 @@ require("lspconfig").clangd.setup {
     cmd = {
         "clangd",
         "--clang-tidy",
-        -- "-j=5",
+        "--all-scopes-completion=true", -- If set to true, code completion will include index symbols that are not defined in the scopes (e.g. namespaces) visible from the code completion point. Such completions can insert scope qualifiers
+        "--completion-style=detailed",
+        "--header-insertion=iwyu", -- add headers when accepting completion
+        "--header-insertion-decorators",
+        -- "-j=2",
         -- "--malloc-trim",
-        -- "--background-index", --index in background and persist on disk
+        "--background-index", --index in background and persist on disk
     },
     -- root_dir = function()
     --     print("clangd-Rootdir", vim.loop.cwd())
