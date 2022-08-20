@@ -31,6 +31,8 @@ set expandtab                           "convert tabs to spaces
 set shiftwidth=4                        "the number of spaces inserted for each indentation
 set tabstop=4
 
+set cmdwinheight=12
+
 " set spell spelllang=en_us
 match Visual '\s\+$'                    " mark trailing spaces as errors
 
@@ -129,6 +131,12 @@ endfunction
 let mapleader = " "
 inoremap <C-c> <esc>
 
+" cmd-line window
+autocmd CmdwinEnter * nmap <buffer> <C-c> :q<CR>
+autocmd CmdwinEnter * vmap <buffer> <C-c> <Esc>
+" autocmd CmdwinEnter :  let b:cpt_save = &cpt | set cpt=.
+" autocmd CmdwinLeave :  let &cpt = b:cpt_save
+
 noremap gk K
 
 " spell
@@ -137,7 +145,7 @@ nnoremap <leader>z 1z=
 nnoremap zs :%s/\s\+$//e<CR>''
 
 " yank
-map Y y$
+nmap Y y$
 
 noremap <leader>y "+y
 noremap <leader>Y "+Y
@@ -199,7 +207,9 @@ nmap ga <Plug>(EasyAlign)
 " -----------------------------------------------
 " doesn't work for neovim until version 0.8 aparently
 " https://github.com/neovim/neovim/issues/1496
-command! W w !sudo tee %    " Save with root permission
+" command! W w !sudo tee %    " Save with root permission
+
+command! Ww w | call system("tmux-run-cpp")
 
 " -----------------------------------------------
 " auto cmds
@@ -214,7 +224,16 @@ augroup File
 
     autocmd Filetype text setlocal spell
 
-    autocmd filetype netrw call NetrwConfig()
+    autocmd Filetype netrw call NetrwConfig()
+
+    autocmd BufEnter .clang* set filetype=yaml
+augroup end
+
+augroup Compile
+    autocmd!
+    " autocmd BufWritePost */src/*.cpp call system("tmux send-keys -t right ':make\n'")
+    autocmd BufWritePost */src/*.cpp call system("tmux-run-cpp")
+    " autocmd BufWritePost */src/*.rs call system("tmux send-keys -t right 'cargo run\n'")
 augroup end
 
 augroup Enter
@@ -256,7 +275,7 @@ augroup end
 let g:netrw_keepdir=0
 
 function NetrwDel()
-    normal yiw
+    normal 0y$
     call system("mv \"".getreg('@0')."\" /tmp/")
 endfunction
 

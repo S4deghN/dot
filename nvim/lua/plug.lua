@@ -99,6 +99,10 @@ return packer.startup(function(use)
     -- LSP extras
     use "p00f/clangd_extensions.nvim"
     use "simrat39/rust-tools.nvim"
+    -- use {
+    --     "mfussenegger/nvim-dap",
+    --     "Shatur/neovim-cmake",
+    -- }
     -- use "stevearc/vim-arduino"
 
     -- fuzzy finder
