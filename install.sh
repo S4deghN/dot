@@ -15,6 +15,7 @@ ln -sfv "$PWD"/picom         "$HOME"/.config/
 ln -sfv "$PWD"/polybar       "$HOME"/.config/
 ln -sfv "$PWD"/nvim          "$HOME"/.config/
 ln -sfv "$PWD"/alacritty     "$HOME"/.config/
+ln -sfv "$PWD"/tridactyl     "$HOME"/.config/
 ln -sfv "$PWD"/bin           "$HOME"/.local/
 
 # create directory if it doesn't exist.
