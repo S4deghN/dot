@@ -31,6 +31,7 @@ set expandtab                           "convert tabs to spaces
 set shiftwidth=4                        "the number of spaces inserted for each indentation
 set tabstop=4
 
+" the special window that opens with :q or ctlr-f in cmd mode.
 set cmdwinheight=12
 
 " set spell spelllang=en_us
@@ -42,6 +43,7 @@ set iskeyword+="-"
 " plugin
 " -----------------------------------------------
 let g:rooter_silent_chdir = 1
+
 let g:vimwiki_list = [{'path': '~/note/', 'syntax': 'markdown', 'ext': '.md'}]
 
 " -----------------------------------------------
@@ -91,7 +93,7 @@ end
 EOF
 
 lua << EOF
-function running_lsp()
+function GetRunningLsp()
     local str = ""
     vim.lsp.for_each_buffer_client(0, function(client, client_id, bufnr)
         str = str .. "[%#String#" .. client.name .. "%*]"
@@ -103,27 +105,7 @@ EOF
 " set ruf=%30(%=%#LineNr#%.50F\ [%{strlen(&ft)?&ft:'none'}]\ %l:%c\ %p%%%)
 " set rulerformat=%36(%5l,%-6(%c%V%)\ %y%)%*
 
-set rulerformat=%50(%{%v:lua.running_lsp()%}%{%v:lua.GetDiag()%}%=[%l,%c/%L]\ %m\ [%Y]%)
-
-" ...
-" let w:file_perm=<sid>Get_file_perm()
-" ...
-function Get_file_perm()
-  let a=getfperm(expand('%:p'))
-  if strlen(a)
-    return a
-  else
-     let b=printf("%o", xor(0777,system("umask")))
-     let c=""
-     for d in [0, 1, 2]
-       let c.=and(b[d], 4) ? "r" : "-"
-       let c.=and(b[d], 2) ? "w" : "-"
-       let c.=and(b[d], 1) ? "x" : "-"
-     endfor
-     return c
-   endif
-endfunction
-
+set rulerformat=%50(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c/%L]\ %m\ [%Y]%)
 
 " -----------------------------------------------
 " keymaps
@@ -170,13 +152,6 @@ nnoremap <C-g>     :echo expand("%:p:~") '-' Get_file_perm()<CR>
 " nnoremap <C-g>j    :cd %:h<CR>:pwd<CR>
 
 " fzf
-" let g:fzf_preview_window = ["right:50%", "ctrl-/"]
-" command! -bang -nargs=? -complete=dir Files
-"         \ call fzf#vim#files(<q-args>,
-"         \ {'options': ["--preview", "nvim -R {}"]},
-"         \ <bang>0)
-
-" fzf
 " let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
 " let $FZF_DEFAULT_COMMAND = "find . -type f -not -path '*/\.git/*'"
 nnoremap \f :Files<CR>
@@ -209,7 +184,28 @@ nmap ga <Plug>(EasyAlign)
 " https://github.com/neovim/neovim/issues/1496
 " command! W w !sudo tee %    " Save with root permission
 
-command! Ww w | call system("tmux-run-cpp")
+command! W w | call system("tmux-run-".&filetype)
+command! Run call system("tmux-run-".&filetype)
+
+
+" -----------------------------------------------
+" functions
+" -----------------------------------------------
+function Get_file_perm()
+    let a=getfperm(expand('%:p'))
+    if strlen(a)
+        return a
+    " else
+    "     let b=printf("%o", xor(0777,system("umask")))
+    "     let c=""
+    "     for d in [0, 1, 2]
+    "         let c.=and(b[d], 4) ? "r" : "-"
+    "         let c.=and(b[d], 2) ? "w" : "-"
+    "         let c.=and(b[d], 1) ? "x" : "-"
+    "     endfor
+    "     return c
+    endif
+endfunction
 
 " -----------------------------------------------
 " auto cmds
@@ -232,7 +228,7 @@ augroup end
 augroup Compile
     autocmd!
     " autocmd BufWritePost */src/*.cpp call system("tmux send-keys -t right ':make\n'")
-    autocmd BufWritePost */src/*.cpp call system("tmux-run-cpp")
+    " autocmd BufWritePost */src/*.cpp call system("tmux-run-cpp")
     " autocmd BufWritePost */src/*.rs call system("tmux send-keys -t right 'cargo run\n'")
 augroup end
 

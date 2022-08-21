@@ -9,7 +9,9 @@
 #umask 022
 
 export EDITOR=nvim
+export VISUAL=nvim
 export TERM=alacritty
+
 export FZF_DEFAULT_COMMAND="find . -type f -not -path '*/\.git/*' -not -path '*/\.cargo/*'"
 
 
