@@ -60,7 +60,7 @@ let g:gruvbox_italic = 0
 let g:gruvbox_bold = 1
 color gruvbox
 highlight Normal        guibg=none  guifg=fg2e
-highlight NormalFloat	guibg=bg
+highlight NormalFloat	guibg=bg    guifg=fg2e
 highlight FloatBorder   guibg=bg
 highlight CursorLineNr  guibg=bg
 highlight Error         guifg=Red   gui=bold

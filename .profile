@@ -8,9 +8,9 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
-export EDITOR=nvim
 export VISUAL=nvim
-export TERM=alacritty
+export EDITOR=nvim
+export TERMINAL=alacritty
 
 export FZF_DEFAULT_COMMAND="find . -type f -not -path '*/\.git/*' -not -path '*/\.cargo/*'"
 
@@ -26,7 +26,7 @@ export LESS_TERMCAP_me=$'\e[0m'
 export LESS_TERMCAP_se=$'\e[0m'
 export LESS_TERMCAP_so=$'\e[07;33m'
 export LESS_TERMCAP_ue=$'\e[0m'
-export LESS_TERMCAP_us=$'\e[1;4;31m'
+export LESS_TERMCAP_us=$'\e[1;1;31m'
 
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
@@ -57,5 +57,5 @@ fi
 #    PATH="/home/s4/.arduino15/packages/STMicroelectronics/tools/STM32Tools/2.1.1:$PATH"
 # fi
 
-# xset r rate 200 60
+xset r rate 200 60
 

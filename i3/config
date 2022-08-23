@@ -79,7 +79,7 @@ floating_modifier $mod
 # start a terminal
 # depends on jq and custom i3WorkspaceName script
 bindsym $mod+Return exec alacritty -e fish
-bindsym $mod+t exec alacritty -e bash -c "tmux attach -t$(i3WorkspaceName) || tmux new -s $(i3WorkspaceName)"
+bindsym $mod+t exec alacritty -e bash -c "tmux attach -t $(tmux-session-namer $(i3WorkspaceName)) || tmux new -s $(tmux-session-namer $(i3WorkspaceName))"
 
 # kill focused window
 bindsym $mod+d kill

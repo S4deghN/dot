@@ -1,8 +1,8 @@
 #!/bin/sh
 
-zetCode="$HOME/note/zet/$(date +%Y%m%d%H%M%S).md"
+zetCode="$HOME/note/zet/$(date +%y-%m-%d-%H-%M).md"
 
-nvim -c "e $zetCode" \
+nvim "$zetCode" \
      -c "norm o---" \
      -c "norm o$(date +%Y-%m-%d\ -\ %H:%M)" \
      -c "norm ggI# $1"

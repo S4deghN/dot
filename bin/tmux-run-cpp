@@ -18,4 +18,3 @@ fi
 # -l make send-keys process the keys as literal UTF-8 characters.
 tmux send-keys -t right -l "make"
 tmux send-keys -t right Enter
-
