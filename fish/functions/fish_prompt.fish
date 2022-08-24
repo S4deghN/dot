@@ -11,7 +11,8 @@ function fish_prompt --description 'Write out the prompt'
     # PWD
     # set_color $fish_color_cwd
     set_color grey
-    echo -n " $(prompt_pwd)"
+    echo -n " "
+    echo -n $(prompt_pwd)
     set_color normal
 
     __terlar_git_prompt

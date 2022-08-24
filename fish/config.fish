@@ -1,6 +1,7 @@
 if status is-interactive
     set fish_greeting
-    fzf_key_bindings
+    if fzf_key_bindings
+    end
     # theme_gruvbox dark medium
 
     # abbreviations
