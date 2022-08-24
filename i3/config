@@ -68,6 +68,12 @@ font pango:Ubuntu 8
 
 focus_follows_mouse no
 
+for_window [class="^Spotify$"] floating enable
+for_window [class="Blueman-manager"] floating enable
+for_window [class="Pavucontrol"] floating enable
+for_window [class="Gpick"] floating enable
+for_window [class="Gnome-calculator"] floating enable
+for_window [class="VirtualBox"] floating enable
 #----------------------------------------------------------------------------
 # -- Keybindings --
 #----------------------------------------------------------------------------

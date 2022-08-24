@@ -11,6 +11,7 @@
 export VISUAL=nvim
 export EDITOR=nvim
 export TERMINAL=alacritty
+export TERM=xterm-256color
 
 export FZF_DEFAULT_COMMAND="find . -type f -not -path '*/\.git/*' -not -path '*/\.cargo/*'"
 
