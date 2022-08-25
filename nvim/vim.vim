@@ -1,7 +1,7 @@
 " -----------------------------------------------
 " options
 " -----------------------------------------------
-set timeoutlen=800
+" set timeoutlen=1000
 " set autochdir
 
 set mouse+=a                            "mouse support
@@ -9,12 +9,13 @@ set mouse+=a                            "mouse support
 set shortmess+=a
 " set nowrap
 
-set number                              "linen numbers
+set nonumber                              "linen numbers
 " set relativenumber
 set cursorline
 set cursorlineopt=number
 set laststatus=0
-set signcolumn=yes:1                    "always show sign column with fixed width of
+" set signcolumn=yes:1                    "always show sign column with fixed width of
+set signcolumn=no
 
 " set guicursor=n-v-c-sm-i-ci-ve:block,r-cr-o:hor20
 
@@ -64,6 +65,8 @@ highlight NormalFloat	guibg=bg    guifg=fg2e
 highlight FloatBorder   guibg=bg
 highlight CursorLineNr  guibg=bg
 highlight Error         guifg=Red   gui=bold
+" highlight link TreesitterContext CursorLine
+highlight TreesitterContext gui=italic guibg=grey17
 
 " -----------------------------------------------
 " ruler
@@ -191,7 +194,7 @@ command! Run call system("tmux-run-".&filetype)
 " -----------------------------------------------
 " functions
 " -----------------------------------------------
-function Get_file_perm()
+function! Get_file_perm()
     let a=getfperm(expand('%:p'))
     if strlen(a)
         return a
@@ -228,7 +231,8 @@ augroup end
 augroup Compile
     autocmd!
     " autocmd BufWritePost */src/*.cpp call system("tmux send-keys -t right ':make\n'")
-    " autocmd BufWritePost */src/*.cpp call system("tmux-run-cpp")
+    autocmd BufWritePost */src/*.cpp call system("tmux-run-cpp")
+    autocmd BufWritePost */src/*.c call system("tmux-run-c")
     " autocmd BufWritePost */src/*.rs call system("tmux send-keys -t right 'cargo run\n'")
 augroup end
 
@@ -270,7 +274,7 @@ augroup end
 " -----------------------------------------------
 let g:netrw_keepdir=0
 
-function NetrwDel()
+function! NetrwDel()
     normal 0y$
     call system("mv \"".getreg('@0')."\" /tmp/")
 endfunction

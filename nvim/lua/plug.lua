@@ -51,6 +51,9 @@ return packer.startup(function(use)
     use "junegunn/vim-easy-align"
     use "dhruvasagar/vim-table-mode"
     use "vimwiki/vimwiki"
+    -- use "nvim-treesitter/nvim-treesitter-context"
+    -- use { 'akinsho/bufferline.nvim', tag = "v2.*", requires = 'kyazdani42/nvim-web-devicons',
+    --     config = function() require("bufferline").setup { } end }
     -- use "kyazdani42/nvim-web-devicons"
     -- use "kyazdani42/nvim-tree.lua"
     -- use "akinsho/bufferline.nvim"
