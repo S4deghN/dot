@@ -59,14 +59,40 @@ let g:gruvbox_color_column = 'none'
 let g:gruvbox_invert_selection = 0
 let g:gruvbox_italic = 0
 let g:gruvbox_bold = 1
-color gruvbox
-highlight Normal        guibg=none  guifg=fg2e
-highlight NormalFloat	guibg=bg    guifg=fg2e
-highlight FloatBorder   guibg=bg
-highlight CursorLineNr  guibg=bg
-highlight Error         guifg=Red   gui=bold
+
+color apprentice
+highlight Normal          guibg=none  "guifg=#BCBCBC
+highlight NormalFloat	  guibg=bg    "guifg=fg2e
+highlight FloatBorder     guibg=bg
+highlight CursorLineNr    guibg=bg
+highlight LineNr          guibg=bg
+highlight signcolumn      guibg=bg
+
+highlight Identifier      guifg=fg
+highlight Type            guifg=#CDA869
+highlight Constant        guifg=#CDA869
+highlight Statement       guifg=#CF6A4C
+highlight Function        guifg=#789AC0
+" highlight Function        guifg=#5F87AF
+" highlight Function        guifg=#87AFD7
+" highlight PreProc         guifg=#68BEA2
+highlight PreProc         guifg=#83a598
+highlight String          guifg=#8F9D6A
+highlight Special         guifg=#CF6A4C
+highlight Delimiter       guifg=fg
+
+highlight! link Directory Constant
+highlight MatchParen guifg=#af5f5f guibg=bg gui=underline
+
+highlight DiagnosticError guifg=#CF6A4C
+highlight DiagnosticWarn  guifg=#d7af5f
+highlight DiagnosticInfo  guifg=LightBlue
+highlight DiagnosticHint  guifg=LightGrey
+
+" highlight CursorLine    guibg=grey20
+" highlight Error         guifg=Red   gui=bold
 " highlight link TreesitterContext CursorLine
-highlight TreesitterContext gui=italic guibg=grey17
+" highlight TreesitterContext gui=italic guibg=grey17
 
 " -----------------------------------------------
 " ruler
@@ -254,7 +280,7 @@ augroup end
 
 augroup Write
     autocmd!
-    autocmd BufWritePost */nvim/**.vim source %
+    autocmd BufWritePost */nvim/**.vim source % | source ~/.config/nvim/init.lua
     autocmd BufWritePost */nvim/**.lua source %
     autocmd BufWritePost plug.lua source <afile> | PackerSync
 augroup end
@@ -308,7 +334,7 @@ function! s:tmux_apply_title()
     " call system("tmux rename-window \"vi:".expand("%:t")."\"")
     let filename = expand("%:t")
     if strlen(filename)
-        call system("tmux rename-window \"".filename."\"")
+        call system("tmux rename-window \"vi[".filename."]\"")
     endif
 endfunc
 

@@ -51,6 +51,10 @@ return packer.startup(function(use)
     use "junegunn/vim-easy-align"
     use "dhruvasagar/vim-table-mode"
     use "vimwiki/vimwiki"
+    use {
+        "norcalli/nvim-colorizer.lua",
+        config = function() require("colorizer").setup{} end
+    }
     -- use "nvim-treesitter/nvim-treesitter-context"
     -- use { 'akinsho/bufferline.nvim', tag = "v2.*", requires = 'kyazdani42/nvim-web-devicons',
     --     config = function() require("bufferline").setup { } end }
@@ -71,13 +75,16 @@ return packer.startup(function(use)
     -- use "morhetz/gruvbox"
     use "gruvbox-community/gruvbox"
     use "sainnhe/gruvbox-material"
-    use "rebelot/kanagawa.nvim"
-    -- use "sainnhe/everforest"
-    use "sainnhe/sonokai"
-    -- use "Shatur/neovim-ayu"
-    use "projekt0n/github-nvim-theme"
+    use "sainnhe/everforest"
+    use "Shatur/neovim-ayu"
     use "ful1e5/onedark.nvim"
     -- use "folke/tokyonight.nvim"
+    use "w0ng/vim-hybrid"
+    use "ulwlu/elly.vim"
+    use "romgrk/doom-one.vim"
+    use "romainl/Apprentice"
+    use "habamax/vim-saturnite"
+    use "habamax/vim-alchemist"
 
 
     -- cmp plugins

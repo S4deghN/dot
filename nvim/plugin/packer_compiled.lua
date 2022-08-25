@@ -69,6 +69,11 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
+  Apprentice = {
+    loaded = true,
+    path = "/home/s4/.local/share/nvim/site/pack/packer/start/Apprentice",
+    url = "https://github.com/romainl/Apprentice"
+  },
   ["Comment.nvim"] = {
     loaded = true,
     path = "/home/s4/.local/share/nvim/site/pack/packer/start/Comment.nvim",
@@ -114,6 +119,21 @@ _G.packer_plugins = {
     path = "/home/s4/.local/share/nvim/site/pack/packer/start/cmp_luasnip",
     url = "https://github.com/saadparwaiz1/cmp_luasnip"
   },
+  ["doom-one.vim"] = {
+    loaded = true,
+    path = "/home/s4/.local/share/nvim/site/pack/packer/start/doom-one.vim",
+    url = "https://github.com/romgrk/doom-one.vim"
+  },
+  ["elly.vim"] = {
+    loaded = true,
+    path = "/home/s4/.local/share/nvim/site/pack/packer/start/elly.vim",
+    url = "https://github.com/ulwlu/elly.vim"
+  },
+  everforest = {
+    loaded = true,
+    path = "/home/s4/.local/share/nvim/site/pack/packer/start/everforest",
+    url = "https://github.com/sainnhe/everforest"
+  },
   ["friendly-snippets"] = {
     loaded = true,
     path = "/home/s4/.local/share/nvim/site/pack/packer/start/friendly-snippets",
@@ -123,11 +143,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/s4/.local/share/nvim/site/pack/packer/start/fzf.vim",
     url = "https://github.com/junegunn/fzf.vim"
-  },
-  ["github-nvim-theme"] = {
-    loaded = true,
-    path = "/home/s4/.local/share/nvim/site/pack/packer/start/github-nvim-theme",
-    url = "https://github.com/projekt0n/github-nvim-theme"
   },
   ["gitsigns.nvim"] = {
     loaded = true,
@@ -144,15 +159,15 @@ _G.packer_plugins = {
     path = "/home/s4/.local/share/nvim/site/pack/packer/start/gruvbox-material",
     url = "https://github.com/sainnhe/gruvbox-material"
   },
-  ["kanagawa.nvim"] = {
-    loaded = true,
-    path = "/home/s4/.local/share/nvim/site/pack/packer/start/kanagawa.nvim",
-    url = "https://github.com/rebelot/kanagawa.nvim"
-  },
   ["lualine.nvim"] = {
     loaded = true,
     path = "/home/s4/.local/share/nvim/site/pack/packer/start/lualine.nvim",
     url = "https://github.com/nvim-lualine/lualine.nvim"
+  },
+  ["neovim-ayu"] = {
+    loaded = true,
+    path = "/home/s4/.local/share/nvim/site/pack/packer/start/neovim-ayu",
+    url = "https://github.com/Shatur/neovim-ayu"
   },
   ["nlsp-settings.nvim"] = {
     loaded = true,
@@ -174,6 +189,12 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/s4/.local/share/nvim/site/pack/packer/start/nvim-cmp",
     url = "https://github.com/hrsh7th/nvim-cmp"
+  },
+  ["nvim-colorizer.lua"] = {
+    config = { "\27LJ\2\n;\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\14colorizer\frequire\0" },
+    loaded = true,
+    path = "/home/s4/.local/share/nvim/site/pack/packer/start/nvim-colorizer.lua",
+    url = "https://github.com/norcalli/nvim-colorizer.lua"
   },
   ["nvim-lsp-installer"] = {
     loaded = true,
@@ -220,25 +241,35 @@ _G.packer_plugins = {
     path = "/home/s4/.local/share/nvim/site/pack/packer/start/rust-tools.nvim",
     url = "https://github.com/simrat39/rust-tools.nvim"
   },
-  sonokai = {
-    loaded = true,
-    path = "/home/s4/.local/share/nvim/site/pack/packer/start/sonokai",
-    url = "https://github.com/sainnhe/sonokai"
-  },
   ["telescope.nvim"] = {
     loaded = true,
     path = "/home/s4/.local/share/nvim/site/pack/packer/start/telescope.nvim",
     url = "https://github.com/nvim-telescope/telescope.nvim"
+  },
+  ["vim-alchemist"] = {
+    loaded = true,
+    path = "/home/s4/.local/share/nvim/site/pack/packer/start/vim-alchemist",
+    url = "https://github.com/habamax/vim-alchemist"
   },
   ["vim-easy-align"] = {
     loaded = true,
     path = "/home/s4/.local/share/nvim/site/pack/packer/start/vim-easy-align",
     url = "https://github.com/junegunn/vim-easy-align"
   },
+  ["vim-hybrid"] = {
+    loaded = true,
+    path = "/home/s4/.local/share/nvim/site/pack/packer/start/vim-hybrid",
+    url = "https://github.com/w0ng/vim-hybrid"
+  },
   ["vim-rooter"] = {
     loaded = true,
     path = "/home/s4/.local/share/nvim/site/pack/packer/start/vim-rooter",
     url = "https://github.com/airblade/vim-rooter"
+  },
+  ["vim-saturnite"] = {
+    loaded = true,
+    path = "/home/s4/.local/share/nvim/site/pack/packer/start/vim-saturnite",
+    url = "https://github.com/habamax/vim-saturnite"
   },
   ["vim-table-mode"] = {
     loaded = true,
@@ -257,6 +288,10 @@ time([[Defining packer_plugins]], false)
 time([[Config for nvim-autopairs]], true)
 try_loadstring("\27LJ\2\n@\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\19nvim-autopairs\frequire\0", "config", "nvim-autopairs")
 time([[Config for nvim-autopairs]], false)
+-- Config for: nvim-colorizer.lua
+time([[Config for nvim-colorizer.lua]], true)
+try_loadstring("\27LJ\2\n;\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\14colorizer\frequire\0", "config", "nvim-colorizer.lua")
+time([[Config for nvim-colorizer.lua]], false)
 if should_profile then save_profiles() end
 
 end)
