@@ -145,4 +145,5 @@ kb-cancel: "Escape,Control+c,Control+bracketleft";
       sorting-method:    "name";
   }
 }
-@theme        "gruvbox-dark-hard"
+//@theme        "gruvbox-dark-hard"
+@theme "/usr/share/rofi/themes/android_notification.rasi"

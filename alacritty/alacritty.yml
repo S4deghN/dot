@@ -48,7 +48,7 @@ window:
     y: 0
 
   # Spread additional padding evenly around the terminal content.
-  dynamic_padding: true
+  dynamic_padding: false
 
   # Window decorations
   #
@@ -172,79 +172,41 @@ draw_bold_text_with_bright_colors: true
 
 
 
-  # Colors (Ayu Dark)
+# Colors (Arc Dark)
 colors:
   # Default colors
   primary:
     # background: '#1d2021'
-    background: '#1E2126'
+    background: '#1F242A'
+    # background: '#181D23'
+    # background: '#202020'
     # background: '#282C34'
     foreground: '#BCBCBC'
+  cursor:
+    text:    '#1E2126'
+    cursor:  '#BCBCBC'
 
   # Normal colors
   normal:
-    black:   '#1C1C1C'
-    red:     '#AF5F5F'
-    green:   '#5F875F'
-    yellow:  '#87875F'
-    blue:    '#5F87AF'
-    magenta: '#5F5F87'
-    cyan:    '#5F8787'
-    white:   '#8c8c8c'
+    black:     '#1C2027'
+    red:       '#CF6A4C'
+    green:     '#8F9D6A'
+    yellow:    '#CDA869'
+    blue:      '#789AC0'
+    magenta:   '#b16286'
+    cyan:      '#68BEA2'
+    white:     '#8c8c8c'
 
   # Bright colors
   bright:
-    black:   '#444444'
-    red:     '#FF8700'
-    green:   '#87AF87'
-    yellow:  '#FFFFAF'
-    blue:    '#87AFD7'
-    magenta: '#8787AF'
-    cyan:    '#5FAFAF'
-    white:   '#CCCCCC'
-
-# Base16 Solarized Dark 256 - alacritty color config
-# Ethan Schoonover (modified by aramisgithub)
-# colors:
-#   # Default colors
-#   primary:
-#     background: '0x1d2021'
-#     foreground: '0x93a1a1'
-#
-#   # Colors the cursor will use if `custom_cursor_colors` is true
-#   cursor:
-#     text: '0x002b36'
-#     cursor: '0x93a1a1'
-#
-#   # Normal colors
-#   normal:
-#     black:   '0x002b36'
-#     red:     '0xdc322f'
-#     green:   '0x859900'
-#     yellow:  '0xb58900'
-#     blue:    '0x268bd2'
-#     magenta: '0x6c71c4'
-#     cyan:    '0x2aa198'
-#     white:   '0x93a1a1'
-#
-#   # Bright colors
-#   bright:
-#     black:   '0x657b83'
-#     red:     '0xdc322f'
-#     green:   '0x859900'
-#     yellow:  '0xb58900'
-#     blue:    '0x268bd2'
-#     magenta: '0x6c71c4'
-#     cyan:    '0x2aa198'
-#     white:   '0xfdf6e3'
-#
-#   indexed_colors:
-#     - { index: 16, color: '0xcb4b16' }
-#     - { index: 17, color: '0xd33682' }
-#     - { index: 18, color: '0x073642' }
-#     - { index: 19, color: '0x586e75' }
-#     - { index: 20, color: '0x839496' }
-#     - { index: 21, color: '0xeee8d5' }
+    black:     '#747C84'
+    red:       '#CF6A4C'
+    green:     '#87AF87'
+    yellow:    '#E6D78E'
+    blue:      '#789AC0'
+    magenta:   '#d3869b'
+    cyan:      '#5FAFAF'
+    white:     '#BCBCBC'
 
 # # Colors (Gruvbox dark)
 # colors:

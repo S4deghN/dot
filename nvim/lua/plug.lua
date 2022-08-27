@@ -85,6 +85,8 @@ return packer.startup(function(use)
     use "romainl/Apprentice"
     use "habamax/vim-saturnite"
     use "habamax/vim-alchemist"
+    use "Aszarsha/elysian.vim"
+    use "habamax/vim-saturnite"
 
 
     -- cmp plugins

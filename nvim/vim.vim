@@ -39,6 +39,7 @@ set cmdwinheight=12
 match Visual '\s\+$'                    " mark trailing spaces as errors
 
 set iskeyword+="-"
+set whichwrap=b,s,<,>,h,l,[,]
 
 " -----------------------------------------------
 " plugin
@@ -61,38 +62,65 @@ let g:gruvbox_italic = 0
 let g:gruvbox_bold = 1
 
 color apprentice
-highlight Normal          guibg=none  "guifg=#BCBCBC
+highlight Normal          guibg=none  "guifg=#cccccc
 highlight NormalFloat	  guibg=bg    "guifg=fg2e
 highlight FloatBorder     guibg=bg
 highlight CursorLineNr    guibg=bg
-highlight LineNr          guibg=bg
-highlight signcolumn      guibg=bg
+highlight LineNr          guibg=bg guifg=#747C84
+highlight SignColumn      guibg=bg guifg=#747C84
+highlight FoldColumn      guibg=bg guifg=#747C84
+highlight SpecialKey      guibg=bg guifg=#747C84
+highlight EndOfBuffer     guibg=bg guifg=#747C84
+highlight NonText         guibg=bg guifg=#747C84
+highlight Comment         guibg=bg guifg=#747C84
+highlight CursorLine      guibg=#232832
+highlight CursorColumn    guibg=#232832
+highlight VertSplit       guibg=none
+
+" highlight Visual          guibg=#2E3541 guifg=none gui=none
+highlight! link Visual IncSearch
 
 highlight Identifier      guifg=fg
-highlight Type            guifg=#CDA869
-highlight Constant        guifg=#CDA869
+highlight PreProc         guifg=#83a598
+" highlight PreProc         guifg=#87AFD7
+" highlight PreProc         guifg=#8787AF
+" highlight Type         guifg=#83a598
+highlight Type         guifg=#cda869
+" highlight Type         guifg=#E6D78E
+" highlight Type         guifg=#68BEA2
+" highlight Type            guifg=#87aFD7
+
+highlight Constant        guifg=#cda869
 highlight Statement       guifg=#CF6A4C
 highlight Function        guifg=#789AC0
-" highlight Function        guifg=#5F87AF
 " highlight Function        guifg=#87AFD7
-" highlight PreProc         guifg=#68BEA2
-highlight PreProc         guifg=#83a598
+" highlight Function        guifg=#5F87AF
+" highlight Function        guifg=#E6D78E
+
+" highlight PreProc         guifg=#789AC0
 highlight String          guifg=#8F9D6A
-highlight Special         guifg=#CF6A4C
+" highlight Special         guifg=#CF6A4C
+highlight Special         guifg=#E6D78E
 highlight Delimiter       guifg=fg
 
 highlight! link Directory Constant
-highlight MatchParen guifg=#af5f5f guibg=bg gui=underline
+highlight MatchParen guifg=#E6D78E guibg=bg gui=underline
+highlight Search guibg=#E6D78E
 
 highlight DiagnosticError guifg=#CF6A4C
 highlight DiagnosticWarn  guifg=#d7af5f
 highlight DiagnosticInfo  guifg=LightBlue
 highlight DiagnosticHint  guifg=LightGrey
 
-" highlight CursorLine    guibg=grey20
-" highlight Error         guifg=Red   gui=bold
+
+highlight DiffDelete guibg=none gui=none
+highlight DiffChange guibg=none gui=none
+highlight DiffAdd    guibg=none gui=none
+
+highlight Error         gui=bold
 " highlight link TreesitterContext CursorLine
 " highlight TreesitterContext gui=italic guibg=grey17
+
 
 " -----------------------------------------------
 " ruler
@@ -125,7 +153,7 @@ lua << EOF
 function GetRunningLsp()
     local str = ""
     vim.lsp.for_each_buffer_client(0, function(client, client_id, bufnr)
-        str = str .. "[%#String#" .. client.name .. "%*]"
+        str = str .. "[%#PreProc#" .. client.name .. "%*]"
     end)
     return str
 end
