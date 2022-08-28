@@ -4,6 +4,9 @@
 " set timeoutlen=1000
 " set autochdir
 
+" ?
+" set undofile
+
 set mouse+=a                            "mouse support
 
 set shortmess+=a
@@ -39,7 +42,6 @@ set cmdwinheight=12
 match Visual '\s\+$'                    " mark trailing spaces as errors
 
 set iskeyword+="-"
-set whichwrap=b,s,<,>,h,l,[,]
 
 " -----------------------------------------------
 " plugin
@@ -47,6 +49,33 @@ set whichwrap=b,s,<,>,h,l,[,]
 let g:rooter_silent_chdir = 1
 
 let g:vimwiki_list = [{'path': '~/note/', 'syntax': 'markdown', 'ext': '.md'}]
+
+" splitjoin.vim
+" -------------
+" let g:splitjoin_trailing_comma = 1
+" let g:splitjoin_ruby_hanging_args = 0
+" let g:splitjoin_ruby_curly_braces = 0
+" let g:splitjoin_ruby_options_as_arguments = 1
+"
+" function! s:try(cmd, default)
+"   if exists(':' . a:cmd) && !v:count
+"     let tick = b:changedtick
+"     execute a:cmd
+"     if tick == b:changedtick
+"       execute 'normal! '. a:default
+"     endif
+"   else
+"     execute 'normal! '. v:count . a:default
+"   endif
+" endfunction
+
+" noremap <silent> gJ :<C-U>call <SID>try('SplitjoinJoin', 'gJ')<CR>
+" noremap <silent> J :<C-U>call <SID>try('SplitjoinJoin', 'J')<CR>
+" noremap <silent> gS :<C-U>call <SID>try('SplitjoinSplit', 'S')<CR>
+" noremap <silent> S :<C-U>call <SID>try('SplitjoinSplit', 'S')<CR>
+" " r    => Enter replace mode
+" " \015 => <CR>
+" noremap <silent> r<CR> :<C-U>call <SID>try('SplitjoinSplit', "r\015")<CR>
 
 " -----------------------------------------------
 " colors
@@ -73,15 +102,22 @@ highlight SpecialKey      guibg=bg guifg=#747C84
 highlight EndOfBuffer     guibg=bg guifg=#747C84
 highlight NonText         guibg=bg guifg=#747C84
 highlight Comment         guibg=bg guifg=#747C84
-highlight CursorLine      guibg=#232832
-highlight CursorColumn    guibg=#232832
+" highlight CursorLine      guibg=#232832
+" highlight CursorColumn    guibg=#232832
+highlight CursorLine      guibg=#23272E
+highlight CursorColumn    guibg=#23272E
 highlight VertSplit       guibg=none
 
 " highlight Visual          guibg=#2E3541 guifg=none gui=none
 highlight! link Visual IncSearch
 
 highlight Identifier      guifg=fg
+" highlight Identifier guifg=#A8D1E1
+highlight Identifier guifg=#95bcbc
+" highlight Identifier guifg=#8FBCC5
 highlight PreProc         guifg=#83a598
+" highlight PreProc         guifg=#629494
+" highlight PreProc         guifg=#458588
 " highlight PreProc         guifg=#87AFD7
 " highlight PreProc         guifg=#8787AF
 " highlight Type         guifg=#83a598
@@ -102,6 +138,7 @@ highlight String          guifg=#8F9D6A
 " highlight Special         guifg=#CF6A4C
 highlight Special         guifg=#E6D78E
 highlight Delimiter       guifg=fg
+highlight Title           guifg=#E6D78E gui=bold
 
 highlight! link Directory Constant
 highlight MatchParen guifg=#E6D78E guibg=bg gui=underline
@@ -176,20 +213,25 @@ autocmd CmdwinEnter * vmap <buffer> <C-c> <Esc>
 " autocmd CmdwinEnter :  let b:cpt_save = &cpt | set cpt=.
 " autocmd CmdwinLeave :  let &cpt = b:cpt_save
 
+" Record macro with `qq`, replay with `Q`
+noremap Q @q
+
+" open manual, 'K' is use for lsp hover
 noremap gk K
 
-" spell
-nnoremap <leader>z 1z=
+" apply the first spell candidate
+nnoremap gz 1z=
+
 " substitute trailing white spaces with nothing. e flag suppresses errors.
 nnoremap zs :%s/\s\+$//e<CR>''
 
 " yank
-nmap Y y$
+map Y y$
 
-noremap <leader>y "+y
-noremap <leader>Y "+Y
-noremap <leader>p "+]p
-noremap <leader>P "+]P
+noremap gy "+y
+noremap gY "+Y
+noremap gp "+]p
+noremap gP "+]P
 
 " navigation
 nnoremap <C-h>     <C-w>h
@@ -205,8 +247,10 @@ nnoremap H         :bp<CR>
 nnoremap <leader>d :bd<CR>
 nnoremap <leader>e :Exp<CR>
 nnoremap <C-g>     :echo expand("%:p:~") '-' Get_file_perm()<CR>
-" nnoremap <C-g>k    :cd ..<CR>:pwd<CR>
-" nnoremap <C-g>j    :cd %:h<CR>:pwd<CR>
+
+" Move linewise, except when a count is given. Useful for when &wrap is set.
+noremap <expr> j v:count ? 'j' : 'gj'
+noremap <expr> k v:count ? 'k' : 'gk'
 
 " fzf
 " let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
@@ -234,15 +278,40 @@ tnoremap <Esc> <C-\><C-n>
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
+" nmap  <silent> <C-s> :set opfunc=SpecialChange<CR>g@
+" function! SpecialChange(type)
+"     exec "normal! `[v`]"
+"     exec 'let @/=@"'
+"     :'<,'>:s/<C-R>=expand('<cword>')<CR>
+" endfunction
+
+" inserts the current word under cursor into the substitute command
+" substitute the entire [f]ile
+nnoremap <C-s>f          :%s/<C-R>=expand('<cword>')<CR>
+" substitute the previously selected [h]undk
+nnoremap <C-s>h          :'<,'>:s/<C-R>=expand('<cword>')<CR>
+nnoremap <C-s>ip vip<Esc>:'<,'>:s/<C-R>=expand('<cword>')<CR>
+
+" open files in directory of current file
+cnoremap %% <C-R>=expand('%:h').'/'<CR>
+nmap <Leader>e :edit %%<CR>
+nmap <Leader>s :split %%<CR>
+nmap <Leader>v :vsplit %%<CR>
+nmap <Leader>t :tabedit %%<CR>
+nmap <Leader>f :tabedit<CR>:Files<CR>
+nmap <Leader>r :read %%
+nmap <Leader>w :write %%
+
+" Re-select the last pasted text
+noremap gV V`]
+
+" Duplicate the visually selected block
+vnoremap D y'>p
+
 " -----------------------------------------------
 " cmds
 " -----------------------------------------------
-" doesn't work for neovim until version 0.8 aparently
-" https://github.com/neovim/neovim/issues/1496
-" command! W w !sudo tee %    " Save with root permission
-
-command! W w | call system("tmux-run-".&filetype)
-command! Run call system("tmux-run-".&filetype)
+command! Run call system("tmux-run ".&filetype)
 
 
 " -----------------------------------------------
@@ -362,7 +431,7 @@ function! s:tmux_apply_title()
     " call system("tmux rename-window \"vi:".expand("%:t")."\"")
     let filename = expand("%:t")
     if strlen(filename)
-        call system("tmux rename-window \"vi[".filename."]\"")
+        call system("tmux rename-window \"[".filename."]\"")
     endif
 endfunc
 

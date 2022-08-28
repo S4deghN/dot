@@ -49,8 +49,9 @@ return packer.startup(function(use)
     }
     use "numToStr/Comment.nvim" -- Easily comment stuff
     use "junegunn/vim-easy-align"
-    use "dhruvasagar/vim-table-mode"
-    use "vimwiki/vimwiki"
+    -- use "dhruvasagar/vim-table-mode" -- it auto populates the <space>t* I
+    -- hate it
+    -- use "vimwiki/vimwiki" -- it auto populates the <space>w*.
     use {
         "norcalli/nvim-colorizer.lua",
         config = function() require("colorizer").setup{} end
