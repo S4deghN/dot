@@ -1,31 +1,22 @@
 " -----------------------------------------------
 " options
 " -----------------------------------------------
-" set timeoutlen=1000
-" set autochdir
+" set autochdir " using the rooter plugin
+set undofile
+set undodir=/tmp/vimundo " Undo file shouldn't replace version contorl.
 
-" ?
-" set undofile
-
-set mouse+=a                            "mouse support
+set mouse+=a "mouse support
 
 set shortmess+=a
-" set nowrap
 
-set nonumber                              "linen numbers
-" set relativenumber
+set nonumber "linen numbers
 set cursorline
 set cursorlineopt=number
 set laststatus=0
-" set signcolumn=yes:1                    "always show sign column with fixed width of
-set signcolumn=no
-
-" set guicursor=n-v-c-sm-i-ci-ve:block,r-cr-o:hor20
+set signcolumn=yes:1 "always show sign column with fixed width of
 
 set scrolloff=8
 set textwidth=80
-" set cmdheight=1
-" set colorcolumn=80
 
 set ignorecase
 set smartcase
@@ -35,47 +26,23 @@ set expandtab                           "convert tabs to spaces
 set shiftwidth=4                        "the number of spaces inserted for each indentation
 set tabstop=4
 
-" the special window that opens with :q or ctlr-f in cmd mode.
-set cmdwinheight=12
+set cmdwinheight=12 " the special window that opens with :q or ctlr-f in cmd mode.
 
-" set spell spelllang=en_us
-match Visual '\s\+$'                    " mark trailing spaces as errors
+match Visual '\s\+$' " mark trailing spaces as errors
 
-set iskeyword+="-"
+set iskeyword+=-
+set encoding=utf-8
+" Set completeopt to have a better completion experience
+" :help completeopt
+" menuone: popup even when there's only one match
+" noinsert: Do not insert text until a selection is made
+" noselect: Do not select, force user to select one from the menu
+set completeopt=menuone,preview,noinsert,noselect
 
 " -----------------------------------------------
 " plugin
 " -----------------------------------------------
 let g:rooter_silent_chdir = 1
-
-let g:vimwiki_list = [{'path': '~/note/', 'syntax': 'markdown', 'ext': '.md'}]
-
-" splitjoin.vim
-" -------------
-" let g:splitjoin_trailing_comma = 1
-" let g:splitjoin_ruby_hanging_args = 0
-" let g:splitjoin_ruby_curly_braces = 0
-" let g:splitjoin_ruby_options_as_arguments = 1
-"
-" function! s:try(cmd, default)
-"   if exists(':' . a:cmd) && !v:count
-"     let tick = b:changedtick
-"     execute a:cmd
-"     if tick == b:changedtick
-"       execute 'normal! '. a:default
-"     endif
-"   else
-"     execute 'normal! '. v:count . a:default
-"   endif
-" endfunction
-
-" noremap <silent> gJ :<C-U>call <SID>try('SplitjoinJoin', 'gJ')<CR>
-" noremap <silent> J :<C-U>call <SID>try('SplitjoinJoin', 'J')<CR>
-" noremap <silent> gS :<C-U>call <SID>try('SplitjoinSplit', 'S')<CR>
-" noremap <silent> S :<C-U>call <SID>try('SplitjoinSplit', 'S')<CR>
-" " r    => Enter replace mode
-" " \015 => <CR>
-" noremap <silent> r<CR> :<C-U>call <SID>try('SplitjoinSplit', "r\015")<CR>
 
 " -----------------------------------------------
 " colors
@@ -144,10 +111,10 @@ highlight! link Directory Constant
 highlight MatchParen guifg=#E6D78E guibg=bg gui=underline
 highlight Search guibg=#E6D78E
 
-highlight DiagnosticError guifg=#CF6A4C
+highlight DiagnosticError guifg=#af5f5f
 highlight DiagnosticWarn  guifg=#d7af5f
 highlight DiagnosticInfo  guifg=LightBlue
-highlight DiagnosticHint  guifg=LightGrey
+highlight DiagnosticHint  guifg=#747C84
 
 
 highlight DiffDelete guibg=none gui=none
@@ -194,12 +161,23 @@ function GetRunningLsp()
     end)
     return str
 end
+
+ function progress()
+ 	local current_line = vim.fn.line(".")
+ 	local total_lines = vim.fn.line("$")
+ 	local chars = { "top", "▁▁", "▂▂", "▃▃", "▄▄", "▅▅", "▆▆", "▇▇", "██" }
+ 	local line_ratio = current_line / total_lines
+ 	local index = math.ceil(line_ratio * #chars)
+ 	return chars[index]
+ end
+
 EOF
 
 " set ruf=%30(%=%#LineNr#%.50F\ [%{strlen(&ft)?&ft:'none'}]\ %l:%c\ %p%%%)
 " set rulerformat=%36(%5l,%-6(%c%V%)\ %y%)%*
 
-set rulerformat=%50(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c/%L]\ %m\ [%Y]%)
+set rulerformat=%50(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\ %m%q%w\ %y%)
+" set rulerformat=%50(%=[%l,%c/%L]\ %m\ %{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}\ [%Y]%)
 
 " -----------------------------------------------
 " keymaps
@@ -212,6 +190,13 @@ autocmd CmdwinEnter * nmap <buffer> <C-c> :q<CR>
 autocmd CmdwinEnter * vmap <buffer> <C-c> <Esc>
 " autocmd CmdwinEnter :  let b:cpt_save = &cpt | set cpt=.
 " autocmd CmdwinLeave :  let &cpt = b:cpt_save
+
+" Move linewise, except when a count is given. Useful for when &wrap is set.
+" noremap <expr> j v:count ? 'j' : 'gj'
+" noremap <expr> k v:count ? 'k' : 'gk'
+
+" like 'J' but from line above to line below
+noremap gj kddpkJ
 
 " Record macro with `qq`, replay with `Q`
 noremap Q @q
@@ -247,10 +232,6 @@ nnoremap H         :bp<CR>
 nnoremap <leader>d :bd<CR>
 nnoremap <leader>e :Exp<CR>
 nnoremap <C-g>     :echo expand("%:p:~") '-' Get_file_perm()<CR>
-
-" Move linewise, except when a count is given. Useful for when &wrap is set.
-noremap <expr> j v:count ? 'j' : 'gj'
-noremap <expr> k v:count ? 'k' : 'gk'
 
 " fzf
 " let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
@@ -313,7 +294,6 @@ vnoremap D y'>p
 " -----------------------------------------------
 command! Run call system("tmux-run ".&filetype)
 
-
 " -----------------------------------------------
 " functions
 " -----------------------------------------------
@@ -333,6 +313,14 @@ function! Get_file_perm()
     endif
 endfunction
 
+" Get highlight groups of word under cursor in Vim
+function! Syn()
+    for id in synstack(line("."), col("."))
+        echo synIDattr(id, "name")
+    endfor
+endfunction
+command! -nargs=0 Syn call Syn()
+
 " -----------------------------------------------
 " auto cmds
 " -----------------------------------------------
@@ -351,11 +339,13 @@ augroup File
     autocmd BufEnter .clang* set filetype=yaml
 augroup end
 
+
+let compile = 0
 augroup Compile
     autocmd!
     " autocmd BufWritePost */src/*.cpp call system("tmux send-keys -t right ':make\n'")
-    autocmd BufWritePost */src/*.cpp call system("tmux-run-cpp")
-    autocmd BufWritePost */src/*.c call system("tmux-run-c")
+    autocmd BufWritePost */src/*.cpp if compile != 0 | call system("tmux-run-cpp")
+    autocmd BufWritePost */src/*.c   if compile != 0 | call system("tmux-run-c")
     " autocmd BufWritePost */src/*.rs call system("tmux send-keys -t right 'cargo run\n'")
 augroup end
 

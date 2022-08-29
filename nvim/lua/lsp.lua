@@ -190,6 +190,27 @@ local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protoco
 -- }
 
 
+------------------------------------------------------------
+-- diagnostics
+------------------------------------------------------------
+vim.diagnostic.config({
+    underline = {
+        severity = {
+            vim.diagnostic.severity.ERROR,
+            vim.diagnostic.severity.WARN,
+        }
+    },
+    virtual_text = {
+        severity = vim.diagnostic.severity.ERROR,
+        source = true,
+    },
+    float = {
+        prefix = function(diagnostic, i, total)
+            return string.format("%s:%s:%s ", diagnostic.source, diagnostic.lnum, diagnostic.col)
+        end
+    },
+})
+
 
 ------------------------------------------------------------
 -- lsp
@@ -249,6 +270,9 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', '<leader>lwl', function()
         print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
     end, bufopts)
+
+
+
 end
 
 local lsp_flags = {
