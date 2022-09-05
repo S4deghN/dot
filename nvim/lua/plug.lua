@@ -54,7 +54,7 @@ return packer.startup(function(use)
     -- use "vimwiki/vimwiki" -- it auto populates the <space>w*.
     use {
         "norcalli/nvim-colorizer.lua",
-        config = function() require("colorizer").setup{} end
+        config = function() require("colorizer").setup {} end
     }
     -- use "nvim-treesitter/nvim-treesitter-context"
     -- use { 'akinsho/bufferline.nvim', tag = "v2.*", requires = 'kyazdani42/nvim-web-devicons',
@@ -70,7 +70,11 @@ return packer.startup(function(use)
     -- use "lukas-reineke/indent-blankline.nvim"
     -- use "goolord/alpha-nvim"
     -- use "antoinemadec/FixCursorHold.nvim" -- This is needed to fix lsp doc highlight
-    use "mbbill/undotree"
+    -- use "mbbill/undotree"
+    -- require('packer').use({
+    --     'weilbith/nvim-code-action-menu',
+    --     cmd = 'CodeActionMenu',
+    -- })
 
 
     -- Colorschemes

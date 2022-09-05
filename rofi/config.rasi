@@ -146,4 +146,5 @@ kb-cancel: "Escape,Control+c,Control+bracketleft";
   }
 }
 //@theme        "gruvbox-dark-hard"
-@theme "/usr/share/rofi/themes/android_notification.rasi"
+//@theme "/usr/share/rofi/themes/android_notification.rasi"
+@theme "/usr/share/rofi/themes/Arc-Dark.rasi"

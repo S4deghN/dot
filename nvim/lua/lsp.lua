@@ -72,6 +72,7 @@ local border = {
 }
 
 -- local border = { '┌', '─', '┐', '│', '┘', '─', '└', '│' }
+-- local border = { '╔', '═', '╗', '║', '╝', '═', '╚', '║' }
 
 -- Setup nvim-cmp.
 local
@@ -99,7 +100,7 @@ cmp.setup {
         -- documentation = cmp.config.window.bordered(),
         completion = {
             border = border,
-            winhighlight = 'Normal:Normal,FloatBorder:CmpPmenuBorder,CursorLine:CursorLine,Search:None',
+            winhighlight = 'Normal:NormalFloat,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Type',
             zindex = 100,
         },
         documentation = {
@@ -115,8 +116,21 @@ cmp.setup {
         ['<C-Space>'] = cmp.mapping.complete(),
         ['<C-e>'] = cmp.mapping.abort(),
         ['<C-f>'] = cmp.mapping.confirm({ select = true }),
-        ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-        ['<Tab>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        ['<CR>'] = cmp.mapping.confirm({ select = true }),
+        ['<Tab>'] = function(fallback)
+            if cmp.visible() then
+                cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+            else
+                cmp.complete()
+            end
+        end,
+        ['<S-Tab>'] = function(fallback)
+            if cmp.visible() then
+                cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
+            else
+                cmp.complete()
+            end
+        end,
     }),
     formatting = {
         fields = { "kind", "abbr", "menu" },
@@ -138,8 +152,8 @@ cmp.setup {
         { name = 'nvim_lsp' },
         { name = 'nvim_lsp_signature_help' },
         { name = 'luasnip' }, -- For luasnip users.
-        { name = 'buffer' },
         { name = "path" },
+        { name = 'buffer' },
     },
     -- sorting = { -- for clangd_extensions.nvim
     --     comparators = {
@@ -193,24 +207,48 @@ local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protoco
 ------------------------------------------------------------
 -- diagnostics
 ------------------------------------------------------------
+vim.cmd [[
+sign define DiagnosticSignError text=• texthl=DiagnosticSignError linehl= numhl=
+sign define DiagnosticSignWarn  text=• texthl=DiagnosticSignWarn linehl= numhl=
+sign define DiagnosticSignInfo  text=• texthl=DiagnosticSignInfo linehl= numhl=
+sign define DiagnosticSignHint  text=• texthl=DiagnosticSignHint linehl= numhl=
+]]
+
+local sev = {}
+sev.e = vim.diagnostic.severity.ERROR
+sev.w = vim.diagnostic.severity.WARN
+sev.i = vim.diagnostic.severity.INFO
+sev.h = vim.diagnostic.severity.HINT
+
 vim.diagnostic.config({
+    severity_sort = true,
     underline = {
-        severity = {
-            vim.diagnostic.severity.ERROR,
-            vim.diagnostic.severity.WARN,
-        }
+        severity = { min = sev.w }
     },
+    signs = true,
     virtual_text = {
-        severity = vim.diagnostic.severity.ERROR,
+        severity = sev.e,
         source = true,
     },
     float = {
+        format = function(diagnostic)
+            print(vim.inspect(diagnostic))
+            return string.format("%s (%s)", diagnostic.message, diagnostic.code)
+        end,
         prefix = function(diagnostic, i, total)
-            return string.format("%s:%s:%s ", diagnostic.source, diagnostic.lnum, diagnostic.col)
+            return string.format("%s:%s ", diagnostic.source, diagnostic.col)
         end
     },
 })
 
+-- Mappings
+local opts = { noremap = true, silent = false }
+vim.keymap.set('n', 'gh', vim.diagnostic.open_float, opts)
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
+vim.keymap.set('n', '[e', function() vim.diagnostic.goto_prev({severity = sev.e}) end, opts)
+vim.keymap.set('n', ']e', function() vim.diagnostic.goto_next({severity = sev.e}) end, opts)
+vim.keymap.set('n', '<leader>ld', vim.diagnostic.setloclist, opts)
 
 ------------------------------------------------------------
 -- lsp
@@ -230,7 +268,8 @@ vim.diagnostic.config({
 --     -- requires nvim >= 0.8
 --     title = false
 -- }
--- -- To instead override globally
+
+-- To instead override globally
 local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
 function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
     opts = opts or {}
@@ -238,13 +277,6 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
     return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
 
--- Mappings.
--- See `:help vim.diagnostic.*` for documentation on any of the below functions
-local opts = { noremap = true, silent = false }
-vim.keymap.set('n', 'gh', vim.diagnostic.open_float, opts)
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
-vim.keymap.set('n', '<leader>ld', vim.diagnostic.setloclist, opts)
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -270,9 +302,6 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', '<leader>lwl', function()
         print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
     end, bufopts)
-
-
-
 end
 
 local lsp_flags = {

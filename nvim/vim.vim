@@ -1,7 +1,9 @@
 " -----------------------------------------------
-" options
+" {{{ options
 " -----------------------------------------------
-" set autochdir " using the rooter plugin
+set noautochdir " using the rooter plugin
+set noswapfile
+set nobackup
 set undofile
 set undodir=/tmp/vimundo " Undo file shouldn't replace version contorl.
 
@@ -25,6 +27,7 @@ set autoindent
 set expandtab                           "convert tabs to spaces
 set shiftwidth=4                        "the number of spaces inserted for each indentation
 set tabstop=4
+set foldmethod=marker
 
 set cmdwinheight=12 " the special window that opens with :q or ctlr-f in cmd mode.
 
@@ -37,15 +40,17 @@ set encoding=utf-8
 " menuone: popup even when there's only one match
 " noinsert: Do not insert text until a selection is made
 " noselect: Do not select, force user to select one from the menu
-set completeopt=menuone,preview,noinsert,noselect
+" set completeopt=menuone,preview,noinsert
+" }}}
 
 " -----------------------------------------------
-" plugin
+" {{{ plugin
 " -----------------------------------------------
 let g:rooter_silent_chdir = 1
+" }}}
 
 " -----------------------------------------------
-" colors
+" {{{ colors
 " -----------------------------------------------
 syntax on
 if (has("termguicolors"))                       "uses gui colors
@@ -61,6 +66,8 @@ color apprentice
 highlight Normal          guibg=none  "guifg=#cccccc
 highlight NormalFloat	  guibg=bg    "guifg=fg2e
 highlight FloatBorder     guibg=bg
+" highlight NormalFloat	  guibg=#2F333A    "guifg=fg2e
+" highlight FloatBorder     guibg=#2F333A
 highlight CursorLineNr    guibg=bg
 highlight LineNr          guibg=bg guifg=#747C84
 highlight SignColumn      guibg=bg guifg=#747C84
@@ -74,6 +81,7 @@ highlight Comment         guibg=bg guifg=#747C84
 highlight CursorLine      guibg=#23272E
 highlight CursorColumn    guibg=#23272E
 highlight VertSplit       guibg=none
+highlight Folded guibg=#181D22 guifg=#747C84
 
 " highlight Visual          guibg=#2E3541 guifg=none gui=none
 highlight! link Visual IncSearch
@@ -111,23 +119,24 @@ highlight! link Directory Constant
 highlight MatchParen guifg=#E6D78E guibg=bg gui=underline
 highlight Search guibg=#E6D78E
 
-highlight DiagnosticError guifg=#af5f5f
+" highlight DiagnosticError guifg=#af5f5f
+highlight DiagnosticError guifg=#CF6A4C
 highlight DiagnosticWarn  guifg=#d7af5f
 highlight DiagnosticInfo  guifg=LightBlue
 highlight DiagnosticHint  guifg=#747C84
 
 
-highlight DiffDelete guibg=none gui=none
-highlight DiffChange guibg=none gui=none
-highlight DiffAdd    guibg=none gui=none
+highlight DiffDelete guifg=#af5f5f guibg=none gui=none
+highlight DiffChange guifg=#789AC0 guibg=none gui=none
+highlight DiffAdd    guifg=#8F9D6A guibg=none gui=none
 
 highlight Error         gui=bold
 " highlight link TreesitterContext CursorLine
 " highlight TreesitterContext gui=italic guibg=grey17
-
+" }}}
 
 " -----------------------------------------------
-" ruler
+" {{{ ruler
 " -----------------------------------------------
 lua << EOF
 function GetDiag()
@@ -144,7 +153,9 @@ function GetDiag()
         if warn ~= 0 then
             str = str .. "%#DiagnosticWarn# W:" .. warn .. "%*"
         end
-        if hint ~= 0 then str = str .. "%#DiagnosticHint# H:" .. hint .. "%*" end
+        if hint ~= 0 then
+            str = str .. "%#DiagnosticHint# H:" .. hint .. "%*"
+        end
         if info ~= 0 then
             str = str .. "%#DiagnosticInfo# I:" .. info .. "%*"
         end
@@ -161,26 +172,34 @@ function GetRunningLsp()
     end)
     return str
 end
-
- function progress()
- 	local current_line = vim.fn.line(".")
- 	local total_lines = vim.fn.line("$")
- 	local chars = { "top", "▁▁", "▂▂", "▃▃", "▄▄", "▅▅", "▆▆", "▇▇", "██" }
- 	local line_ratio = current_line / total_lines
- 	local index = math.ceil(line_ratio * #chars)
- 	return chars[index]
- end
-
 EOF
+
+" lua << EOF
+" function LeftRuler(hold)
+"     local diagMsg = vim.diagnostic.get(0, {lnum = vim.fn.line('.') - 1})
+"     if (#diagMsg ~= 0) then
+"         print(diagMsg[1].message)
+"     elseif (hold) then
+"         vim.cmd[[echo expand('%:p:~')]]
+"     end
+" end
+" EOF
+"
+" augroup LeftRuler
+"     autocmd!
+"     autocmd CursorMoved,InsertLeave * :lua LeftRuler()
+"     autocmd CursorHold * :lua LeftRuler(1)
+" augroup end
 
 " set ruf=%30(%=%#LineNr#%.50F\ [%{strlen(&ft)?&ft:'none'}]\ %l:%c\ %p%%%)
 " set rulerformat=%36(%5l,%-6(%c%V%)\ %y%)%*
 
 set rulerformat=%50(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\ %m%q%w\ %y%)
 " set rulerformat=%50(%=[%l,%c/%L]\ %m\ %{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}\ [%Y]%)
+" }}}
 
 " -----------------------------------------------
-" keymaps
+" {{{ keymaps
 " -----------------------------------------------
 let mapleader = " "
 inoremap <C-c> <esc>
@@ -223,24 +242,15 @@ nnoremap <C-h>     <C-w>h
 nnoremap <C-j>     <C-w>j
 nnoremap <C-k>     <C-w>k
 nnoremap <C-l>     <C-w>l
-nnoremap <C-n>     <C-f>
-nnoremap <C-p>     <C-b>
-nnoremap <C-e>     <C-e>j
-nnoremap <C-y>     <C-y>k
+nnoremap <C-n>     <C-e>j
+nnoremap <C-p>     <C-y>k
+nnoremap <C-d>     <C-d>zz
+nnoremap <C-u>     <C-u>zz
 nnoremap L         :bn<CR>
 nnoremap H         :bp<CR>
 nnoremap <leader>d :bd<CR>
 nnoremap <leader>e :Exp<CR>
 nnoremap <C-g>     :echo expand("%:p:~") '-' Get_file_perm()<CR>
-
-" fzf
-" let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
-" let $FZF_DEFAULT_COMMAND = "find . -type f -not -path '*/\.git/*'"
-nnoremap \f :Files<CR>
-nnoremap \r :History<CR>
-nnoremap \w :Rg<CR>
-nnoremap \b :Buffers<CR>
-nnoremap \h :Helptags<CR>
 
 " TODO add vim-fugitive
 "" git ls-files
@@ -250,14 +260,15 @@ nnoremap <leader>gs :GFiles?<CR>
 nnoremap <leader>gc :Commits<CR>
 nnoremap <leader>gb :BCommits<CR>
 
-
-" open terminal at the bottom
-" nnoremap <leader>t :sp<bar>term<cr><c-w>J:resize10<cr>
-tnoremap <Esc> <C-\><C-n>
-
-" easy align
-xmap ga <Plug>(EasyAlign)
-nmap ga <Plug>(EasyAlign)
+" fzf
+" let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
+" let $FZF_DEFAULT_COMMAND = "find . -type f -not -path '*/\.git/*'"
+nnoremap \t :Telescope<CR>
+nnoremap \f :Files<CR>
+nnoremap \r :History<CR>
+nnoremap \w :Rg<CR>
+nnoremap \b :Buffers<CR>
+nnoremap \h :Helptags<CR>
 
 " nmap  <silent> <C-s> :set opfunc=SpecialChange<CR>g@
 " function! SpecialChange(type)
@@ -276,26 +287,37 @@ nnoremap <C-s>ip vip<Esc>:'<,'>:s/<C-R>=expand('<cword>')<CR>
 " open files in directory of current file
 cnoremap %% <C-R>=expand('%:h').'/'<CR>
 nmap <Leader>e :edit %%<CR>
-nmap <Leader>s :split %%<CR>
-nmap <Leader>v :vsplit %%<CR>
+nmap <Leader>s :split %%<CR><C-w>J
+nmap <Leader>v :vsplit %%<CR><C-w>L
 nmap <Leader>t :tabedit %%<CR>
 nmap <Leader>f :tabedit<CR>:Files<CR>
 nmap <Leader>r :read %%
 nmap <Leader>w :write %%
+
+" open terminal at the bottom
+" nnoremap <leader>t :sp<bar>term<cr><c-w>J:resize10<cr>
+tnoremap <Esc> <C-\><C-n>
+
+" easy align
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
+
 
 " Re-select the last pasted text
 noremap gV V`]
 
 " Duplicate the visually selected block
 vnoremap D y'>p
+" }}}
 
 " -----------------------------------------------
-" cmds
+" {{{ cmds
 " -----------------------------------------------
 command! Run call system("tmux-run ".&filetype)
+" }}}
 
 " -----------------------------------------------
-" functions
+" {{{ functions
 " -----------------------------------------------
 function! Get_file_perm()
     let a=getfperm(expand('%:p'))
@@ -320,10 +342,12 @@ function! Syn()
     endfor
 endfunction
 command! -nargs=0 Syn call Syn()
+" }}}
 
 " -----------------------------------------------
-" auto cmds
+" {{{ auto cmds
 " -----------------------------------------------
+
 augroup File
     autocmd!
     autocmd Filetype tex setlocal spell
@@ -381,9 +405,10 @@ augroup end
 augroup yank
     autocmd TextYankPost * silent! lua vim.highlight.on_yank({ higroup="Visual", timeout=100 })
 augroup end
+" }}}
 
 " -----------------------------------------------
-" netrw
+" {{{ netrw
 " -----------------------------------------------
 let g:netrw_keepdir=0
 
@@ -413,9 +438,10 @@ function! NetrwConfig()
     " retrieve the last deleted file
     " nmap <buffer> u
 endfunction
+" }}}
 
 " -----------------------------------------------
-" tmux
+" {{{ tmux
 " -----------------------------------------------
 function! s:tmux_apply_title()
     " call system("tmux rename-window \"vi:".expand("%:t")."\"")
@@ -428,3 +454,4 @@ endfunc
 function! s:tmux_reset_title()
     call system("tmux set-window-option automatic-rename on")
 endfunc
+" }}}

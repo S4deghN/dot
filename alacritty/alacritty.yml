@@ -177,7 +177,9 @@ colors:
   # Default colors
   primary:
     # background: '#1d2021'
-    background: '#1F242A'
+    # background: '#1F242A'
+    background: '#24282F'
+    # background: '#26282E'
     # background: '#181D23'
     # background: '#202020'
     # background: '#282C34'
