@@ -176,13 +176,15 @@ draw_bold_text_with_bright_colors: true
 colors:
   # Default colors
   primary:
+    background:        &gruvbox_dark_bg  '#1d2021'    #'#282828'
+    # background: '#1D1F21'
     # background: '#1d2021'
-    # background: '#1F242A'
-    background: '#24282F'
+    # background: '#24282F'
     # background: '#26282E'
     # background: '#181D23'
     # background: '#202020'
     # background: '#282C34'
+    background: '#1F242A'
     foreground: '#BCBCBC'
   cursor:
     text:    '#1E2126'
@@ -190,7 +192,7 @@ colors:
 
   # Normal colors
   normal:
-    black:     '#1C2027'
+    black:     '#1F242A'
     red:       '#CF6A4C'
     green:     '#8F9D6A'
     yellow:    '#CDA869'

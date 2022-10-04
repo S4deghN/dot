@@ -11,7 +11,8 @@ set mouse+=a "mouse support
 
 set shortmess+=a
 
-set nonumber "linen numbers
+" set nonumber "linen numbers
+" set relativenumber
 set cursorline
 set cursorlineopt=number
 set laststatus=0
@@ -63,6 +64,16 @@ let g:gruvbox_italic = 0
 let g:gruvbox_bold = 1
 
 color apprentice
+" color alchemist
+
+" highlight Function        guifg=#E6D78E
+highlight Delimiter       guifg=#969EA8
+" highlight Constant        guifg=#D3869B
+highlight Constant        guifg=#cda869
+" highlight Identifier      guifg=fg
+" highlight Identifier      guifg=#779CAA
+" highlight Identifier      guifg=#D7875F
+
 highlight Normal          guibg=none  "guifg=#cccccc
 highlight NormalFloat	  guibg=bg    "guifg=fg2e
 highlight FloatBorder     guibg=bg
@@ -86,41 +97,53 @@ highlight Folded guibg=#181D22 guifg=#747C84
 " highlight Visual          guibg=#2E3541 guifg=none gui=none
 highlight! link Visual IncSearch
 
-highlight Identifier      guifg=fg
+" highlight Identifier      guifg=fg
 " highlight Identifier guifg=#A8D1E1
-highlight Identifier guifg=#95bcbc
+" highlight Identifier guifg=#95bcbc
+" highlight Identifier         guifg=#8787AF
+highlight Identifier guifg=#789AC0
 " highlight Identifier guifg=#8FBCC5
-highlight PreProc         guifg=#83a598
+highlight PreProc         guifg=#95bcbc
+" highlight PreProc         guifg=#83a598
 " highlight PreProc         guifg=#629494
 " highlight PreProc         guifg=#458588
 " highlight PreProc         guifg=#87AFD7
 " highlight PreProc         guifg=#8787AF
-" highlight Type         guifg=#83a598
-highlight Type         guifg=#cda869
+" highlight PreProc        guifg=#789AC0
+" highlight Type         guifg=#8787AF
+highlight Type         guifg=#83a598
+" highlight Type         guifg=#cda869 gui=none
 " highlight Type         guifg=#E6D78E
 " highlight Type         guifg=#68BEA2
 " highlight Type            guifg=#87aFD7
+" highlight Type            guifg=#95bcbc
+" highlight Type        guifg=#789AC0
 
 highlight Constant        guifg=#cda869
-highlight Statement       guifg=#CF6A4C
-highlight Function        guifg=#789AC0
+" highlight Constant        guifg=#D3869B
+highlight Statement       guifg=#CF6A4C gui=none
+" highlight Function        guifg=#789AC0 gui=none
+" highlight Function        guifg=#D3869B
+" highlight Function         guifg=#cda869
 " highlight Function        guifg=#87AFD7
 " highlight Function        guifg=#5F87AF
-" highlight Function        guifg=#E6D78E
+highlight Function        guifg=#E6D78E
+" highlight Function        guifg=#95bcbc
 
 " highlight PreProc         guifg=#789AC0
 highlight String          guifg=#8F9D6A
-" highlight Special         guifg=#CF6A4C
-highlight Special         guifg=#E6D78E
-highlight Delimiter       guifg=fg
+" highlight Special         guifg=#789AC0
+" highlight Special         guifg=#E6D78E
+highlight Special         guifg=#95bcbc
 highlight Title           guifg=#E6D78E gui=bold
+highlight Delimiter       guifg=fg
 
 highlight! link Directory Constant
 highlight MatchParen guifg=#E6D78E guibg=bg gui=underline
 highlight Search guibg=#E6D78E
 
-" highlight DiagnosticError guifg=#af5f5f
-highlight DiagnosticError guifg=#CF6A4C
+highlight DiagnosticError guifg=#af5f5f
+" highlight DiagnosticError guifg=#CF6A4C
 highlight DiagnosticWarn  guifg=#d7af5f
 highlight DiagnosticInfo  guifg=LightBlue
 highlight DiagnosticHint  guifg=#747C84
@@ -129,8 +152,8 @@ highlight DiagnosticHint  guifg=#747C84
 highlight DiffDelete guifg=#af5f5f guibg=none gui=none
 highlight DiffChange guifg=#789AC0 guibg=none gui=none
 highlight DiffAdd    guifg=#8F9D6A guibg=none gui=none
-
-highlight Error         gui=bold
+"
+" highlight Error         gui=bold
 " highlight link TreesitterContext CursorLine
 " highlight TreesitterContext gui=italic guibg=grey17
 " }}}

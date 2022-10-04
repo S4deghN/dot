@@ -13,7 +13,7 @@ local tshl = require("nvim-treesitter.configs").setup {
         disable = {}, -- list of language that will be disabled
         additional_vim_regex_highlighting = false,
     },
-    indent = { enable = true, disable = { "yaml" } },
+    indent = { enable = true },
     context_commentstring = {
         enable = true,
         enable_autocmd = false,
@@ -89,7 +89,7 @@ cmp.setup {
         end,
     },
     completion = {
-        autocomplete = false,
+        -- autocomplete = true,
         -- completeopt = 'menu,menuone,noisert'
     },
     experimental = {

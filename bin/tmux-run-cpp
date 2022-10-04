@@ -1,5 +1,10 @@
 #!/usr/bin/bash
 
+# toggle zoom if the current pane is zoomed
+if [ "$(tmux display-message -p '#{window_zoomed_flag}')" -eq 1 ]; then
+    tmux resize-pane -Z
+fi
+
 # check if a pane on right of the current pane doesn't exits.
 # if so, create a split horizontal (-h) split with the current pane's path and
 # with 30 percent coverage of the terminal.
