@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Repeat-rate
+Comment=Source .Xmodmap
+Exec=xmodmap ~/.Xmodmap
+Terminal=false
+Type=Application

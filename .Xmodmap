@@ -9,6 +9,14 @@ remove mod4 = Super_L
 add control = Super_L
 
 !
+! Specific for nuphty keyboard
+! The original fn key is onlyh mapable to win_r on the nuphy software therefore
+! the previous set of mapping functions also maps the original fn key to control
+!
+remove control = Control_R
+add mod4 = Control_R
+
+!
 ! Swap Alt_R and Super_R
 !
 ! remove mod1 = Alt_R
