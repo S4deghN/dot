@@ -8,6 +8,8 @@ if status is-interactive
     abbr .    "fzf --preview 'nvim {}' | xargs -r $EDITOR"
     abbr e    $EDITOR
     abbr e.   $EDITOR .
+    abbr vi   $EDITOR
+    abbr vim  $EDITOR
     abbr dot  $EDITOR $HOME/dot
     abbr note $EDITOR $HOME/note
     abbr enw  $EDITOR $HOME/note/en/words.md
