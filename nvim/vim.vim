@@ -32,7 +32,7 @@ set foldmethod=marker
 
 set cmdwinheight=12 " the special window that opens with :q or ctlr-f in cmd mode.
 
-match Visual '\s\+$' " mark trailing spaces as errors
+match CursorLine '\s\+$' " mark trailing spaces as errors
 
 set iskeyword+=-
 set encoding=utf-8
@@ -166,7 +166,7 @@ let g:gruvbox_bold = 1
 
 color paramount
 
-highlight Normal          guibg=none  "guifg=#cccccc
+highlight Normal          guibg=none  "guifg=#CCCCCC
 highlight NormalFloat	  guibg=bg    "guifg=fg2e
 highlight FloatBorder     guibg=bg
 
@@ -175,7 +175,12 @@ highlight CursorColumn    guibg=#23272E
 highlight VertSplit       guibg=none
 highlight Folded guibg=#181D22 guifg=#747C84
 
+highlight Statement      guifg=#909090
+highlight PreProc      guifg=#909090
 highlight Type         guifg=#83a598
+" highlight Type         guifg=#cda869
+highlight String         guifg=#cda869
+" highlight Type            guifg=#95bcbc
 " highlight Special      gui=none
 " highlight Statement    gui=italic
 
@@ -183,7 +188,7 @@ highlight Error guibg=bg guifg=#af5f5f gui=underline
 highlight ErrorMsg guifg=#af5f5f
 
 highlight DiagnosticError guifg=#af5f5f
-highlight DiagnosticWarn  guifg=#d7af5f
+highlight DiagnosticWarn  guifg=#cda869
 highlight DiagnosticInfo  guifg=LightBlue
 highlight DiagnosticHint  guifg=#747C84
 

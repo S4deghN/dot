@@ -281,7 +281,7 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', '<leader>lt', vim.lsp.buf.type_definition, bufopts)
     vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, bufopts)
     vim.keymap.set('n', '<leader>la', vim.lsp.buf.code_action, bufopts)
-    vim.keymap.set('n', '<leader>lf', vim.lsp.buf.formatting, bufopts)
+    vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format, bufopts)
 
     vim.keymap.set('n', '<leader>lwa', vim.lsp.buf.add_workspace_folder, bufopts)
     vim.keymap.set('n', '<leader>lwr', vim.lsp.buf.remove_workspace_folder, bufopts)
