@@ -1,5 +1,5 @@
 " -----------------------------------------------
-" {{{ options
+" options
 " -----------------------------------------------
 set noautochdir " using the rooter plugin
 set noswapfile
@@ -42,16 +42,14 @@ set encoding=utf-8
 " noinsert: Do not insert text until a selection is made
 " noselect: Do not select, force user to select one from the menu
 " set completeopt=menuone,preview,noinsert
-" }}}
 
 " -----------------------------------------------
-" {{{ plugin
+" plugin
 " -----------------------------------------------
 let g:rooter_silent_chdir = 1
-" }}}
 
 " -----------------------------------------------
-" {{{ colors
+" colors
 " -----------------------------------------------
 syntax on
 if (has("termguicolors"))                       "uses gui colors
@@ -63,104 +61,149 @@ let g:gruvbox_invert_selection = 0
 let g:gruvbox_italic = 0
 let g:gruvbox_bold = 1
 
-color apprentice
+" color apprentice
+" color gruvbox
 " color alchemist
 
-" highlight Function        guifg=#E6D78E
-highlight Delimiter       guifg=#969EA8
-" highlight Constant        guifg=#D3869B
-highlight Constant        guifg=#cda869
+" melange specific
+" highlight Delimiter       guifg=#747C84
+" highlight String       gui=none
 " highlight Identifier      guifg=fg
-" highlight Identifier      guifg=#779CAA
-" highlight Identifier      guifg=#D7875F
+
+" highlight Normal          guibg=none  "guifg=#cccccc
+" highlight NormalFloat	  guibg=bg    "guifg=fg2e
+" highlight FloatBorder     guibg=bg
+
+" " highlight NormalFloat	  guibg=#2F333A
+" " highlight FloatBorder     guibg=#2F333A
+" highlight CursorLineNr    guibg=bg
+" highlight LineNr          guibg=bg guifg=#747C84
+" highlight SignColumn      guibg=bg guifg=#747C84
+" highlight FoldColumn      guibg=bg guifg=#747C84
+" highlight SpecialKey      guibg=bg guifg=#747C84
+" highlight EndOfBuffer     guibg=bg guifg=#747C84
+" highlight NonText         guibg=bg guifg=#747C84
+" highlight Comment         guibg=bg guifg=#747C84
+" " highlight CursorLine      guibg=#232832
+" " highlight CursorColumn    guibg=#232832
+" highlight CursorLine      guibg=#23272E
+" highlight CursorColumn    guibg=#23272E
+" highlight VertSplit       guibg=none
+" highlight Folded guibg=#181D22 guifg=#747C84
+"
+" highlight Visual          guibg=#2E3541 guifg=none gui=none
+" highlight! link Visual IncSearch
+"
+" " highlight Function        guifg=#E6D78E
+" highlight Delimiter       guifg=#969EA8
+" " highlight Constant        guifg=#D3869B
+" highlight Constant        guifg=#cda869
+" " highlight Identifier      guifg=fg
+" " highlight Identifier      guifg=#779CAA
+" " highlight Identifier      guifg=#D7875F
+"
+" " highlight Identifier      guifg=fg
+" " highlight Identifier guifg=#A8D1E1
+" " highlight Identifier guifg=#95bcbc
+" " highlight Identifier         guifg=#8787AF
+" highlight Identifier guifg=#789AC0
+" " highlight Identifier guifg=#8FBCC5
+" highlight PreProc         guifg=#95bcbc
+" " highlight PreProc         guifg=#83a598
+" " highlight PreProc         guifg=#629494
+" " highlight PreProc         guifg=#458588
+" " highlight PreProc         guifg=#87AFD7
+" " highlight PreProc         guifg=#8787AF
+" " highlight PreProc        guifg=#789AC0
+" " highlight Type         guifg=#8787AF
+" highlight Type         guifg=#83a598
+" " highlight Type         guifg=#cda869 gui=none
+" " highlight Type         guifg=#E6D78E
+" " highlight Type         guifg=#68BEA2
+" " highlight Type            guifg=#87aFD7
+" " highlight Type            guifg=#95bcbc
+" " highlight Type        guifg=#789AC0
+"
+" highlight Constant        guifg=#cda869
+" " highlight Constant        guifg=#D3869B
+" highlight Statement       guifg=#CF6A4C gui=none
+" " highlight Function        guifg=#789AC0 gui=none
+" " highlight Function        guifg=#D3869B
+" " highlight Function         guifg=#cda869
+" " highlight Function        guifg=#87AFD7
+" " highlight Function        guifg=#5F87AF
+" highlight Function        guifg=#E6D78E
+" " highlight Function        guifg=#95bcbc
+"
+" " highlight PreProc         guifg=#789AC0
+" highlight String          guifg=#8F9D6A
+" " highlight Special         guifg=#789AC0
+" " highlight Special         guifg=#E6D78E
+" highlight Special         guifg=#95bcbc
+" highlight Title           guifg=#E6D78E gui=bold
+" highlight Delimiter       guifg=fg
+" highlight! link Delimiter Comment
+"
+" highlight! link Directory Constant
+" highlight! link IncSearch Visual
+" highlight MatchParen guifg=#E6D78E guibg=bg gui=underline
+" highlight Search guibg=#E6D78E
+"
+" highlight DiagnosticError guifg=#af5f5f
+" " highlight DiagnosticError guifg=#CF6A4C
+" highlight DiagnosticWarn  guifg=#d7af5f
+" highlight DiagnosticInfo  guifg=LightBlue
+" highlight DiagnosticHint  guifg=#747C84
+"
+"
+" highlight DiffDelete guifg=#af5f5f guibg=none gui=none
+" highlight DiffChange guifg=#789AC0 guibg=none gui=none
+" highlight DiffAdd    guifg=#8F9D6A guibg=none gui=none
+"
+" highlight Error         gui=bold
+" highlight link TreesitterContext CursorLine
+" highlight TreesitterContext gui=italic guibg=grey17
+
+color paramount
 
 highlight Normal          guibg=none  "guifg=#cccccc
 highlight NormalFloat	  guibg=bg    "guifg=fg2e
 highlight FloatBorder     guibg=bg
-" highlight NormalFloat	  guibg=#2F333A    "guifg=fg2e
-" highlight FloatBorder     guibg=#2F333A
-highlight CursorLineNr    guibg=bg
-highlight LineNr          guibg=bg guifg=#747C84
-highlight SignColumn      guibg=bg guifg=#747C84
-highlight FoldColumn      guibg=bg guifg=#747C84
-highlight SpecialKey      guibg=bg guifg=#747C84
-highlight EndOfBuffer     guibg=bg guifg=#747C84
-highlight NonText         guibg=bg guifg=#747C84
-highlight Comment         guibg=bg guifg=#747C84
-" highlight CursorLine      guibg=#232832
-" highlight CursorColumn    guibg=#232832
+
 highlight CursorLine      guibg=#23272E
 highlight CursorColumn    guibg=#23272E
 highlight VertSplit       guibg=none
 highlight Folded guibg=#181D22 guifg=#747C84
 
-" highlight Visual          guibg=#2E3541 guifg=none gui=none
-highlight! link Visual IncSearch
-
-" highlight Identifier      guifg=fg
-" highlight Identifier guifg=#A8D1E1
-" highlight Identifier guifg=#95bcbc
-" highlight Identifier         guifg=#8787AF
-highlight Identifier guifg=#789AC0
-" highlight Identifier guifg=#8FBCC5
-highlight PreProc         guifg=#95bcbc
-" highlight PreProc         guifg=#83a598
-" highlight PreProc         guifg=#629494
-" highlight PreProc         guifg=#458588
-" highlight PreProc         guifg=#87AFD7
-" highlight PreProc         guifg=#8787AF
-" highlight PreProc        guifg=#789AC0
-" highlight Type         guifg=#8787AF
 highlight Type         guifg=#83a598
-" highlight Type         guifg=#cda869 gui=none
-" highlight Type         guifg=#E6D78E
-" highlight Type         guifg=#68BEA2
-" highlight Type            guifg=#87aFD7
-" highlight Type            guifg=#95bcbc
-" highlight Type        guifg=#789AC0
+" highlight Special      gui=none
+" highlight Statement    gui=italic
 
-highlight Constant        guifg=#cda869
-" highlight Constant        guifg=#D3869B
-highlight Statement       guifg=#CF6A4C gui=none
-" highlight Function        guifg=#789AC0 gui=none
-" highlight Function        guifg=#D3869B
-" highlight Function         guifg=#cda869
-" highlight Function        guifg=#87AFD7
-" highlight Function        guifg=#5F87AF
-highlight Function        guifg=#E6D78E
-" highlight Function        guifg=#95bcbc
-
-" highlight PreProc         guifg=#789AC0
-highlight String          guifg=#8F9D6A
-" highlight Special         guifg=#789AC0
-" highlight Special         guifg=#E6D78E
-highlight Special         guifg=#95bcbc
-highlight Title           guifg=#E6D78E gui=bold
-highlight Delimiter       guifg=fg
-
-highlight! link Directory Constant
-highlight MatchParen guifg=#E6D78E guibg=bg gui=underline
-highlight Search guibg=#E6D78E
+highlight Error guibg=bg guifg=#af5f5f gui=underline
+highlight ErrorMsg guifg=#af5f5f
 
 highlight DiagnosticError guifg=#af5f5f
-" highlight DiagnosticError guifg=#CF6A4C
 highlight DiagnosticWarn  guifg=#d7af5f
 highlight DiagnosticInfo  guifg=LightBlue
 highlight DiagnosticHint  guifg=#747C84
 
 
+highlight! link Directory Constant
+highlight! link IncSearch Visual
+" highlight MatchParen guifg=#E6D78E guibg=bg gui=underline
+highlight Search guibg=#E6D78E
+
 highlight DiffDelete guifg=#af5f5f guibg=none gui=none
 highlight DiffChange guifg=#789AC0 guibg=none gui=none
 highlight DiffAdd    guifg=#8F9D6A guibg=none gui=none
-"
-" highlight Error         gui=bold
-" highlight link TreesitterContext CursorLine
-" highlight TreesitterContext gui=italic guibg=grey17
-" }}}
 
+highlight! link GitSignsAdd DiffAdd
+highlight! link GitSignsDelete DiffDelete
+highlight! link GitSignsChange DiffChange
 " -----------------------------------------------
-" {{{ ruler
+" ruler
 " -----------------------------------------------
+
 lua << EOF
 function GetDiag()
     local str = ""
@@ -219,10 +262,9 @@ EOF
 
 set rulerformat=%50(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\ %m%q%w\ %y%)
 " set rulerformat=%50(%=[%l,%c/%L]\ %m\ %{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}\ [%Y]%)
-" }}}
 
 " -----------------------------------------------
-" {{{ keymaps
+" keymaps
 " -----------------------------------------------
 let mapleader = " "
 inoremap <C-c> <esc>
@@ -262,13 +304,15 @@ noremap gP "+]P
 
 " navigation
 nnoremap <C-h>     <C-w>h
-nnoremap <C-j>     <C-w>j
-nnoremap <C-k>     <C-w>k
 nnoremap <C-l>     <C-w>l
 nnoremap <C-n>     <C-e>j
 nnoremap <C-p>     <C-y>k
+
+nnoremap <C-j>     <C-d>zz
+nnoremap <C-k>     <C-u>zz
 nnoremap <C-d>     <C-d>zz
 nnoremap <C-u>     <C-u>zz
+
 nnoremap L         :bn<CR>
 nnoremap H         :bp<CR>
 nnoremap <leader>d :bd<CR>
@@ -331,16 +375,14 @@ noremap gV V`]
 
 " Duplicate the visually selected block
 vnoremap D y'>p
-" }}}
 
 " -----------------------------------------------
-" {{{ cmds
+" cmds
 " -----------------------------------------------
 command! Run call system("tmux-run ".&filetype)
-" }}}
 
 " -----------------------------------------------
-" {{{ functions
+" functions
 " -----------------------------------------------
 function! Get_file_perm()
     let a=getfperm(expand('%:p'))
@@ -365,10 +407,9 @@ function! Syn()
     endfor
 endfunction
 command! -nargs=0 Syn call Syn()
-" }}}
 
 " -----------------------------------------------
-" {{{ auto cmds
+" auto cmds
 " -----------------------------------------------
 
 augroup File
@@ -428,10 +469,9 @@ augroup end
 augroup yank
     autocmd TextYankPost * silent! lua vim.highlight.on_yank({ higroup="Visual", timeout=100 })
 augroup end
-" }}}
 
 " -----------------------------------------------
-" {{{ netrw
+" netrw
 " -----------------------------------------------
 let g:netrw_keepdir=0
 
@@ -461,10 +501,9 @@ function! NetrwConfig()
     " retrieve the last deleted file
     " nmap <buffer> u
 endfunction
-" }}}
 
 " -----------------------------------------------
-" {{{ tmux
+" tmux
 " -----------------------------------------------
 function! s:tmux_apply_title()
     " call system("tmux rename-window \"vi:".expand("%:t")."\"")
@@ -477,4 +516,3 @@ endfunc
 function! s:tmux_reset_title()
     call system("tmux set-window-option automatic-rename on")
 endfunc
-" }}}

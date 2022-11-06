@@ -61,6 +61,8 @@ window:
   #     - buttonless: Title bar, transparent background, but no title bar buttons
   decorations: full
 
+  decorations_theme_variant: dark
+
   # Startup Mode (changes require restart)
   #
   # Values for `startup_mode`:
@@ -81,12 +83,6 @@ window:
     instance: Alacritty
     # General application class
     general: Alacritty
-
-  # GTK theme variant (Linux/BSD only)
-  #
-  # Override the variant of the GTK theme. Commonly supported values are `dark` and `light`.
-  # Set this to `None` to use the default theme variant.
-  gtk_theme_variant: dark
 
 scrolling:
   # Maximum number of lines in the scrollback buffer.
@@ -152,14 +148,14 @@ font:
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
   offset:
    x: 0
-   y: 5
+   y: 3
 
   # Glyph offset determines the locations of the glyphs within their cells with
   # the default being at the bottom. Increasing `x` moves the glyph to the right,
   # increasing `y` moves the glyph upwards.
   glyph_offset:
    x: 0
-   y: 3
+   y: 2
 
   # Thin stroke font rendering (macOS only)
   #

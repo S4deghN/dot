@@ -93,6 +93,12 @@ return packer.startup(function(use)
     use "habamax/vim-alchemist"
     use "Aszarsha/elysian.vim"
     use "habamax/vim-saturnite"
+    use "savq/melange"
+    use "rose-pine/neovim"
+    use "rmehri01/onenord.nvim"
+    use "lewpoly/sherbet.nvim"
+    use "fxn/vim-monochrome"
+    use "owickstrom/vim-colors-paramount"
 
 
     -- cmp plugins
