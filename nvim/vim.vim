@@ -65,12 +65,21 @@ let g:gruvbox_bold = 1
 " color gruvbox
 " color alchemist
 
-" melange specific
-" highlight Delimiter       guifg=#747C84
+" color melange
+" highlight Type guifg=#87B3B2
+" highlight Delimiter       guifg=#747C84 gui=italic
 " highlight String       gui=none
 " highlight Identifier      guifg=fg
-
-" highlight Normal          guibg=none  "guifg=#cccccc
+" highlight Preproc   guifg=#909090
+" highlight Function  guifg=fg
+" highlight Statement   guifg=#EBC06D
+" highlight String guifg=#CE9BCB
+" " highlight Comment guifg=#6F886B
+" " highlight Comment guifg=#7C9279
+" " highlight Comment guifg=#75886F
+" highlight Comment         guibg=bg guifg=#747C84
+"
+" highlight Normal          guibg=none  guifg=#C6C6C6
 " highlight NormalFloat	  guibg=bg    "guifg=fg2e
 " highlight FloatBorder     guibg=bg
 
@@ -176,16 +185,28 @@ highlight VertSplit       guibg=none
 highlight Folded guibg=#181D22 guifg=#747C84
 
 highlight Statement      guifg=#909090
-highlight PreProc      guifg=#909090
+" highlight Statement      guifg=#F17C64
+" highlight Operator      guifg=#EEEEEE gui=none
+" highlight PreProc      guifg=#909090
 highlight Type         guifg=#83a598
 " highlight Type         guifg=#cda869
-highlight String         guifg=#cda869
-" highlight Type            guifg=#95bcbc
+" highlight Type         guifg=#95bcbc
+" highlight Type         guifg=#86A3A0
+" highlight String         guifg=#cda869
+" highlight Statement   guifg=#EBC06D gui=italic
+" highlight String         guifg=#83a598
 " highlight Special      gui=none
 " highlight Statement    gui=italic
+highlight Comment guifg=#75886F
+" highlight Comment guifg=#6A9955
+" highlight Comment guifg=#7E9973
+" highlight Comment guifg=#687863
+" highlight Comment guifg=#6F886B
+" highlight Comment guifg=#7C9279
 
 highlight Error guibg=bg guifg=#af5f5f gui=underline
 highlight ErrorMsg guifg=#af5f5f
+highlight MatchParen guifg=#E6D78E gui=bold
 
 highlight DiagnosticError guifg=#af5f5f
 highlight DiagnosticWarn  guifg=#cda869
@@ -205,6 +226,7 @@ highlight DiffAdd    guifg=#8F9D6A guibg=none gui=none
 highlight! link GitSignsAdd DiffAdd
 highlight! link GitSignsDelete DiffDelete
 highlight! link GitSignsChange DiffChange
+
 " -----------------------------------------------
 " ruler
 " -----------------------------------------------
