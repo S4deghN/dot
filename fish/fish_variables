@@ -1,13 +1,11 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
 SETUVAR __fish_initialized:3400
-SETUVAR _fish_abbr__2E_:fzf\x20\x2d\x2dpreview\x20\x27nvim\x20\x7b\x7d\x27\x20\x7c\x20xargs\x20\x2dr\x20nvim
-SETUVAR _fish_abbr__2F_home_2F_s4:cd\x3b\x20nvim\x20\x24\x28fzf\x20\x2d\x2dpreview\x20\x27nvim\x20\x7b\x7d\x27\x29
 SETUVAR _fish_abbr_dot:nvim\x20/home/s4/dot
 SETUVAR _fish_abbr_e:nvim
 SETUVAR _fish_abbr_e_2E_:nvim\x20\x2e
 SETUVAR _fish_abbr_enw:nvim\x20/home/s4/note/en/words\x2emd
-SETUVAR _fish_abbr_ff:fzf
+SETUVAR _fish_abbr_f:fzf\x20\x2d\x2dpreview\x20\x27nvim\x20\x7b\x7d\x27\x20\x7c\x20xargs\x20\x2dr\x20nvim
 SETUVAR _fish_abbr_la:la\x20\x2dal
 SETUVAR _fish_abbr_mv:mv\x20\x2di
 SETUVAR _fish_abbr_note:nvim\x20/home/s4/note

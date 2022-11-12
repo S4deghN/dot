@@ -184,7 +184,9 @@ highlight CursorColumn    guibg=#23272E
 highlight VertSplit       guibg=none
 highlight Folded guibg=#181D22 guifg=#747C84
 
-highlight Statement      guifg=#909090
+highlight Statement      guifg=#999999
+highlight Preproc      guifg=#999999
+highlight Special      guifg=#999999 gui=none
 " highlight Statement      guifg=#F17C64
 " highlight Operator      guifg=#EEEEEE gui=none
 " highlight PreProc      guifg=#909090
@@ -193,11 +195,13 @@ highlight Type         guifg=#83a598
 " highlight Type         guifg=#95bcbc
 " highlight Type         guifg=#86A3A0
 " highlight String         guifg=#cda869
-" highlight Statement   guifg=#EBC06D gui=italic
+highlight Statement   guifg=#EBC06D gui=italic
 " highlight String         guifg=#83a598
 " highlight Special      gui=none
 " highlight Statement    gui=italic
 highlight Comment guifg=#75886F
+" highlight Function guifg=LightBlue
+" highlight Function guifg=#A8D1E1
 " highlight Comment guifg=#6A9955
 " highlight Comment guifg=#7E9973
 " highlight Comment guifg=#687863
@@ -226,69 +230,6 @@ highlight DiffAdd    guifg=#8F9D6A guibg=none gui=none
 highlight! link GitSignsAdd DiffAdd
 highlight! link GitSignsDelete DiffDelete
 highlight! link GitSignsChange DiffChange
-
-" -----------------------------------------------
-" ruler
-" -----------------------------------------------
-
-lua << EOF
-function GetDiag()
-    local str = ""
-    if vim.api.nvim_get_mode()["mode"] == 'n' then
-        local err  = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
-        local warn = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
-        local hint = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT })
-        local info = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO })
-
-        if err ~= 0 then
-            str = str .. "%#DiagnosticError# E:" .. err .. "%*"
-        end
-        if warn ~= 0 then
-            str = str .. "%#DiagnosticWarn# W:" .. warn .. "%*"
-        end
-        if hint ~= 0 then
-            str = str .. "%#DiagnosticHint# H:" .. hint .. "%*"
-        end
-        if info ~= 0 then
-            str = str .. "%#DiagnosticInfo# I:" .. info .. "%*"
-        end
-    end
-    return str
-end
-EOF
-
-lua << EOF
-function GetRunningLsp()
-    local str = ""
-    vim.lsp.for_each_buffer_client(0, function(client, client_id, bufnr)
-        str = str .. "[%#PreProc#" .. client.name .. "%*]"
-    end)
-    return str
-end
-EOF
-
-" lua << EOF
-" function LeftRuler(hold)
-"     local diagMsg = vim.diagnostic.get(0, {lnum = vim.fn.line('.') - 1})
-"     if (#diagMsg ~= 0) then
-"         print(diagMsg[1].message)
-"     elseif (hold) then
-"         vim.cmd[[echo expand('%:p:~')]]
-"     end
-" end
-" EOF
-"
-" augroup LeftRuler
-"     autocmd!
-"     autocmd CursorMoved,InsertLeave * :lua LeftRuler()
-"     autocmd CursorHold * :lua LeftRuler(1)
-" augroup end
-
-" set ruf=%30(%=%#LineNr#%.50F\ [%{strlen(&ft)?&ft:'none'}]\ %l:%c\ %p%%%)
-" set rulerformat=%36(%5l,%-6(%c%V%)\ %y%)%*
-
-set rulerformat=%50(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\ %m%q%w\ %y%)
-" set rulerformat=%50(%=[%l,%c/%L]\ %m\ %{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}\ [%Y]%)
 
 " -----------------------------------------------
 " keymaps
