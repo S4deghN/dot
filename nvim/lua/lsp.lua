@@ -89,7 +89,7 @@ cmp.setup {
         end,
     },
     completion = {
-        -- autocomplete = true,
+        autocomplete = false,
         -- completeopt = 'menu,menuone,noisert'
     },
     experimental = {
@@ -109,14 +109,19 @@ cmp.setup {
         },
     },
     mapping = cmp.mapping.preset.insert({
+        ['<C-n>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+            else
+                cmp.complete()
+            end
+        end),
         ['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select });
-        ['<C-n>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select });
         ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-u>'] = cmp.mapping.scroll_docs(4),
-        ['<C-Space>'] = cmp.mapping.complete(),
-        ['<C-e>'] = cmp.mapping.abort(),
         ['<C-f>'] = cmp.mapping.confirm({ select = true }),
-        ['<CR>'] = cmp.mapping.confirm({ select = true }),
+        -- ['<ESC>'] = cmp.mapping.confirm({ select = true }),
+        ['<C-u>'] = cmp.mapping.scroll_docs(4),
+        ['<C-e>'] = cmp.mapping.abort(),
     }),
     formatting = {
         fields = { "kind", "abbr", "menu" },
@@ -232,8 +237,8 @@ local opts = { noremap = true, silent = false }
 vim.keymap.set('n', 'gh', vim.diagnostic.open_float, opts)
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
-vim.keymap.set('n', '[e', function() vim.diagnostic.goto_prev({severity = sev.e}) end, opts)
-vim.keymap.set('n', ']e', function() vim.diagnostic.goto_next({severity = sev.e}) end, opts)
+vim.keymap.set('n', '[e', function() vim.diagnostic.goto_prev({ severity = sev.e }) end, opts)
+vim.keymap.set('n', ']e', function() vim.diagnostic.goto_next({ severity = sev.e }) end, opts)
 vim.keymap.set('n', '<leader>ld', vim.diagnostic.setloclist, opts)
 
 ------------------------------------------------------------
@@ -262,7 +267,6 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
     opts.border = opts.border or border
     return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
-
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -313,6 +317,11 @@ require('lspconfig').tsserver.setup {
     flags        = lsp_flags,
 }
 
+require('lspconfig').gopls.setup {
+    on_attach    = on_attach,
+    capabilities = capabilities,
+    flags        = lsp_flags,
+}
 -- require('lspconfig').quick_lint_js.setup {
 --     on_attach    = on_attach,
 --     capabilities = capabilities,

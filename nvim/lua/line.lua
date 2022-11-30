@@ -22,7 +22,7 @@ local diagnostics = {
 require('lualine').setup {
     options = {
         icons_enabled = true,
-        theme = 'gruvbox-material',
+        -- theme = 'gruvbox-material',
         section_separators = { left = '', right = '' },
         component_separators = { left = '', right = '' },
         disabled_filetypes = {

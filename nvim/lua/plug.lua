@@ -86,7 +86,6 @@ return packer.startup(function(use)
     use "ful1e5/onedark.nvim"
     -- use "folke/tokyonight.nvim"
     use "w0ng/vim-hybrid"
-    use "ulwlu/elly.vim"
     use "romgrk/doom-one.vim"
     use "romainl/Apprentice"
     use "habamax/vim-saturnite"
@@ -99,6 +98,7 @@ return packer.startup(function(use)
     use "lewpoly/sherbet.nvim"
     use "fxn/vim-monochrome"
     use "owickstrom/vim-colors-paramount"
+    use "S4deghN/green-arc"
 
 
     -- cmp plugins

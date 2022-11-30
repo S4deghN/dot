@@ -29,6 +29,7 @@ set expandtab                           "convert tabs to spaces
 set shiftwidth=4                        "the number of spaces inserted for each indentation
 set tabstop=4
 set foldmethod=marker
+set concealcursor=
 
 set cmdwinheight=12 " the special window that opens with :q or ctlr-f in cmd mode.
 
@@ -173,63 +174,64 @@ let g:gruvbox_bold = 1
 " highlight link TreesitterContext CursorLine
 " highlight TreesitterContext gui=italic guibg=grey17
 
-color paramount
+color green-arc
 
-highlight Normal          guibg=none  "guifg=#CCCCCC
-highlight NormalFloat	  guibg=bg    "guifg=fg2e
-highlight FloatBorder     guibg=bg
-
-highlight CursorLine      guibg=#23272E
-highlight CursorColumn    guibg=#23272E
-highlight VertSplit       guibg=none
-highlight Folded guibg=#181D22 guifg=#747C84
-
-highlight Statement      guifg=#999999
-highlight Preproc      guifg=#999999
-highlight Special      guifg=#999999 gui=none
-" highlight Statement      guifg=#F17C64
-" highlight Operator      guifg=#EEEEEE gui=none
-" highlight PreProc      guifg=#909090
-highlight Type         guifg=#83a598
-" highlight Type         guifg=#cda869
-" highlight Type         guifg=#95bcbc
-" highlight Type         guifg=#86A3A0
-" highlight String         guifg=#cda869
-highlight Statement   guifg=#EBC06D gui=italic
-" highlight String         guifg=#83a598
-" highlight Special      gui=none
-" highlight Statement    gui=italic
-highlight Comment guifg=#75886F
-" highlight Function guifg=LightBlue
-" highlight Function guifg=#A8D1E1
-" highlight Comment guifg=#6A9955
-" highlight Comment guifg=#7E9973
-" highlight Comment guifg=#687863
-" highlight Comment guifg=#6F886B
-" highlight Comment guifg=#7C9279
-
-highlight Error guibg=bg guifg=#af5f5f gui=underline
-highlight ErrorMsg guifg=#af5f5f
-highlight MatchParen guifg=#E6D78E gui=bold
-
-highlight DiagnosticError guifg=#af5f5f
-highlight DiagnosticWarn  guifg=#cda869
-highlight DiagnosticInfo  guifg=LightBlue
-highlight DiagnosticHint  guifg=#747C84
-
-
-highlight! link Directory Constant
-highlight! link IncSearch Visual
-" highlight MatchParen guifg=#E6D78E guibg=bg gui=underline
-highlight Search guibg=#E6D78E
-
-highlight DiffDelete guifg=#af5f5f guibg=none gui=none
-highlight DiffChange guifg=#789AC0 guibg=none gui=none
-highlight DiffAdd    guifg=#8F9D6A guibg=none gui=none
-
-highlight! link GitSignsAdd DiffAdd
-highlight! link GitSignsDelete DiffDelete
-highlight! link GitSignsChange DiffChange
+" highlight Normal          guibg=none  "guifg=#CCCCCC
+" highlight NormalFloat	  guibg=bg    "guifg=fg2e
+" highlight FloatBorder     guibg=bg
+"
+" highlight CursorLine      guibg=#23272E
+" highlight CursorColumn    guibg=#23272E
+" highlight VertSplit       guibg=none
+" highlight Folded guibg=#181D22 guifg=#747C84
+"
+" highlight Statement      guifg=#999999
+" highlight Preproc      guifg=#999999
+" highlight Special      guifg=#999999 gui=none
+" " highlight Statement      guifg=#F17C64
+" " highlight Operator      guifg=#EEEEEE gui=none
+" " highlight PreProc      guifg=#909090
+" highlight Type         guifg=#83a598
+" " highlight Type         guifg=#cda869
+" " highlight Type         guifg=#95bcbc
+" " highlight Type         guifg=#86A3A0
+" " highlight String         guifg=#cda869
+" highlight Statement   guifg=#EBC06D gui=italic
+" " highlight String         guifg=#83a598
+" " highlight Special      gui=none
+" " highlight Statement    gui=italic
+" highlight Comment guifg=#75886F gui=none
+" highlight Ignore guifg=#75886F gui=none
+" " highlight Function guifg=LightBlue
+" " highlight Function guifg=#A8D1E1
+" " highlight Comment guifg=#6A9955
+" " highlight Comment guifg=#7E9973
+" " highlight Comment guifg=#687863
+" " highlight Comment guifg=#6F886B
+" " highlight Comment guifg=#7C9279
+"
+" highlight Error guibg=bg guifg=#af5f5f gui=underline
+" highlight ErrorMsg guifg=#af5f5f
+" highlight MatchParen guifg=#E6D78E gui=bold
+"
+" highlight DiagnosticError guifg=#af5f5f
+" highlight DiagnosticWarn  guifg=#cda869
+" highlight DiagnosticInfo  guifg=LightBlue
+" highlight DiagnosticHint  guifg=#747C84
+"
+"
+" highlight! link Directory Constant
+" highlight! link IncSearch Visual
+" " highlight MatchParen guifg=#E6D78E guibg=bg gui=underline
+" highlight Search guibg=#E6D78E
+"
+" highlight DiffDelete guifg=#af5f5f guibg=none gui=none
+" highlight DiffChange guifg=#789AC0 guibg=none gui=none
+" highlight DiffAdd    guifg=#8F9D6A guibg=none gui=none
+"
+" highlight! link GitSignsAdd DiffAdd
+" highlight! link GitSignsDelete DiffDelete
+" highlight! link GitSignsChange DiffChange
 
 " -----------------------------------------------
 " keymaps
@@ -345,11 +347,6 @@ noremap gV V`]
 vnoremap D y'>p
 
 " -----------------------------------------------
-" cmds
-" -----------------------------------------------
-command! Run call system("tmux-run ".&filetype)
-
-" -----------------------------------------------
 " functions
 " -----------------------------------------------
 function! Get_file_perm()
@@ -377,13 +374,19 @@ endfunction
 command! -nargs=0 Syn call Syn()
 
 " -----------------------------------------------
+" cmds
+" -----------------------------------------------
+command! Run call system("tmux-run ".&filetype)
+command! Dev let w:dev=!w:dev
+
+" -----------------------------------------------
 " auto cmds
 " -----------------------------------------------
 
 augroup File
     autocmd!
     autocmd Filetype tex setlocal spell
-    " autocmd Filetype tex set conceallevel=1
+    " autocmd Filetype tex set conceallevel=2
 
     autocmd Filetype markdown setlocal spell
     " autocmd FileType markdown setlocal conceallevel=2
@@ -396,21 +399,24 @@ augroup File
 augroup end
 
 
-let compile = 0
-augroup Compile
+let w:dev = v:false
+augroup Dev
     autocmd!
+
+    autocmd FocusLost * if w:dev != 0 | silent update
+
     " autocmd BufWritePost */src/*.cpp call system("tmux send-keys -t right ':make\n'")
-    autocmd BufWritePost */src/*.cpp if compile != 0 | call system("tmux-run-cpp")
-    autocmd BufWritePost */src/*.c   if compile != 0 | call system("tmux-run-c")
+    autocmd BufWritePost */src/*.cpp if w:dev != 0 | call system("tmux-run-cpp")
+    autocmd BufWritePost */src/*.c   if w:dev != 0 | call system("tmux-run-c")
     " autocmd BufWritePost */src/*.rs call system("tmux send-keys -t right 'cargo run\n'")
 augroup end
 
 augroup Enter
     autocmd!
-    autocmd BufRead,BufEnter */doc/* wincmd L
-    autocmd BufRead,BufEnter man://* wincmd L
+    autocmd BufRead,BufEnter */doc/* wincmd L | set conceallevel=0
+    autocmd BufRead,BufEnter man://* wincmd L | set conceallevel=0
 
-    autocmd BufEnter * :echo expand('%:p:~')
+    autocmd BufEnter * echo expand('%:p:~')
 
     autocmd VimEnter * call s:tmux_apply_title()
     autocmd WinEnter * call s:tmux_apply_title()
@@ -430,8 +436,8 @@ augroup end
 
 augroup Search
     autocmd!
-    autocmd CmdlineEnter /,\? :set hlsearch
-    autocmd CmdlineLeave /,\? :set nohlsearch
+    autocmd CmdlineEnter /,\? set hlsearch
+    autocmd CmdlineLeave /,\? set nohlsearch
 augroup end
 
 augroup yank
