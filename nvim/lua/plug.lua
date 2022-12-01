@@ -98,7 +98,6 @@ return packer.startup(function(use)
     use "lewpoly/sherbet.nvim"
     use "fxn/vim-monochrome"
     use "owickstrom/vim-colors-paramount"
-    use "S4deghN/green-arc"
 
 
     -- cmp plugins

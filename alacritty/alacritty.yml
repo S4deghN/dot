@@ -182,6 +182,7 @@ colors:
     # background: '#282C34'
     # background: '#1F242A'
     background: '#1C2024'
+    background: '#000000'
     foreground: '#BCBCBC'
   cursor:
     text:    '#1E2126'
@@ -385,8 +386,9 @@ cursor:
   #   - | Beam
   style:
     shape: Block
-    # blinking: Always
-  # blink_interval: 500
+    blinking: On
+  blink_interval: 375
+
 
   # Vi mode cursor style
   #
