@@ -28,5 +28,25 @@ function fish_prompt --description 'Write out the prompt'
     set -l statusb_color (set_color $bold_flag $fish_color_status)
     set -l prompt_status (__fish_print_pipestatus "[" "]" "|" "$status_color" "$statusb_color" $last_pipestatus)
 
-    echo -n -s (prompt_login)' ' (set_color $color_cwd) (prompt_pwd) $normal (fish_vcs_prompt) $normal " "$prompt_status $suffix " "
+    set -g __fish_git_prompt_show_informative_status
+    set -g __fish_git_prompt_showuntrackedfiles
+
+    set -g __fish_git_prompt_color_branch magenta
+    set -g __fish_git_prompt_showupstream "informative"
+    set -g __fish_git_prompt_char_upstream_ahead "↑"
+    set -g __fish_git_prompt_char_upstream_behind "↓"
+
+    set -g __fish_git_prompt_char_stagedstate "s"
+    set -g __fish_git_prompt_char_dirtystate " c"
+    set -g __fish_git_prompt_char_untrackedfiles " u"
+    set -g __fish_git_prompt_char_conflictedstate "𐄂"
+    set -g __fish_git_prompt_char_cleanstate "✓"
+
+    set -g __fish_git_prompt_color_dirtystate blue
+    set -g __fish_git_prompt_color_stagedstate yellow
+    set -g __fish_git_prompt_color_invalidstate red
+    set -g __fish_git_prompt_color_untrackedfiles green
+    set -g __fish_git_prompt_color_cleanstate green
+
+    echo -n -s (prompt_login)' ' (set_color $color_cwd) (prompt_pwd) $normal (fish_git_prompt) $normal " "$prompt_status $suffix " "
 end

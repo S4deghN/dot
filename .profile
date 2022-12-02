@@ -14,6 +14,7 @@ export TERMINAL=alacritty
 export TERM=xterm-256color
 
 export FZF_DEFAULT_COMMAND="find . -type f -not -path '*/\.git/*' -not -path '*/\.cargo/*'"
+export RANGER_LOAD_DEFAULT_RC=0
 
 
 export QT_QPA_PLATFORMTHEME="qt5ct"
