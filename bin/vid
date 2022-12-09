@@ -1,0 +1,14 @@
+#!/usr/bin/bash
+set -e -o pipefail
+
+[[ -z $1 ]] || regex=$1
+regex=${regex:-"*"}
+
+query=$(find ~/dot -wholename "*$regex*")
+[[ -z $query ]] && exit 1
+
+if [[ $(printf "%s\n" $query | wc -l) -eq 1 ]]; then
+    $EDITOR $query
+else
+    printf "%s\n" $query | fzf | xargs -r $EDITOR
+fi
