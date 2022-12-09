@@ -53,5 +53,5 @@ end
 -- set rulerformat=%36(%5l,%-6(%c%V%)\ %y%)%*
 -- set rulerformat=%50(%=[%l,%c/%L]\ %m\ %{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}\ [%Y]%)
 
-vim.cmd [[ set rulerformat=%50(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\ %m%q%w\ %y%) ]]
+vim.cmd [[ set rulerformat=%45(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\ %m%q%w\ %y%) ]]
 
