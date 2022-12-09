@@ -451,13 +451,7 @@ command! Dev let w:dev=!w:dev
 
 augroup File
     autocmd!
-    autocmd Filetype tex setlocal spell
-    " autocmd Filetype tex set conceallevel=2
-
-    autocmd Filetype markdown setlocal spell
-    " autocmd FileType markdown setlocal conceallevel=2
-
-    autocmd Filetype text setlocal spell
+    autocmd Filetype tex,text,markdown,gitcommit setlocal spell
 
     autocmd Filetype netrw call NetrwConfig()
 
