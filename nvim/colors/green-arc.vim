@@ -237,6 +237,7 @@ highlight  DiagnosticWarn  guifg=#cda869
 highlight  DiagnosticInfo  guifg=LightBlue
 highlight  DiagnosticHint  guifg=#747C84
 
+highlight  Visual          guibg=#B16286 gui=inverse
 highlight! link            Directory      Constant
 highlight! link            IncSearch      Visual
 highlight  Search          guibg=#23272E guifg=#E6D78E
