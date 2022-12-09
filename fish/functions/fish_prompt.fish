@@ -3,7 +3,7 @@ function fish_prompt --description 'Write out the prompt'
     set -lx __fish_last_status $status # Export for __fish_print_pipestatus.
     set -l normal (set_color normal)
     set -q fish_color_status
-    set -g fish_prompt_pwd_dir_length 0 # disable shortening
+    set -g fish_prompt_pwd_dir_length 1 # disable shortening
     or set -g fish_color_status --background=red white
 
     # Color the prompt differently when we're root
@@ -31,7 +31,7 @@ function fish_prompt --description 'Write out the prompt'
     set -g __fish_git_prompt_show_informative_status
     set -g __fish_git_prompt_showuntrackedfiles
 
-    set -g __fish_git_prompt_color_branch magenta
+    set -g __fish_git_prompt_color_branch red
     set -g __fish_git_prompt_showupstream "informative"
     set -g __fish_git_prompt_char_upstream_ahead "↑"
     set -g __fish_git_prompt_char_upstream_behind "↓"
@@ -48,5 +48,5 @@ function fish_prompt --description 'Write out the prompt'
     set -g __fish_git_prompt_color_untrackedfiles green
     set -g __fish_git_prompt_color_cleanstate green
 
-    echo -n -s (prompt_login)' ' (set_color $color_cwd) (prompt_pwd) $normal (fish_git_prompt) $normal " "$prompt_status $suffix " "
+    echo -n -s (prompt_login) " " (set_color $color_cwd) (prompt_pwd) $normal (fish_git_prompt) \n $prompt_status $suffix " "
 end
