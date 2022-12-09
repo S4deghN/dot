@@ -103,7 +103,7 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    family: Ubuntu Mono
+    family: Consolas
 
     # The `style` can be specified to pick a specific face.
     #style: Regular
@@ -155,7 +155,7 @@ font:
   # increasing `y` moves the glyph upwards.
   glyph_offset:
    x: 0
-   y: 2
+   # y: 2
 
   # Thin stroke font rendering (macOS only)
   #
@@ -183,10 +183,11 @@ colors:
     # background: '#1F242A'
     background: '#1C2024'
     background: '#000000'
-    foreground: '#BCBCBC'
-  cursor:
-    text:    '#1E2126'
-    cursor:  '#BCBCBC'
+    # foreground: '#BCBCBC'
+    foreground: '#b2b2b2'
+  # cursor:
+  #   text:    '#1E2126'
+  #   cursor:  '#BCBCBC'
 
   # Normal colors
   normal:
@@ -386,8 +387,8 @@ cursor:
   #   - | Beam
   style:
     shape: Block
-    blinking: On
-  blink_interval: 375
+    blinking: never
+  blink_interval: 375 #the default 750 devided by 4. none divisable numbers do not blink properly
 
 
   # Vi mode cursor style
