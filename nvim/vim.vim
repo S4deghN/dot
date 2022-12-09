@@ -13,6 +13,7 @@ set shortmess+=a
 
 " set nonumber "linen numbers
 " set relativenumber
+set guicursor=
 set cursorline
 set cursorlineopt=number
 set laststatus=0
@@ -21,12 +22,13 @@ set signcolumn=yes:1 "always show sign column with fixed width of
 set scrolloff=8
 set textwidth=80
 
+set nowrapscan
 set ignorecase
 set smartcase
 set smartindent
 set autoindent
-set expandtab                           "convert tabs to spaces
-set shiftwidth=4                        "the number of spaces inserted for each indentation
+set expandtab "convert tabs to spaces
+set shiftwidth=4 "the number of spaces inserted for each indentation
 set tabstop=4
 set foldmethod=marker
 set concealcursor=
@@ -53,14 +55,14 @@ let g:rooter_silent_chdir = 1
 " colors
 " -----------------------------------------------
 syntax on
-if (has("termguicolors"))                       "uses gui colors
+if (has("termguicolors")) "uses gui colors
     set termguicolors
 endif
-let g:gruvbox_sign_column = 'none'
-let g:gruvbox_color_column = 'none'
-let g:gruvbox_invert_selection = 0
-let g:gruvbox_italic = 0
-let g:gruvbox_bold = 1
+
+color green-arc
+hi Normal guifg=none guibg=none
+highlight NormalFloat	  guibg=bg    "guifg=fg2e
+highlight FloatBorder     guibg=bg
 
 " color apprentice
 " color gruvbox
@@ -174,7 +176,7 @@ let g:gruvbox_bold = 1
 " highlight link TreesitterContext CursorLine
 " highlight TreesitterContext gui=italic guibg=grey17
 
-color green-arc
+" color green-arc
 
 " highlight Normal          guibg=none  "guifg=#CCCCCC
 " highlight NormalFloat	  guibg=bg    "guifg=fg2e
@@ -498,11 +500,11 @@ augroup Write
     autocmd BufWritePost plug.lua source <afile> | PackerSync
 augroup end
 
-augroup Search
-    autocmd!
-    autocmd CmdlineEnter /,\? set hlsearch
-    autocmd CmdlineLeave /,\? set nohlsearch
-augroup end
+" augroup Search
+"     autocmd!
+"     autocmd CmdlineEnter /,\? set hlsearch
+"     autocmd CmdlineLeave /,\? set nohlsearch
+" augroup end
 
 augroup yank
     autocmd TextYankPost * silent! lua vim.highlight.on_yank({ higroup="Visual", timeout=100 })

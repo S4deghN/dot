@@ -63,7 +63,7 @@ return packer.startup(function(use)
     -- use "kyazdani42/nvim-tree.lua"
     -- use "akinsho/bufferline.nvim"
     -- use "moll/vim-bbye"
-    use "nvim-lualine/lualine.nvim"
+    -- use "nvim-lualine/lualine.nvim"
     -- use "akinsho/toggleterm.nvim"
     -- use "ahmedkhalf/project.nvim"
     -- use "lewis6991/impatient.nvim"
@@ -98,6 +98,7 @@ return packer.startup(function(use)
     use "lewpoly/sherbet.nvim"
     use "fxn/vim-monochrome"
     use "owickstrom/vim-colors-paramount"
+    use "lifepillar/vim-solarized8"
 
 
     -- cmp plugins

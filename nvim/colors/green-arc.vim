@@ -24,7 +24,7 @@ let s:subtle_black    = { "gui": "#303030", "cterm": "236" }
 let s:light_black     = { "gui": "#262626", "cterm": "235" }
 let s:lighter_black   = { "gui": "#4E4E4E", "cterm": "239" }
 let s:light_gray      = { "gui": "#A8A8A8", "cterm": "248" }
-let s:lighter_gray    = { "gui": "#C6C6C6", "cterm": "251" }
+let s:lighter_gray    = { "gui": "#b2b2b2", "cterm": "251" }
 let s:lightest_gray   = { "gui": "#EEEEEE", "cterm": "255" }
 let s:pink            = { "gui": "#fb007a", "cterm": "9"   }
 let s:dark_red        = { "gui": "#C30771", "cterm": "1"   }
@@ -215,9 +215,14 @@ highlight  CursorColumn    guibg=#23272E
 highlight  Folded          guibg=#181D22  guifg=#747C84
 highlight  VertSplit       guibg=none
 
-highlight  Statement       guifg=#999999
-highlight  Preproc         guifg=#999999
-highlight  Special         guifg=#999999  gui=none
+highlight  Constant        guifg=#789AC0
+highlight  Number          guifg=#A790D5
+highlight  Float          guifg=#A790D5
+highlight  Boolean          guifg=#A790D5
+highlight  Preproc         guifg=#888888
+" highlight  Special         guifg=#999999  gui=none
+highlight! link Special Constant
+highlight  Delimiter       guifg=#999999
 highlight  Type            guifg=#83a598
 highlight  Statement       guifg=#EBC06D  gui=italic
 highlight  Comment         guifg=#75886F  gui=none
@@ -234,7 +239,7 @@ highlight  DiagnosticHint  guifg=#747C84
 
 highlight! link            Directory      Constant
 highlight! link            IncSearch      Visual
-highlight  Search          guibg=#E6D78E
+highlight  Search          guibg=#23272E guifg=#E6D78E
 
 highlight  DiffDelete      guifg=#af5f5f  guibg=none    gui=none
 highlight  DiffChange      guifg=#789AC0  guibg=none    gui=none
