@@ -9,7 +9,7 @@ set undodir=/tmp/vimundo " Undo file shouldn't replace version contorl.
 
 set mouse+=a "mouse support
 
-set shortmess+=a
+set shortmess+=as
 
 " set nonumber "linen numbers
 " set relativenumber
@@ -274,12 +274,12 @@ noremap gY "+Y
 noremap gp "+]p
 noremap gP "+]P
 
-" navigation
-nnoremap <C-n>     <C-e>j
-nnoremap <C-p>     <C-y>k
+" TODO find some good mappings for these. They're by default mapped to `j` and `k`
+" nnoremap <C-n>     <C-e>j
+" nnoremap <C-p>     <C-y>k
 
-nnoremap <C-j>     <C-d>zz
-nnoremap <C-k>     <C-u>zz
+nnoremap <C-j>     <C-e>j
+nnoremap <C-k>     <C-y>k
 nnoremap <C-d>     <C-d>zz
 nnoremap <C-u>     <C-u>zz
 
@@ -315,11 +315,14 @@ nnoremap \h :Helptags<CR>
 " endfunction
 
 " inserts the current word under cursor into the substitute command
-" substitute the entire [f]ile
-nnoremap <C-s>f          :%s/<C-R>=expand('<cword>')<CR>
+" substitute on the line
+nnoremap <C-s>s          :s/<C-R>=expand('<cword>')<CR>//g<Left><Left>
+" substitute on the entire [f]ile
+nnoremap <C-s>f          :%s/<C-R>=expand('<cword>')<CR>//g<Left><Left>
 " substitute the previously selected [h]undk
-nnoremap <C-s>h          :'<,'>:s/<C-R>=expand('<cword>')<CR>
-nnoremap <C-s>ip vip<Esc>:'<,'>:s/<C-R>=expand('<cword>')<CR>
+nnoremap <C-s>h          :'<,'>:s/<C-R>=expand('<cword>')<CR>//g<Left><Left>
+" substitute on the paragraph
+nnoremap <C-s>ip vip<Esc>:'<,'>:s/<C-R>=expand('<cword>')<CR>//g<Left><Left>
 
 " open files in directory of current file
 cnoremap %% <C-R>=expand('%:h').'/'<CR>
@@ -517,6 +520,7 @@ endfunction
 function! NetrwConfig()
     setlocal cursorlineopt=line
 
+    let g:netrw_banner=0
     nmap <buffer> h -^
     nmap <buffer> <Left> -^
     nmap <buffer> l <CR>
@@ -526,7 +530,7 @@ function! NetrwConfig()
 
     " TODO: add and delete and undo function.
     " the idea is to have a netrw undo file in /tmp and `mv` deleted
-    " file/folders to it with directory information so that we can move theme
+    " file/directory to it with directory information so that we can move theme
     " back to the correct place in system with undo function.
     " g:netrw_keepdir has to be unset so we change directory as we borows.
 
