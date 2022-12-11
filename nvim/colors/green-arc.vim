@@ -224,6 +224,7 @@ highlight  Preproc         guifg=#888888
 highlight! link Special Constant
 highlight  Delimiter       guifg=#999999
 highlight  Type            guifg=#83a598
+highlight  Type            guifg=#68BEA2
 highlight  Statement       guifg=#EBC06D  gui=italic
 highlight  Comment         guifg=#75886F  gui=none
 highlight  Ignore          guifg=#75886F  gui=none
