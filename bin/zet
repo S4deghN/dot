@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/bash
 
 zetCode="$HOME/note/zet/$(date +%y-%m-%d-%H-%M).md"
 
