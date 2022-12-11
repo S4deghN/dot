@@ -1,21 +1,18 @@
 if status is-interactive
+    # set to none
     set fish_greeting
 
-    bind -M insert \ce end-of-line
-    bind -M insert \ca beginning-of-line
-    if fzf_key_bindings
+    # acts like autocompletion of vim
+    bind -M insert \cn end-of-line
+
+    if test -e (locate fzf_key_bindings)
+        fzf_key_bindings
     end
-    # theme_gruvbox dark medium
 
     # abbreviations
-    abbr f    "fzf --preview 'bat {}' | xargs -r $EDITOR"
     abbr e    $EDITOR
     abbr vi   $EDITOR
-    abbr dot  $EDITOR $HOME/dot
-    abbr note $EDITOR $HOME/note
+    abbr dot  $HOME/dot
+    abbr note $HOME/note
     abbr enw  $EDITOR $HOME/note/en/words.md
-
-    abbr rm 'rm -i'
-    abbr mv 'mv -i'
-    abbr la 'la -al'
 end

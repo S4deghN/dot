@@ -1,17 +1,11 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
 SETUVAR __fish_initialized:3400
-SETUVAR _fish_abbr_dot:nvim\x20/home/s4/dot
+SETUVAR _fish_abbr_dot:/home/s4/dot
 SETUVAR _fish_abbr_e:nvim
-SETUVAR _fish_abbr_e_2E_:nvim\x20\x2e
 SETUVAR _fish_abbr_enw:nvim\x20/home/s4/note/en/words\x2emd
-SETUVAR _fish_abbr_f:fzf\x20\x2d\x2dpreview\x20\x27bat\x20\x7b\x7d\x27\x20\x7c\x20xargs\x20\x2dr\x20nvim
-SETUVAR _fish_abbr_la:la\x20\x2dal
-SETUVAR _fish_abbr_mv:mv\x20\x2di
-SETUVAR _fish_abbr_note:nvim\x20/home/s4/note
-SETUVAR _fish_abbr_rm:rm\x20\x2di
+SETUVAR _fish_abbr_note:/home/s4/note
 SETUVAR _fish_abbr_vi:nvim
-SETUVAR _fish_abbr_vim:nvim
 SETUVAR _fisher_jomik_2F_fish_2D_gruvbox_files:\x7e/\x2econfig/fish/functions/theme_gruvbox\x2efish
 SETUVAR _fisher_jorgebucaran_2F_fisher_files:\x7e/\x2econfig/fish/functions/fisher\x2efish\x1e\x7e/\x2econfig/fish/completions/fisher\x2efish
 SETUVAR _fisher_plugins:jorgebucaran/fisher\x1ejomik/fish\x2dgruvbox
@@ -41,7 +35,7 @@ SETUVAR fish_color_selection:white\x1e\x2d\x2dbold\x1e\x2d\x2dbackground\x3dbrbl
 SETUVAR fish_color_status:red
 SETUVAR fish_color_user:yellow
 SETUVAR fish_color_valid_path:\x2d\x2dunderline
-SETUVAR fish_key_bindings:fish_default_key_bindings
+SETUVAR fish_key_bindings:fish_vi_key_bindings
 SETUVAR fish_pager_color_background:\x1d
 SETUVAR fish_pager_color_completion:normal
 SETUVAR fish_pager_color_description:yellow

@@ -37,8 +37,8 @@ function fish_prompt --description 'Write out the prompt'
     set -g __fish_git_prompt_char_upstream_behind "↓"
 
     set -g __fish_git_prompt_char_stagedstate "s"
-    set -g __fish_git_prompt_char_dirtystate " c"
-    set -g __fish_git_prompt_char_untrackedfiles " u"
+    set -g __fish_git_prompt_char_dirtystate "c"
+    set -g __fish_git_prompt_char_untrackedfiles "u"
     set -g __fish_git_prompt_char_conflictedstate "𐄂"
     set -g __fish_git_prompt_char_cleanstate "✓"
 
