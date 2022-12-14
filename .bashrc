@@ -11,9 +11,12 @@
 __ps1() {
     ExitCode=$(Ex=$?; [[ $Ex -ne 0 ]] && echo [$Ex])
     Branch=$(git branch --show-current 2>/dev/null)
+    Root=$(git rev-parse --show-toplevel 2>/dev/null)
+    Root=${Root##*/}
 
     errP='\[\e[1;31m\]$ExitCode\[\e[m\]'
-    gitP='\[\e[0;31m\]$Branch\[\e[m\]'
+    [[ -n $Branch ]] && branchP='\[\e[0;31m\] $Branch\[\e[m\]' || branchP=""
+    [[ -n $Root ]] && rootP='\[\e[0;35m\] $Root\[\e[m\]' || rootP=""
 
     userP='\[\e[0;33m\]\u\[\e[m\]' # this method of wrapping is importatn
     hostP='\[\e[0;29m\]\h\[\e[m\]' # so the terminal knows where to put the
@@ -22,7 +25,7 @@ __ps1() {
     topcorP='\[\e[2;29m\]┌─\[\e[m\]'
     botcorP='\[\e[2;29m\]└\[\e[m\]'
 
-    PS1="$userP@$hostP $dircP $gitP\n$errP$suffixP "
+    PS1="$userP@$hostP $dircP$branchP\n$errP$suffixP "
 }
 
 PROMPT_COMMAND="__ps1"
@@ -30,11 +33,6 @@ PROMPT_COMMAND="__ps1"
 # exports
 #---------------------------------------------------
 # export TERM=xterm-256color
-
-#---------------------------------------------------
-# env
-#---------------------------------------------------
-# . "$HOME/.cargo/env"
 
 #---------------------------------------------------
 # options
@@ -72,7 +70,15 @@ alias pac-size="pacman -Qq | pacman -Qi - | egrep '(Size|Name[^s])' | sed -E 's/
 alias pac-view="pacman -Slq | fzf --preview 'pacman -Si {}' --layout=reverse"
 
 #---------------------------------------------------
-# completions
+# env
+#---------------------------------------------------
+[[ -f "/usr/share/fzf/key-bindings.bash" ]] && . "/usr/share/fzf/key-bindings.bash"
+
+#---------------------------------------------------
+# binds
 #---------------------------------------------------
 
+#---------------------------------------------------
+# completions
+#---------------------------------------------------
 complete -C vic vic
