@@ -22,6 +22,7 @@ set signcolumn=yes:1 "always show sign column with fixed width of
 set scrolloff=8
 set textwidth=80
 
+set showbreak=>
 set nowrapscan
 set ignorecase
 set smartcase
@@ -274,7 +275,7 @@ noremap gY "+Y
 noremap gp "+]p
 noremap gP "+]P
 
-" TODO find some good mappings for these. They're by default mapped to `j` and `k`
+" TODO find some good mappings for these. They're by default mapped `j` and `k`
 " nnoremap <C-n>     <C-e>j
 " nnoremap <C-p>     <C-y>k
 
@@ -352,72 +353,6 @@ vnoremap D y'>p
 " -----------------------------------------------
 " functions
 " -----------------------------------------------
-
-" Adapted from unimpaired.vim by Tim Pope.
-function! s:DoAction(algorithm,type)
-  " backup settings that we will change
-  let sel_save = &selection
-  let cb_save = &clipboard
-  " make selection and clipboard work the way we need
-  set selection=inclusive clipboard-=unnamed clipboard-=unnamedplus
-  " backup the unnamed register, which we will be yanking into
-  let reg_save = @@
-  " yank the relevant text, and also set the visual selection (which will be reused if the text
-  " needs to be replaced)
-  if a:type =~ '^\d\+$'
-    " if type is a number, then select that many lines
-    silent exe 'normal! V'.a:type.'$y'
-  elseif a:type =~ '^.$'
-    " if type is 'v', 'V', or '<C-V>' (i.e. 0x16) then reselect the visual region
-    silent exe "normal! `<" . a:type . "`>y"
-  elseif a:type == 'line'
-    " line-based text motion
-    silent exe "normal! '[V']y"
-  elseif a:type == 'block'
-    " block-based text motion
-    silent exe "normal! `[\<C-V>`]y"
-  else
-    " char-based text motion
-    silent exe "normal! `[v`]y"
-  endif
-  " call the user-defined function, passing it the contents of the unnamed register
-  let repl = s:{a:algorithm}(@@)
-  " if the function returned a value, then replace the text
-  if type(repl) == 1
-    " put the replacement text into the unnamed register, and also set it to be a
-    " characterwise, linewise, or blockwise selection, based upon the selection type of the
-    " yank we did above
-    call setreg('@', repl, getregtype('@'))
-    " relect the visual region and paste
-    normal! gvp
-  endif
-  " restore saved settings and register value
-  let @@ = reg_save
-  let &selection = sel_save
-  let &clipboard = cb_save
-endfunction
-
-function! s:ActionOpfunc(type)
-  return s:DoAction(s:encode_algorithm, a:type)
-endfunction
-
-function! s:ActionSetup(algorithm)
-  let s:encode_algorithm = a:algorithm
-  let &opfunc = matchstr(expand('<sfile>'), '<SNR>\d\+_').'ActionOpfunc'
-endfunction
-
-function! MapAction(algorithm, key)
-  exe 'nnoremap <silent> <Plug>actions'    .a:algorithm.' :<C-U>call <SID>ActionSetup("'.a:algorithm.'")<CR>g@'
-  exe 'xnoremap <silent> <Plug>actions'    .a:algorithm.' :<C-U>call <SID>DoAction("'.a:algorithm.'",visualmode())<CR>'
-  exe 'nnoremap <silent> <Plug>actionsLine'.a:algorithm.' :<C-U>call <SID>DoAction("'.a:algorithm.'",v:count1)<CR>'
-  exe 'nmap '.a:key.'  <Plug>actions'.a:algorithm
-  exe 'xmap '.a:key.'  <Plug>actions'.a:algorithm
-  exe 'nmap '.a:key.a:key[strlen(a:key)-1].' <Plug>actionsLine'.a:algorithm
-endfunction
-
-
-
-
 function! Get_file_perm()
     let a=getfperm(expand('%:p'))
     if strlen(a)
@@ -440,11 +375,15 @@ function! Syn()
         echo synIDattr(id, "name")
     endfor
 endfunction
-command! -nargs=0 Syn call Syn()
+
+" TODO: add a generic function for build functionality managed inside tmux.
+" it sould solely call an other generic bash script and pass out the environment
+" information
 
 " -----------------------------------------------
 " cmds
 " -----------------------------------------------
+command! -nargs=0 Syn call Syn()
 command! Run call system("tmux-run ".&filetype)
 command! Dev let w:dev=!w:dev
 
@@ -470,7 +409,7 @@ augroup Dev
 
     " autocmd BufWritePost */src/*.cpp call system("tmux send-keys -t right ':make\n'")
     autocmd BufWritePost */src/*.cpp if w:dev != 0 | call system("tmux-run-cpp")
-    autocmd BufWritePost */src/*.c   if w:dev != 0 | call system("tmux-run-c")
+    autocmd BufWritePost */src/*.c   if w:dev != 0 | call system("tmux-run-cpp") "for now run cpp ------------------------
     " autocmd BufWritePost */src/*.rs call system("tmux send-keys -t right 'cargo run\n'")
 augroup end
 
