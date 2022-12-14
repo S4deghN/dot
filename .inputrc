@@ -1,0 +1,32 @@
+#
+# inputrc
+#
+
+$include /etc/inputrc
+
+#  you will no longer have to hit the <Tab> key twice to produce a list of all
+#  possible completions
+set show-all-if-ambiguous on
+# out put list of completion for file names with classification, like `ls -F`
+set visible-stats on
+
+set bell-style none
+set completion-ignore-case on
+# set completion-prefix-display-length 2
+set show-all-if-ambiguous on
+set show-all-if-unmodified on
+
+set editing-mode vi
+# stupid key sequence of esc and other keys is mapped to meta for emacs and you
+# can't really unmap it.
+set keyseq-timeout 0
+set show-mode-in-prompt on
+set vi-cmd-mode-string \033[1;30m[N]\033[0m
+set vi-ins-mode-string \033[1;34m[I]\033[0m
+
+set keymap vi-insert
+"\C-x": shell-expand-line
+"\e.": yank-last-arg
+
+Control-j: menu-complete
+Control-k: menu-complete-backward
