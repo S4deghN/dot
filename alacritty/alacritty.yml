@@ -182,7 +182,8 @@ colors:
     # background: '#282C34'
     # background: '#1F242A'
     background: '#1C2024'
-    background: '#000000'
+    background: '#131717'
+    # background: '#000000'
     # foreground: '#BCBCBC'
     foreground: '#b2b2b2'
   # cursor:
