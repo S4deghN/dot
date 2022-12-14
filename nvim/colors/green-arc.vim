@@ -13,6 +13,7 @@ hi clear
 if exists('syntax on')
     syntax reset
 endif
+set bg=dark
 
 let g:colors_name='green-arc'
 
@@ -206,47 +207,61 @@ hi link GitGutterDelete             LineNr
 hi link GitGutterChange             LineNr
 hi link GitGutterChangeDelete       LineNr
 
-highlight  Normal          guibg=none
-highlight  NormalFloat     guibg=bg
-highlight  FloatBorder     guibg=bg
+" Custom
+hi  Normal          guibg=NONE
+hi  NormalFloat     guibg=NONE
+hi  FloatBorder     guibg=NONE
 
-highlight  CursorLine      guibg=#23272E
-highlight  CursorColumn    guibg=#23272E
-highlight  Folded          guibg=#181D22  guifg=#747C84
-highlight  VertSplit       guibg=none
+hi  CursorLine      guibg=#23272E
+hi  CursorColumn    guibg=#23272E
+hi  Folded          guibg=#181D22     guifg=#747C84
+hi  VertSplit       guibg=NONE
 
-highlight  Constant        guifg=#789AC0
-highlight  Number          guifg=#A790D5
-highlight  Float          guifg=#A790D5
-highlight  Boolean          guifg=#A790D5
-highlight  Preproc         guifg=#888888
-" highlight  Special         guifg=#999999  gui=none
-highlight! link Special Constant
-highlight  Delimiter       guifg=#999999
-highlight  Type            guifg=#83a598
-highlight  Type            guifg=#68BEA2
-highlight  Statement       guifg=#EBC06D  gui=italic
-highlight  Comment         guifg=#75886F  gui=none
-highlight  Ignore          guifg=#75886F  gui=none
+hi  Constant        guifg=#789AC0
+hi  Number          guifg=#A790D5
+hi  Float           guifg=#A790D5
+hi  Boolean         guifg=#A790D5
+hi  Preproc         guifg=#888888
+" hi  Special         guifg=#999999  gui=NONE
+hi! link            Special           Constant
+hi  Delimiter       guifg=#999999
+hi  Type            guifg=#83a598
+hi  Type            guifg=#68BEA2
+hi  Statement       guifg=#EBC06D     gui=italic cterm=italic
+hi  Comment         guifg=#75886F     gui=NONE cterm=NONE
+hi  Ignore          guifg=#75886F     gui=NONE cterm=NONE
 
-highlight  Error           guibg=bg       guifg=#af5f5f gui=underline
-highlight  ErrorMsg        guifg=#af5f5f
-highlight  MatchParen      guifg=#E6D78E  gui=bold
+hi  Error           guibg=NONE          guifg=#af5f5f gui=underline cterm=underline
+hi  ErrorMsg        guifg=#af5f5f
+hi  MatchParen      guifg=#E6D78E     gui=bold cterm=bold
 
-highlight  DiagnosticError guifg=#af5f5f
-highlight  DiagnosticWarn  guifg=#cda869
-highlight  DiagnosticInfo  guifg=LightBlue
-highlight  DiagnosticHint  guifg=#747C84
+hi  DiagnosticError guifg=#af5f5f
+hi  DiagnosticWarn  guifg=#cda869
+hi  DiagnosticInfo  guifg=LightBlue
+hi  DiagnosticHint  guifg=#747C84
 
-highlight  Visual          guibg=#B16286 gui=inverse
-highlight! link            Directory      Constant
-highlight! link            IncSearch      Visual
-highlight  Search          guibg=#23272E guifg=#E6D78E
+hi  Visual          guibg=#B16286     gui=reverse cterm=reverse
+hi! link            Directory         Constant
+hi! link            IncSearch         Visual
+hi! link            PmenuSel          Visual
+hi  Search          guibg=#23272E     guifg=#E6D78E
 
-highlight  DiffDelete      guifg=#af5f5f  guibg=none    gui=none
-highlight  DiffChange      guifg=#789AC0  guibg=none    gui=none
-highlight  DiffAdd         guifg=#8F9D6A  guibg=none    gui=none
 
-highlight! link            GitSignsAdd    DiffAdd
-highlight! link            GitSignsDelete DiffDelete
-highlight! link            GitSignsChange DiffChange
+hi  htmlH1          guibg=NONE          guifg=#EBC06D gui=bold cterm=bold
+hi  htmlH2          guibg=NONE          guifg=#EBC06D gui=bold cterm=bold
+hi  htmlH3          guibg=NONE          guifg=#EBC06D gui=bold cterm=bold
+hi  htmlH4          guibg=NONE          guifg=#EBC06D gui=bold cterm=bold
+hi  htmlH5          guibg=NONE          guifg=#EBC06D gui=bold cterm=bold
+hi  htmlH6          guibg=NONE          guifg=#EBC06D gui=bold cterm=bold
+hi! link            markdownCodeBlock   Comment
+hi! link            markdownLineBreak   Comment
+hi! link            markdownCode        Comment
+hi! link            helpHyperTextJump Statement
+
+hi  DiffDelete      guifg=#af5f5f     guibg=NONE    gui=NONE cterm=NONE
+hi  DiffChange      guifg=#789AC0     guibg=NONE    gui=NONE cterm=NONE
+hi  DiffAdd         guifg=#8F9D6A     guibg=NONE    gui=NONE cterm=NONE
+
+hi! link            GitSignsAdd       DiffAdd
+hi! link            GitSignsDelete    DiffDelete
+hi! link            GitSignsChange    DiffChange
