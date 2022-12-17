@@ -168,7 +168,8 @@ nnoremap <C-s>ip vip<Esc>:'<,'>:s/<C-R>=expand('<cword>')<CR>//g<Left><Left>
 " the flags.
 nnoremap & :&&<CR>
 
-" Break the undo history after each deletion
+" Break the undo history
+inoremap <space> <C-G>u<space>
 inoremap <C-U> <C-G>u<C-U>
 inoremap <C-W> <C-G>u<C-W>
 
@@ -178,8 +179,6 @@ xnoremap # y?\V<C-R>"<CR>
 
 " Re-select the last pasted text
 noremap gV V`]
-" Duplicate the visually selected block
-vnoremap D y'>p
 " like 'J' but from line above to line below
 noremap gj kddpkJ
 " Record macro with `qq`, replay with `Q`
@@ -235,6 +234,7 @@ augroup File
     autocmd Filetype tex,text,markdown,gitcommit setlocal spell
     autocmd Filetype netrw call NetrwConfig()
     autocmd BufEnter .clang* set filetype=yaml
+    autocmd BufEnter /tmp/bash* set filetype=sh " for the v command in bash vi mode
 augroup end
 
 " let w:dev = v:false
