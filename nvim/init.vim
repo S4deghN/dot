@@ -7,8 +7,8 @@ set ttyfast
 set display=lastline
 set autoread
 set encoding=utf-8
-set wildmenu
-set wildoptions="pum,tagfile"
+set nowildmenu
+set wildmode=list:longest " behave like bash
 set history=10000 " it's the maximum
 set backspace=indent,eol,start
 set showcmd
