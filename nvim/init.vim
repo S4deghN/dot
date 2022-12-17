@@ -247,11 +247,19 @@ augroup end
 "     " autocmd BufWritePost */src/*.rs call system("tmux send-keys -t right 'cargo run\n'")
 " augroup end
 
+func EchoFileName(timer)
+    let f = expand('%:p:~')
+    if len(f) < 80
+        echo f
+    endif
+endfunc
+
 augroup Enter
     autocmd!
     autocmd BufRead,BufEnter */doc/* wincmd L
     autocmd BufRead,BufEnter man://* wincmd L
-    autocmd BufEnter * echo expand('%:p:~')
+    autocmd BufEnter * call timer_start(0, 'EchoFileName')
+    " autocmd BufEnter * echo expand('%:p:~')
 augroup end
 
 augroup Source
@@ -267,6 +275,7 @@ augroup end
 " -----------------------------------------------
 " --- netrw ---
 " -----------------------------------------------
+" netrw sucks, it sucks. It's a giant bug.
 let g:netrw_keepdir=0 " change dir as browsing dir changes
 
 function! NetrwDel()
