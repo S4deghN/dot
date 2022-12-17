@@ -76,9 +76,30 @@ alias pac-view="pacman -Slq | fzf --preview 'pacman -Si {}' --layout=reverse"
 #---------------------------------------------------
 [[ -f "/usr/share/fzf/key-bindings.bash" ]] && . "/usr/share/fzf/key-bindings.bash"
 
+# -----------------------------------------------
+# --- functions ---
+# -----------------------------------------------
+# READLINE variable are only populated if the function is called by `bind -x`
+vi-dot() {
+    query=$(find ~/dot -not -path "*/\.git/*" -type f 2>/dev/null)
+    [[ -z $query ]] && exit 1
+
+    local expr=$(printf "%s\n" $query | fzf -1)
+
+    if [[ -n $expr ]]; then
+        READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$EDITOR $expr${READLINE_LINE:$READLINE_POINT}"
+        READLINE_POINT=$(( READLINE_POINT + ${#EDITOR} + 1 + ${#expr} ))
+    fi
+}
+
+# vi-pwd() {
+# }
+
 #---------------------------------------------------
 # binds
 #---------------------------------------------------
+bind -m vi-insert -x '"\C-e": vi-dot'
+# bind -m vi-insert -x '"\C-t": vi-pwd'
 
 #---------------------------------------------------
 # completions

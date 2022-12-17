@@ -11,3 +11,5 @@ if [[ $(printf "%s\n" $query | wc -l) -eq 1 ]]; then
 else
     printf "%s\n" $query | fzf --height 60% --preview 'highlight -O ansi -l {}' --preview-window=down | xargs -r $EDITOR
 fi
+
+
