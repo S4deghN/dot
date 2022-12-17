@@ -14,16 +14,18 @@ __ps1() {
     Root=$(git rev-parse --show-toplevel 2>/dev/null)
     Root=${Root##*/}
 
+    # every sequence of color code (e.g `\e[31m`) must be wraped inside `\[ \]`
+    # so to be treaded as non-printing character. Otherwise the positoning of
+    # the cursor becomes faulty. In Readline's config file, `.inputrc`, this
+    # method doesn't work and we use `\1 \2` instead according to its manual.
     errP='\[\e[1;31m\]$ExitCode\[\e[m\]'
     [[ -n $Branch ]] && branchP='\[\e[0;31m\] $Branch\[\e[m\]' || branchP=""
     [[ -n $Root ]] && rootP='\[\e[0;35m\] $Root\[\e[m\]' || rootP=""
 
-    userP='\[\e[0;33m\]\u\[\e[m\]' # this method of wrapping is importatn
-    hostP='\[\e[0;29m\]\h\[\e[m\]' # so the terminal knows where to put the
-    suffixP='\[\e[0;32m\]$\[\e[m\]' # curesur and doesn't overwrite your prompt
+    userP='\[\e[0;33m\]\u\[\e[m\]'
+    hostP='\[\e[0;29m\]\h\[\e[m\]'
+    suffixP='\[\e[0;32m\]$\[\e[m\]'
     dircP='\[\e[0;32m\]\w\[\e[m\]'
-    topcorP='\[\e[2;29m\]┌─\[\e[m\]'
-    botcorP='\[\e[2;29m\]└\[\e[m\]'
 
     PS1="$userP@$hostP $dircP$branchP\n$errP$suffixP "
 }

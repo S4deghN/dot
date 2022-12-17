@@ -21,8 +21,14 @@ set editing-mode vi
 # can't really unmap it.
 set keyseq-timeout 0
 set show-mode-in-prompt on
-set vi-cmd-mode-string \033[1;30m[N]\033[0m
-set vi-ins-mode-string \033[1;34m[I]\033[0m
+# read manual for Readline
+# form manual: "Use the \1 and \2 escapes to begin and end sequences of
+# non-printing characters, which can be used to embed a terminal control
+# sequence into the mode string."
+# `\e` or `\033` (the second is more portable) is a escape character and has to
+# be treated as non-printing string otherwise it bugs the input of the terminal
+set vi-cmd-mode-string "\1\033[1;30m\2[N]\1\033[0m\2"
+set vi-ins-mode-string "\1\033[1;34m\2[I]\1\033[0m\2"
 
 set keymap vi-insert
 "\C-x": shell-expand-line
