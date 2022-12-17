@@ -135,20 +135,22 @@ map gP "+]P
 
 nnoremap <C-j>     <C-e>j
 nnoremap <C-k>     <C-y>k
-nnoremap L         :bn<CR>
-nnoremap H         :bp<CR>
-nnoremap <leader>d :bd<CR>
-nnoremap <C-g>     :echo expand("%:p:~") '-' Get_file_perm()<CR>
+nnoremap <C-h>     :tabp<cr>
+nnoremap <C-l>     :tabn<cr>
+nnoremap <silent> L         :bn<CR>
+nnoremap <silent> H         :bp<CR>
+nnoremap <silent> <leader>d :bd<CR>
+nnoremap <silent> <C-g>     :echo expand("%:p:~") '-' Get_file_perm()<CR>
 
-" open files in directory of current file
-cnoremap %% <C-R>=expand('%:h').'/'<CR>
-nmap <Leader>e :edit %%<CR>
-nmap <Leader>s :split %%<CR><C-w>J
-nmap <Leader>v :vsplit %%<CR><C-w>L
-nmap <Leader>t :tabedit %%<CR>
+" The editing file directory
+cnoremap .fdir. <C-R>=expand('%:p:h').'/'<CR>
+nmap <Leader>e :e .fdir.
+nmap <Leader>s :split .fdir.<CR><C-w>J
+nmap <Leader>v :vsplit .fdir.<CR><C-w>L
+nmap <Leader>t :tabedit .fdir.<CR>
+nmap <Leader>r :read .fdir.
+nmap <Leader>w :write .fdir.
 nmap <Leader>f :tabedit<CR>:Files<CR>
-nmap <Leader>r :read %%
-nmap <Leader>w :write %%
 
 " inserts the current word under cursor into the substitute command
 " substitute on the line
