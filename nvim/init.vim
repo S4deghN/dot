@@ -64,6 +64,7 @@ Plug 'tpope/vim-commentary'
 Plug 'airblade/vim-rooter'
 Plug 'junegunn/fzf.vim'
 Plug 'adelarsq/vim-matchit'
+Plug 'ap/vim-css-color'
 " TODO
 Plug 'tpope/vim-fugitive'
 " TODO snippets
@@ -110,6 +111,7 @@ syntax on
 let c_comment_strings=1 " ?
 set termguicolors
 color green-arc
+hi Normal guifg=NONE
 
 " -----------------------------------------------
 " --- keymaps ---
