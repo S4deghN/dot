@@ -29,7 +29,7 @@ window:
   # If both are `0`, this setting is ignored.
   dimensions:
     columns: 140
-    lines: 30
+    lines: 40
 
   # Window position (changes require restart)
   #
@@ -95,7 +95,7 @@ scrolling:
 # Font configuration
 font:
   # Normal (roman) font face
-  size: 15
+  size: 14
   normal:
     # Font family
     #
@@ -107,36 +107,6 @@ font:
 
     # The `style` can be specified to pick a specific face.
     #style: Regular
-
-  # Bold font face
-  # bold:
-  #   # Font family
-  #   #
-  #   # If the bold family is not specified, it will fall back to the
-  #   # value specified for the normal font.
-  #   family:  Ubuntu Mono
-
-    # The `style` can be specified to pick a specific face.
-    #style: Bold
-
-  # Italic font face
-  # italic:
-  #   # Font family
-  #   #
-  #   # If the italic family is not specified, it will fall back to the
-  #   # value specified for the normal font.
-  #   family:  Ubuntu Mono
-
-    # The `style` can be specified to pick a specific face.
-    #style: Italic
-
-  # Bold italic font face
-  # bold_italic:
-  #   # Font family
-  #   #
-  #   # If the bold italic family is not specified, it will fall back to the
-  #   # value specified for the normal font.
-  #   family:  Ubuntu Mono
 
     # The `style` can be specified to pick a specific face.
     #style: Bold Italic
@@ -173,14 +143,19 @@ colors:
   # Default colors
   primary:
     # background: '#1F242A'
-    background: '#1C2024'
+    # background: '#1C2024'
     background: '#131717'
+    background: '#171b1b'
+    background: '#191C1C'
+    # background: '#1d201d'
+    # background: '#1D1D1D'
+    # background: '#011418'
     # background: '#000000'
     # foreground: '#BCBCBC'
     foreground: '#b2b2b2'
-  # cursor:
-  #   text:    '#1E2126'
-  #   cursor:  '#BCBCBC'
+  cursor:
+    text:    '#000000'
+    cursor:  '#90EE90'
 
   # Normal colors
   normal:
@@ -380,8 +355,8 @@ cursor:
   #   - | Beam
   style:
     shape: Block
-    blinking: never
-  blink_interval: 375 #the default 750 devided by 4. none divisable numbers do not blink properly
+    blinking: on
+  blink_interval: 450 #the default 750 devided by 4. none divisable numbers do not blink properly
 
 
   # Vi mode cursor style
