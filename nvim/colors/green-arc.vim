@@ -99,7 +99,7 @@ hi! link Label            Statement
 hi! link Keyword          Statement
 hi! link Exception        Statement
 
-call s:h("Operator",      {"fg": s:norm, "cterm": "bold", "gui": "bold"})
+call s:h("Operator",      {"fg": s:norm})
 
 call s:h("PreProc",     {"fg": s:norm_subtle})
 hi! link Include          PreProc
@@ -217,19 +217,24 @@ hi  CursorColumn    guibg=#23272E
 hi  Folded          guibg=#181D22     guifg=#747C84
 hi  VertSplit       guibg=NONE
 
+" hi  Function        guifg=#CC99CD
+" hi  Function        guifg=#F08D49
+" hi  Function        guifg=#67CDCC
+" hi  Function        guifg=#7EC598
 hi  Constant        guifg=#789AC0
-hi  Number          guifg=#A790D5
-hi  Float           guifg=#A790D5
-hi  Boolean         guifg=#A790D5
+hi  Number          guifg=NONE " guifg=#A790D5
+hi  Float           guifg=NONE " guifg=#A790D5
+hi  Boolean         guifg=NONE " guifg=#A790D5
 hi  Preproc         guifg=#888888
 " hi  Special         guifg=#999999  gui=NONE
 hi! link            Special           Constant
-hi  Delimiter       guifg=#999999
+hi  Delimiter       guifg=fg
 hi  Type            guifg=#83a598
 hi  Type            guifg=#68BEA2
-hi  Statement       guifg=#EBC06D     gui=italic cterm=italic
+hi  Type            guifg=#7EC598
+hi  Statement       guifg=#EBC06D     " gui=italic cterm=italic
 hi  Comment         guifg=#75886F     gui=NONE cterm=NONE
-hi  Ignore          guifg=#75886F     gui=NONE cterm=NONE
+hi  Ignore          guifg=#555555     gui=NONE cterm=NONE
 
 hi  Error           guibg=NONE          guifg=#af5f5f gui=underline cterm=underline
 hi  ErrorMsg        guifg=#af5f5f
