@@ -1,24 +1,24 @@
 ------------------------------------------------------------
 -- treesiter
 ------------------------------------------------------------
--- local tshl = require("nvim-treesitter.configs").setup {
---     ensure_installed = { "c", "cpp", "lua", "typescript", "javascript", "fish" }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
---     sync_install = true, -- install languages synchronously (only applied to `ensure_installed`)
---     -- ignore_install = { "comment" }, -- List of parsers to ignore installing
---     autopairs = {
---         enable = true,
---     },
---     highlight = {
---         enable = true, -- false will disable the whole extension
---         disable = {}, -- list of language that will be disabled
---         additional_vim_regex_highlighting = false,
---     },
---     indent = { enable = true },
---     context_commentstring = {
---         enable = true,
---         enable_autocmd = false,
---     },
--- }
+local tshl = require("nvim-treesitter.configs").setup {
+    ensure_installed = { "c", "cpp", "fish" }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+    sync_install = true, -- install languages synchronously (only applied to `ensure_installed`)
+    -- ignore_install = { "comment" }, -- List of parsers to ignore installing
+    autopairs = {
+        enable = true,
+    },
+    highlight = {
+        enable = true, -- false will disable the whole extension
+        disable = {}, -- list of language that will be disabled
+        additional_vim_regex_highlighting = false,
+    },
+    indent = { enable = true },
+    context_commentstring = {
+        enable = true,
+        enable_autocmd = false,
+    },
+}
 
 ------------------------------------------------------------
 -- cmp
@@ -80,8 +80,7 @@ cmp = require("cmp");
 cmp.setup {
     snippet = {
         -- REQUIRED - you must specify a snippet engine
-        expand =
-        function(args)
+        expand = function(args)
             -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
             require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
             -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
@@ -118,9 +117,9 @@ cmp.setup {
         end),
         ['<C-p>'] = cmp.mapping.select_prev_item();
         ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-f>'] = cmp.mapping.confirm({ select = true }),
-        -- ['<ESC>'] = cmp.mapping.confirm({ select = true }),
         ['<C-u>'] = cmp.mapping.scroll_docs(4),
+        ['<C-y>'] = cmp.mapping.confirm({ select = false }),
+        -- ['<ESC>'] = cmp.mapping.confirm({ select = true }),
         ['<C-e>'] = cmp.mapping.abort(),
     }),
     formatting = {
@@ -177,10 +176,11 @@ vim.diagnostic.config({
         severity = { min = sev.e }
     },
     signs = true,
-    virtual_text = {
-        severity = sev.e,
-        source = true,
-    },
+    virtual_text = false,
+    -- virtual_text = {
+    --     severity = sev.e,
+    --     source = true,
+    -- },
     float = {
         format = function(diagnostic)
             print(vim.inspect(diagnostic))

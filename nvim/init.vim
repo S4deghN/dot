@@ -25,13 +25,13 @@ set mouse+=a "mouse support
 " using a custome command instead of `F` option
 set shortmess+=asFtT
 
-set guicursor=
 set cursorline
 set cursorlineopt=number
 set laststatus=0
-set signcolumn=yes
+set signcolumn=no
 
-set scrolloff=8
+set scrolloff=0
+set scrolljump=-50
 set textwidth=80
 set cmdwinheight=12 " the special window that opens with :q or ctlr-f in cmd mode.
 
@@ -73,11 +73,14 @@ Plug 'tpope/vim-fugitive'
 "   Plug 'tomtom/tlib_vim'
 " lsp
 Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'hrsh7th/nvim-cmp'
     Plug 'hrsh7th/cmp-nvim-lsp'
     Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
     Plug 'hrsh7th/cmp-buffer'
     Plug 'hrsh7th/cmp-path'
+    Plug 'L3MON4D3/LuaSnip'
+    Plug 'saadparwaiz1/cmp_luasnip'
 call plug#end()
 
 " --- easy-align ---
@@ -108,10 +111,9 @@ set rulerformat=%40(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\
 " --- colors ---
 " -----------------------------------------------
 syntax on
-let c_comment_strings=1 " ?
+" let c_comment_strings=1 " ?
 set termguicolors
 color green-arc
-hi Normal guifg=NONE
 
 " -----------------------------------------------
 " --- keymaps ---
@@ -133,17 +135,18 @@ map gP "+]P
 " nnoremap <C-n>     <C-e>j
 " nnoremap <C-p>     <C-y>k
 
-nnoremap <C-j>     <C-e>j
-nnoremap <C-k>     <C-y>k
+" Break the line
+nnoremap <C-j>     i<cr><esc>
 nnoremap <C-h>     :tabp<cr>
 nnoremap <C-l>     :tabn<cr>
-nnoremap <silent> L         :bn<CR>
-nnoremap <silent> H         :bp<CR>
+" nnoremap <silent> L         :bn<CR>
+" nnoremap <silent> H         :bp<CR>
 nnoremap <silent> <leader>d :bd<CR>
 nnoremap <silent> <C-g>     :echo expand("%:p:~") '-' Get_file_perm()<CR>
 
 " The editing file directory
 cnoremap .fdir. <C-R>=expand('%:p:h').'/'<CR>
+nmap <leader>b :b 
 nmap <Leader>e :e .fdir.
 nmap <Leader>s :split .fdir.<CR><C-w>J
 nmap <Leader>v :vsplit .fdir.<CR><C-w>L
@@ -223,11 +226,28 @@ endfunction
 " -----------------------------------------------
 command! -nargs=0 Syn call Syn()
 command! Run call system("tmux-run ".&filetype)
-command! Dev let w:dev=!w:dev
+" command! Dev let w:dev=!w:dev
+command! Dev autocmd TextChanged,TextChangedI * silent update
+
+command! DiagEnable lua vim.diagnostic.enable()
+command! DiagDisable lua vim.diagnostic.disable()
 
 " -----------------------------------------------
 " --- auto cmds ---
 " -----------------------------------------------
+
+" From the defaults file of vim
+augroup vimStartup
+au!
+" When editing a file, always jump to the last known cursor position.
+" Don't do it when the position is invalid, when inside an event handler
+" (happens when dropping a file on gvim) and for a commit message (it's
+" likely a different one than last time).
+autocmd BufReadPost *
+  \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+  \ |   exe "normal! g`\""
+  \ | endif
+augroup END
 
 augroup File
     autocmd!
