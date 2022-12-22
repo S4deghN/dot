@@ -5,6 +5,9 @@
 " as an enforced single point of truth for Tridactyl's configuration.
 sanitize tridactyllocal tridactylsync
 
+" Ignore on these domains
+autocmd DocStart cheri-compiler-explorer.cl mode ignore
+
 " Just use a blank page for new tab. It would be nicer to use the standard
 " Firefox homepage, but Tridactyl doesn't support this yet.
 " set newtab about:blank
