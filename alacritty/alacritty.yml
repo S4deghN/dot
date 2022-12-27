@@ -95,7 +95,7 @@ scrolling:
 # Font configuration
 font:
   # Normal (roman) font face
-  size: 14
+  size: 15
   normal:
     # Font family
     #
@@ -146,13 +146,17 @@ colors:
     # background: '#1C2024'
     background: '#131717'
     background: '#171b1b'
-    background: '#191C1C'
+    background: '#171b1b'
+    background: '#191C1e'
+    # background: '#181818'
+    # background: '#142828'
     # background: '#1d201d'
     # background: '#1D1D1D'
     # background: '#011418'
     # background: '#000000'
     # foreground: '#BCBCBC'
     foreground: '#b2b2b2'
+    # foreground: '#A8A095'
   cursor:
     text:    '#000000'
     cursor:  '#90EE90'

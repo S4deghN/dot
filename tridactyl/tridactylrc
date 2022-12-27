@@ -36,8 +36,8 @@ bind N findnext -1
 guiset_quiet hoverlink right
 
 " " The default jump of 10 is a bit much.
-bind j scrollline 5
-bind k scrollline -5
+bind j scrollline 6
+bind k scrollline -6
 bind H scrollpx -50
 bind L scrollpx 50
 

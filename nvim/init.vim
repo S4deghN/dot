@@ -65,6 +65,7 @@ Plug 'airblade/vim-rooter'
 Plug 'junegunn/fzf.vim'
 Plug 'adelarsq/vim-matchit'
 Plug 'ap/vim-css-color'
+Plug 't9md/vim-smalls'
 " TODO
 Plug 'tpope/vim-fugitive'
 " TODO snippets
@@ -82,6 +83,9 @@ Plug 'hrsh7th/nvim-cmp'
     Plug 'L3MON4D3/LuaSnip'
     Plug 'saadparwaiz1/cmp_luasnip'
 call plug#end()
+
+" --- sneak ---
+map f <Plug>(smalls)
 
 " --- easy-align ---
 xmap ga <Plug>(EasyAlign)
@@ -131,9 +135,10 @@ map gY "+Y
 map gp "+]p
 map gP "+]P
 
-" TODO find some good mappings for these. They're by default mapped `j` and `k`
-" nnoremap <C-n>     <C-e>j
-" nnoremap <C-p>     <C-y>k
+" Strange right? but it just works for me. <C-e> is used for one line scrol down
+" which is usually not used and it is place above d.
+nnoremap <C-d>     6<C-e>
+nnoremap <C-e>     6<C-y>
 
 " Break the line
 nnoremap <C-j>     i<cr><esc>
@@ -148,6 +153,7 @@ nnoremap <silent> <C-g>     :echo expand("%:p:~") '-' Get_file_perm()<CR>
 cnoremap .fdir. <C-R>=expand('%:p:h').'/'<CR>
 nmap <leader>b :b 
 nmap <Leader>e :e .fdir.
+nmap <Leader>E :Exp
 nmap <Leader>s :split .fdir.<CR><C-w>J
 nmap <Leader>v :vsplit .fdir.<CR><C-w>L
 nmap <Leader>t :tabedit .fdir.<CR>
@@ -160,10 +166,13 @@ nmap <Leader>f :tabedit<CR>:Files<CR>
 nnoremap <C-s>s          :s/<C-R>=expand('<cword>')<CR>//g<Left><Left>
 " substitute on the entire [f]ile
 nnoremap <C-s>f          :%s/<C-R>=expand('<cword>')<CR>//g<Left><Left>
-" substitute the previously selected [h]undk
-nnoremap <C-s>h          :'<,'>:s/<C-R>=expand('<cword>')<CR>//g<Left><Left>
 " substitute on the paragraph
+" TODO: How to avoid doing this hack and use any motion directly?
 nnoremap <C-s>ip vip<Esc>:'<,'>:s/<C-R>=expand('<cword>')<CR>//g<Left><Left>
+nnoremap <C-s>ap vap<Esc>:'<,'>:s/<C-R>=expand('<cword>')<CR>//g<Left><Left>
+
+xnoremap <C-s>s :s//g<Left><Left>
+xnoremap <C-s>f y:<C-w>%s/<C-r>"//g<Left><Left>
 
 " `&` is synonym for `:s` (repeat last substitute).  Note
 " that the flags are not remembered, thus it might
@@ -236,13 +245,9 @@ command! DiagDisable lua vim.diagnostic.disable()
 " --- auto cmds ---
 " -----------------------------------------------
 
-" From the defaults file of vim
+" Mark `"` is the position when last exiting the current buffer.
 augroup vimStartup
-au!
-" When editing a file, always jump to the last known cursor position.
-" Don't do it when the position is invalid, when inside an event handler
-" (happens when dropping a file on gvim) and for a commit message (it's
-" likely a different one than last time).
+autocmd!
 autocmd BufReadPost *
   \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
   \ |   exe "normal! g`\""

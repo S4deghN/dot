@@ -435,7 +435,7 @@ require("lspconfig").clangd.setup {
     flags = lsp_flags,
     cmd = {
         "clangd",
-        "--clang-tidy",
+        -- "--clang-tidy",
         "--all-scopes-completion=true", -- If set to true, code completion will include index symbols that are not defined in the scopes (e.g. namespaces) visible from the code completion point. Such completions can insert scope qualifiers
         "--completion-style=detailed",
         "--header-insertion=iwyu", -- add headers when accepting completion

@@ -26,6 +26,9 @@ let s:light_black     = { "gui": "#262626", "cterm": "235" }
 let s:lighter_black   = { "gui": "#4E4E4E", "cterm": "239" }
 let s:light_gray      = { "gui": "#A8A8A8", "cterm": "248" }
 let s:lighter_gray    = { "gui": "#b2b2b2", "cterm": "251" }
+" let s:lighter_gray    = { "gui": "#A8A095", "cterm": "251" }
+" let s:lighter_gray    = { "gui": "#A8A095", "cterm": "251" }
+" let s:lighter_gray    = { "gui": "#9D9488", "cterm": "251" }
 let s:lightest_gray   = { "gui": "#EEEEEE", "cterm": "255" }
 let s:pink            = { "gui": "#fb007a", "cterm": "9"   }
 let s:dark_red        = { "gui": "#C30771", "cterm": "1"   }
@@ -225,7 +228,7 @@ hi  Constant        guifg=#789AC0
 hi  Number          guifg=NONE " guifg=#A790D5
 hi  Float           guifg=NONE " guifg=#A790D5
 hi  Boolean         guifg=NONE " guifg=#A790D5
-hi  Preproc         guifg=#888888
+hi  Preproc         guifg=#88888f
 " hi  Special         guifg=#999999  gui=NONE
 hi! link            Special           Constant
 hi  Delimiter       guifg=fg

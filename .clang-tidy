@@ -1,23 +1,23 @@
 # add everything then remove undesired ones with '-'
-Checks: "
-  *,
-  -abseil-*,
-  -altera-*,
-  -android-*,
-  -fuchsia-*,
-  -google-*,
-  -llvm*,
-  -zircon-*,
-  -cppcoreguidelines-*,
-  -modernize-use-trailing-return-type,
-  -readability-magic-numbers,
-  -readability-else-after-return,
-  -readability-static-accessed-through-instance,
-  -readability-avoid-const-params-in-decls,
-  -readability-identifier-length,
-  -readability-implicit-bool-conversion,
-  -misc-non-private-member-variables-in-classes,
-"
+# Checks: "
+#   *,
+#   -abseil-*,
+#   -altera-*,
+#   -android-*,
+#   -fuchsia-*,
+#   -google-*,
+#   -llvm*,
+#   -zircon-*,
+#   -cppcoreguidelines-*,
+#   -modernize-use-trailing-return-type,
+#   -readability-magic-numbers,
+#   -readability-else-after-return,
+#   -readability-static-accessed-through-instance,
+#   -readability-avoid-const-params-in-decls,
+#   -readability-identifier-length,
+#   -readability-implicit-bool-conversion,
+#   -misc-non-private-member-variables-in-classes,
+# "
 
 CheckOptions:
   - { key: readability-identifier-naming.VariableCase, value: lower_case }

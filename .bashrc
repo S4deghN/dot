@@ -80,6 +80,7 @@ alias pac-view="pacman -Slq | fzf --preview 'pacman -Si {}' --layout=reverse"
 # --- functions ---
 # -----------------------------------------------
 # READLINE variable are only populated if the function is called by `bind -x`
+# TODO: what? why? what can I use if I don't wanna use bind -x?
 vi-dot() {
     query=$(find ~/dot -not -path "*/\.git/*" -type f 2>/dev/null)
     [[ -z $query ]] && exit 1
