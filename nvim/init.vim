@@ -85,7 +85,7 @@ Plug 'hrsh7th/nvim-cmp'
 call plug#end()
 
 " --- sneak ---
-map f <Plug>(smalls)
+" map f <Plug>(smalls)
 
 " --- easy-align ---
 xmap ga <Plug>(EasyAlign)

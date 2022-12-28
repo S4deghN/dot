@@ -42,7 +42,6 @@ PROMPT_COMMAND="__ps1"
 set -o vi
 shopt -s autocd
 shopt -s globstar # expands '**' to recursive subdirectories
-source ~/.bash_bind
 export HISTCONTROL=ignoreboth # ignoreboth is shorthand for ignorespace and ignoredups
 export HISTSIZE=50000
 
