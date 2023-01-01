@@ -137,8 +137,9 @@ map gP "+]P
 
 " Strange right? but it just works for me. <C-e> is used for one line scrol down
 " which is usually not used and it is place above d.
-nnoremap <C-d>     6<C-e>
-nnoremap <C-e>     6<C-y>
+" Depends on `scrolljump=-50`
+nnoremap <C-d>     Lj
+nnoremap <C-e>     Hk
 
 " Break the line
 nnoremap <C-j>     i<cr><esc>
