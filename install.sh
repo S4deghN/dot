@@ -31,6 +31,7 @@ if [[ $kind = "desktop" ]]; then
     ln -sfv "$PWD"/tridactyl     "$HOME"/.config/
     ln -sfv "$PWD"/fontconfig    "$HOME"/.config/
 else
+    ln -sfv "$PWD"/.inputrc      "$HOME"/
     ln -sfv "$PWD"/.profile      "$HOME"/
     ln -sfv "$PWD"/.bashrc       "$HOME"/
     ln -sfv "$PWD"/.clang-format "$HOME"/
