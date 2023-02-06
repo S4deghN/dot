@@ -27,7 +27,7 @@ __ps1() {
     suffixP='\[\e[0;32m\]$\[\e[m\]'
     dircP='\[\e[0;32m\]\w\[\e[m\]'
 
-    PS1="$userP@$hostP $dircP$branchP\n$errP$suffixP "
+    PS1="$userP@$hostP $dircP$branchP $errP\n$suffixP "
 }
 
 PROMPT_COMMAND="__ps1"

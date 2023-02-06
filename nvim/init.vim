@@ -41,7 +41,8 @@ set ignorecase
 set smartcase
 set nowrapscan
 
-set showbreak=>
+" Break line symbol
+" set showbreak=>
 set formatoptions+=jn1p " defaults: tcroql
 set nosmarttab " when unset you can delete inserted tab with C-w without deleting the word before it
 set smartindent
@@ -140,6 +141,8 @@ map gP "+]P
 " Depends on `scrolljump=-50`
 nnoremap <C-d>     Lj
 nnoremap <C-e>     Hk
+nnoremap <C-n>     <C-e>
+nnoremap <C-p>     <C-y>
 
 " Break the line
 nnoremap <C-j>     i<cr><esc>
@@ -154,7 +157,7 @@ nnoremap <silent> <C-g>     :echo expand("%:p:~") '-' Get_file_perm()<CR>
 cnoremap .fdir. <C-R>=expand('%:p:h').'/'<CR>
 nmap <leader>b :b 
 nmap <Leader>e :e .fdir.
-nmap <Leader>E :Exp
+nmap <Leader>E :Exp<CR>
 nmap <Leader>s :split .fdir.<CR><C-w>J
 nmap <Leader>v :vsplit .fdir.<CR><C-w>L
 nmap <Leader>t :tabedit .fdir.<CR>
@@ -182,9 +185,9 @@ xnoremap <C-s>f y:<C-w>%s/<C-r>"//g<Left><Left>
 nnoremap & :&&<CR>
 
 " Break the undo history
-inoremap <space> <C-G>u<space>
-inoremap <C-U> <C-G>u<C-U>
-inoremap <C-W> <C-G>u<C-W>
+" inoremap <space> <C-G>u<space>
+" inoremap <C-U> <C-G>u<C-U>
+" inoremap <C-W> <C-G>u<C-W>
 
 " Search for any visual selection
 xnoremap * y/\V<C-R>"<CR>

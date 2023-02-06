@@ -224,11 +224,13 @@ hi  VertSplit       guibg=NONE
 " hi  Function        guifg=#F08D49
 " hi  Function        guifg=#67CDCC
 " hi  Function        guifg=#7EC598
-hi  Constant        guifg=#789AC0
+" hi  Constant        guifg=#BFA88A
+hi  Constant          guifg=fg
+hi  String          guifg=#789AC0
 hi  Number          guifg=NONE " guifg=#A790D5
 hi  Float           guifg=NONE " guifg=#A790D5
 hi  Boolean         guifg=NONE " guifg=#A790D5
-hi  Preproc         guifg=#88888f
+hi  Preproc         guifg=#888888
 " hi  Special         guifg=#999999  gui=NONE
 hi! link            Special           Constant
 hi  Delimiter       guifg=fg

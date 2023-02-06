@@ -3,7 +3,7 @@ BasedOnStyle: Google
 IndentWidth: 4
 AccessModifierOffset: -4
 UseTab: Never
-ColumnLimit: 90
+ColumnLimit: 100
 
 IndentPPDirectives: BeforeHash
 
@@ -22,7 +22,7 @@ ReflowComments: false
 
 # AllowShortBlocksOnASingleLine (bool)
 # Allows contracting simple braced statements to a single line.
-AllowShortBlocksOnASingleLine: true
+AllowShortBlocksOnASingleLine: false
 
 # AllowShortCaseLabelsOnASingleLine (bool)
 # If true, short case labels will be contracted to a single line.
@@ -35,7 +35,7 @@ AllowShortCaseLabelsOnASingleLine: true
 #   SFS_Empty (in configuration: Empty) Only merge empty functions.
 #   SFS_Inline (in configuration: Inline) Only merge functions defined inside a class. Implies “empty”.
 #   SFS_All (in configuration: All) Merge all functions fitting on a single line.
-AllowShortFunctionsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: false
 
 # AllowShortIfStatementsOnASingleLine (bool)
 # If true, if (a) return; can be put on a single line.
