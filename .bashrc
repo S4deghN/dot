@@ -64,6 +64,10 @@ alias gita="git add"
 alias gitc="git commit"
 alias gitb="git branch"
 
+# -t before the addres in ssh requires a pseudo teminal allocation which is
+# required for tmux attach to work.
+alias lab="alacritty -e ssh -t root@pav tmux attach &"
+
 #Pacman Shortcuts
 alias pac-clr-cache="sudo pacman -Scc"
 alias pac-unlock="sudo rm /var/lib/pacman/db.lck"

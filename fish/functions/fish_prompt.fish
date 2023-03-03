@@ -48,5 +48,5 @@ function fish_prompt --description 'Write out the prompt'
     set -g __fish_git_prompt_color_untrackedfiles green
     set -g __fish_git_prompt_color_cleanstate green
 
-    echo -n -s (prompt_login) " " (set_color $color_cwd) (prompt_pwd) $normal (fish_git_prompt) \n $prompt_status $suffix " "
+    echo -n -s (prompt_login) " " (set_color $color_cwd) (prompt_pwd) $normal (fish_git_prompt) " " $prompt_status \n $suffix " "
 end
