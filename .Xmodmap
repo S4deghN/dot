@@ -9,8 +9,8 @@
 ! add control = Super_L
 
 !
-! Specific for nuphty keyboard
-! The original fn key is onlyh mapable to win_r on the nuphy software therefore
+! Specific for nuphy keyboard
+! The original fn key is only mapable to win_r on the nuphy software therefore
 ! the previous set of mapping functions also maps the original fn key to control
 !
 ! remove control = Control_R
@@ -27,6 +27,6 @@
 !
 ! Make Caps_Lock and additional Escape
 !
-! remove lock = Caps_Lock
-! keysym Caps_Lock = Escape
-! add control = Caps_Lock
+remove lock = Caps_Lock
+keysym Caps_Lock = Escape
+add control = Caps_Lock

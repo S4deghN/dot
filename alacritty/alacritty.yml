@@ -61,7 +61,7 @@ window:
   #     - buttonless: Title bar, transparent background, but no title bar buttons
   decorations: full
 
-  decorations_theme_variant: dark
+  decorations_theme_variant: Dark
 
   # Startup Mode (changes require restart)
   #
@@ -136,6 +136,45 @@ font:
 # If `true`, bold text is drawn using the bright color variants.
 draw_bold_text_with_bright_colors: true
 
+# # Colors (Solarized Dark)
+# colors:
+#   # Default colors
+#   primary:
+#     # background: '#002b36' # base03
+#     # background: '#0A1B20' # base03
+#     # background: '#001F27'
+#     # background: '#001419'
+#     # background: '#191A1C'
+#     background: '#23292A'
+#     background: '#1C2122'
+#     foreground: '#839496' # base0
+
+#   # Cursor colors
+#   cursor:
+#     text:   '#002b36' # base03
+#     cursor: '#839496' # base0
+
+#   # Normal colors
+#   normal:
+#     black:   '#1D2223' # base02
+#     red:     '#CB4B16' # red
+#     green:   '#859900' # green
+#     yellow:  '#b58900' # yellow
+#     blue:    '#268bd2' # blue
+#     magenta: '#d33682' # magenta
+#     cyan:    '#2aa198' # cyan
+#     white:   '#839496' # base2
+
+#   # Bright colors
+#   bright:
+#     black:   '#5A696A' # base02
+#     red:     '#CB4B16' # red
+#     green:   '#859900' # green
+#     yellow:  '#b58900' # yellow
+#     blue:    '#268bd2' # blue
+#     magenta: '#d33682' # magenta
+#     cyan:    '#2aa198' # cyan
+#     white:   '#839496' # base2
 
 
 # Colors (Arc Dark)
@@ -144,18 +183,23 @@ colors:
   primary:
     # background: '#1F242A'
     # background: '#1C2024'
-    background: '#131717'
-    background: '#171b1b'
-    background: '#171b1b'
-    background: '#191C1e'
+    # background: '#131717'
+    # background: '#171b1b'
+    # background: '#171b1b'
+    # background: '#191C1e'
     # background: '#181818'
     # background: '#142828'
     # background: '#1d201d'
     # background: '#1D1D1D'
     # background: '#011418'
     # background: '#000000'
+    background: '#191A1C'
+    background: '#1C2122'
+    # background: '#073642'
+
     # foreground: '#BCBCBC'
     foreground: '#b2b2b2'
+    # foreground: '#bbbbbb'
     # foreground: '#A8A095'
   cursor:
     text:    '#000000'

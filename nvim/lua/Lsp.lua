@@ -232,7 +232,7 @@ end
 function GetRunningLsp()
     local str = ""
     vim.lsp.for_each_buffer_client(0, function(client, client_id, bufnr)
-        str = str .. "[%#PreProc#" .. client.name .. "%*]"
+        str = str .. "[%#LspName#" .. client.name .. "%*]"
     end)
     return str
 end
@@ -361,7 +361,7 @@ local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
 
-require 'lspconfig'.sumneko_lua.setup {
+require 'lspconfig'.lua_ls.setup {
     on_attach    = on_attach,
     capabilities = capabilities,
     flags        = lsp_flags,

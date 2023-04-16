@@ -52,6 +52,7 @@ set shiftwidth=4 "the number of spaces inserted for each indentation
 set tabstop=4
 set foldmethod=marker
 set concealcursor=
+" set guicursor=
 
 set iskeyword+=-
 match CursorLine '\s\+$' " mark trailing spaces as errors using highlight group CursorLine
@@ -67,6 +68,35 @@ Plug 'junegunn/fzf.vim'
 Plug 'adelarsq/vim-matchit'
 Plug 'ap/vim-css-color'
 Plug 't9md/vim-smalls'
+
+" Colors
+Plug 'gruvbox-community/gruvbox'
+Plug 'jhlgns/naysayer88.vim'
+Plug 'rebelot/kanagawa.nvim'
+Plug 'sainnhe/gruvbox-material'
+Plug 'savq/melange-nvim'
+Plug 'jacoborus/tender.vim'
+Plug 'zacanger/angr.vim'
+Plug 'romainl/Apprentice'
+Plug 'habamax/vim-alchemist'
+Plug 'aktersnurra/no-clown-fiesta.nvim'
+Plug 'lifepillar/vim-solarized8'
+Plug 'sonph/onehalf', { 'rtp': 'vim' }
+Plug 'Mofiqul/vscode.nvim'
+Plug 'tomasiser/vim-code-dark'
+Plug 'NLKNguyen/papercolor-theme'
+Plug 'kvrohit/mellow.nvim'
+Plug 'owickstrom/vim-colors-paramount'
+Plug 'gosukiwi/vim-atom-dark'
+Plug 'dunstontc/vim-vscode-theme'
+Plug 'navarasu/onedark.nvim'
+Plug 'jsit/toast.vim'
+Plug 'AlessandroYorba/Sierra'
+Plug 'machakann/vim-colorscheme-reki'
+Plug 'p00f/alabaster.nvim'
+Plug 'Mofiqul/adwaita.nvim'
+Plug 'craigmac/neo'
+
 " TODO
 Plug 'tpope/vim-fugitive'
 " TODO snippets
@@ -118,13 +148,56 @@ set rulerformat=%40(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\
 syntax on
 " let c_comment_strings=1 " ?
 set termguicolors
+let g:codedark_conservative=1
+let g:sierra_Sunset = 1
+let g:alabaster_dim_comments=1
+let g:alabaster_floatborder=1
 color green-arc
+
+" hi Normal       guibg=NONE
+" hi @conditional guifg=#cda869
+" hi @repeat      guifg=#cda869
+" hi @keyword     guifg=#cda869
+
+
+" hi Normal          guibg=NONE
+" hi NormalFloat     guibg=NONE
+" hi FloatBorder     guibg=NONE
+" hi Identifier      guifg=fg
+" hi Delimiter       guifg=fg
+" hi Operator        guifg=fg
+
+" " Lsp and diagnostic messages fix
+" hi  DiagnosticError guifg=#af5f5f
+" hi  DiagnosticWarn  guifg=#cda869
+" hi  DiagnosticInfo  guifg=LightBlue
+" hi  DiagnosticHint  guifg=#747C84
+" hi! link            markdownCodeBlock Comment
+" hi! link            markdownLineBreak Comment
+" hi! link            markdownCode      Comment
+" hi! link            helpHyperTextJump Statement
+
+" let g:fzf_colors =
+"   \ { 'fg':      ['fg', 'NormalFloat'],
+"   \   'bg':      ['bg', 'NormalFloat'],
+"   \   'hl':      ['fg', 'Search'],
+"   \   'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+"   \   'bg+':     ['bg', 'Visual'],
+"   \   'hl+':     ['bg', 'IncSearch'],
+"   \   'info':    ['fg', 'PreProc'],
+"   \   'border':  ['fg', 'Ignore'],
+"   \   'prompt':  ['fg', 'Conditional'],
+"   \   'pointer': ['fg', 'Exception'],
+"   \   'marker':  ['fg', 'Keyword'],
+"   \   'spinner': ['fg', 'Label'],
+"   \   'header':  ['fg', 'Comment'] }
+
 
 " -----------------------------------------------
 " --- keymaps ---
 " -----------------------------------------------
 let mapleader = " "
-inoremap <C-c> <esc>
+" inoremap <C-c> <esc>
 " cmd-line window
 autocmd CmdwinEnter * nmap <buffer> <C-c> :q<CR>
 autocmd CmdwinEnter * vmap <buffer> <C-c> <Esc>
@@ -135,6 +208,9 @@ map gy "+y
 map gY "+Y
 map gp "+]p
 map gP "+]P
+
+" Switch case of the last typed word
+inoremap <C-c> <ESC>vb~`]a
 
 " Strange right? but it just works for me. <C-e> is used for one line scrol down
 " which is usually not used and it is place above d.
