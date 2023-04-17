@@ -13,6 +13,7 @@ if [[ $kind = "desktop" ]]; then
     mkdir -p   "$HOME"/.local/share/applications/
     ln    -sfv "$PWD"/applications/* "$HOME"/.local/share/applications/
 
+    ln -sfv "$PWD"/.inputrc      "$HOME"/
     ln -sfv "$PWD"/.profile      "$HOME"/
     ln -sfv "$PWD"/.bashrc       "$HOME"/
     ln -sfv "$PWD"/.clang-format "$HOME"/
@@ -40,6 +41,7 @@ else
     ln -sfv "$PWD"/tmux          "$HOME"/.config
     ln -sfv "$PWD"/nvim          "$HOME"/.config/
     ln -sfv "$PWD"/fish          "$HOME"/.config/
+    ln -sfv "$PWD"/alacritty     "$HOME"/.config/
 fi
 
 popd || return

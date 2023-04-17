@@ -2,6 +2,8 @@
 # inputrc
 #
 
+set editing-mode vi
+
 $include /etc/inputrc
 
 #  you will no longer have to hit the <Tab> key twice to produce a list of all
@@ -16,7 +18,6 @@ set completion-ignore-case on
 set show-all-if-ambiguous on
 set show-all-if-unmodified on
 
-set editing-mode vi
 # stupid key sequence of esc and other keys is mapped to meta for emacs and you
 # can't really unmap it.
 set keyseq-timeout 0
