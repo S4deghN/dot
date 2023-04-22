@@ -30,8 +30,9 @@ set cursorlineopt=number
 set laststatus=0
 set signcolumn=no
 
-set scrolloff=0
-set scrolljump=-50
+" set scrolloff=0
+" set scrolljump=-50
+set scrolloff=8
 set textwidth=80
 set cmdwinheight=12 " the special window that opens with :q or ctlr-f in cmd mode.
 
@@ -42,8 +43,10 @@ set smartcase
 set nowrapscan
 
 " Break line symbol
-" set showbreak=>
-set formatoptions+=jn1p " defaults: tcroql
+set showbreak=>
+" defaults: tcroql
+set formatoptions-=o
+set formatoptions+=jn1p
 set nosmarttab " when unset you can delete inserted tab with C-w without deleting the word before it
 set smartindent
 set autoindent
@@ -68,34 +71,8 @@ Plug 'junegunn/fzf.vim'
 Plug 'adelarsq/vim-matchit'
 Plug 'ap/vim-css-color'
 Plug 't9md/vim-smalls'
-
-" Colors
-Plug 'gruvbox-community/gruvbox'
-Plug 'jhlgns/naysayer88.vim'
-Plug 'rebelot/kanagawa.nvim'
-Plug 'sainnhe/gruvbox-material'
-Plug 'savq/melange-nvim'
-Plug 'jacoborus/tender.vim'
-Plug 'zacanger/angr.vim'
-Plug 'romainl/Apprentice'
-Plug 'habamax/vim-alchemist'
-Plug 'aktersnurra/no-clown-fiesta.nvim'
-Plug 'lifepillar/vim-solarized8'
-Plug 'sonph/onehalf', { 'rtp': 'vim' }
-Plug 'Mofiqul/vscode.nvim'
-Plug 'tomasiser/vim-code-dark'
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'kvrohit/mellow.nvim'
-Plug 'owickstrom/vim-colors-paramount'
-Plug 'gosukiwi/vim-atom-dark'
-Plug 'dunstontc/vim-vscode-theme'
-Plug 'navarasu/onedark.nvim'
-Plug 'jsit/toast.vim'
-Plug 'AlessandroYorba/Sierra'
-Plug 'machakann/vim-colorscheme-reki'
-Plug 'p00f/alabaster.nvim'
-Plug 'Mofiqul/adwaita.nvim'
-Plug 'craigmac/neo'
+Plug 'tpope/vim-dispatch'
+Plug 'normen/vim-pio'
 
 " TODO
 Plug 'tpope/vim-fugitive'
@@ -122,8 +99,13 @@ call plug#end()
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
+" --- vim-dispatch ---
+let g:dispatch_no_maps = 1
+let g:dispatch_quickfix_height = 5
+nmap m<CR> :w<CR>:Make<CR>
+
+
 " --- vim-commentary ---
-autocmd FileType c,cpp setlocal commentstring=//\ %s
 nmap gcA gcc^dWA <C-r>"
 nmap gcH :r ~/.config/nvim/snips/Hcomment<cr>gc2jjela
 nmap gch :r ~/.config/nvim/snips/hcomment<cr>gccela
@@ -145,53 +127,25 @@ set rulerformat=%40(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\
 " -----------------------------------------------
 " --- colors ---
 " -----------------------------------------------
+filetype plugin indent on
+
 syntax on
 " let c_comment_strings=1 " ?
 set termguicolors
-let g:codedark_conservative=1
-let g:sierra_Sunset = 1
-let g:alabaster_dim_comments=1
-let g:alabaster_floatborder=1
+" color green-arc
 color green-arc
 
-" hi Normal       guibg=NONE
-" hi @conditional guifg=#cda869
-" hi @repeat      guifg=#cda869
-" hi @keyword     guifg=#cda869
-
-
-" hi Normal          guibg=NONE
-" hi NormalFloat     guibg=NONE
-" hi FloatBorder     guibg=NONE
-" hi Identifier      guifg=fg
-" hi Delimiter       guifg=fg
-" hi Operator        guifg=fg
-
-" " Lsp and diagnostic messages fix
-" hi  DiagnosticError guifg=#af5f5f
-" hi  DiagnosticWarn  guifg=#cda869
-" hi  DiagnosticInfo  guifg=LightBlue
-" hi  DiagnosticHint  guifg=#747C84
-" hi! link            markdownCodeBlock Comment
-" hi! link            markdownLineBreak Comment
-" hi! link            markdownCode      Comment
-" hi! link            helpHyperTextJump Statement
-
-" let g:fzf_colors =
-"   \ { 'fg':      ['fg', 'NormalFloat'],
-"   \   'bg':      ['bg', 'NormalFloat'],
-"   \   'hl':      ['fg', 'Search'],
-"   \   'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-"   \   'bg+':     ['bg', 'Visual'],
-"   \   'hl+':     ['bg', 'IncSearch'],
-"   \   'info':    ['fg', 'PreProc'],
-"   \   'border':  ['fg', 'Ignore'],
-"   \   'prompt':  ['fg', 'Conditional'],
-"   \   'pointer': ['fg', 'Exception'],
-"   \   'marker':  ['fg', 'Keyword'],
-"   \   'spinner': ['fg', 'Label'],
-"   \   'header':  ['fg', 'Comment'] }
-
+" hi Normal         guibg=bg
+" hi NormalFloat    guibg=bg
+" hi FloatBorder    guibg=bg
+" hi EndOfBuffer    guibg=bg
+" hi VertSplit      guibg=bg
+" hi Type           guibg=
+" " hi Constant        guifg=sandybrown
+" " hi  Identifier      guifg=fg
+" hi  Statement                     gui=NONE
+" " hi  Type            guifg=#89fb98 gui=NONE
+" " hi  Function        guifg=#d0ffe0
 
 " -----------------------------------------------
 " --- keymaps ---
@@ -315,7 +269,7 @@ endfunction
 " -----------------------------------------------
 command! -nargs=0 Syn call Syn()
 command! Run call system("tmux-run ".&filetype)
-" command! Dev let w:dev=!w:dev
+
 command! Dev autocmd TextChanged,TextChangedI * silent update
 
 command! DiagEnable lua vim.diagnostic.enable()
@@ -341,16 +295,6 @@ augroup File
     autocmd BufEnter .clang* set filetype=yaml
     autocmd BufEnter /tmp/bash* set filetype=sh " for the v command in bash vi mode
 augroup end
-
-" let w:dev = v:false
-" augroup Dev
-"     autocmd!
-"     autocmd FocusLost * if w:dev != 0 | silent update
-"     " autocmd BufWritePost */src/*.cpp call system("tmux send-keys -t right ':make\n'")
-"     autocmd BufWritePost */src/*.cpp if w:dev != 0 | call system("tmux-run-cpp")
-"     autocmd BufWritePost */src/*.c   if w:dev != 0 | call system("tmux-run-cpp") "for now run cpp ------------------------
-"     " autocmd BufWritePost */src/*.rs call system("tmux send-keys -t right 'cargo run\n'")
-" augroup end
 
 func EchoFileName(timer)
     let f = expand('%:p:~')
