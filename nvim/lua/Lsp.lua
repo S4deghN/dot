@@ -115,7 +115,7 @@ cmp.setup {
                 cmp.complete()
             end
         end),
-        ['<C-p>'] = cmp.mapping.select_prev_item();
+        ['<C-p>'] = cmp.mapping.select_prev_item(),
         ['<C-d>'] = cmp.mapping.scroll_docs(-4),
         ['<C-u>'] = cmp.mapping.scroll_docs(4),
         ['<C-y>'] = cmp.mapping.confirm({ select = false }),
@@ -130,9 +130,9 @@ cmp.setup {
             -- vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
             vim_item.menu = ({
                 nvim_lsp = "[LSP]",
-                -- nvim_lsp_signature_help = "[Sig]",
+                nvim_lsp_signature_help = "[Sig]",
                 luasnip = "[Snip]",
-                buffer = "[Buf]",
+                -- buffer = "[Buf]",
                 path = "[Path]",
             })[entry.source.name]
             return vim_item
@@ -142,7 +142,7 @@ cmp.setup {
         { name = 'nvim_lsp' },
         { name = 'nvim_lsp_signature_help' },
         { name = "path" },
-        { name = 'buffer' },
+        -- { name = 'buffer' },
     },
 }
 
@@ -274,14 +274,14 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', 'gI', vim.lsp.buf.implementation, bufopts)
     vim.keymap.set('n', 'gs', vim.lsp.buf.signature_help, bufopts)
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-    vim.keymap.set('n', '<leader>lt', vim.lsp.buf.type_definition, bufopts)
-    vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, bufopts)
-    vim.keymap.set('n', '<leader>la', vim.lsp.buf.code_action, bufopts)
-    vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format, bufopts)
+    vim.keymap.set('n', 'glt', vim.lsp.buf.type_definition, bufopts)
+    vim.keymap.set('n', 'glr', vim.lsp.buf.rename, bufopts)
+    vim.keymap.set('n', 'gla', vim.lsp.buf.code_action, bufopts)
+    vim.keymap.set('n', 'glf', vim.lsp.buf.format, bufopts)
 
-    vim.keymap.set('n', '<leader>lwa', vim.lsp.buf.add_workspace_folder, bufopts)
-    vim.keymap.set('n', '<leader>lwr', vim.lsp.buf.remove_workspace_folder, bufopts)
-    vim.keymap.set('n', '<leader>lwl', function()
+    vim.keymap.set('n', 'glwa', vim.lsp.buf.add_workspace_folder, bufopts)
+    vim.keymap.set('n', 'glwr', vim.lsp.buf.remove_workspace_folder, bufopts)
+    vim.keymap.set('n', 'glwl', function()
         print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
     end, bufopts)
 end
@@ -365,7 +365,7 @@ require 'lspconfig'.lua_ls.setup {
     on_attach    = on_attach,
     capabilities = capabilities,
     flags        = lsp_flags,
-    cmd          = { sumneko_binary_path, "-E", sumneko_root_path .. "/main.lua" };
+    cmd          = { sumneko_binary_path, "-E", sumneko_root_path .. "/main.lua" },
     settings     = {
         Lua = {
             runtime = {
@@ -390,11 +390,11 @@ require 'lspconfig'.lua_ls.setup {
     },
 }
 
-require("lspconfig").rust_analyzer.setup{
+require("lspconfig").rust_analyzer.setup {
     on_attach = on_attach,
-    flags  = lsp_flags,
-	cmd = { "rustup", "run", "nightly", "rust-analyzer" },
-    settings = {
+    flags     = lsp_flags,
+    cmd       = { "rustup", "run", "nightly", "rust-analyzer" },
+    settings  = {
         rust = {
             unstable_features = true,
             build_on_save = false,
@@ -438,7 +438,7 @@ require("lspconfig").clangd.setup {
         -- "--clang-tidy",
         "--all-scopes-completion=true", -- If set to true, code completion will include index symbols that are not defined in the scopes (e.g. namespaces) visible from the code completion point. Such completions can insert scope qualifiers
         "--completion-style=detailed",
-        "--header-insertion=iwyu", -- add headers when accepting completion
+        "--header-insertion=iwyu",      -- add headers when accepting completion
         "--header-insertion-decorators",
         -- "-j=2",
         -- "--malloc-trim",

@@ -16,12 +16,14 @@ set hidden " stop complaints about switching buffer with changes
 " <esc> in visula mode take some time to apply. ttimeoutlen=0 resolves it.
 set timeoutlen=1000 " timeout for vim mappings
 set ttimeoutlen=0   " timeout for key sequences of terminal like esc and such
-set noautochdir " using the rooter plugin
+
+set noautochdir " using the rooter plugin instead
 set noswapfile
 set nobackup
 set undofile
-set undodir=/tmp/vimundo " Undo file shouldn't replace version
+set undodir=/tmp/vimundo " Undo file shouldn't replace version control
 set mouse+=a "mouse support
+
 " using a custome command instead of `F` option
 set shortmess+=asFtT
 
@@ -45,8 +47,8 @@ set nowrapscan
 " Break line symbol
 set showbreak=>
 " defaults: tcroql
-set formatoptions-=o
 set formatoptions+=jn1p
+set formatoptions-=o
 set nosmarttab " when unset you can delete inserted tab with C-w without deleting the word before it
 set smartindent
 set autoindent
@@ -59,6 +61,7 @@ set concealcursor=
 
 set iskeyword+=-
 match CursorLine '\s\+$' " mark trailing spaces as errors using highlight group CursorLine
+let mapleader = " "
 
 " -----------------------------------------------
 " --- plugins ---
@@ -68,10 +71,9 @@ Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-commentary'
 Plug 'airblade/vim-rooter'
 Plug 'junegunn/fzf.vim'
-Plug 'adelarsq/vim-matchit'
 Plug 'ap/vim-css-color'
-Plug 't9md/vim-smalls'
 Plug 'tpope/vim-dispatch'
+Plug 'machakann/vim-sandwich'
 Plug 'normen/vim-pio'
 
 " TODO
@@ -86,27 +88,23 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'hrsh7th/nvim-cmp'
     Plug 'hrsh7th/cmp-nvim-lsp'
     Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
-    Plug 'hrsh7th/cmp-buffer'
+    " Plug 'hrsh7th/cmp-buffer'
     Plug 'hrsh7th/cmp-path'
     Plug 'L3MON4D3/LuaSnip'
     Plug 'saadparwaiz1/cmp_luasnip'
 call plug#end()
-
-" --- sneak ---
-" map f <Plug>(smalls)
 
 " --- easy-align ---
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
 " --- vim-dispatch ---
-let g:dispatch_no_maps = 1
 let g:dispatch_quickfix_height = 5
-nmap m<CR> :w<CR>:Make<CR>
-
 
 " --- vim-commentary ---
+" Add comment at the end of the line
 nmap gcA gcc^dWA <C-r>"
+" Insert header comments
 nmap gcH :r ~/.config/nvim/snips/Hcomment<cr>gc2jjela
 nmap gch :r ~/.config/nvim/snips/hcomment<cr>gccela
 
@@ -122,7 +120,7 @@ nnoremap \h :Helptags<CR>
 
 " --- lsp ---
 lua require "Lsp"
-set rulerformat=%40(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\ %m%q%w\ %y%)
+set rulerformat=%50(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\ %m%q%w\ %y%)
 
 " -----------------------------------------------
 " --- colors ---
@@ -130,27 +128,13 @@ set rulerformat=%40(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\
 filetype plugin indent on
 
 syntax on
-" let c_comment_strings=1 " ?
 set termguicolors
 " color green-arc
 color green-arc
 
-" hi Normal         guibg=bg
-" hi NormalFloat    guibg=bg
-" hi FloatBorder    guibg=bg
-" hi EndOfBuffer    guibg=bg
-" hi VertSplit      guibg=bg
-" hi Type           guibg=
-" " hi Constant        guifg=sandybrown
-" " hi  Identifier      guifg=fg
-" hi  Statement                     gui=NONE
-" " hi  Type            guifg=#89fb98 gui=NONE
-" " hi  Function        guifg=#d0ffe0
-
 " -----------------------------------------------
 " --- keymaps ---
 " -----------------------------------------------
-let mapleader = " "
 " inoremap <C-c> <esc>
 " cmd-line window
 autocmd CmdwinEnter * nmap <buffer> <C-c> :q<CR>
@@ -168,9 +152,10 @@ inoremap <C-c> <ESC>vb~`]a
 
 " Strange right? but it just works for me. <C-e> is used for one line scrol down
 " which is usually not used and it is place above d.
+" Commenting it for now since I'm not using scrolljump for a while
 " Depends on `scrolljump=-50`
-nnoremap <C-d>     Lj
-nnoremap <C-e>     Hk
+" nnoremap <C-d>     Lj
+" nnoremap <C-e>     Hk
 nnoremap <C-n>     <C-e>
 nnoremap <C-p>     <C-y>
 
@@ -183,16 +168,16 @@ nnoremap <C-l>     :tabn<cr>
 nnoremap <silent> <leader>d :bd<CR>
 nnoremap <silent> <C-g>     :echo expand("%:p:~") '-' Get_file_perm()<CR>
 
-" The editing file directory
-cnoremap .fdir. <C-R>=expand('%:p:h').'/'<CR>
-nmap <leader>b :b 
-nmap <Leader>e :e .fdir.
+" % expands to current file name. expand %% to current file directory
+cnoremap %% <C-R>=expand('%:p:h').'/'<CR>
+nmap <Leader>b :b 
+nmap <Leader>e :e %%
 nmap <Leader>E :Exp<CR>
-nmap <Leader>s :split .fdir.<CR><C-w>J
-nmap <Leader>v :vsplit .fdir.<CR><C-w>L
-nmap <Leader>t :tabedit .fdir.<CR>
-nmap <Leader>r :read .fdir.
-nmap <Leader>w :write .fdir.
+nmap <Leader>s :split %%<CR><C-w>J
+nmap <Leader>v :vsplit %%<CR><C-w>L
+nmap <Leader>t :tabedit %%<CR>
+nmap <Leader>r :read %%
+nmap <Leader>w :write %%
 nmap <Leader>f :tabedit<CR>:Files<CR>
 
 " inserts the current word under cursor into the substitute command
@@ -202,8 +187,8 @@ nnoremap <C-s>s          :s/<C-R>=expand('<cword>')<CR>//g<Left><Left>
 nnoremap <C-s>f          :%s/<C-R>=expand('<cword>')<CR>//g<Left><Left>
 " substitute on the paragraph
 " TODO: How to avoid doing this hack and use any motion directly?
-nnoremap <C-s>ip vip<Esc>:'<,'>:s/<C-R>=expand('<cword>')<CR>//g<Left><Left>
-nnoremap <C-s>ap vap<Esc>:'<,'>:s/<C-R>=expand('<cword>')<CR>//g<Left><Left>
+nnoremap <C-s>ip yiwvip<Esc>:'<,'>:s/<C-R>"//g<Left><Left>
+nnoremap <C-s>ap yiwvap<Esc>:'<,'>:s/<C-R>"//g<Left><Left>
 
 xnoremap <C-s>s :s//g<Left><Left>
 xnoremap <C-s>f y:<C-w>%s/<C-r>"//g<Left><Left>

@@ -240,10 +240,11 @@ hi  DiagnosticWarn  guifg=#cda869
 hi  DiagnosticInfo  guifg=LightBlue
 hi  DiagnosticHint  guifg=#747C84
 
-hi  Visual          guibg=#B16286     gui=reverse cterm=reverse
+hi  Visual          guibg=navy  guifg=NONE
 hi! link            Directory         Constant
 hi! link            IncSearch         Visual
-hi  Search          guibg=#23272E     guifg=#E6D78E
+hi  Search          guibg=#23272E     guifg=lightblue
+hi  PmenuSel        guibg=bg          guifg=#a790d5
 
 
 hi  htmlH1          guibg=NONE          guifg=#EBC06D gui=bold cterm=bold
