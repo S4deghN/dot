@@ -16,12 +16,14 @@ set hidden " stop complaints about switching buffer with changes
 " <esc> in visula mode take some time to apply. ttimeoutlen=0 resolves it.
 set timeoutlen=1000 " timeout for vim mappings
 set ttimeoutlen=0   " timeout for key sequences of terminal like esc and such
-set noautochdir " using the rooter plugin
+
+set noautochdir " using the rooter plugin instead
 set noswapfile
 set nobackup
 set undofile
-set undodir=/tmp/vimundo " Undo file shouldn't replace version
+set undodir=/tmp/vimundo " Undo file shouldn't replace version control
 set mouse+=a "mouse support
+
 " using a custome command instead of `F` option
 set shortmess+=asFtT
 
@@ -30,8 +32,9 @@ set cursorlineopt=number
 set laststatus=0
 set signcolumn=no
 
-set scrolloff=0
-set scrolljump=-50
+" set scrolloff=0
+" set scrolljump=-50
+set scrolloff=8
 set textwidth=80
 set cmdwinheight=12 " the special window that opens with :q or ctlr-f in cmd mode.
 
@@ -42,8 +45,10 @@ set smartcase
 set nowrapscan
 
 " Break line symbol
-" set showbreak=>
-set formatoptions+=jn1p " defaults: tcroql
+set showbreak=>
+" defaults: tcroql
+set formatoptions+=jn1p
+set formatoptions-=o
 set nosmarttab " when unset you can delete inserted tab with C-w without deleting the word before it
 set smartindent
 set autoindent
@@ -56,6 +61,7 @@ set concealcursor=
 
 set iskeyword+=-
 match CursorLine '\s\+$' " mark trailing spaces as errors using highlight group CursorLine
+let mapleader = " "
 
 " -----------------------------------------------
 " --- plugins ---
@@ -65,37 +71,10 @@ Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-commentary'
 Plug 'airblade/vim-rooter'
 Plug 'junegunn/fzf.vim'
-Plug 'adelarsq/vim-matchit'
 Plug 'ap/vim-css-color'
-Plug 't9md/vim-smalls'
-
-" Colors
-Plug 'gruvbox-community/gruvbox'
-Plug 'jhlgns/naysayer88.vim'
-Plug 'rebelot/kanagawa.nvim'
-Plug 'sainnhe/gruvbox-material'
-Plug 'savq/melange-nvim'
-Plug 'jacoborus/tender.vim'
-Plug 'zacanger/angr.vim'
-Plug 'romainl/Apprentice'
-Plug 'habamax/vim-alchemist'
-Plug 'aktersnurra/no-clown-fiesta.nvim'
-Plug 'lifepillar/vim-solarized8'
-Plug 'sonph/onehalf', { 'rtp': 'vim' }
-Plug 'Mofiqul/vscode.nvim'
-Plug 'tomasiser/vim-code-dark'
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'kvrohit/mellow.nvim'
-Plug 'owickstrom/vim-colors-paramount'
-Plug 'gosukiwi/vim-atom-dark'
-Plug 'dunstontc/vim-vscode-theme'
-Plug 'navarasu/onedark.nvim'
-Plug 'jsit/toast.vim'
-Plug 'AlessandroYorba/Sierra'
-Plug 'machakann/vim-colorscheme-reki'
-Plug 'p00f/alabaster.nvim'
-Plug 'Mofiqul/adwaita.nvim'
-Plug 'craigmac/neo'
+Plug 'tpope/vim-dispatch'
+Plug 'machakann/vim-sandwich'
+Plug 'normen/vim-pio'
 
 " TODO
 Plug 'tpope/vim-fugitive'
@@ -109,22 +88,23 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'hrsh7th/nvim-cmp'
     Plug 'hrsh7th/cmp-nvim-lsp'
     Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
-    Plug 'hrsh7th/cmp-buffer'
+    " Plug 'hrsh7th/cmp-buffer'
     Plug 'hrsh7th/cmp-path'
     Plug 'L3MON4D3/LuaSnip'
     Plug 'saadparwaiz1/cmp_luasnip'
 call plug#end()
 
-" --- sneak ---
-" map f <Plug>(smalls)
-
 " --- easy-align ---
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
+" --- vim-dispatch ---
+let g:dispatch_quickfix_height = 5
+
 " --- vim-commentary ---
-autocmd FileType c,cpp setlocal commentstring=//\ %s
+" Add comment at the end of the line
 nmap gcA gcc^dWA <C-r>"
+" Insert header comments
 nmap gcH :r ~/.config/nvim/snips/Hcomment<cr>gc2jjela
 nmap gch :r ~/.config/nvim/snips/hcomment<cr>gccela
 
@@ -140,63 +120,21 @@ nnoremap \h :Helptags<CR>
 
 " --- lsp ---
 lua require "Lsp"
-set rulerformat=%40(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\ %m%q%w\ %y%)
+set rulerformat=%50(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\ %m%q%w\ %y%)
 
 " -----------------------------------------------
 " --- colors ---
 " -----------------------------------------------
+filetype plugin indent on
+
 syntax on
-" let c_comment_strings=1 " ?
 set termguicolors
-let g:codedark_conservative=1
-let g:sierra_Sunset = 1
-let g:alabaster_dim_comments=1
-let g:alabaster_floatborder=1
+" color green-arc
 color green-arc
-
-" hi Normal       guibg=NONE
-" hi @conditional guifg=#cda869
-" hi @repeat      guifg=#cda869
-" hi @keyword     guifg=#cda869
-
-
-" hi Normal          guibg=NONE
-" hi NormalFloat     guibg=NONE
-" hi FloatBorder     guibg=NONE
-" hi Identifier      guifg=fg
-" hi Delimiter       guifg=fg
-" hi Operator        guifg=fg
-
-" " Lsp and diagnostic messages fix
-" hi  DiagnosticError guifg=#af5f5f
-" hi  DiagnosticWarn  guifg=#cda869
-" hi  DiagnosticInfo  guifg=LightBlue
-" hi  DiagnosticHint  guifg=#747C84
-" hi! link            markdownCodeBlock Comment
-" hi! link            markdownLineBreak Comment
-" hi! link            markdownCode      Comment
-" hi! link            helpHyperTextJump Statement
-
-" let g:fzf_colors =
-"   \ { 'fg':      ['fg', 'NormalFloat'],
-"   \   'bg':      ['bg', 'NormalFloat'],
-"   \   'hl':      ['fg', 'Search'],
-"   \   'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-"   \   'bg+':     ['bg', 'Visual'],
-"   \   'hl+':     ['bg', 'IncSearch'],
-"   \   'info':    ['fg', 'PreProc'],
-"   \   'border':  ['fg', 'Ignore'],
-"   \   'prompt':  ['fg', 'Conditional'],
-"   \   'pointer': ['fg', 'Exception'],
-"   \   'marker':  ['fg', 'Keyword'],
-"   \   'spinner': ['fg', 'Label'],
-"   \   'header':  ['fg', 'Comment'] }
-
 
 " -----------------------------------------------
 " --- keymaps ---
 " -----------------------------------------------
-let mapleader = " "
 " inoremap <C-c> <esc>
 " cmd-line window
 autocmd CmdwinEnter * nmap <buffer> <C-c> :q<CR>
@@ -214,9 +152,10 @@ inoremap <C-c> <ESC>vb~`]a
 
 " Strange right? but it just works for me. <C-e> is used for one line scrol down
 " which is usually not used and it is place above d.
+" Commenting it for now since I'm not using scrolljump for a while
 " Depends on `scrolljump=-50`
-nnoremap <C-d>     Lj
-nnoremap <C-e>     Hk
+" nnoremap <C-d>     Lj
+" nnoremap <C-e>     Hk
 nnoremap <C-n>     <C-e>
 nnoremap <C-p>     <C-y>
 
@@ -229,16 +168,16 @@ nnoremap <C-l>     :tabn<cr>
 nnoremap <silent> <leader>d :bd<CR>
 nnoremap <silent> <C-g>     :echo expand("%:p:~") '-' Get_file_perm()<CR>
 
-" The editing file directory
-cnoremap .fdir. <C-R>=expand('%:p:h').'/'<CR>
-nmap <leader>b :b 
-nmap <Leader>e :e .fdir.
+" % expands to current file name. expand %% to current file directory
+cnoremap %% <C-R>=expand('%:p:h').'/'<CR>
+nmap <Leader>b :b 
+nmap <Leader>e :e %%
 nmap <Leader>E :Exp<CR>
-nmap <Leader>s :split .fdir.<CR><C-w>J
-nmap <Leader>v :vsplit .fdir.<CR><C-w>L
-nmap <Leader>t :tabedit .fdir.<CR>
-nmap <Leader>r :read .fdir.
-nmap <Leader>w :write .fdir.
+nmap <Leader>s :split %%<CR><C-w>J
+nmap <Leader>v :vsplit %%<CR><C-w>L
+nmap <Leader>t :tabedit %%<CR>
+nmap <Leader>r :read %%
+nmap <Leader>w :write %%
 nmap <Leader>f :tabedit<CR>:Files<CR>
 
 " inserts the current word under cursor into the substitute command
@@ -248,8 +187,8 @@ nnoremap <C-s>s          :s/<C-R>=expand('<cword>')<CR>//g<Left><Left>
 nnoremap <C-s>f          :%s/<C-R>=expand('<cword>')<CR>//g<Left><Left>
 " substitute on the paragraph
 " TODO: How to avoid doing this hack and use any motion directly?
-nnoremap <C-s>ip vip<Esc>:'<,'>:s/<C-R>=expand('<cword>')<CR>//g<Left><Left>
-nnoremap <C-s>ap vap<Esc>:'<,'>:s/<C-R>=expand('<cword>')<CR>//g<Left><Left>
+nnoremap <C-s>ip yiwvip<Esc>:'<,'>:s/<C-R>"//g<Left><Left>
+nnoremap <C-s>ap yiwvap<Esc>:'<,'>:s/<C-R>"//g<Left><Left>
 
 xnoremap <C-s>s :s//g<Left><Left>
 xnoremap <C-s>f y:<C-w>%s/<C-r>"//g<Left><Left>
@@ -315,7 +254,7 @@ endfunction
 " -----------------------------------------------
 command! -nargs=0 Syn call Syn()
 command! Run call system("tmux-run ".&filetype)
-" command! Dev let w:dev=!w:dev
+
 command! Dev autocmd TextChanged,TextChangedI * silent update
 
 command! DiagEnable lua vim.diagnostic.enable()
@@ -341,16 +280,6 @@ augroup File
     autocmd BufEnter .clang* set filetype=yaml
     autocmd BufEnter /tmp/bash* set filetype=sh " for the v command in bash vi mode
 augroup end
-
-" let w:dev = v:false
-" augroup Dev
-"     autocmd!
-"     autocmd FocusLost * if w:dev != 0 | silent update
-"     " autocmd BufWritePost */src/*.cpp call system("tmux send-keys -t right ':make\n'")
-"     autocmd BufWritePost */src/*.cpp if w:dev != 0 | call system("tmux-run-cpp")
-"     autocmd BufWritePost */src/*.c   if w:dev != 0 | call system("tmux-run-cpp") "for now run cpp ------------------------
-"     " autocmd BufWritePost */src/*.rs call system("tmux send-keys -t right 'cargo run\n'")
-" augroup end
 
 func EchoFileName(timer)
     let f = expand('%:p:~')

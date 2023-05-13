@@ -24,14 +24,8 @@ let s:actual_white    = { "gui": "#FFFFFF", "cterm": "231" }
 let s:subtle_black    = { "gui": "#303030", "cterm": "236" }
 let s:light_black     = { "gui": "#262626", "cterm": "235" }
 let s:lighter_black   = { "gui": "#4E4E4E", "cterm": "239" }
+let s:light_gray      = { "gui": "#A8A8A8", "cterm": "248" }
 let s:lighter_gray    = { "gui": "#b2b2b2", "cterm": "251" }
-" let s:lighter_gray    = { "gui": "#bbbbbb", "cterm": "251" }
-" let s:lighter_gray    = { "gui": "#aaaaaa", "cterm": "251" }
-" let s:lighter_gray    = { "gui": "#839496", "cterm": "251" }
-" let s:lighter_gray    = { "gui": "#AFA29C", "cterm": "251" }
-" let s:lighter_gray    = { "gui": "#A8A095", "cterm": "251" }
-" let s:lighter_gray    = { "gui": "#A8A095", "cterm": "251" }
-" let s:lighter_gray    = { "gui": "#9D9488", "cterm": "251" }
 let s:lightest_gray   = { "gui": "#EEEEEE", "cterm": "255" }
 let s:pink            = { "gui": "#fb007a", "cterm": "9"   }
 let s:dark_red        = { "gui": "#C30771", "cterm": "1"   }
@@ -105,7 +99,7 @@ hi! link Label            Statement
 hi! link Keyword          Statement
 hi! link Exception        Statement
 
-call s:h("Operator",      {"fg": s:norm})
+call s:h("Operator",      {"fg": s:norm, "cterm": "bold", "gui": "bold"})
 
 call s:h("PreProc",     {"fg": s:norm_subtle})
 hi! link Include          PreProc
@@ -217,77 +211,40 @@ hi link GitGutterChangeDelete       LineNr
 hi  Normal          guibg=NONE
 hi  NormalFloat     guibg=NONE
 hi  FloatBorder     guibg=NONE
-hi  MsgArea         guibg=#191A1C
 
-hi  CursorLine      guibg=#2F343F "guibg=#23272E
-hi  CursorColumn    guibg=#2F343F "guibg=#23272E
+hi  CursorLine      guibg=#23272E
+hi  CursorColumn    guibg=#23272E
 hi  Folded          guibg=#181D22     guifg=#747C84
 hi  VertSplit       guibg=NONE
 
-" hi  Function        guifg=#CC99CD
-" hi  Function        guifg=#F08D49
-" hi  Function        guifg=#67CDCC
-" hi  Function        guifg=#7EC598
-" hi  Function       guifg=#c1d1e3
-hi  Function       guifg=#87AFD7
-hi  Function          guifg=#789AC0
-hi  Function        guifg=#91B7BC
-hi  Function        guifg=#7AA3AC
-hi  Function        guifg=#80ABB5
-" hi  Function          guifg=#D1B897
-" hi  Constant        guifg=#BFA88A
-" hi  Constant        guifg=#CF6A4C
-hi  Constant          guifg=fg
-hi  String          guifg=#789AC0
-hi  String          guifg=#6C94C0
-" hi  String          guifg=#6690C0
-" hi  String          guifg=#465C67
-" hi  String          guifg=#FFB06E
-" hi  String        guifg=#CC99CD
-" hi  String        guifg=#B689B7
-" hi  String        guifg=#7AA3AC
-" hi  String        guifg=#91B7BC
-" hi  String          guifg=#BFA88A
-" hi  String          guifg=#D1B897
-" hi  String          guifg=#98bb6c
-hi  Number          guifg=NONE " guifg=#A790D5
-hi  Float           guifg=NONE " guifg=#A790D5
-hi  Boolean         guifg=NONE " guifg=#A790D5
+hi  Constant        guifg=#789AC0
+hi  Number          guifg=#A790D5
+hi  Float           guifg=#A790D5
+hi  Boolean         guifg=#A790D5
 hi  Preproc         guifg=#888888
-hi  Preproc         guifg=#5F8787
 " hi  Special         guifg=#999999  gui=NONE
 hi! link            Special           Constant
-" hi  Delimiter       guifg=#6A7178
-" hi  Delimiter       guifg=#788088
+hi  Delimiter       guifg=#999999
 hi  Type            guifg=#83a598
 hi  Type            guifg=#68BEA2
-hi  Type            guifg=#7EC598
-hi  Statement       guifg=#EBC06D     " gui=italic cterm=italic
-" hi  Statement       guifg=#ffffff     " gui=italic cterm=italic
-" hi  Operator       guifg=#EBC06D     " gui=italic cterm=italic
-" hi  Operator       guifg=#ffffff     " gui=italic cterm=italic
-" hi  Operator       guifg=#c1d1e3     " gui=italic cterm=italic
-" hi  Operator          guifg=#789AC0
+hi  Statement       guifg=#EBC06D     gui=italic cterm=italic
 hi  Comment         guifg=#75886F     gui=NONE cterm=NONE
-" hi  Comment         guifg=#76946a     gui=NONE cterm=NONE
-hi  Ignore          guifg=#555555     gui=NONE cterm=NONE
+hi  Ignore          guifg=#75886F     gui=NONE cterm=NONE
 
 hi  Error           guibg=NONE          guifg=#af5f5f gui=underline cterm=underline
 hi  ErrorMsg        guifg=#af5f5f
-hi  MatchParen      guifg=#E6D78E     guibg=#2F343F gui=bold cterm=bold
+hi  MatchParen      guifg=#E6D78E     gui=bold cterm=bold
 
 hi  DiagnosticError guifg=#af5f5f
 hi  DiagnosticWarn  guifg=#cda869
 hi  DiagnosticInfo  guifg=LightBlue
 hi  DiagnosticHint  guifg=#747C84
 
-" hi  Visual          guibg=#B16286     guifg=NONE gui=reverse cterm=reverse
-" hi  Visual          guibg=#B16286     guifg=NONE gui=reverse cterm=reverse
-hi  Visual          guibg=#2F343F     guifg=NONE "gui=reverse cterm=reverse
+hi  Visual          guibg=navy  guifg=NONE
 hi! link            Directory         Constant
-hi! link            PmenuSel          Visual
-hi  Search          guibg=#23272E     guifg=#E6D78E
-hi  IncSearch       guibg=#B16286
+hi! link            IncSearch         Visual
+hi  Search          guibg=#23272E     guifg=lightblue
+hi  PmenuSel        guibg=bg          guifg=#a790d5
 
 
 hi  htmlH1          guibg=NONE          guifg=#EBC06D gui=bold cterm=bold
@@ -296,9 +253,6 @@ hi  htmlH3          guibg=NONE          guifg=#EBC06D gui=bold cterm=bold
 hi  htmlH4          guibg=NONE          guifg=#EBC06D gui=bold cterm=bold
 hi  htmlH5          guibg=NONE          guifg=#EBC06D gui=bold cterm=bold
 hi  htmlH6          guibg=NONE          guifg=#EBC06D gui=bold cterm=bold
-hi! link            markdownCodeBlock   Comment
-hi! link            markdownLineBreak   Comment
-hi! link            markdownCode        Comment
 hi! link            helpHyperTextJump Statement
 
 hi  DiffDelete      guifg=#af5f5f     guibg=NONE    gui=NONE cterm=NONE
