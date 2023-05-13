@@ -3,7 +3,7 @@ BasedOnStyle: Google
 IndentWidth: 4
 AccessModifierOffset: -4
 UseTab: Never
-ColumnLimit: 135
+ColumnLimit: 150
 
 IndentPPDirectives: BeforeHash
 
@@ -27,5 +27,5 @@ AllowShortBlocksOnASingleLine: false
 AllowShortLoopsOnASingleLine: false
 AllowShortEnumsOnASingleLine: false
 
-BreakConstructorInitializers: BeforeComma
+BreakConstructorInitializers: AfterColon
 PackConstructorInitializers: Never

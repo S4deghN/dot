@@ -118,14 +118,14 @@ font:
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
   offset:
    x: 0
-   y: -3
+   # y: -3
 
   # Glyph offset determines the locations of the glyphs within their cells with
   # the default being at the bottom. Increasing `x` moves the glyph to the right,
   # increasing `y` moves the glyph upwards.
   glyph_offset:
    x: 0
-   y: -1
+   # y: -1
 
   # Thin stroke font rendering (macOS only)
   #
@@ -193,14 +193,19 @@ colors:
     # background: '#1D1D1D'
     # background: '#011418'
     # background: '#000000'
-    background: '#191A1C'
-    background: '#1C2122'
+    # background: '#191A1C'
+    # background: '#1C2122'
+    # background: '#202020'
     # background: '#073642'
+    background: '#2f2f2f'
+    background: '#282828'
 
     # foreground: '#BCBCBC'
     foreground: '#b2b2b2'
+    # foreground: '#cfcfc2'
     # foreground: '#bbbbbb'
     # foreground: '#A8A095'
+    # foreground: '#AFA79B'
   cursor:
     text:    '#000000'
     # cursor:  '#90EE90'
@@ -208,7 +213,7 @@ colors:
 
   # Normal colors
   normal:
-    black:     '#1F242A'
+    black:     '#222222'
     red:       '#CF6A4C'
     green:     '#8F9D6A'
     yellow:    '#CDA869'
@@ -228,39 +233,19 @@ colors:
     cyan:      '#5FAFAF'
     white:     '#BCBCBC'
 
-# # Colors (Gruvbox dark)
+# Colors (Gruvbox dark)
 # colors:
 #   primary:
 #     # hard contrast background - '#1d2021'
-#     background:        &gruvbox_dark_bg  '#1d2021'    #'#282828'
+#     background:        &gruvbox_dark_bg '#282828'
 #     # soft contrast background - '#32302f'
 #     # using fg2 (#d5c4a1) from gruvbox palete instead of
 #     # original fg. it's easier on the eyes.
-#     foreground:        '#d5c4a1' #'#ebdbb2'
-#     bright_foreground: '#ebdbb2' #'#fbf1c7'
-#     dim_foreground:    '#a89984'
+#     # #D2C49F
+#     foreground:        '#D2C49F' #'#ebdbb2'
 #   cursor:
 #     text:    '#282828'
-#     cursor:  '#d5c4a1'
-#   vi_mode_cursor:
-#     text:   CellBackground
-#     cursor: CellForeground
-#   # search:
-#   #   matches:
-#   #     foreground: '#000000'
-#   #     background: '#ffffff'
-#   #   focused_match:
-#   #    foreground: CellBackground
-#   #    background: CellForeground
-#   #   bar:
-#   #     background: ''
-#   #     foreground: ''
-#   # line_indicator:
-#   #   foreground: None
-#   #   background: None
-#   selection:
-#     text:       CellBackground
-#     background: CellForeground
+#     cursor:  '#D2C49F'
 #   bright:
 #     black:   '#928374'
 #     red:     '#fb4934'
@@ -289,40 +274,40 @@ colors:
 #     cyan:    '#427b58'
 #     white:   '#928374'
 #   # indexed_colors: []
-#
 
-# github Alacritty Colors
-# colors:
-#   # Default colors
-#   primary:
-#     background: '0x22272e'
-#     foreground: '0x909dab' #'0x768390'
-#
-#   # Normal colors
-#   normal:
-#     black:   '0x545d68'
-#     red:     '0xf47067'
-#     green:   '0x57ab5a'
-#     yellow:  '0xc69026'
-#     blue:    '0x539bf5'
-#     magenta: '0xb083f0'
-#     cyan:    '0x39c5cf'
-#     white:   '0x909dab'
-#
-#   # Bright colors
-#   bright:
-#     black:   '0x636e7b'
-#     red:     '0xff938a'
-#     green:   '0x6bc46d'
-#     yellow:  '0xdaaa3f'
-#     blue:    '0x6cb6ff'
-#     magenta: '0xdcbdfb'
-#     cyan:    '0x56d4dd'
-#     white:   '0xcdd9e5'
-#
-#   indexed_colors:
-#     - { index: 16, color: '0xd18616' }
-#     - { index: 17, color: '0xff938a' }
+
+ # github Alacritty Colors
+ # colors:
+ #   # Default colors
+ #   primary:
+ #     background: '0x22272e'
+ #     foreground: '0x909dab' #'0x768390'
+
+ #   # Normal colors
+ #   normal:
+ #     black:   '0x545d68'
+ #     red:     '0xf47067'
+ #     green:   '0x57ab5a'
+ #     yellow:  '0xc69026'
+ #     blue:    '0x539bf5'
+ #     magenta: '0xb083f0'
+ #     cyan:    '0x39c5cf'
+ #     white:   '0x909dab'
+
+ #   # Bright colors
+ #   bright:
+ #     black:   '0x636e7b'
+ #     red:     '0xff938a'
+ #     green:   '0x6bc46d'
+ #     yellow:  '0xdaaa3f'
+ #     blue:    '0x6cb6ff'
+ #     magenta: '0xdcbdfb'
+ #     cyan:    '0x56d4dd'
+ #     white:   '0xcdd9e5'
+
+ #   indexed_colors:
+ #     - { index: 16, color: '0xd18616' }
+ #     - { index: 17, color: '0xff938a' }
 
 #   # Colors (Ayu Dark)
 # colors:

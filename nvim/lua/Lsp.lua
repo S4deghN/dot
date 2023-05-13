@@ -427,8 +427,7 @@ require("lspconfig").rust_analyzer.setup {
 --         -- };
 --     },
 -- }
---
--- using https://github.com/p00f/clangd_extensions.nvim instead
+
 require("lspconfig").clangd.setup {
     on_attach = on_attach,
     capabilities = capabilities,
@@ -440,7 +439,7 @@ require("lspconfig").clangd.setup {
         "--completion-style=detailed",
         "--header-insertion=iwyu",      -- add headers when accepting completion
         "--header-insertion-decorators",
-        -- "-j=2",
+        "-j=2",
         -- "--malloc-trim",
         "--background-index", --index in background and persist on disk
     },
@@ -449,7 +448,7 @@ require("lspconfig").clangd.setup {
     --     return vim.loop.cwd()
     -- end,
 }
---
+
 -- the extension calls require("lspconfig").clangd.setup{} automatically
 -- require("clangd_extensions").setup {
 --     server = {

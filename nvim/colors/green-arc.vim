@@ -40,7 +40,8 @@ let s:light_cyan      = { "gui": "#4FB8CC", "cterm": "14"  }
 let s:dark_green      = { "gui": "#10A778", "cterm": "2"   }
 let s:light_green     = { "gui": "#5FD7A7", "cterm": "10"  }
 let s:dark_purple     = { "gui": "#af5fd7", "cterm": "134" }
-let s:light_purple    = { "gui": "#a790d5", "cterm": "140" }
+" let s:light_purple    = { "gui": "#a790d5", "cterm": "140" }
+let s:light_purple    = { "gui": "#D3869B", "cterm": "140" }
 let s:yellow          = { "gui": "#F3E430", "cterm": "11"  }
 let s:light_yellow    = { "gui": "#ffff87", "cterm": "228" }
 let s:dark_yellow     = { "gui": "#A89C14", "cterm": "3"   }
@@ -99,7 +100,7 @@ hi! link Label            Statement
 hi! link Keyword          Statement
 hi! link Exception        Statement
 
-call s:h("Operator",      {"fg": s:norm, "cterm": "bold", "gui": "bold"})
+call s:h("Operator",      {"fg": s:norm})
 
 call s:h("PreProc",     {"fg": s:norm_subtle})
 hi! link Include          PreProc
@@ -107,7 +108,7 @@ hi! link Define           PreProc
 hi! link Macro            PreProc
 hi! link PreCondit        PreProc
 
-call s:h("Type",          {"fg": s:norm})
+call s:h("Type",          {"fg": s:light_green})
 hi! link StorageClass     Type
 hi! link Structure        Type
 hi! link Typedef          Type
@@ -164,7 +165,7 @@ else
 endif
 
 call s:h("Pmenu",         {"fg": s:norm, "bg": s:bg_subtle})
-call s:h("PmenuSel",      {"fg": s:norm, "bg": s:purple})
+call s:h("PmenuSel",      {"fg": s:purple, "bg": s:bg})
 call s:h("PmenuSbar",     {"fg": s:norm, "bg": s:bg_subtle})
 call s:h("PmenuThumb",    {"fg": s:norm, "bg": s:bg_subtle})
 call s:h("TabLine",       {"fg": s:norm, "bg": s:bg_very_subtle})
@@ -212,24 +213,30 @@ hi  Normal          guibg=NONE
 hi  NormalFloat     guibg=NONE
 hi  FloatBorder     guibg=NONE
 
-hi  CursorLine      guibg=#23272E
-hi  CursorColumn    guibg=#23272E
-hi  Folded          guibg=#181D22     guifg=#747C84
+hi  CursorLine      guibg=#393939
+hi  CursorColumn    guibg=#393939
+hi  Folded          guibg=#393939     guifg=#747C84
 hi  VertSplit       guibg=NONE
 
+" #CD5C5C
+" #D3869B
 hi  Constant        guifg=#789AC0
-hi  Number          guifg=#A790D5
-hi  Float           guifg=#A790D5
-hi  Boolean         guifg=#A790D5
-hi  Preproc         guifg=#888888
+hi  Number          guifg=fg
+hi  Float           guifg=fg
+" hi  Preproc         guifg=#888888
+hi  Preproc         guifg=#458588
 " hi  Special         guifg=#999999  gui=NONE
 hi! link            Special           Constant
-hi  Delimiter       guifg=#999999
-hi  Type            guifg=#83a598
+" hi  Delimiter       guifg=#999999
+hi  Delimiter       guifg=fg
+" hi  Type            guifg=#83a598
 hi  Type            guifg=#68BEA2
-hi  Statement       guifg=#EBC06D     gui=italic cterm=italic
-hi  Comment         guifg=#75886F     gui=NONE cterm=NONE
-hi  Ignore          guifg=#75886F     gui=NONE cterm=NONE
+" hi  Type            guifg=#8EC07C
+" hi  Type            guifg=#90EE90
+" hi  Type            guifg=#458588
+hi  Statement       guifg=#EBC06D     "gui=italic cterm=italic
+hi  Comment         guifg=#D3869B     gui=NONE cterm=NONE
+hi  Ignore          guifg=#D3869B     gui=NONE cterm=NONE
 
 hi  Error           guibg=NONE          guifg=#af5f5f gui=underline cterm=underline
 hi  ErrorMsg        guifg=#af5f5f
@@ -244,7 +251,7 @@ hi  Visual          guibg=navy  guifg=NONE
 hi! link            Directory         Constant
 hi! link            IncSearch         Visual
 hi  Search          guibg=#23272E     guifg=lightblue
-hi  PmenuSel        guibg=bg          guifg=#a790d5
+" hi  PmenuSel        guibg=bg          guifg=#a790d5
 
 
 hi  htmlH1          guibg=NONE          guifg=#EBC06D gui=bold cterm=bold
@@ -271,7 +278,7 @@ let g:fzf_colors =
   \   'bg+':     ['bg', 'Visual'],
   \   'hl+':     ['bg', 'IncSearch'],
   \   'info':    ['fg', 'PreProc'],
-  \   'border':  ['fg', 'Ignore'],
+  \   'border':  ['fg', 'Normal'],
   \   'prompt':  ['fg', 'Conditional'],
   \   'pointer': ['fg', 'Exception'],
   \   'marker':  ['fg', 'Keyword'],

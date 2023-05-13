@@ -30,13 +30,16 @@ set shortmess+=asFtT
 set cursorline
 set cursorlineopt=number
 set laststatus=0
-set signcolumn=no
+set signcolumn=yes:1
 
 " set scrolloff=0
 " set scrolljump=-50
 set scrolloff=8
 set textwidth=80
 set cmdwinheight=12 " the special window that opens with :q or ctlr-f in cmd mode.
+" set number relativenumber
+set splitbelow
+set splitright
 
 set hlsearch
 set incsearch
@@ -75,6 +78,10 @@ Plug 'ap/vim-css-color'
 Plug 'tpope/vim-dispatch'
 Plug 'machakann/vim-sandwich'
 Plug 'normen/vim-pio'
+" Plug 'airblade/vim-gitgutter'
+Plug 'lewis6991/gitsigns.nvim'
+
+Plug 'gruvbox-community/gruvbox'
 
 " TODO
 Plug 'tpope/vim-fugitive'
@@ -118,9 +125,12 @@ nnoremap \w :Rg<CR>
 nnoremap \b :Buffers<CR>
 nnoremap \h :Helptags<CR>
 
+" --- GitSgings ---
+lua require('gitsigns').setup()
+
 " --- lsp ---
 lua require "Lsp"
-set rulerformat=%50(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\ %m%q%w\ %y%)
+set rulerformat=%40(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\ %m%q%w\ %y%)
 
 " -----------------------------------------------
 " --- colors ---
@@ -129,7 +139,7 @@ filetype plugin indent on
 
 syntax on
 set termguicolors
-" color green-arc
+let g:gruvbox_colors = {'fg1' : "#D2C49F"}
 color green-arc
 
 " -----------------------------------------------
@@ -173,8 +183,10 @@ cnoremap %% <C-R>=expand('%:p:h').'/'<CR>
 nmap <Leader>b :b 
 nmap <Leader>e :e %%
 nmap <Leader>E :Exp<CR>
-nmap <Leader>s :split %%<CR><C-w>J
-nmap <Leader>v :vsplit %%<CR><C-w>L
+nmap <Leader>s :split %%
+nmap <Leader>S :split %%<CR><C-w>J
+nmap <Leader>v :vsplit %%
+nmap <Leader>V :vsplit %%<CR><C-w>L
 nmap <Leader>t :tabedit %%<CR>
 nmap <Leader>r :read %%
 nmap <Leader>w :write %%
