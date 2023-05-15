@@ -21,7 +21,7 @@ set noautochdir " using the rooter plugin instead
 set noswapfile
 set nobackup
 set undofile
-set undodir=/tmp/vimundo " Undo file shouldn't replace version control
+set undodir=/tmp/$USER.vimundo " Undo file shouldn't replace version control
 set mouse+=a "mouse support
 
 " using a custome command instead of `F` option
