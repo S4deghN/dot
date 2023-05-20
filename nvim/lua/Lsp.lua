@@ -309,11 +309,18 @@ require('lspconfig').tsserver.setup {
     flags        = lsp_flags,
 }
 
+require('lspconfig').zls.setup {
+    on_attach    = on_attach,
+    capabilities = capabilities,
+    flags        = lsp_flags,
+}
+
 require('lspconfig').gopls.setup {
     on_attach    = on_attach,
     capabilities = capabilities,
     flags        = lsp_flags,
 }
+
 -- require('lspconfig').quick_lint_js.setup {
 --     on_attach    = on_attach,
 --     capabilities = capabilities,
