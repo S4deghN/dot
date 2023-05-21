@@ -236,7 +236,8 @@ hi  Type            guifg=#68BEA2
 " hi  Type            guifg=#458588
 hi  Statement       guifg=#EBC06D     "gui=italic cterm=italic
 hi  Comment         guifg=#D3869B     gui=NONE cterm=NONE
-hi  Ignore          guifg=#D3869B     gui=NONE cterm=NONE
+hi  Ignore          guifg=#888888     gui=NONE cterm=NONE
+hi! link @lsp.type.comment Ignore
 
 hi  Error           guibg=NONE          guifg=#af5f5f gui=underline cterm=underline
 hi  ErrorMsg        guifg=#af5f5f
