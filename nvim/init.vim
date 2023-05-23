@@ -82,6 +82,7 @@ Plug 'normen/vim-pio'
 Plug 'lewis6991/gitsigns.nvim'
 
 Plug 'gruvbox-community/gruvbox'
+Plug 'drsooch/gruber-darker-vim'
 
 " TODO
 Plug 'tpope/vim-fugitive'
@@ -141,6 +142,8 @@ syntax on
 set termguicolors
 let g:gruvbox_colors = {'fg1' : "#D2C49F"}
 color green-arc
+hi Comment guifg=#cc8c3c
+hi Number guifg=#95A99F
 
 " -----------------------------------------------
 " --- keymaps ---

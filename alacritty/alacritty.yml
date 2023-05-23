@@ -118,14 +118,14 @@ font:
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
   offset:
    x: 0
-   # y: -3
+   y: -2
 
   # Glyph offset determines the locations of the glyphs within their cells with
   # the default being at the bottom. Increasing `x` moves the glyph to the right,
   # increasing `y` moves the glyph upwards.
   glyph_offset:
    x: 0
-   # y: -1
+   y: -1
 
   # Thin stroke font rendering (macOS only)
   #
@@ -197,8 +197,11 @@ colors:
     # background: '#1C2122'
     # background: '#202020'
     # background: '#073642'
-    background: '#2f2f2f'
+    # background: '#2f2f2f'
+    # background: '#282a2f'
     background: '#282828'
+    background: '#1f1f1f'
+    # background: '#282C34'
 
     # foreground: '#BCBCBC'
     foreground: '#b2b2b2'
