@@ -25,7 +25,7 @@ let s:subtle_black    = { "gui": "#303030", "cterm": "236" }
 let s:light_black     = { "gui": "#262626", "cterm": "235" }
 let s:lighter_black   = { "gui": "#4E4E4E", "cterm": "239" }
 let s:light_gray      = { "gui": "#A8A8A8", "cterm": "248" }
-let s:lighter_gray    = { "gui": "#b2b2b2", "cterm": "251" }
+let s:lighter_gray    = { "gui": "#c5c5c5", "cterm": "251" }
 let s:lightest_gray   = { "gui": "#EEEEEE", "cterm": "255" }
 let s:pink            = { "gui": "#fb007a", "cterm": "9"   }
 let s:dark_red        = { "gui": "#C30771", "cterm": "1"   }
@@ -40,8 +40,7 @@ let s:light_cyan      = { "gui": "#4FB8CC", "cterm": "14"  }
 let s:dark_green      = { "gui": "#10A778", "cterm": "2"   }
 let s:light_green     = { "gui": "#5FD7A7", "cterm": "10"  }
 let s:dark_purple     = { "gui": "#af5fd7", "cterm": "134" }
-" let s:light_purple    = { "gui": "#a790d5", "cterm": "140" }
-let s:light_purple    = { "gui": "#D3869B", "cterm": "140" }
+let s:light_purple    = { "gui": "#a790d5", "cterm": "140" }
 let s:yellow          = { "gui": "#F3E430", "cterm": "11"  }
 let s:light_yellow    = { "gui": "#ffff87", "cterm": "228" }
 let s:dark_yellow     = { "gui": "#A89C14", "cterm": "3"   }
@@ -220,24 +219,20 @@ hi  VertSplit       guibg=NONE
 
 " #CD5C5C
 " #D3869B
-hi  Constant        guifg=#789AC0
-hi  Number          guifg=#D3869B
-hi  Float           guifg=#D3869B
-" hi  Preproc         guifg=#888888
+" #EBC06D
+" #458588
+hi  Constant        guifg=#cda869
+hi  Directory       guifg=#789AC0
+hi  Function        guifg=#789AC0
+hi  String          guifg=#8F9D6A
 hi  Preproc         guifg=#458588
-" hi  Special         guifg=#999999  gui=NONE
+hi  Macro           guifg=#789AC0
 hi! link            Special           Constant
-" hi  Delimiter       guifg=#999999
 hi  Delimiter       guifg=fg
-" hi  Type            guifg=#83a598
 hi  Type            guifg=#68BEA2
-" hi  Type            guifg=#8EC07C
-" hi  Type            guifg=#90EE90
-" hi  Type            guifg=#458588
-hi  Statement       guifg=#EBC06D     "gui=italic cterm=italic
-" hi  Comment         guifg=#D3869B     gui=NONE cterm=NONE
-hi  Comment         guifg=#CB8C3C     gui=NONE cterm=NONE
-hi  Ignore          guifg=#888888     gui=NONE cterm=NONE
+hi  Statement       guifg=#CF6A4C       "gui=italic cterm=italic
+hi  Comment         guifg=#5D646A     gui=NONE cterm=NONE
+hi  Ignore          guifg=#999999     gui=NONE cterm=NONE
 hi! link @lsp.type.comment Ignore
 
 hi  Error           guibg=NONE          guifg=#af5f5f gui=underline cterm=underline
