@@ -41,8 +41,15 @@ PROMPT_COMMAND="__ps1"
 #---------------------------------------------------
 set -o vi
 shopt -s autocd
-shopt -s globstar # expands '**' to recursive subdirectories
-export HISTCONTROL=ignoreboth # ignoreboth is shorthand for ignorespace and ignoredups
+# expands '**' to recursive subdirectories
+shopt -s globstar
+# ignoreboth is shorthand for ignorespace and ignoredups
+export HISTCONTROL=ignoreboth:erasedups
+# If  set,  the  history list is appended to the file named by the value of the
+# HISTFILE variable when the shell exits, rather than overwriting the file. (in
+# order to prevent the issue of lossig bash session history when multiple
+# instances are running)
+shopt -s histappend
 export HISTSIZE=50000
 
 #---------------------------------------------------
