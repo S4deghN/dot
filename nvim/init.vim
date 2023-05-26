@@ -29,7 +29,7 @@ set shortmess+=asFtT
 
 set cursorline
 set cursorlineopt=number
-set laststatus=0
+set laststatus=3
 set signcolumn=yes:1
 
 " set scrolloff=0
