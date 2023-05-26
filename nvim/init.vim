@@ -81,6 +81,7 @@ Plug 'normen/vim-pio'
 " Plug 'airblade/vim-gitgutter'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'wellle/context.vim'
+Plug 'blueyed/vim-qf_resize'
 
 Plug 'gruvbox-community/gruvbox'
 Plug 'drsooch/gruber-darker-vim'
