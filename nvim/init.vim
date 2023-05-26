@@ -80,6 +80,7 @@ Plug 'machakann/vim-sandwich'
 Plug 'normen/vim-pio'
 " Plug 'airblade/vim-gitgutter'
 Plug 'lewis6991/gitsigns.nvim'
+Plug 'wellle/context.vim'
 
 Plug 'gruvbox-community/gruvbox'
 Plug 'drsooch/gruber-darker-vim'
@@ -130,6 +131,9 @@ nnoremap \h :Helptags<CR>
 
 " --- GitSgings ---
 lua require('gitsigns').setup()
+
+" --- vim-context ---
+let g:context_enabled = 0
 
 " --- lsp ---
 lua require "Lsp"

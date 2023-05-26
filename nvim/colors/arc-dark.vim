@@ -232,7 +232,7 @@ hi  Delimiter       guifg=fg
 hi  Type            guifg=#68BEA2
 hi  Statement       guifg=#CF6A4C       "gui=italic cterm=italic
 hi  Comment         guifg=#5D646A     gui=NONE cterm=NONE
-hi  Ignore          guifg=#999999     gui=NONE cterm=NONE
+hi  Ignore          guifg=#8f8f8f     gui=NONE  cterm=NONE
 hi! link @lsp.type.comment Ignore
 
 hi  Error           guibg=NONE          guifg=#af5f5f gui=underline cterm=underline
@@ -276,7 +276,7 @@ let g:fzf_colors =
   \   'hl+':     ['bg', 'IncSearch'],
   \   'info':    ['fg', 'PreProc'],
   \   'border':  ['fg', 'Normal'],
-  \   'prompt':  ['fg', 'Conditional'],
+  \   'prompt':  ['fg', 'Constatn'],
   \   'pointer': ['fg', 'Exception'],
   \   'marker':  ['fg', 'Keyword'],
   \   'spinner': ['fg', 'Label'],

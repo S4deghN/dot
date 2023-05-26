@@ -205,6 +205,7 @@ colors:
 
     # foreground: '#BCBCBC'
     foreground: '#b2b2b2'
+    # foreground: '#c5c5c5'
     # foreground: '#cfcfc2'
     # foreground: '#bbbbbb'
     # foreground: '#A8A095'

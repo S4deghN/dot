@@ -6,16 +6,16 @@ local tshl = require("nvim-treesitter.configs").setup {
     sync_install = true, -- install languages synchronously (only applied to `ensure_installed`)
     -- ignore_install = { "comment" }, -- List of parsers to ignore installing
     autopairs = {
-        enable = true,
+        enable = false,
     },
     highlight = {
         enable = true, -- false will disable the whole extension
         disable = {}, -- list of language that will be disabled
         additional_vim_regex_highlighting = false,
     },
-    indent = { enable = true },
+    indent = { enable = false },
     context_commentstring = {
-        enable = true,
+        enable = false,
         enable_autocmd = false,
     },
 }
