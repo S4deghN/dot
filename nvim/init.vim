@@ -111,7 +111,7 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
 " --- vim-dispatch ---
-let g:dispatch_quickfix_height = 5
+" let g:dispatch_quickfix_height = 5
 
 " --- vim-commentary ---
 " Add comment at the end of the line
@@ -138,7 +138,10 @@ let g:context_enabled = 0
 
 " --- lsp ---
 lua require "Lsp"
-set rulerformat=%40(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\ %m%q%w\ %y%)
+" When not using statusline version
+" set rulerformat=%40(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\ %m%q%w\ %y%)
+" When using statusline version
+set rulerformat=%40(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\ %y%)
 
 " -----------------------------------------------
 " --- colors ---
@@ -239,7 +242,9 @@ noremap gk K
 nnoremap gz 1z=
 " substitute trailing white spaces with nothing. e flag suppresses errors.
 nnoremap zs :%s/\s\+$//e<CR>''
-
+" go to next and previous quickfix list item
+nnoremap ]c :cn<CR>
+nnoremap [c :cp<CR>
 " nmap  <silent> <C-s> :set opfunc=SpecialChange<CR>g@
 " function! SpecialChange(type)
 "     exec "normal! `[v`]"
@@ -267,6 +272,7 @@ endfunction
 " TODO: add a generic function for build functionality managed inside tmux.
 " it sould solely call an other generic bash script and pass out the environment
 " information
+" I found vim-dispatch!
 
 " -----------------------------------------------
 " --- cmds ---
@@ -296,6 +302,7 @@ augroup File
     autocmd!
     autocmd Filetype tex,text,markdown,gitcommit setlocal spell
     autocmd Filetype netrw call NetrwConfig()
+    autocmd Filetype qf nmap <buffer> <Esc> ZQ
     autocmd BufEnter .clang* set filetype=yaml
     autocmd BufEnter /tmp/bash* set filetype=sh " for the v command in bash vi mode
 augroup end
@@ -311,7 +318,8 @@ augroup Enter
     autocmd!
     autocmd BufRead,BufEnter */doc/* wincmd L
     autocmd BufRead,BufEnter man://* wincmd L
-    autocmd BufEnter * call timer_start(0, 'EchoFileName')
+    " When not using status line
+    " autocmd BufEnter * call timer_start(0, 'EchoFileName')
     " autocmd BufEnter * echo expand('%:p:~')
 augroup end
 
