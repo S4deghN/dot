@@ -32,9 +32,9 @@ set cursorlineopt=number
 set laststatus=3
 set signcolumn=yes:1
 
-" set scrolloff=0
-" set scrolljump=-50
-set scrolloff=8
+set scrolloff=0
+set scrolljump=-50
+" set scrolloff=8
 set textwidth=80
 set cmdwinheight=12 " the special window that opens with :q or ctlr-f in cmd mode.
 " set number relativenumber
@@ -49,9 +49,14 @@ set nowrapscan
 
 " Break line symbol
 set showbreak=>
+
 " defaults: tcroql
-set formatoptions+=jn1p
-set formatoptions-=o
+set formatoptions=tcrqljn1p
+" ftplugin's default options usualy set formatoptions. but I don't want that.
+" I want consistent formating options across any file type.
+" TODO: find a better workaround.
+autocmd BufEnter * set formatoptions=tcrqljn1p
+
 set nosmarttab " when unset you can delete inserted tab with C-w without deleting the word before it
 set smartindent
 set autoindent
@@ -82,6 +87,14 @@ Plug 'normen/vim-pio'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'wellle/context.vim'
 Plug 'blueyed/vim-qf_resize'
+
+" Plug 'vimwiki/vimwiki'
+Plug 'aaronbieber/vim-quicktask'
+Plug 'vimoutliner/vimoutliner'
+
+Plug 'SmiteshP/nvim-navic'
+Plug 'MunifTanjim/nui.nvim'
+Plug 'SmiteshP/nvim-navbuddy'
 
 Plug 'gruvbox-community/gruvbox'
 Plug 'drsooch/gruber-darker-vim'
@@ -136,12 +149,20 @@ lua require('gitsigns').setup()
 " --- vim-context ---
 let g:context_enabled = 0
 
+" --- vimwiki ---
+" let g:vimwiki_list = [{'path': '~/note/vimwiki', 'syntax': 'markdown', 'ext': '.md'}]
+
+" --- quick-taks ---
+let g:quicktask_snip_path = '~/note/quicktask/snips'
+nmap <Leader>tt :e ~/note/quicktask/tasks.quicktask
+
 " --- lsp ---
 lua require "Lsp"
 " When not using statusline version
 " set rulerformat=%40(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\ %m%q%w\ %y%)
 " When using statusline version
 set rulerformat=%40(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\ %y%)
+
 
 " -----------------------------------------------
 " --- colors ---
@@ -296,7 +317,7 @@ autocmd BufReadPost *
   \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
   \ |   exe "normal! g`\""
   \ | endif
-augroup END
+augroup end
 
 augroup File
     autocmd!

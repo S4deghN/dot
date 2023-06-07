@@ -259,6 +259,8 @@ hi  htmlH5          guibg=NONE          guifg=#EBC06D gui=bold cterm=bold
 hi  htmlH6          guibg=NONE          guifg=#EBC06D gui=bold cterm=bold
 hi! link            helpHyperTextJump Statement
 
+hi SpellBad guifg=fg gui=underline
+
 hi  DiffDelete      guifg=#af5f5f     guibg=NONE    gui=NONE cterm=NONE
 hi  DiffChange      guifg=#789AC0     guibg=NONE    gui=NONE cterm=NONE
 hi  DiffAdd         guifg=#8F9D6A     guibg=NONE    gui=NONE cterm=NONE

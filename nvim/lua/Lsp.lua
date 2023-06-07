@@ -24,36 +24,66 @@ local tshl = require("nvim-treesitter.configs").setup {
 -- cmp
 ------------------------------------------------------------
 --   פּ ﯟ   some other good icons
-local
 
-kind_icons = {
-    Text = ' ',
-    Method = ' ',
-    Function = ' ',
-    Constructor = ' ',
-    Field = '',
-    Variable = ' ',
-    Class = ' ',
-    Interface = ' ',
-    Module = ' ',
-    Property = ' ',
-    Unit = ' ',
-    Value = ' ',
-    Enum = ' ',
-    Keyword = ' ',
-    Snippet = ' ',
-    Color = ' ',
-    File = ' ',
-    Reference = ' ',
-    Folder = ' ',
-    EnumMember = ' ',
-    Constant = ' ',
-    Struct = ' ',
-    Event = ' ',
-    Operator = ' ',
-    TypeParameter = ' ',
+
+local kind_icons = {
+  Text = "",
+  Method = "󰆧",
+  Namespace = "󰌗 ",
+  Function = "󰊕",
+  Constructor = "",
+  Field = "󰇽",
+  Variable = "󰂡",
+  Class = "󰠱",
+  Interface = "",
+  Module = "",
+  Property = "󰜢",
+  Unit = "",
+  Value = "󰎠",
+  Enum = "",
+  Keyword = "󰌋",
+  Snippet = "",
+  Color = "󰏘",
+  File = "󰈙",
+  Reference = "",
+  Folder = "󰉋",
+  EnumMember = "",
+  Constant = "󰏿",
+  Struct = "",
+  Event = "",
+  Operator = "󰆕",
+  TypeParameter = "󰅲",
 }
 
+local
+ icons = {              kind_icons = {
+ File          = "󰈙 ",  Text = ' ',
+ Module        = " ",  Method = ' ',
+ Namespace     = "󰌗 ",  Namespace = "󰌗 ",
+ Package       = " ",  Constructor = ' ',
+ Class         = "󰌗 ",  Field = '',
+ Method        = "󰆧 ",  Variable = ' ',
+ Property      = " ",  Class = ' ',
+ Field         = " ",  Interface = ' ',
+ Constructor   = " ",  Module = ' ',
+ Enum          = "󰕘",   Property = ' ',
+ Interface     = "󰕘",   Unit = ' ',
+ Function      = "󰊕 ",  Value = ' ',
+ Variable      = "󰆧 ",  Enum = ' ',
+ Constant      = "󰏿 ",  Keyword = ' ',
+ String        = " ",  Snippet = ' ',
+ Number        = "󰎠 ",  Color = ' ',
+ Boolean       = "◩ ",  File = ' ',
+ Array         = "󰅪 ",  Reference = ' ',
+ Object        = "󰅩 ",  Folder = ' ',
+ Key           = "󰌋 ",  EnumMember = ' ',
+ Null          = "󰟢 ",  Constant = ' ',
+ EnumMember    = " ",  Struct = ' ',
+ Struct        = "󰌗 ",  Event = ' ',
+ Event         = " ",  Operator = ' ',
+ Operator      = "󰆕 ",  TypeParameter = ' ',
+ TypeParameter = "󰊄 ",  Function = ' ',
+ },                     }
 -- find more here: https://www.nerdfonts.com/cheat-sheet
 
 -- ╭──────╮
@@ -260,15 +290,19 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
     return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
 
+local navbuddy = require("nvim-navbuddy")
+
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
+    --
+    navbuddy.attach(client, bufnr)
+
     -- Enable completion triggered by <c-x><c-o>
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
     local bufopts = { noremap = true, silent = false, buffer = bufnr }
-
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts) -- hover
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
     vim.keymap.set('n', 'gI', vim.lsp.buf.implementation, bufopts)
@@ -281,9 +315,7 @@ local on_attach = function(client, bufnr)
 
     vim.keymap.set('n', 'glwa', vim.lsp.buf.add_workspace_folder, bufopts)
     vim.keymap.set('n', 'glwr', vim.lsp.buf.remove_workspace_folder, bufopts)
-    vim.keymap.set('n', 'glwl', function()
-        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    end, bufopts)
+    vim.keymap.set('n', 'glwl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, bufopts)
 end
 
 local lsp_flags = {
