@@ -202,9 +202,10 @@ sev.h = vim.diagnostic.severity.HINT
 
 vim.diagnostic.config({
     severity_sort = true,
-    underline = {
-        severity = { min = sev.e }
-    },
+    underline = false,
+    -- underline = {
+    --     severity = { min = sev.e }
+    -- },
     signs = true,
     virtual_text = false,
     -- virtual_text = {
@@ -290,13 +291,13 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
     return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
 
-local navbuddy = require("nvim-navbuddy")
+-- local navbuddy = require("nvim-navbuddy")
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
     --
-    navbuddy.attach(client, bufnr)
+    -- navbuddy.attach(client, bufnr)
 
     -- Enable completion triggered by <c-x><c-o>
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')

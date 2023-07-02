@@ -18,7 +18,7 @@ exec --no-startup-id xrandr --output HDMI-2 --mode 1920x1080 --rate 75
 exec --no-startup-id nitrogen --restore
 
 # using the experimental option actually solved tearing problems
-exec --no-startup-id picom --daemon --experimental-backends
+exec --no-startup-id picom --daemon
 
 # Enables mounting removable devices from graphical file managers.
 # Requires polkit-gnome in archlinux.
@@ -40,7 +40,14 @@ exec --no-startup-id dex --autostart --environment i3
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
+# On Arch: pacman -S network-manager-applet
 exec --no-startup-id nm-applet
+
+exec --no-startup-id blueman-applet
+
+# Mountable device manager as an applet
+exec --no-startup-id udiskie -t
+
 
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
@@ -68,12 +75,15 @@ font pango:Ubuntu 8
 
 focus_follows_mouse no
 
+workspace_layout tabbed
+
 for_window [class="^Spotify$"] floating enable
 for_window [class="Blueman-manager"] floating enable
 for_window [class="Pavucontrol"] floating enable
 for_window [class="Gpick"] floating enable
 for_window [class="Gnome-calculator"] floating enable
 for_window [class="VirtualBox"] floating enable
+for_window [class="Transmission-qt"] floating enable
 #----------------------------------------------------------------------------
 # -- Keybindings --
 #----------------------------------------------------------------------------
@@ -138,10 +148,10 @@ bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
+bindsym $mod+Shift+F floating toggle
 
 # change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+# bindsym $mod+space focus mode_toggle
 
 # focus the parent container
 # bindsym $mod+p focus parent

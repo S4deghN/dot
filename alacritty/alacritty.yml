@@ -212,8 +212,8 @@ colors:
     # foreground: '#AFA79B'
   cursor:
     text:    '#000000'
-    # cursor:  '#90EE90'
-    cursor:    '#68BEA2'
+    cursor:  '#90EE90'
+    # cursor:    '#68BEA2'
 
   # Normal colors
   normal:
