@@ -1,1 +1,2 @@
-/home/s4/.platformio/penv/bin/pio
+#!/usr/bin/bash
+$HOME/.platformio/penv/bin/pio
