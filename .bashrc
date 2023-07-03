@@ -87,7 +87,7 @@ alias pac-view="pacman -Slq | fzf --preview 'pacman -Si {}' --layout=reverse"
 # --- functions ---
 # -----------------------------------------------
 # READLINE variable are only populated if the function is called by `bind -x`
-# TODO: what? why? what can I use if I don't wanna use bind -x?
+# TODO: what? why? how can I use if I don't wanna use bind -x?
 vi-dot() {
     query=$(find ~/dot -not -path "*/\.git/*" -type f 2>/dev/null)
     [[ -z $query ]] && exit 1
@@ -100,13 +100,23 @@ vi-dot() {
     fi
 }
 
-# vi-pwd() {
-# }
+vi-note() {
+    query=$(find ~/note -not -path "*/\.git/*" -type f 2>/dev/null)
+    [[ -z $query ]] && exit 1
+
+    local expr=$(printf "%s\n" $query | fzf -1)
+
+    if [[ -n $expr ]]; then
+        READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$EDITOR $expr${READLINE_LINE:$READLINE_POINT}"
+        READLINE_POINT=$(( READLINE_POINT + ${#EDITOR} + 1 + ${#expr} ))
+    fi
+}
 
 #---------------------------------------------------
 # binds
 #---------------------------------------------------
 bind -m vi-insert -x '"\C-e": vi-dot'
+bind -m vi-insert -x '"\C-n": vi-note'
 # bind -m vi-insert -x '"\C-t": vi-pwd'
 
 #---------------------------------------------------

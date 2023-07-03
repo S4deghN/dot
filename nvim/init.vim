@@ -92,9 +92,9 @@ Plug 'blueyed/vim-qf_resize'
 Plug 'aaronbieber/vim-quicktask'
 Plug 'vimoutliner/vimoutliner'
 
-Plug 'SmiteshP/nvim-navic'
-Plug 'MunifTanjim/nui.nvim'
-Plug 'SmiteshP/nvim-navbuddy'
+" Plug 'SmiteshP/nvim-navic'
+" Plug 'MunifTanjim/nui.nvim'
+" Plug 'SmiteshP/nvim-navbuddy'
 
 Plug 'gruvbox-community/gruvbox'
 Plug 'drsooch/gruber-darker-vim'
