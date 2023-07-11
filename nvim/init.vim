@@ -87,6 +87,7 @@ Plug 'normen/vim-pio'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'wellle/context.vim'
 Plug 'blueyed/vim-qf_resize'
+Plug 'jremmen/vim-ripgrep'
 
 " Plug 'vimwiki/vimwiki'
 Plug 'aaronbieber/vim-quicktask'
@@ -130,8 +131,8 @@ nmap ga <Plug>(EasyAlign)
 " Add comment at the end of the line
 nmap gcA gcc^dWA <C-r>"
 " Insert header comments
-nmap gcH :r ~/.config/nvim/snips/Hcomment<cr>gc2jjela
-nmap gch :r ~/.config/nvim/snips/hcomment<cr>gccela
+nmap gcH :r ~/.config/nvim/snips/Hcomment<cr>gc2j=2jjf-ela
+nmap gch :r ~/.config/nvim/snips/hcomment<cr>gcc=lf-ela
 
 " --- vim-rooter ---
 let g:rooter_silent_chdir = 1
@@ -155,6 +156,14 @@ let g:context_enabled = 0
 " --- quick-taks ---
 let g:quicktask_snip_path = '~/note/quicktask/snips'
 nmap <Leader>tt :e ~/note/quicktask/tasks.quicktask
+
+" --- rip-grep ---
+let g:rg_highlight = 1
+nmap <leader>r :Rg<CR>
+nmap <leader>R :Rg ""<Left>
+xmap <leader>r y:Rg "<C-R>""<CR>
+
+
 
 " --- lsp ---
 lua require "Lsp"
@@ -219,7 +228,7 @@ nmap <Leader>S :split %%<CR><C-w>J
 nmap <Leader>v :vsplit %%
 nmap <Leader>V :vsplit %%<CR><C-w>L
 nmap <Leader>t :tabedit %%<CR>
-nmap <Leader>r :read %%
+" nmap <Leader>r :read %%
 nmap <Leader>w :write %%
 nmap <Leader>f :tabedit<CR>:Files<CR>
 
