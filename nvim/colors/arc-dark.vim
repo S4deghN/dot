@@ -259,15 +259,17 @@ hi  htmlH5          guibg=NONE          guifg=#EBC06D gui=bold cterm=bold
 hi  htmlH6          guibg=NONE          guifg=#EBC06D gui=bold cterm=bold
 hi! link            helpHyperTextJump Statement
 
-hi SpellBad guifg=fg gui=underline
+hi  SpellBad guifg=fg gui=underline
 
-hi  DiffDelete      guifg=#af5f5f     guibg=NONE    gui=NONE cterm=NONE
-hi  DiffChange      guifg=#789AC0     guibg=NONE    gui=NONE cterm=NONE
-hi  DiffAdd         guifg=#8F9D6A     guibg=NONE    gui=NONE cterm=NONE
+hi  GitSignsAdd       guifg=#8F9D6A     guibg=NONE    gui=NONE cterm=NONE
+hi  GitSignsDelete    guifg=#af5f5f     guibg=NONE    gui=NONE cterm=NONE
+hi  GitSignsChange    guifg=#789AC0     guibg=NONE    gui=NONE cterm=NONE
 
-hi! link            GitSignsAdd       DiffAdd
-hi! link            GitSignsDelete    DiffDelete
-hi! link            GitSignsChange    DiffChange
+hi  DiffAdd guifg=NONE guibg=#1D2B21
+" hi  DiffDelete guifg=NONE guibg=#722928
+hi  DiffDelete guifg=#484E52 guibg=NONE
+hi  DiffChange guifg=NONE guibg=#1F385B
+hi  DiffText guifg=NONE guibg=#172A45
 
 let g:fzf_colors =
   \ { 'fg':      ['fg', 'NormalFloat'],

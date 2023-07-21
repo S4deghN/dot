@@ -9,6 +9,7 @@ set autoread
 set encoding=utf-8
 set nowildmenu
 set wildmode=list:longest " behave like bash
+set wildignorecase
 set history=10000 " it's the maximum
 set backspace=indent,eol,start
 set showcmd
@@ -29,12 +30,11 @@ set shortmess+=asFtT
 
 set cursorline
 set cursorlineopt=number
-set laststatus=3
 set signcolumn=yes:1
 
-set scrolloff=0
-set scrolljump=-50
-" set scrolloff=8
+" set scrolloff=0
+" set scrolljump=-50
+set scrolloff=10
 set textwidth=80
 set cmdwinheight=12 " the special window that opens with :q or ctlr-f in cmd mode.
 " set number relativenumber
@@ -67,6 +67,9 @@ set foldmethod=marker
 set concealcursor=
 " set guicursor=
 
+set diffopt=filler,internal,algorithm:patience,indent-heuristic
+set fillchars=diff:╱
+
 set iskeyword+=-
 match CursorLine '\s\+$' " mark trailing spaces as errors using highlight group CursorLine
 let mapleader = " "
@@ -74,11 +77,11 @@ let mapleader = " "
 " -----------------------------------------------
 " --- plugins ---
 " -----------------------------------------------
+" {{{
 call plug#begin()
 Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-commentary'
 Plug 'airblade/vim-rooter'
-Plug 'junegunn/fzf.vim'
 Plug 'ap/vim-css-color'
 Plug 'tpope/vim-dispatch'
 Plug 'machakann/vim-sandwich'
@@ -86,17 +89,23 @@ Plug 'normen/vim-pio'
 " Plug 'airblade/vim-gitgutter'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'wellle/context.vim'
-Plug 'blueyed/vim-qf_resize'
 Plug 'jremmen/vim-ripgrep'
+
+Plug 'nvim-tree/nvim-web-devicons'
+" Plug 'junegunn/fzf.vim'
+Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
+
+" Plug 'nvim-lua/plenary.nvim'
+" Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.2' }
 
 " Plug 'vimwiki/vimwiki'
 Plug 'aaronbieber/vim-quicktask'
 Plug 'vimoutliner/vimoutliner'
 
-" Plug 'SmiteshP/nvim-navic'
-" Plug 'MunifTanjim/nui.nvim'
-" Plug 'SmiteshP/nvim-navbuddy'
-
+Plug 'AlexvZyl/nordic.nvim'
+Plug 'p00f/alabaster.nvim'
+Plug 'rose-pine/neovim'
+Plug 'Mofiqul/vscode.nvim'
 Plug 'gruvbox-community/gruvbox'
 Plug 'drsooch/gruber-darker-vim'
 Plug 'ayu-theme/ayu-vim'
@@ -104,6 +113,7 @@ Plug 'S4deghN/neovim-ayu'
 
 " TODO
 Plug 'tpope/vim-fugitive'
+Plug 'sindrets/diffview.nvim'
 " TODO snippets
 " Plug 'garbas/vim-snipmate'
 "   Plug 'MarcWeber/vim-addon-mw-utils'
@@ -119,6 +129,7 @@ Plug 'hrsh7th/nvim-cmp'
     Plug 'L3MON4D3/LuaSnip'
     Plug 'saadparwaiz1/cmp_luasnip'
 call plug#end()
+" }}}
 
 " --- easy-align ---
 xmap ga <Plug>(EasyAlign)
@@ -138,11 +149,29 @@ nmap gch :r ~/.config/nvim/snips/hcomment<cr>gcc=lf-ela
 let g:rooter_silent_chdir = 1
 
 " --- fzf ---
-nnoremap \f :Files<CR>
-nnoremap \r :History<CR>
-nnoremap \w :Rg<CR>
-nnoremap \b :Buffers<CR>
-nnoremap \h :Helptags<CR>
+" nnoremap \f :Files<CR>
+" nnoremap \r :History<CR>
+" nnoremap \w :Rg<CR>
+" nnoremap \b :Buffers<CR>
+" nnoremap \h :Helptags<CR>
+
+" --- fzf-lua ---
+nnoremap \\ :FzfLua<CR>
+
+nnoremap \f :FzfLua files<CR>
+nnoremap \b :FzfLua buffers<CR>
+
+nnoremap \w :FzfLua grep_cword<CR>
+xnoremap \w <Esc>:FzfLua grep_visual<CR>
+nnoremap \W :FzfLua live_grep<CR>
+
+nnoremap \r :FzfLua lsp_references<CR>
+nnoremap \d :FzfLua lsp_definitions<CR>
+nnoremap \l :FzfLua lsp_finder<CR>
+
+nnoremap \z :FzfLua spell_suggest<CR>
+
+nnoremap \h :FzfLua help_tags<CR>
 
 " --- GitSgings ---
 lua require('gitsigns').setup()
@@ -159,17 +188,25 @@ nmap <Leader>tt :e ~/note/quicktask/tasks.quicktask
 
 " --- rip-grep ---
 let g:rg_highlight = 1
-nmap <leader>r :Rg<CR>
-nmap <leader>R :Rg ""<Left>
-xmap <leader>r y:Rg "<C-R>""<CR>
+nmap gw :Rg<CR>
+nmap gW :Rg ""<Left>
+xmap gw y:Rg "<C-R>""<CR>
 
-
+" --- Telescope ---
+" lua require "Telescope"
+" nnoremap \f :Telescope find_files<CR>
+" nnoremap \r :Telescope oldfiles<CR>
+" nnoremap \w :Telescope grep_string<CR>
+" nnoremap \b :Telescope buffers<CR>
+" nnoremap \h :Telescope help_tags<CR>
 
 " --- lsp ---
 lua require "Lsp"
-" When not using statusline version
+
+set laststatus=3
+" When not using statusline
 " set rulerformat=%40(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\ %m%q%w\ %y%)
-" When using statusline version
+" When using statusline
 set rulerformat=%40(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\ %y%)
 
 
@@ -273,8 +310,8 @@ nnoremap gz 1z=
 " substitute trailing white spaces with nothing. e flag suppresses errors.
 nnoremap zs :%s/\s\+$//e<CR>''
 " go to next and previous quickfix list item
-nnoremap ]c :cn<CR>
-nnoremap [c :cp<CR>
+nnoremap ]] :cn<CR>
+nnoremap [[ :cp<CR>
 " nmap  <silent> <C-s> :set opfunc=SpecialChange<CR>g@
 " function! SpecialChange(type)
 "     exec "normal! `[v`]"

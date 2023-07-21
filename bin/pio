@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-# Take in arguments and pass to `pio`
+# Take in arguments and pass to `pio` (copy paste from internet)
 declare -a A=("$@")
 [[ -p /dev/stdin ]] && { \
     mapfile -t -O ${#A[@]} A; set -- "${A[@]}"; \
