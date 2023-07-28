@@ -316,9 +316,8 @@ nnoremap gz 1z=
 nnoremap zs :%s/\s\+$//e<CR>''
 
 " go to next and previous quickfix list item
-nnoremap ]] :cn<CR>
-nnoremap [[ :cp<CR>
-
+nnoremap ]c :cn<CR>
+nnoremap [c :cp<CR>
 " nmap  <silent> <C-s> :set opfunc=SpecialChange<CR>g@
 " function! SpecialChange(type)
 "     exec "normal! `[v`]"
