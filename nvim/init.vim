@@ -203,11 +203,11 @@ xmap gw y:Rg "<C-R>""<CR>
 " --- lsp ---
 lua require "Lsp"
 
-set laststatus=3
+set laststatus=0
 " When not using statusline
-" set rulerformat=%40(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\ %m%q%w\ %y%)
+set rulerformat=%40(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\ %m%q%w\ %y%)
 " When using statusline
-set rulerformat=%40(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\ %y%)
+" set rulerformat=%40(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\ %y%)
 
 
 " -----------------------------------------------
@@ -353,7 +353,7 @@ endfunction
 command! -nargs=0 Syn call Syn()
 command! Run call system("tmux-run ".&filetype)
 
-command! Dev autocmd TextChanged,TextChangedI * silent update
+command! AutoSave autocmd TextChanged,TextChangedI * silent update
 
 command! DiagEnable lua vim.diagnostic.enable()
 command! DiagDisable lua vim.diagnostic.disable()
@@ -403,7 +403,7 @@ augroup end
 
 augroup yank
     autocmd!
-    autocmd TextYankPost * silent! lua vim.highlight.on_yank({ higroup="Visual", timeout=100 })
+    autocmd TextYankPost * silent! lua vim.highlight.on_yank({ higroup="Visual", timeout=50 })
 augroup end
 
 " -----------------------------------------------
@@ -456,5 +456,8 @@ function! s:tmux_reset_title()
     call system("tmux set-window-option automatic-rename on")
 endfunc
 
-autocmd VimResume,BufEnter,WinEnter,VimEnter * call s:tmux_apply_title()
-autocmd VimLeave,VimSuspend * call s:tmux_reset_title()
+augroup TmuxGroup
+    autocmd!
+    autocmd VimResume,BufEnter,WinEnter,VimEnter * call s:tmux_apply_title()
+    autocmd VimLeave,VimSuspend * call s:tmux_reset_title()
+augroup end
