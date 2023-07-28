@@ -299,19 +299,26 @@ xnoremap # y?\V<C-R>"<CR>
 
 " Re-select the last pasted text
 noremap gV V`]
+
 " like 'J' but from line above to line below
 noremap gj kddpkJ
+
 " Record macro with `qq`, replay with `Q`
 noremap Q @q
+
 " open manual, 'K' is use for lsp hover
 noremap gk K
+
 " apply the first spell candidate
 nnoremap gz 1z=
+
 " substitute trailing white spaces with nothing. e flag suppresses errors.
 nnoremap zs :%s/\s\+$//e<CR>''
+
 " go to next and previous quickfix list item
 nnoremap ]] :cn<CR>
 nnoremap [[ :cp<CR>
+
 " nmap  <silent> <C-s> :set opfunc=SpecialChange<CR>g@
 " function! SpecialChange(type)
 "     exec "normal! `[v`]"

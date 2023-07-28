@@ -221,6 +221,7 @@ hi  VertSplit       guibg=NONE
 " #D3869B
 " #EBC06D
 " #458588
+" #E19972
 hi  Constant        guifg=#cda869
 hi  Directory       guifg=#789AC0
 hi  Function        guifg=#789AC0
@@ -231,7 +232,8 @@ hi! link            Special           Constant
 hi  Delimiter       guifg=fg
 hi  Type            guifg=#68BEA2
 hi  Statement       guifg=#CF6A4C       "gui=italic cterm=italic
-hi  Comment         guifg=#5D646A     gui=NONE cterm=NONE
+" hi  Comment         guifg=#5D646A     gui=NONE cterm=NONE
+hi  Comment         guifg=#777777     gui=NONE cterm=NONE
 hi  Ignore          guifg=NONE     gui=italic  cterm=NONE
 hi! link @lsp.type.comment Ignore
 
