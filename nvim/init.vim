@@ -19,7 +19,8 @@ set timeoutlen=1000 " timeout for vim mappings
 set ttimeoutlen=0   " timeout for key sequences of terminal like esc and such
 
 set noautochdir " using the rooter plugin instead
-set noswapfile
+set swapfile
+set dir=/home/$USER/vimswap
 set nobackup
 set undofile
 set undodir=/tmp/$USER.vimundo " Undo file shouldn't replace version control
@@ -27,6 +28,8 @@ set mouse+=a "mouse support
 
 " using a custome command instead of `F` option
 set shortmess+=asFtT
+" don't throw the attention message on swapfile found
+set shortmess+=A
 
 set cursorline
 set cursorlineopt=number
