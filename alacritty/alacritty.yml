@@ -202,6 +202,7 @@ colors:
     # background: '#282828'
     # background: '#1f1f1f'
     # background: '#282C34'
+    background: '#282828'
 
     # foreground: '#BCBCBC'
     foreground: '#b2b2b2'
@@ -217,7 +218,7 @@ colors:
 
   # Normal colors
   normal:
-    black:     '#15191c'
+    black:     '#1e1e1e'
     red:       '#CF6A4C'
     green:     '#8F9D6A'
     yellow:    '#CDA869'
