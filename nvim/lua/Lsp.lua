@@ -55,35 +55,36 @@ local kind_icons = {
   TypeParameter = "󰅲",
 }
 
-local
- icons = {              kind_icons = {
- File          = "󰈙 ",  Text = ' ',
- Module        = " ",  Method = ' ',
- Namespace     = "󰌗 ",  Namespace = "󰌗 ",
- Package       = " ",  Constructor = ' ',
- Class         = "󰌗 ",  Field = '',
- Method        = "󰆧 ",  Variable = ' ',
- Property      = " ",  Class = ' ',
- Field         = " ",  Interface = ' ',
- Constructor   = " ",  Module = ' ',
- Enum          = "󰕘",   Property = ' ',
- Interface     = "󰕘",   Unit = ' ',
- Function      = "󰊕 ",  Value = ' ',
- Variable      = "󰆧 ",  Enum = ' ',
- Constant      = "󰏿 ",  Keyword = ' ',
- String        = " ",  Snippet = ' ',
- Number        = "󰎠 ",  Color = ' ',
- Boolean       = "◩ ",  File = ' ',
- Array         = "󰅪 ",  Reference = ' ',
- Object        = "󰅩 ",  Folder = ' ',
- Key           = "󰌋 ",  EnumMember = ' ',
- Null          = "󰟢 ",  Constant = ' ',
- EnumMember    = " ",  Struct = ' ',
- Struct        = "󰌗 ",  Event = ' ',
- Event         = " ",  Operator = ' ',
- Operator      = "󰆕 ",  TypeParameter = ' ',
- TypeParameter = "󰊄 ",  Function = ' ',
- },                     }
+-- local
+--  icons = {              kind_icons = {
+--  File          = "󰈙 ",  Text = ' ',
+--  Module        = " ",  Method = ' ',
+--  Namespace     = "󰌗 ",  Namespace = "󰌗 ",
+--  Package       = " ",  Constructor = ' ',
+--  Class         = "󰌗 ",  Field = '',
+--  Method        = "󰆧 ",  Variable = ' ',
+--  Property      = " ",  Class = ' ',
+--  Field         = " ",  Interface = ' ',
+--  Constructor   = " ",  Module = ' ',
+--  Enum          = "󰕘",   Property = ' ',
+--  Interface     = "󰕘",   Unit = ' ',
+--  Function      = "󰊕 ",  Value = ' ',
+--  Variable      = "󰆧 ",  Enum = ' ',
+--  Constant      = "󰏿 ",  Keyword = ' ',
+--  String        = " ",  Snippet = ' ',
+--  Number        = "󰎠 ",  Color = ' ',
+--  Boolean       = "◩ ",  File = ' ',
+--  Array         = "󰅪 ",  Reference = ' ',
+--  Object        = "󰅩 ",  Folder = ' ',
+--  Key           = "󰌋 ",  EnumMember = ' ',
+--  Null          = "󰟢 ",  Constant = ' ',
+--  EnumMember    = " ",  Struct = ' ',
+--  Struct        = "󰌗 ",  Event = ' ',
+--  Event         = " ",  Operator = ' ',
+--  Operator      = "󰆕 ",  TypeParameter = ' ',
+--  TypeParameter = "󰊄 ",  Function = ' ',
+--  },                     }
+
 -- find more here: https://www.nerdfonts.com/cheat-sheet
 
 -- ╭──────╮
@@ -118,11 +119,12 @@ cmp.setup {
         end,
     },
     completion = {
-        autocomplete = false,
+        -- autocomplete = false,
         -- completeopt = 'menu,menuone,noisert'
+        completeopt = 'longest'
     },
     experimental = {
-        -- ghost_text = { hl_group = "Comment" },
+        ghost_text = { hl_group = "Comment" },
     },
     window = {
         -- completion = cmp.config.window.bordered(),
@@ -260,6 +262,9 @@ end
 ------------------------------------------------------------
 -- lsp
 ------------------------------------------------------------
+
+vim.lsp.set_log_level("debug")
+
 function GetRunningLsp()
     local str = ""
     vim.lsp.for_each_buffer_client(0, function(client, client_id, bufnr)
@@ -291,13 +296,9 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
     return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
 
--- local navbuddy = require("nvim-navbuddy")
-
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
-    --
-    -- navbuddy.attach(client, bufnr)
 
     -- Enable completion triggered by <c-x><c-o>
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')

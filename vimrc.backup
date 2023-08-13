@@ -1,0 +1,356 @@
+" -----------------------------------------------
+" --- options ---
+" -----------------------------------------------
+" defaults
+set nocompatible
+set autoread
+set wildmenu
+set wildoptions="pum,tagfile"
+set history=10000 " it's the maximum
+set backspace=indent,eol,start
+set showcmd
+set hidden " stop complaints about switching buffer with changes
+set ttyfast
+set display=lastline
+
+
+" <esc> in visula mode take some time to apply. ttimeoutlen=0 resolves it.
+set timeoutlen=1000 " timeout for vim mappings
+set ttimeoutlen=0   " timeout for key sequences of terminal like esc and such
+
+set noautochdir " using the rooter plugin
+set noswapfile
+set nobackup
+set undofile
+set undodir=/tmp/vimundo " Undo file shouldn't replace version
+set mouse+=a "mouse support
+
+" using a custome command instead of `F` option
+set shortmess+=asFtT
+
+set cursorline
+set cursorlineopt=number
+set laststatus=0
+set signcolumn=no
+
+set scrolloff=8
+set textwidth=80
+
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+set nowrapscan
+
+set showbreak=>
+" defaults: tcroql
+set formatoptions-=o
+set formatoptions+=jn1p
+set nosmarttab " when unset you can delete inserted tab with C-w without
+               " deleting the word before it
+set smartindent
+set autoindent
+set expandtab "convert tabs to spaces
+set shiftwidth=4 "the number of spaces inserted for each indentation
+set tabstop=4
+set foldmethod=marker
+set concealcursor=
+
+set cmdwinheight=12 " the special window that opens with :q or ctlr-f in cmd mode.
+
+match CursorLine '\s\+$' " mark trailing spaces as errors using highlight group
+                         " CursorLine
+
+set iskeyword+=-
+set encoding=utf-8
+
+" -----------------------------------------------
+" --- plugins ---
+" -----------------------------------------------
+call plug#begin()
+Plug 'junegunn/vim-easy-align'
+Plug 'tpope/vim-commentary'
+Plug 'airblade/vim-rooter'
+Plug 'junegunn/fzf.vim'
+" Plug 'adelarsq/vim-matchit'
+" Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
+" Plug 'dense-analysis/ale'
+call plug#end()
+" " --- lsp ---
+" let g:LanguageClient_serverCommands = {
+"         \ 'rust': [
+"         \ 'rustup',
+"         \ 'run',
+"         \ 'nightly',
+"         \ 'rust-analyzer'
+"         \ ],
+"         \ 'cpp': [
+"         \ "clangd",
+"         \ "-clang-tidy",
+"         \ "--all-scopes-completion=true",
+"         \ "--completion-style=detailed",
+"         \ "--header-insertion=iwyu",
+"         \ "--header-insertion-decorators",
+"         \ "--background-index",
+"         \ ],
+"         \ }
+
+" " note that if you are using Plug mapping you should not use `noremap` mappings.
+" nmap <leader>m  <Plug>(lcn-menu)
+" " Or map each action separately
+" nmap K          <Plug>(lcn-hover)
+" nmap gd         <Plug>(lcn-definition)
+" nmap <leader>lr <Plug>(lcn-rename)
+
+" --- ALE ---
+nmap <leader>m  <Plug>(lcn-menu)
+" Or map each action separately
+nmap K          <Plug>(lcn-hover)
+nmap gd         <Plug>(lcn-definition)
+nmap <leader>lr <Plug>(lcn-rename)
+
+
+" --- easy-align ---
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
+
+" --- vim-commentary ---
+autocmd FileType c,cpp setlocal commentstring=//\ %s
+nmap gcA gcc^dWA <C-r>"
+
+" --- vim-rooter ---
+let g:rooter_silent_chdir = 1
+
+" --- fzf ---
+nnoremap \f :Files<CR>
+nnoremap \r :History<CR>
+nnoremap \w :Rg<CR>
+nnoremap \b :Buffers<CR>
+nnoremap \h :Helptags<CR>
+
+" -----------------------------------------------
+" --- colors ---
+" -----------------------------------------------
+syntax on
+let c_comment_strings=1 " ?
+
+if (has("termguicolors")) "uses gui colors
+    set termguicolors
+endif
+
+color arc-dark
+
+hi Normal      guifg=#b2b2b2 guibg=#282828
+hi NormalFloat guibg=bg
+hi FloatBorder guibg=bg
+"
+" hi Statement   ctermfg=darkyellow
+" hi Comment     ctermfg=green
+" hi Type        ctermfg=darkcyan
+" hi Preproc     ctermfg=7
+"
+" hi Constant    ctermfg=darkmagenta
+" hi String      ctermfg=blue
+" hi Special     ctermfg=blue
+" hi Delimiter   ctermfg=gray
+
+set guifont=Iosevka\ 14
+set guioptions-=TLl
+
+" -----------------------------------------------
+" --- keymaps ---
+" -----------------------------------------------
+let mapleader = " "
+inoremap <C-c> <esc>
+" cmd-line window
+autocmd CmdwinEnter * nmap <buffer> <C-c> :q<CR>
+autocmd CmdwinEnter * vmap <buffer> <C-c> <Esc>
+
+" yank
+map Y y$
+map gy "+y
+map gY "+Y
+map gp "+]p
+map gP "+]P
+
+" TODO find some good mappings for these. They're by default mapped `j` and `k`
+" nnoremap <C-n>     <C-e>j
+" nnoremap <C-p>     <C-y>k
+
+nnoremap <C-j>     <C-e>j
+nnoremap <C-k>     <C-y>k
+nnoremap <C-d>     <C-d>zz
+nnoremap <C-u>     <C-u>zz
+
+nnoremap L         :bn<CR>
+nnoremap H         :bp<CR>
+nnoremap <leader>d :bd<CR>
+nnoremap <C-g>     :echo expand("%:p:~") '-' Get_file_perm()<CR>
+
+" open files in directory of current file
+cnoremap %% <C-R>=expand('%:h').'/'<CR>
+nmap <Leader>e :edit %%<CR>
+nmap <Leader>s :split %%<CR><C-w>J
+nmap <Leader>v :vsplit %%<CR><C-w>L
+nmap <Leader>t :tabedit %%<CR>
+nmap <Leader>f :tabedit<CR>:Files<CR>
+nmap <Leader>r :read %%
+nmap <Leader>w :write %%
+
+" inserts the current word under cursor into the substitute command
+" substitute on the line
+nnoremap <C-s>s          :s/<C-R>=expand('<cword>')<CR>//g<Left><Left>
+" substitute on the entire [f]ile
+nnoremap <C-s>f          :%s/<C-R>=expand('<cword>')<CR>//g<Left><Left>
+" substitute the previously selected [h]undk
+nnoremap <C-s>h          :'<,'>:s/<C-R>=expand('<cword>')<CR>//g<Left><Left>
+" substitute on the paragraph
+nnoremap <C-s>ip vip<Esc>:'<,'>:s/<C-R>=expand('<cword>')<CR>//g<Left><Left>
+
+" `&` is synonym for `:s` (repeat last substitute).  Note
+" that the flags are not remembered, thus it might
+" actually work differently.  You can use `:&&` to keep
+" the flags.
+nnoremap & :&&<CR>
+
+" Break the undo history after each deletion
+inoremap <C-U> <C-G>u<C-U>
+inoremap <C-W> <C-G>u<C-W>
+
+" Search for any visual selection
+xnoremap * y/\V<C-R>"<CR>
+xnoremap # y?\V<C-R>"<CR>
+
+" Re-select the last pasted text
+noremap gV V`]
+" Duplicate the visually selected block
+vnoremap D y'>p
+" like 'J' but from line above to line below
+noremap gj kddpkJ
+" Record macro with `qq`, replay with `Q`
+noremap Q @q
+" open manual, 'K' is use for lsp hover
+noremap gk K
+" apply the first spell candidate
+nnoremap gz 1z=
+" substitute trailing white spaces with nothing. e flag suppresses errors.
+nnoremap zs :%s/\s\+$//e<CR>''
+
+" nmap  <silent> <C-s> :set opfunc=SpecialChange<CR>g@
+" function! SpecialChange(type)
+"     exec "normal! `[v`]"
+"     exec 'let @/=@"'
+"     :'<,'>:s/<C-R>=expand('<cword>')<CR>
+" endfunction
+
+" -----------------------------------------------
+" --- functions ---
+" -----------------------------------------------
+function! Get_file_perm()
+    let a=getfperm(expand('%:p'))
+    if strlen(a)
+        return a
+    endif
+endfunction
+
+" Get highlight groups of word under cursor in Vim
+function! Syn()
+    for id in synstack(line("."), col("."))
+        echo synIDattr(id, "name")
+    endfor
+endfunction
+
+" TODO: add a generic function for build functionality managed inside tmux.
+" it sould solely call an other generic bash script and pass out the environment
+" information
+
+" -----------------------------------------------
+" --- cmds ---
+" -----------------------------------------------
+command! -nargs=0 Syn call Syn()
+command! Run call system("tmux-run ".&filetype)
+command! Dev let w:dev=!w:dev
+
+" -----------------------------------------------
+" --- auto cmds ---
+" -----------------------------------------------
+
+augroup File
+    autocmd!
+    autocmd Filetype tex,text,markdown,gitcommit setlocal spell
+    autocmd Filetype netrw call NetrwConfig()
+    autocmd BufEnter .clang* set filetype=yaml
+augroup end
+
+" let w:dev = v:false
+" augroup Dev
+"     autocmd!
+"     autocmd FocusLost * if w:dev != 0 | silent update
+"     " autocmd BufWritePost */src/*.cpp call system("tmux send-keys -t right ':make\n'")
+"     autocmd BufWritePost */src/*.cpp if w:dev != 0 | call system("tmux-run-cpp")
+"     autocmd BufWritePost */src/*.c   if w:dev != 0 | call system("tmux-run-cpp") "for now run cpp ------------------------
+"     " autocmd BufWritePost */src/*.rs call system("tmux send-keys -t right 'cargo run\n'")
+" augroup end
+
+augroup Enter
+    autocmd!
+    autocmd BufRead,BufEnter */doc/* wincmd L
+    autocmd BufRead,BufEnter man://* wincmd L
+    autocmd BufEnter * echo expand('%:p:~')
+augroup end
+
+augroup Source
+    autocmd!
+    autocmd BufWritePost *.vim,.vimrc source %
+augroup end
+
+" -----------------------------------------------
+" --- netrw ---
+" -----------------------------------------------
+let g:netrw_keepdir=0
+
+function! NetrwDel()
+    normal 0y$
+    call system("mv \"".getreg('@0')."\" /tmp/")
+endfunction
+
+function! NetrwConfig()
+    setlocal cursorlineopt=line
+
+    let g:netrw_banner=0
+    nmap <buffer> h -^
+    nmap <buffer> <Left> -^
+    nmap <buffer> l <CR>
+    nmap <buffer> <Right> <CR>
+    nmap <buffer> . gh
+    nmap <buffer> P <C-w>z
+
+    " TODO: add and delete and undo function.
+    " the idea is to have a netrw undo file in /tmp and `mv` deleted
+    " file/directory to it with directory information so that we can move theme
+    " back to the correct place in system with undo function.
+    " g:netrw_keepdir has to be unset so we change directory as we borows.
+
+    " delete file/directory under cursor recursively
+    nmap <buffer> D :call NetrwDel()<CR><C-l>
+    " retrieve the last deleted file
+    " nmap <buffer> u
+endfunction
+
+" -----------------------------------------------
+" --- tmux ---
+" -----------------------------------------------
+function! s:tmux_apply_title()
+    " call system("tmux rename-window \"vi:".expand("%:t")."\"")
+    let filename = expand("%:t")
+    if strlen(filename)
+        call system("tmux rename-window \"[".filename."]\"")
+    endif
+endfunc
+
+function! s:tmux_reset_title()
+    call system("tmux set-window-option automatic-rename on")
+endfunc
+
+autocmd VimResume,BufEnter,WinEnter,VimEnter * call s:tmux_apply_title()
+autocmd VimLeave,VimSuspend * call s:tmux_reset_title()
