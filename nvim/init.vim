@@ -141,6 +141,10 @@ if &laststatus
     set rulerformat=%40(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\ %y%)
 else
     set rulerformat=%40(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\ %m%q%w\ %y%)
+    augroup FileName
+        autocmd!
+        autocmd BufEnter * call timer_start(0, 'EchoFileName')
+    augroup end
 endif
 
 " -----------------------------------------------
@@ -266,7 +270,7 @@ augroup Enter
     " Open help splits on right
     autocmd BufRead,BufEnter */doc/* wincmd L
     autocmd BufRead,BufEnter man://* wincmd L
-    autocmd BufEnter * call timer_start(0, 'EchoFileName')
+    " autocmd BufEnter * call timer_start(0, 'EchoFileName')
     " autocmd BufEnter * echo expand('%:p:~')
 augroup end
 

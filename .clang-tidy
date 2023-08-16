@@ -12,6 +12,8 @@ Checks: "
   -modernize-*,
   -cppcoreguidelines-*,
   -modernize-use-trailing-return-type,
+  -readability-uppercase-literal-suffix,
+  -readability-isolate-declaration,
   -readability-magic-numbers,
   -readability-else-after-return,
   -readability-static-accessed-through-instance,
