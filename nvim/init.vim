@@ -17,6 +17,7 @@ set mouse+=a                   " mouse support
 set shortmess+=asFtT           " using a custome command instead of `F` option
 set cursorline
 set cursorlineopt=number
+set guicursor=
 set signcolumn=yes:1
 " set scrolloff=0
 " set scrolljump=-50
@@ -71,6 +72,10 @@ call plug#begin()
     " Plug 'junegunn/fzf.vim'
 
     Plug 'gruvbox-community/gruvbox'
+    Plug 'NTBBloodbath/doom-one.nvim'
+    Plug 'sainnhe/edge'
+    Plug 'AlessandroYorba/Sierra'
+    Plug 'jnurmine/Zenburn'
 
     if has("nvim")
         Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
@@ -153,6 +158,12 @@ endif
 set termguicolors
 color arc-dark
 
+" hi! link  StorageClass Type
+" hi! link  Structure Type
+" hi! link  Typedef Type
+
+" hi Signcolumn guibg=bg
+
 " -----------------------------------------------
 " --- keymaps ---
 " -----------------------------------------------
@@ -169,6 +180,7 @@ nnoremap <C-p>     <C-y>
 nnoremap <C-j>     :cn<CR>
 nnoremap <C-k>     :cp<CR>
 inoremap <C-u>     <ESC>vb~`]a
+nnoremap !!        :%!
 noremap  gV        V`]
 nnoremap gz        1z=
 noremap  gk        K
@@ -286,8 +298,8 @@ augroup end
 
 augroup CmdLineGroup
     autocmd!
+    autocmd CmdwinEnter * nmap <buffer> <Esc> :q<CR>
     autocmd CmdwinEnter * nmap <buffer> <C-c> :q<CR>
-    autocmd CmdwinEnter * vmap <buffer> <C-c> <Esc>
 augroup end
 
 " -----------------------------------------------

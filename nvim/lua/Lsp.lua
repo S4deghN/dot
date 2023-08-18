@@ -124,7 +124,7 @@ cmp.setup {
         completeopt = 'longest'
     },
     experimental = {
-        ghost_text = { hl_group = "Comment" },
+        -- ghost_text = { hl_group = "Comment" },
     },
     window = {
         -- completion = cmp.config.window.bordered(),
