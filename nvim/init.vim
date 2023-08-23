@@ -140,7 +140,7 @@ lua require 'Lsp'
 " -----------------------------------------------
 " --- statusline ---
 " -----------------------------------------------
-set laststatus=0
+set laststatus=3
 
 if &laststatus
     set rulerformat=%40(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\ %y%)

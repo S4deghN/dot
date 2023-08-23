@@ -21,6 +21,7 @@ Checks: "
   -readability-identifier-length,
   -readability-implicit-bool-conversion,
   -misc-non-private-member-variables-in-classes,
+  -bugprone-easily-swappable-parameters,
 "
 
 CheckOptions:
