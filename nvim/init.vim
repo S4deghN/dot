@@ -15,6 +15,7 @@ set undofile
 set undodir=/tmp/$USER.vimundo " Undo file shouldn't replace version control
 set mouse+=a                   " mouse support
 set shortmess+=asFtT           " using a custome command instead of `F` option
+set noshowcmd
 set cursorline
 set cursorlineopt=number
 set guicursor=
@@ -115,6 +116,7 @@ xmap gw y:Rg "<C-R>""<CR>
 
 " --- fzf-lua ---
 nnoremap \\ :FzfLua<CR>
+nnoremap \<space> :FzfLua resume<CR>
 
 nnoremap \f :FzfLua files<CR>
 nnoremap \b :FzfLua buffers<CR>
