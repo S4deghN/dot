@@ -70,6 +70,8 @@ call plug#begin()
     Plug 'jremmen/vim-ripgrep'
     Plug 'tpope/vim-dispatch'
     Plug 'tpope/vim-fugitive'
+    Plug 'romainl/vim-cool'
+    Plug 'ap/vim-css-color'
     " Plug 'junegunn/fzf.vim'
 
     Plug 'gruvbox-community/gruvbox'
@@ -77,6 +79,7 @@ call plug#begin()
     Plug 'sainnhe/edge'
     Plug 'AlessandroYorba/Sierra'
     Plug 'jnurmine/Zenburn'
+    Plug 'fneu/breezy'
 
     if has("nvim")
         Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
@@ -158,7 +161,17 @@ endif
 " --- colors ---
 " -----------------------------------------------
 set termguicolors
-color arc-dark
+
+set background=light
+color breezy
+
+" hi Normal guibg=#232629
+hi signcolumn guibg=bg
+" hi Identifier guifg=#8F5FC2
+" hi Identifier guifg=#63A0C1
+hi Identifier guifg=NONE
+hi Function guifg=#63A0C1
+" hi Statement gui=NONE
 
 " hi! link  StorageClass Type
 " hi! link  Structure Type
@@ -227,19 +240,19 @@ function! Get_file_perm()
     endif
 endfunction
 
-" Get highlight groups of word under cursor in Vim
-function! Syn()
-    for id in synstack(line("."), col("."))
-        echo synIDattr(id, "name")
-    endfor
-endfunction
-
 func EchoFileName(timer)
     let f = expand('%:p:~')
     if len(f) < 80
         echo f
     endif
 endfunc
+
+" Get highlight groups of word under cursor in Vim
+function! Syn()
+    for id in synstack(line("."), col("."))
+        echo synIDattr(id, "name")
+    endfor
+endfunction
 
 " -----------------------------------------------
 " --- cmds ---

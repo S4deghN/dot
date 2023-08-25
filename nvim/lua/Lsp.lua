@@ -148,8 +148,8 @@ cmp.setup {
             end
         end),
         ['<C-p>'] = cmp.mapping.select_prev_item(),
-        ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-u>'] = cmp.mapping.scroll_docs(4),
+        ['<C-d>'] = cmp.mapping.scroll_docs(4),
+        ['<C-u>'] = cmp.mapping.scroll_docs(-4),
         ['<C-y>'] = cmp.mapping.confirm({ select = false }),
         -- ['<ESC>'] = cmp.mapping.confirm({ select = true }),
         ['<C-e>'] = cmp.mapping.abort(),
@@ -234,6 +234,21 @@ vim.keymap.set('n', '[e', function() vim.diagnostic.goto_prev({ severity = sev.e
 vim.keymap.set('n', ']e', function() vim.diagnostic.goto_next({ severity = sev.e }) end, opts)
 vim.keymap.set('n', '<leader>ld', vim.diagnostic.setloclist, opts)
 
+local function get_hl_group_color(group, fg_or_bg)
+    local id = vim.fn["hlID"](group)
+    local attr = vim.fn["synIDtrans"](id)
+    local color = vim.fn["synIDattr"](attr, fg_or_bg)
+    return color
+end
+
+local function set_highlights()
+    vim.cmd.highlight({ args = {"DiagnosticStatusError", "guibg=", get_hl_group_color("StatusLine", "bg"), "guifg=", get_hl_group_color("DiagnosticError", "fg")} })
+    vim.cmd.highlight({ args = {"DiagnosticStatusWarn",  "guibg=", get_hl_group_color("StatusLine", "bg"), "guifg=", get_hl_group_color("DiagnosticWarn",  "fg")} })
+    vim.cmd.highlight({ args = {"DiagnosticStatusHint",  "guibg=", get_hl_group_color("StatusLine", "bg"), "guifg=", get_hl_group_color("DiagnosticHint",  "fg")} })
+    vim.cmd.highlight({ args = {"DiagnosticStatusInfo",  "guibg=", get_hl_group_color("StatusLine", "bg"), "guifg=", get_hl_group_color("DiagnosticInfo",  "fg")} })
+end
+
+
 -- Functions
 function GetDiag()
     local str = ""
@@ -244,16 +259,16 @@ function GetDiag()
         local info = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO })
 
         if err ~= 0 then
-            str = str .. "%#DiagnosticError# E" .. err .. "%*"
+            str = str .. "%#DiagnosticStatusError# E" .. err .. "%*"
         end
         if warn ~= 0 then
-            str = str .. "%#DiagnosticWarn# W" .. warn .. "%*"
+            str = str .. "%#DiagnosticStatusWarn# W" .. warn .. "%*"
         end
         if hint ~= 0 then
-            str = str .. "%#DiagnosticHint# H" .. hint .. "%*"
+            str = str .. "%#DiagnosticStatusHint# H" .. hint .. "%*"
         end
         if info ~= 0 then
-            str = str .. "%#DiagnosticInfo# I" .. info .. "%*"
+            str = str .. "%#DiagnosticStatusInfo# I" .. info .. "%*"
         end
     end
     return str
@@ -263,8 +278,6 @@ end
 -- lsp
 ------------------------------------------------------------
 
-vim.lsp.set_log_level("debug")
-
 function GetRunningLsp()
     local str = ""
     vim.lsp.for_each_buffer_client(0, function(client, client_id, bufnr)
@@ -272,21 +285,6 @@ function GetRunningLsp()
     end)
     return str
 end
-
--- require('hover').setup {
---     init = function()
---         -- Require providers
---         require('hover.providers.lsp')
---         -- require('hover.providers.gh')
---         -- require('hover.providers.man')
---         -- require('hover.providers.dictionary')
---     end,
---     preview_opts = {
---         border = nil
---     },
---     -- requires nvim >= 0.8
---     title = false
--- }
 
 -- To instead override globally
 local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
@@ -299,6 +297,9 @@ end
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
+
+    -- We have to set these highlights only after they're set by vim
+    set_highlights()
 
     -- Enable completion triggered by <c-x><c-o>
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
@@ -395,41 +396,41 @@ require("lspconfig").cmake.setup {
 --     },
 -- }
 
--- local sumneko_binary_path = vim.fn.exepath('lua-language-server')
--- local sumneko_root_path = vim.fn.fnamemodify(sumneko_binary_path, ':h:h:h')
+local sumneko_binary_path = vim.fn.exepath('lua-language-server')
+local sumneko_root_path = vim.fn.fnamemodify(sumneko_binary_path, ':h:h:h')
 
--- local runtime_path = vim.split(package.path, ';')
--- table.insert(runtime_path, "lua/?.lua")
--- table.insert(runtime_path, "lua/?/init.lua")
+local runtime_path = vim.split(package.path, ';')
+table.insert(runtime_path, "lua/?.lua")
+table.insert(runtime_path, "lua/?/init.lua")
 
--- require 'lspconfig'.lua_ls.setup {
---     on_attach    = on_attach,
---     capabilities = capabilities,
---     flags        = lsp_flags,
---     cmd          = { sumneko_binary_path, "-E", sumneko_root_path .. "/main.lua" },
---     settings     = {
---         Lua = {
---             runtime = {
---                 -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
---                 version = 'LuaJIT',
---                 -- Setup your lua path
---                 path = runtime_path,
---             },
---             diagnostics = {
---                 -- Get the language server to recognize the `vim` global
---                 globals = { 'vim' },
---             },
---             workspace = {
---                 -- Make the server aware of Neovim runtime files
---                 library = vim.api.nvim_get_runtime_file("", true),
---             },
---             -- Do not send telemetry data containing a randomized but unique identifier
---             telemetry = {
---                 enable = false,
---             },
---         },
---     },
--- }
+require 'lspconfig'.lua_ls.setup {
+    on_attach    = on_attach,
+    capabilities = capabilities,
+    flags        = lsp_flags,
+    cmd          = { sumneko_binary_path, "-E", sumneko_root_path .. "/main.lua" },
+    settings     = {
+        Lua = {
+            runtime = {
+                -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+                version = 'LuaJIT',
+                -- Setup your lua path
+                path = runtime_path,
+            },
+            diagnostics = {
+                -- Get the language server to recognize the `vim` global
+                globals = { 'vim' },
+            },
+            workspace = {
+                -- Make the server aware of Neovim runtime files
+                library = vim.api.nvim_get_runtime_file("", true),
+            },
+            -- Do not send telemetry data containing a randomized but unique identifier
+            telemetry = {
+                enable = false,
+            },
+        },
+    },
+}
 
 require("lspconfig").rust_analyzer.setup {
     on_attach = on_attach,

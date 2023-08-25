@@ -136,6 +136,56 @@ font:
 # If `true`, bold text is drawn using the bright color variants.
 draw_bold_text_with_bright_colors: true
 
+  # KDE Breeze (Ported from Konsole)
+colors:
+  # Default colors
+  primary:
+    background:        '#232629'
+    foreground:        '#cfcfc2'
+    dim_foreground:    '#eff0f1'
+    bright_foreground: '#ffffff'
+    dim_background:    '#31363b'
+    bright_background: '#000000'
+
+  # Cursor colors
+  cursor:
+    text:   '#000000' # base03
+    # cursor: '#cfcfc2' # base0
+    cursor:  '#90EE90'
+
+  # Normal colors
+  normal:
+    black:   '#232627'
+    red:     '#f44f4f'
+    green:   '#27ae60'
+    yellow:  '#fdbc4b'
+    blue:    '#1d99f3'
+    magenta: '#9b59b6'
+    cyan:    '#1abc9c'
+    white:   '#cfcfc2'
+
+  # Bright colors
+  bright:
+    black:   '#7f8c8d'
+    red:     '#f44f4f'
+    green:   '#95da4c'
+    yellow:  '#fdbc4b'
+    blue:    '#3daee9'
+    magenta: '#8e44ad'
+    cyan:    '#16a085'
+    white:   '#fcfcfc'
+
+  # Dim colors
+  dim:
+    black:   '#31363b'
+    red:     '#783228'
+    green:   '#17a262'
+    yellow:  '#b65619'
+    blue:    '#1b668f'
+    magenta: '#614a73'
+    cyan:    '#186c60'
+    white:   '#63686d'
+
 # # Colors (Solarized Dark)
 # colors:
 #   # Default colors
@@ -177,70 +227,48 @@ draw_bold_text_with_bright_colors: true
 #     white:   '#839496' # base2
 
 
-# Colors (Arc Dark)
-colors:
-  # Default colors
-  primary:
-    # background: '#1F242A'
-    # background: '#1C2024'
-    # background: '#131717'
-    # background: '#171b1b'
-    # background: '#171b1b'
-    # background: '#191C1e'
-    # background: '#181818'
-    # background: '#142828'
-    # background: '#1d201d'
-    # background: '#1D1D1D'
-    # background: '#011418'
-    # background: '#000000'
-    # background: '#191A1C'
-    # background: '#1C2122'
-    # background: '#202020'
-    # background: '#073642'
-    # background: '#2f2f2f'
-    # background: '#282a2f'
-    # background: '#282828'
-    # background: '#1f1f1f'
-    # background: '#282C34'
-    background: '#1c1c1c'
-    # background: '#262626'
-    # background: '#202020'
-    # background: '#21242B'
-    # background: '#22262e'
+# # Colors (Arc Dark)
+# colors:
+#   # Default colors
+#   primary:
+#     # background: '#1f1f1f'
+#     # background: '#282C34'
+#     background: '#1c1c1c'
+#     # background: '#262626'
 
-    # foreground: '#BCBCBC'
-    foreground: '#b2b2b2'
-    # foreground: '#c5c5c5'
-    # foreground: '#cfcfc2'
-    # foreground: '#bbbbbb'
-    # foreground: '#A8A095'
-    # foreground: '#AFA79B'
-  cursor:
-    text:    '#000000'
-    cursor:  '#90EE90'
-    # cursor:    '#68BEA2'
+#     # foreground: '#BCBCBC'
+#     foreground: '#b2b2b2'
+#     # foreground: '#c5c5c5'
+#     # foreground: '#cfcfc2'
+#     # foreground: '#bbbbbb'
+#     # foreground: '#A8A095'
+#     # foreground: '#AFA79B'
+#   cursor:
+#     text:    '#000000'
+#     cursor:  '#90EE90'
+#     # cursor:    '#68BEA2'
 
-  # Normal colors
-  normal:
-    black:     '#1e1e1e'
-    red:       '#CF6A4C'
-    green:     '#8F9D6A'
-    yellow:    '#CDA869'
-    blue:      '#789AC0'
-    magenta:   '#b16286'
-    cyan:      '#68BEA2'
-    white:     '#8c8c8c'
+#   # Normal colors
+#   normal:
+#     black:     '#1e1e1e'
+#     red:       '#CF6A4C'
+#     green:     '#8F9D6A'
+#     yellow:    '#CDA869'
+#     blue:      '#789AC0'
+#     magenta:   '#b16286'
+#     cyan:      '#68BEA2'
+#     white:     '#8c8c8c'
 
-  # Bright colors
-  bright:
-    black:     '#747C84'
-    red:       '#CF6A4C'
-    green:     '#87AF87'
-    yellow:    '#E6D78E'
-    blue:      '#789AC0'
-    magenta:   '#d3869b'
-    cyan:      '#5FAFAF'
-    white:     '#BCBCBC'
+#   # Bright colors
+#   bright:
+#     black:     '#747C84'
+#     red:       '#CF6A4C'
+#     green:     '#87AF87'
+#     yellow:    '#E6D78E'
+#     blue:      '#789AC0'
+#     magenta:   '#d3869b'
+#     cyan:      '#5FAFAF'
+#     white:     '#BCBCBC'
 
 # Colors (Gruvbox dark)
 # colors:
