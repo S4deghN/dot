@@ -142,8 +142,8 @@ colors:
   primary:
     background:        '#232629'
     foreground:        '#cfcfc2'
-    dim_foreground:    '#eff0f1'
-    bright_foreground: '#ffffff'
+    dim_foreground:    '#63686d'
+    bright_foreground: '#eaeaea'
     dim_background:    '#31363b'
     bright_background: '#000000'
 
@@ -173,7 +173,7 @@ colors:
     blue:    '#3daee9'
     magenta: '#8e44ad'
     cyan:    '#16a085'
-    white:   '#fcfcfc'
+    white:   '#eaeaea'
 
   # Dim colors
   dim:

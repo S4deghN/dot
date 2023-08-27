@@ -161,23 +161,7 @@ endif
 " --- colors ---
 " -----------------------------------------------
 set termguicolors
-
-set background=light
-color breezy
-
-" hi Normal guibg=#232629
-hi signcolumn guibg=bg
-" hi Identifier guifg=#8F5FC2
-" hi Identifier guifg=#63A0C1
-hi Identifier guifg=NONE
-hi Function guifg=#63A0C1
-" hi Statement gui=NONE
-
-" hi! link  StorageClass Type
-" hi! link  Structure Type
-" hi! link  Typedef Type
-
-" hi Signcolumn guibg=bg
+color breez
 
 " -----------------------------------------------
 " --- keymaps ---
