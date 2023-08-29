@@ -15,7 +15,8 @@ set undofile
 set undodir=/tmp/$USER.vimundo " Undo file shouldn't replace version control
 set mouse+=a                   " mouse support
 set shortmess+=asFtT           " using a custome command instead of `F` option
-set noshowcmd
+set showcmd
+set showcmdloc=statusline
 set cursorline
 set cursorlineopt=number
 set guicursor=
@@ -70,7 +71,7 @@ call plug#begin()
     Plug 'jremmen/vim-ripgrep'
     Plug 'tpope/vim-dispatch'
     Plug 'tpope/vim-fugitive'
-    Plug 'romainl/vim-cool'
+    Plug 's4deghn/vim-cool'
     Plug 'ap/vim-css-color'
     " Plug 'junegunn/fzf.vim'
 
