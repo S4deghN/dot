@@ -186,8 +186,10 @@ noremap  gk        K
 noremap  gj        kddpkJ
 nnoremap zs        :%s/\s\+$//e<CR>''
 noremap  Q         @q
-xnoremap *         y/\V<C-R>"<CR>
-xnoremap #         y?\V<C-R>"<CR>
+nnoremap *         *N
+nnoremap #         #N
+xnoremap *         y/\V<C-R>"<CR>N
+xnoremap #         y?\V<C-R>"<CR>N
 nnoremap <silent>  <C-g>     :echo expand("%:p:~") '-' Get_file_perm()<CR>
 
 " --- buff and window ---
