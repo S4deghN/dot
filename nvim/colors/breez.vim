@@ -201,6 +201,7 @@ hi AleWarningSign guibg=#31363b guifg=#fdbc4b gui=NONE
 
 " Temporary edits ------------------------------------------------------------
 
+hi Type guifg=#3daee9
 " hi Identifier guifg=#8F5FC2
 " hi Identifier guifg=#63A0C1
 hi Identifier guifg=NONE
