@@ -199,7 +199,20 @@ hi link cIncluded cInclude
 hi AleErrorSign   guibg=#31363b guifg=#f67400 gui=NONE
 hi AleWarningSign guibg=#31363b guifg=#fdbc4b gui=NONE
 
-" Temporary edits ------------------------------------------------------------
+" xemporary edits ------------------------------------------------------------
+
+hi  GitSignsAdd       guifg=#218058     guibg=bg    gui=NONE
+hi  GitSignsChange    guifg=#808021     guibg=bg    gui=NONE
+hi  GitSignsDelete    guifg=#f44f4f     guibg=bg    gui=NONE
+
+hi StatusGitSignsBranch guifg=#f44f4f   guibg=#2d5c76 gui=bold
+hi StatusGitSignsAdd    guifg=#218058   guibg=#2d5c76 gui=bold
+hi StatusGitSignsChange guifg=#808021   guibg=#2d5c76 gui=bold
+hi StatusGitSignsDelete guifg=#f44f4f   guibg=#2d5c76 gui=bold
+hi StatusDiagError      guifg=red       guibg=#2d5c76 gui=bold
+hi StatusDiagWarn       guifg=orange    guibg=#2d5c76 gui=NONE
+hi StatusDiagHint       guifg=lightBlue guibg=#2d5c76 gui=NONE
+hi StatusDiagInfo       guifg=lightGrey guibg=#2d5c76 gui=NONE
 
 hi Type guifg=#3daee9
 " hi Identifier guifg=#8F5FC2

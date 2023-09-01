@@ -248,6 +248,14 @@ local function set_highlights()
     vim.cmd.highlight({ args = {"DiagnosticStatusInfo",  "guibg=", get_hl_group_color("StatusLine", "bg"), "guifg=", get_hl_group_color("DiagnosticInfo",  "fg")} })
 end
 
+-- hi StatusGitSignsBranch guifg=#f44f4f   guibg=#2d5c76 gui=NONE
+-- hi StatusGitSignsAdd    guifg=#218058   guibg=#2d5c76 gui=NONE
+-- hi StatusGitSignsChange guifg=#cfcfc2   guibg=#2d5c76 gui=NONE
+-- hi StatusGitSignsDelete guifg=#f44f4f   guibg=#2d5c76 gui=NONE
+-- hi StatusDiagError      guifg=red       guibg=#2d5c76 gui=NONE
+-- hi StatusDiagWarn       guifg=orange    guibg=#2d5c76 gui=NONE
+-- hi StatusDiagHint       guifg=lightBlue guibg=#2d5c76 gui=NONE
+-- hi StatusDiagInfo       guifg=lightGrey guibg=#2d5c76 gui=NONE
 
 -- Functions
 function GetDiag()
@@ -259,20 +267,42 @@ function GetDiag()
         local info = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO })
 
         if err ~= 0 then
-            str = str .. "%#DiagnosticStatusError# E" .. err .. "%*"
+            str = str .. "%#StatusDiagError# E" .. err .. "%*"
         end
         if warn ~= 0 then
-            str = str .. "%#DiagnosticStatusWarn# W" .. warn .. "%*"
+            str = str .. "%#StatusDiagWarn# W" .. warn .. "%*"
         end
         if hint ~= 0 then
-            str = str .. "%#DiagnosticStatusHint# H" .. hint .. "%*"
+            str = str .. "%#StatusDiagHint# H" .. hint .. "%*"
         end
         if info ~= 0 then
-            str = str .. "%#DiagnosticStatusInfo# I" .. info .. "%*"
+            str = str .. "%#StatusDiagInfo# I" .. info .. "%*"
         end
     end
     return str
 end
+
+-- -- it should not be here!
+-- function GitSignsStatus()
+--     local git_info = vim.b.gitsigns_status_dict
+--     if not git_info or git_info.head == "" then
+--         return ""
+--     end
+
+--     local str = git_info.head
+
+--     if git_info.added ~= 0 then
+--         str = str .. " +" .. git_info.added
+--     end
+--     if git_info.changed ~= 0 then
+--         str = str .. " ~" .. git_info.changed
+--     end
+--     if git_info.removed ~= 0 then
+--         str = str .. " -" .. git_info.removed
+--     end
+
+--     return str
+-- end
 
 ------------------------------------------------------------
 -- lsp
@@ -281,7 +311,7 @@ end
 function GetRunningLsp()
     local str = ""
     vim.lsp.for_each_buffer_client(0, function(client, client_id, bufnr)
-        str = str .. "[%#LspName#" .. client.name .. "%*]"
+        str = str .. client.name
     end)
     return str
 end

@@ -140,6 +140,8 @@ nnoremap \h :FzfLua help_tags<CR>
 " --- GitSgings ---
 lua require 'gitsigns'.setup()
 
+nnoremap <leader>gg :Gitsigns<space>
+
 " --- lsp ---
 lua require 'Lsp'
 
@@ -147,9 +149,31 @@ lua require 'Lsp'
 " --- statusline ---
 " -----------------------------------------------
 set laststatus=3
-
 if &laststatus
-    set rulerformat=%40(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\ %y%)
+    " set rulerformat==%40(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\ %y%)
+
+    function! GetGitSignsStatus()
+        if !exists('b:gitsigns_status_dict')
+            return ''
+        endif
+
+        let d = b:gitsigns_status_dict
+        return d.head.' +'.d.added.' ~'.d.changed.' -'.d.removed
+    endfunction
+
+    set statusline=
+    " Left
+    set stl+=%([%{GetGitSignsStatus()}\ ]\ %)
+    set stl+=[%f]
+    set stl+=\ %q%h%w%m%r
+    " Middle
+    set stl+=%=
+    set stl+=%S
+    " Right
+    set stl+=%=
+    set stl+=%([%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}]%)
+    set stl+=\ [%-8(%l:%c%)\ %P]
+    set stl+=\ %y
 else
     set rulerformat=%40(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\ %m%q%w\ %y%)
     augroup FileName
