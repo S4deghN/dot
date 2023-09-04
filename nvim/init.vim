@@ -153,7 +153,7 @@ if &laststatus
     " set rulerformat==%40(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\ %y%)
 
     function! GetGitSignsStatus()
-        if !exists('b:gitsigns_status_dict')
+        if !exists('b:gitsigns_status_dict.added')
             return ''
         endif
 
