@@ -141,6 +141,8 @@ nnoremap \h :FzfLua help_tags<CR>
 lua require 'gitsigns'.setup()
 
 nnoremap <leader>gg :Gitsigns<space>
+nnoremap ]g :Gitsigns next_hunk<CR>
+nnoremap [g :Gitsigns prev_hunk<CR>
 
 " --- lsp ---
 lua require 'Lsp'
