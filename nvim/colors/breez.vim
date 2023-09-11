@@ -224,3 +224,5 @@ hi! link Label Statement
 hi! link Keyword Statement
 hi! link Operator Statement
 
+hi  Ignore          guifg=NONE     gui=italic  cterm=NONE
+hi! link @lsp.type.comment Ignore
