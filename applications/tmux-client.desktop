@@ -1,0 +1,12 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Type=Application
+TryExec=alacritty
+Exec=alacritty -e bash -c "tmux attach || tmux"
+Icon=utilities-terminal
+Terminal=false
+Categories=System;TerminalEmulator;
+
+Name=tmux-client
+GenericName=Terminal
+StartupWMClass=tmux-client
