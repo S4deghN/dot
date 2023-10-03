@@ -136,6 +136,7 @@ cmp.setup {
         },
         documentation = {
             border = border,
+            winhighlight = 'Normal:NormalFloat,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Type',
             zindex = 50,
         },
     },

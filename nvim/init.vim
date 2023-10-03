@@ -165,8 +165,9 @@ if &laststatus
 
     set statusline=
     " Left
-    set stl+=%([%{GetGitSignsStatus()}\ ]\ %)
     set stl+=[%f]
+    set stl+=%(\ %)
+    set stl+=%([%{GetGitSignsStatus()}\ ]%)
     set stl+=\ %q%h%w%m%r
     " Middle
     set stl+=%=
@@ -188,7 +189,7 @@ endif
 " --- colors ---
 " -----------------------------------------------
 set termguicolors
-color breez
+color arc-green
 
 " -----------------------------------------------
 " --- keymaps ---

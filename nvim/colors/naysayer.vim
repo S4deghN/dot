@@ -10,7 +10,6 @@ endif
 
 let g:colors_name="naysayer88"
 
-highlight! Default guifg=#d1b897 guibg=#042327 gui=NONE
 highlight! Normal guifg=#d1b897 guibg=#042327 gui=NONE
 
 highlight! Comment guifg=#44b340 guibg=NONE gui=NONE
@@ -22,14 +21,14 @@ highlight! Number guifg=#7ad0c6 guibg=NONE gui=NONE
 highlight! link Boolean Number
 highlight! link Float Number
 
-highlight! link Identifier Default
-highlight! link Function Default
+highlight! link Identifier Normal
+highlight! link Function Normal
 
 highlight! Statement guifg=#eeeeee guibg=NONE gui=NONE
 highlight! link Conditional Statement
 highlight! link Repeat Statement
 highlight! link Label Statement
-highlight! link Operator Default
+highlight! link Operator Normal
 highlight! link Keyword Statement
 highlight! link Exception Statement
 
@@ -44,7 +43,7 @@ highlight! link StorageClass Type
 highlight! link Structure Type
 highlight! link Typedef Type
 
-highlight! link Special Default
+highlight! link Special Normal
 highlight! link SpecialChar String
 highlight! link Tag Special
 highlight! link Delimiter Special
@@ -59,7 +58,7 @@ highlight Error guifg=#af5f5f guibg=NONE gui=NONE
 
 highlight! link Todo Comment
 
-highlight link Title Default
+highlight link Title Normal
 highlight htmlStatement guifg=#878787 guibg=NONE gui=NONE
 highlight htmlItalic guifg=#dfaf87 guibg=NONE gui=NONE
 highlight htmlArg guifg=#875f5f guibg=NONE gui=NONE
@@ -67,8 +66,8 @@ highlight cssIdentifier guifg=#dfaf87 guibg=NONE gui=NONE
 highlight cssClassName guifg=#dfaf87 guibg=NONE gui=NONE
 
 " C#
-highlight! link csEndColon Default
-highlight! link csLogicSymbols Default
+highlight! link csEndColon Normal
+highlight! link csLogicSymbols Normal
 
 " Window UI
 highlight Cursor                     guifg=#000000       guibg=#dfdfaf      gui=NONE
@@ -81,3 +80,25 @@ highlight MatchParen                 guifg=#dfdfaf       guibg=#875f5f      gui=
 highlight VertSplit                  guifg=#000000       guibg=NONE         gui=NONE
 highlight! EndOfBuffer               guifg=#042327       guibg=#042327      gui=NONE
 
+" Addons
+hi NormalFloat guibg=bg
+hi CmpPmenuBorder guifg=#000000
+hi SignColumn guibg=bg
+hi StatusLine gui=NONE guibg=#08454D
+hi LineNr guifg=#18555D
+hi ErrorMsg guifg=red guibg=bg
+hi Folded guifg=#878787 guibg=bg
+hi QuickFixLine guibg=#031E21
+hi Pmenu guibg=#031C20
+hi! link Pmenu Visual
+hi! link PmenuSel Pmenu
+hi PmenuThumb guibg=fg
+hi FloatTitle guifg=#2ec09c
+hi Title guifg=#2ec09c
+hi IncSearch     guibg=#ee799f guifg=#cfcfc2 gui=NONE
+hi Search        guibg=#218058 guifg=#cfcfc2 gui=NONE
+
+hi DiffAdd       guibg=#123723 guifg=NONE    gui=NONE
+hi DiffChange    guibg=#424218 guifg=NONE    gui=NONE
+hi DiffDelete    guibg=#4d1f24 guifg=NONE    gui=NONE
+" hi DiffText      guibg=NONE    guifg=NONE    gui=reverse
