@@ -15,8 +15,6 @@ set undofile
 set undodir=/tmp/$USER.vimundo " Undo file shouldn't replace version control
 set mouse+=a                   " mouse support
 set shortmess+=asFtT           " using a custome command instead of `F` option
-set showcmd
-set showcmdloc=statusline
 set cursorline
 set cursorlineopt=number
 set guicursor=
@@ -59,6 +57,46 @@ augroup FormatGroup
     " TODO: find a better workaround.
     autocmd BufEnter * set formatoptions=tcrqljn1p " defaults: tcroql
 augroup end
+
+" -----------------------------------------------
+" --- statusline ---
+" -----------------------------------------------
+set laststatus=3
+set showcmd
+if &laststatus
+    set showcmdloc=statusline
+    " set rulerformat==%40(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\ %y%)
+
+    function! GetGitSignsStatus()
+        if !exists('b:gitsigns_status_dict.added')
+            return ''
+        endif
+
+        let d = b:gitsigns_status_dict
+        return d.head.' +'.d.added.' ~'.d.changed.' -'.d.removed
+    endfunction
+
+    set statusline=
+    " Left
+    set stl+=[%f]
+    set stl+=%(\ %)
+    set stl+=%([%{GetGitSignsStatus()}\ ]%)
+    set stl+=\ %q%h%w%m%r
+    " Middle
+    set stl+=%=
+    set stl+=%S
+    " Right
+    set stl+=%=
+    set stl+=%([%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}]%)
+    set stl+=\ [%-8(%l:%c%)\ %P]
+    set stl+=\ %y
+else
+    set rulerformat=%40(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\ %m%q%w\ %y%)
+    augroup FileName
+        autocmd!
+        autocmd BufEnter * call timer_start(0, 'EchoFileName')
+    augroup end
+endif
 
 " -----------------------------------------------
 " --- plugins ---
@@ -148,48 +186,32 @@ nnoremap [g :Gitsigns prev_hunk<CR>
 lua require 'Lsp'
 
 " -----------------------------------------------
-" --- statusline ---
-" -----------------------------------------------
-set laststatus=3
-if &laststatus
-    " set rulerformat==%40(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\ %y%)
-
-    function! GetGitSignsStatus()
-        if !exists('b:gitsigns_status_dict.added')
-            return ''
-        endif
-
-        let d = b:gitsigns_status_dict
-        return d.head.' +'.d.added.' ~'.d.changed.' -'.d.removed
-    endfunction
-
-    set statusline=
-    " Left
-    set stl+=[%f]
-    set stl+=%(\ %)
-    set stl+=%([%{GetGitSignsStatus()}\ ]%)
-    set stl+=\ %q%h%w%m%r
-    " Middle
-    set stl+=%=
-    set stl+=%S
-    " Right
-    set stl+=%=
-    set stl+=%([%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}]%)
-    set stl+=\ [%-8(%l:%c%)\ %P]
-    set stl+=\ %y
-else
-    set rulerformat=%40(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\ %m%q%w\ %y%)
-    augroup FileName
-        autocmd!
-        autocmd BufEnter * call timer_start(0, 'EchoFileName')
-    augroup end
-endif
-
-" -----------------------------------------------
 " --- colors ---
 " -----------------------------------------------
 set termguicolors
-color arc-green
+color gruvbox
+
+hi! link Structure Type
+hi! link @lsp.type.namespace Normal
+
+hi ErrorMsg gui=inverse
+
+hi VertSplit guifg=#000000 guibg=NONE gui=NONE
+hi! link FloatBorder VertSplit
+hi! link CmpPmenuBorder VertSplit
+hi Pmenu guibg=bg
+hi PmenuSel gui=NONE guifg=NONE guibg=#3c3836
+hi PmenuThumb guibg=#3c3836
+hi StatusLine guifg=#3c3836
+
+hi SignColumn        guibg=bg ctermbg=bg
+hi GruvboxRedSign    guibg=bg ctermbg=bg
+hi GruvboxGreenSign  guibg=bg ctermbg=bg
+hi GruvboxYellowSign guibg=bg ctermbg=bg
+hi GruvboxBlueSign   guibg=bg ctermbg=bg
+hi GruvboxPurpleSign guibg=bg ctermbg=bg
+hi GruvboxAquaSign   guibg=bg ctermbg=bg
+hi GruvboxOrangeSign guibg=bg ctermbg=bg
 
 " -----------------------------------------------
 " --- keymaps ---
