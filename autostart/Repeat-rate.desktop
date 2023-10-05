@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Repeat-rate
-Comment=Run xset r rate 200 60
-Exec=xset r rate 200 60
+Comment=Run xset r rate 170 70
+Exec=xset r rate 170 70
 Terminal=false
 Type=Application
