@@ -119,6 +119,7 @@ call plug#begin()
     Plug 'AlessandroYorba/Sierra'
     Plug 'jnurmine/Zenburn'
     Plug 'fneu/breezy'
+    Plug 'Mofiqul/adwaita.nvim'
 
     if has("nvim")
         Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
@@ -127,7 +128,7 @@ call plug#begin()
 
         " lsp
         Plug 'neovim/nvim-lspconfig'
-        Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+        " Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
         Plug 'hrsh7th/nvim-cmp'
             Plug 'hrsh7th/cmp-nvim-lsp'
             Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
@@ -202,7 +203,7 @@ hi! link CmpPmenuBorder VertSplit
 hi Pmenu guibg=bg
 hi PmenuSel gui=NONE guifg=NONE guibg=#3c3836
 hi PmenuThumb guibg=#3c3836
-hi StatusLine guifg=#3c3836
+hi StatusLine gui=NONE guibg=#3c3836 guifg=fg
 
 hi SignColumn        guibg=bg ctermbg=bg
 hi GruvboxRedSign    guibg=bg ctermbg=bg

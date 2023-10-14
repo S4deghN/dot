@@ -1,6 +1,6 @@
 Xcursor.size: 16
 Xft.dpi: 96
 
-XTerm.vt100.faceName: Iosevka Fixed:size=14:antialias=false
-XTerm.vt100.foreground: rgb:c5/c5/c5
-XTerm.vt100.background: rgb:20/23/25
+/* XTerm.vt100.faceName: Iosevka Fixed:size=14:antialias=false */
+/* XTerm.vt100.foreground: rgb:c5/c5/c5 */
+/* XTerm.vt100.background: rgb:20/23/25 */

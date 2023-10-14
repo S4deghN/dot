@@ -10,8 +10,7 @@
 
 export VISUAL=nvim
 export EDITOR=nvim
-export TERMINAL=alacritty
-export TERM=xterm-256color
+export TERMINAL=st
 
 export GITLAB_HOME=/srv/gitlab
 

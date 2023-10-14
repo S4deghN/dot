@@ -1,3 +1,9 @@
+-- Workaround this https://github.com/neovim/neovim/issues/21856
+vim.api.nvim_create_autocmd({ "VimLeave" }, {
+    callback = function()
+        vim.fn.jobstart('notify-send ""', {detach=true})
+    end,
+})
 ------------------------------------------------------------
 -- treesiter
 ------------------------------------------------------------
@@ -27,32 +33,32 @@
 
 
 local kind_icons = {
-  Text = "",
-  Method = "󰆧",
-  Namespace = "󰌗 ",
-  Function = "󰊕",
-  Constructor = "",
-  Field = "󰇽",
-  Variable = "󰂡",
-  Class = "󰠱",
-  Interface = "",
-  Module = "",
-  Property = "󰜢",
-  Unit = "",
-  Value = "󰎠",
-  Enum = "",
-  Keyword = "󰌋",
-  Snippet = "",
-  Color = "󰏘",
-  File = "󰈙",
-  Reference = "",
-  Folder = "󰉋",
-  EnumMember = "",
-  Constant = "󰏿",
-  Struct = "",
-  Event = "",
-  Operator = "󰆕",
-  TypeParameter = "󰅲",
+  Text = " ",
+  Method = "󰆧 ",
+  Namespace = "󰌗  ",
+  Function = "󰊕 ",
+  Constructor = " ",
+  Field = "󰇽 ",
+  Variable = "󰂡 ",
+  Class = "󰠱 ",
+  Interface = " ",
+  Module = " ",
+  Property = "󰜢 ",
+  Unit = " ",
+  Value = "󰎠 ",
+  Enum = " ",
+  Keyword = "󰌋 ",
+  Snippet = " ",
+  Color = "󰏘 ",
+  File = "󰈙 ",
+  Reference = " ",
+  Folder = "󰉋 ",
+  EnumMember = " ",
+  Constant = "󰏿 ",
+  Struct = " ",
+  Event = " ",
+  Operator = "󰆕 ",
+  TypeParameter = "󰅲 ",
 }
 
 -- local
@@ -268,16 +274,16 @@ function GetDiag()
         local info = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO })
 
         if err ~= 0 then
-            str = str .. "%#StatusDiagError# E" .. err .. "%*"
+            str = str .. "%#DiagnosticStatusError# E" .. err .. "%*"
         end
         if warn ~= 0 then
-            str = str .. "%#StatusDiagWarn# W" .. warn .. "%*"
+            str = str .. "%#DiagnosticStatusWarn# W" .. warn .. "%*"
         end
         if hint ~= 0 then
-            str = str .. "%#StatusDiagHint# H" .. hint .. "%*"
+            str = str .. "%#DiagnosticStatusHint# H" .. hint .. "%*"
         end
         if info ~= 0 then
-            str = str .. "%#StatusDiagInfo# I" .. info .. "%*"
+            str = str .. "%#DiagnosticStatusInfo# I" .. info .. "%*"
         end
     end
     return str
