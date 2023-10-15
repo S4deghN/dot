@@ -12,7 +12,6 @@
 
 [core]
 	pager = perl /usr/share/git/diff-highlight/diff-highlight | less
-	editor = /usr/bin/vim
 
 [interactive]
     diffFilter = perl /usr/share/git/diff-highlight/diff-highlight

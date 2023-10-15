@@ -95,7 +95,7 @@ scrolling:
 # Font configuration
 font:
   # Normal (roman) font face
-  size: 15
+  size: 14
   normal:
     # Font family
     #
@@ -315,8 +315,9 @@ colors:
     # using fg2 (#d5c4a1) from gruvbox palete instead of
     # original fg. it's easier on the eyes.
     # #D2C49F
-    foreground:        '#D2C49F' #'#ebdbb2'
+    foreground:        '#d5c4a1' #'#ebdbb2'
     foreground:        '#ebdbb2'
+    # foreground:        '#cfcfc2'
   cursor:
     text:    '#282828'
     cursor:  '#8ec07c'
