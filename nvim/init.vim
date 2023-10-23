@@ -17,7 +17,7 @@ set mouse+=a                   " mouse support
 set shortmess+=asFtT           " using a custome command instead of `F` option
 set cursorline
 set cursorlineopt=number
-set guicursor=
+" set guicursor=
 set signcolumn=yes:1
 " set scrolloff=0
 " set scrolljump=-50
@@ -96,6 +96,11 @@ else
         autocmd!
         autocmd BufEnter * call timer_start(0, 'EchoFileName')
     augroup end
+endif
+
+if exists(':GuiFont')
+" Use GuiFont! to ignore font errors
+GuiFont Iosevka Fixed:h14
 endif
 
 " -----------------------------------------------
@@ -217,6 +222,16 @@ hi GruvboxOrangeSign guibg=bg ctermbg=bg
 " -----------------------------------------------
 " --- keymaps ---
 " -----------------------------------------------
+nnoremap <M-1> :1tabnext<CR>
+nnoremap <M-2> :2tabnext<CR>
+nnoremap <M-3> :3tabnext<CR>
+nnoremap <M-4> :4tabnext<CR>
+nnoremap <M-5> :5tabnext<CR>
+nnoremap <M-6> :6tabnext<CR>
+nnoremap <M-7> :7tabnext<CR>
+nnoremap <M-8> :8tabnext<CR>
+nnoremap <M-9> :9tabnext<CR>
+
 " --- miscellaneous ---
 inoremap <C-c>     <ESC>
 map      '         `
@@ -253,6 +268,8 @@ cnoremap %%        <C-R>=expand('%:p:h').'/'<CR>
 nmap     <leader>e :e<space>%%
 nmap     <leader>E :Exp<CR>
 nmap     <leader>t <C-w>s:term<CR>i
+nmap     <leader>T <C-w>s:term<CR>i
+tnoremap <C-[> <C-\><C-n>
 
 " inserts the current word under cursor into the substitute command
 " substitute on the line

@@ -4,7 +4,7 @@ pushd ~/dot/ || return
 
 kind=$1
 
-if [[ $kind = "desktop" ]]; then
+if [[ $kind = "-d" ]]; then
     # create directory if it doesn't exist.
     # link every existing file individualy instead of the whole folder so existing files are kept.
     mkdir -p   "$HOME"/.config/autostart/
