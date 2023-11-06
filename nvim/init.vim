@@ -99,8 +99,10 @@ else
 endif
 
 if exists(':GuiFont')
-" Use GuiFont! to ignore font errors
-GuiFont Iosevka Fixed:h14
+    " Use GuiFont! to ignore font errors
+    GuiFont Iosevka Fixed:h14
+
+    set wrap
 endif
 
 " -----------------------------------------------
@@ -125,6 +127,7 @@ call plug#begin()
     Plug 'jnurmine/Zenburn'
     Plug 'fneu/breezy'
     Plug 'Mofiqul/adwaita.nvim'
+    Plug 'nanotech/jellybeans.vim'
 
     if has("nvim")
         Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
@@ -195,7 +198,19 @@ lua require 'Lsp'
 " --- colors ---
 " -----------------------------------------------
 set termguicolors
-color gruvbox
+color jellybeans
+
+
+hi Normal guibg=#282828
+hi EndOfBuffer guibg=#282828
+
+" hi Constant guifg=#8197bf
+" hi Constant guifg=#ffa0a0
+hi Constant guifg=#c6b6ee
+hi Statement guifg=#cf6a4c
+
+hi Identifier guifg=NONE
+" hi Type guifg=#c6b6ee
 
 hi! link Structure Type
 hi! link @lsp.type.namespace Normal
@@ -210,14 +225,18 @@ hi PmenuSel gui=NONE guifg=NONE guibg=#3c3836
 hi PmenuThumb guibg=#3c3836
 hi StatusLine gui=NONE guibg=#3c3836 guifg=fg
 
-hi SignColumn        guibg=bg ctermbg=bg
-hi GruvboxRedSign    guibg=bg ctermbg=bg
-hi GruvboxGreenSign  guibg=bg ctermbg=bg
-hi GruvboxYellowSign guibg=bg ctermbg=bg
-hi GruvboxBlueSign   guibg=bg ctermbg=bg
-hi GruvboxPurpleSign guibg=bg ctermbg=bg
-hi GruvboxAquaSign   guibg=bg ctermbg=bg
-hi GruvboxOrangeSign guibg=bg ctermbg=bg
+hi SignColumn        guibg=bg
+hi GruvboxRedSign    guibg=bg
+hi GruvboxGreenSign  guibg=bg
+hi GruvboxYellowSign guibg=bg
+hi GruvboxBlueSign   guibg=bg
+hi GruvboxPurpleSign guibg=bg
+hi GruvboxAquaSign   guibg=bg
+hi GruvboxOrangeSign guibg=bg
+
+hi  GitSignsAdd       guifg=#218058     guibg=bg    gui=NONE
+hi  GitSignsChange    guifg=#808021     guibg=bg    gui=NONE
+hi  GitSignsDelete    guifg=#f44f4f     guibg=bg    gui=NONE
 
 " -----------------------------------------------
 " --- keymaps ---
@@ -244,7 +263,6 @@ nnoremap <C-n>     <C-e>
 nnoremap <C-p>     <C-y>
 nnoremap <C-j>     :cn<CR>
 nnoremap <C-k>     :cp<CR>
-inoremap <C-u>     <ESC>vb~`]a
 nnoremap !!        :%!
 noremap  gV        V`]
 nnoremap gz        1z=
@@ -258,10 +276,15 @@ xnoremap *         y/\V<C-R>"<CR>N
 xnoremap #         y?\V<C-R>"<CR>N
 nnoremap <silent>  <C-g>     :echo expand("%:p:~") '-' Get_file_perm()<CR>
 
+" inoremap <C-u>     <ESC>vb~`]a
+inoremap <C-z>     <ESC>b1z=`]a
+inoremap <C-S-V>     <C-r>+
+xnoremap <C-S-V>     <C-r>+
+
 " --- buff and window ---
 nnoremap <C-h>     :tabp<CR>
 nnoremap <C-l>     :tabn<CR>
-nnoremap <leader>d :bd<CR>
+nnoremap <leader>d :bp\|bd #<CR>
 nmap     <leader>b :b<space>
 " % is expanded to current file name. expand %% to current file directory
 cnoremap %%        <C-R>=expand('%:p:h').'/'<CR>
@@ -269,7 +292,7 @@ nmap     <leader>e :e<space>%%
 nmap     <leader>E :Exp<CR>
 nmap     <leader>t <C-w>s:term<CR>i
 nmap     <leader>T <C-w>s:term<CR>i
-tnoremap <C-[> <C-\><C-n>
+tnoremap <C-]> <C-\><C-n>
 
 " inserts the current word under cursor into the substitute command
 " substitute on the line
