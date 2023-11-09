@@ -118,14 +118,14 @@ font:
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
   offset:
    x: 0
-   # y: -2
+   y: 0
 
   # Glyph offset determines the locations of the glyphs within their cells with
   # the default being at the bottom. Increasing `x` moves the glyph to the right,
   # increasing `y` moves the glyph upwards.
   glyph_offset:
    x: 0
-   # y: -1
+   y: 0
 
   # Thin stroke font rendering (macOS only)
   #
@@ -186,82 +186,82 @@ draw_bold_text_with_bright_colors: true
 #     cyan:    '#186c60'
 #     white:   '#63686d'
 
-# # Colors (Solarized Dark)
-# colors:
-#   # Default colors
-#   primary:
-#     # background: '#002b36' # base03
-#     # background: '#0A1B20' # base03
-#     # background: '#001F27'
-#     # background: '#001419'
-#     # background: '#191A1C'
-#     background: '#23292A'
-#     background: '#1C2122'
-#     foreground: '#839496' # base0
-
-#   # Cursor colors
-#   cursor:
-#     text:   '#002b36' # base03
-#     cursor: '#839496' # base0
-
-#   # Normal colors
-#   normal:
-#     black:   '#1D2223' # base02
-#     red:     '#CB4B16' # red
-#     green:   '#859900' # green
-#     yellow:  '#b58900' # yellow
-#     blue:    '#268bd2' # blue
-#     magenta: '#d33682' # magenta
-#     cyan:    '#2aa198' # cyan
-#     white:   '#839496' # base2
-
-#   # Bright colors
-#   bright:
-#     black:   '#5A696A' # base02
-#     red:     '#CB4B16' # red
-#     green:   '#859900' # green
-#     yellow:  '#b58900' # yellow
-#     blue:    '#268bd2' # blue
-#     magenta: '#d33682' # magenta
-#     cyan:    '#2aa198' # cyan
-#     white:   '#839496' # base2
-
-# Colors (Arc Green)
+# Colors (Solarized Dark)
 colors:
   # Default colors
   primary:
-    background: '#042327'
-    background: '#202325'
+    # background: '#002b36' # base03
+    # background: '#0A1B20' # base03
+    # background: '#001F27'
+    # background: '#001419'
+    # background: '#191A1C'
+    background: '#23292A'
+    background: '#1C2122'
+    foreground: '#839496' # base0
 
-    # foreground: '#b2b2b2'
-    foreground: '#cfcfc2'
-    foreground: '#c5c5c5'
+  # Cursor colors
   cursor:
-    text:    '#000000'
-    cursor:  '#90EE90'
+    text:   '#002b36' # base03
+    cursor: '#839496' # base0
 
   # Normal colors
   normal:
-    black:     '#031C20'
-    black:     '#232627'
-    red:       '#CF6A4C'
-    green:     '#8F9D6A'
-    yellow:    '#CDA869'
-    blue:      '#789AC0'
-    magenta:   '#b16286'
-    cyan:      '#68BEA2'
-    white:     '#6B7278'
+    black:   '#1D2223' # base02
+    red:     '#CB4B16' # red
+    green:   '#859900' # green
+    yellow:  '#b58900' # yellow
+    blue:    '#268bd2' # blue
+    magenta: '#d33682' # magenta
+    cyan:    '#2aa198' # cyan
+    white:   '#839496' # base2
 
   # Bright colors
   bright:
-    black:     '#747C84'
-    red:       '#CF6A4C'
-    green:     '#87AF87'
-    yellow:    '#E6D78E'
-    blue:      '#789AC0'
-    magenta:   '#d3869b'
-    cyan:      '#5FAFAF'
-    white:     '#BCBCBC'
+    black:   '#5A696A' # base02
+    red:     '#CB4B16' # red
+    green:   '#859900' # green
+    yellow:  '#b58900' # yellow
+    blue:    '#268bd2' # blue
+    magenta: '#d33682' # magenta
+    cyan:    '#2aa198' # cyan
+    white:   '#839496' # base2
+
+# # Colors (Arc Green)
+# colors:
+#   # Default colors
+#   primary:
+#     background: '#042327'
+#     background: '#202325'
+# 
+#     # foreground: '#b2b2b2'
+#     foreground: '#cfcfc2'
+#     foreground: '#c5c5c5'
+#   cursor:
+#     text:    '#000000'
+#     cursor:  '#90EE90'
+# 
+#   # Normal colors
+#   normal:
+#     black:     '#031C20'
+#     black:     '#232627'
+#     red:       '#CF6A4C'
+#     green:     '#8F9D6A'
+#     yellow:    '#CDA869'
+#     blue:      '#789AC0'
+#     magenta:   '#b16286'
+#     cyan:      '#68BEA2'
+#     white:     '#6B7278'
+# 
+#   # Bright colors
+#   bright:
+#     black:     '#747C84'
+#     red:       '#CF6A4C'
+#     green:     '#87AF87'
+#     yellow:    '#E6D78E'
+#     blue:      '#789AC0'
+#     magenta:   '#d3869b'
+#     cyan:      '#5FAFAF'
+#     white:     '#BCBCBC'
 
 # # Colors (Arc Dark)
 # colors:
@@ -307,57 +307,57 @@ colors:
 #     white:     '#BCBCBC'
 
 # Colors (Gruvbox dark)
-colors:
-  primary:
-    # hard contrast background - '#1d2021'
-    background:        &gruvbox_dark_bg '#282828'
-    # soft contrast background - '#32302f'
-    # using fg2 (#d5c4a1) from gruvbox palete instead of
-    # original fg. it's easier on the eyes.
-    # #D2C49F
-    foreground:        '#d5c4a1' #'#ebdbb2'
-    foreground:        '#ebdbb2'
-    # foreground:        '#cfcfc2'
-  cursor:
-    text:    '#282828'
-    cursor:  '#8ec07c'
-  bright:
-    black:   '#928374'
-    red:     '#fb4934'
-    green:   '#b8bb26'
-    yellow:  '#fabd2f'
-    blue:    '#83a598'
-    magenta: '#d3869b'
-    cyan:    '#8ec07c'
-    white:   '#ebdbb2'
-  normal:
-    black:   *gruvbox_dark_bg
-    red:     '#fb4934'
-    green:   '#b8bb26'
-    yellow:  '#fabd2f'
-    blue:    '#83a598'
-    magenta: '#d3869b'
-    cyan:    '#8ec07c'
-    white:   '#d5c4a1'
-  # normal:
-  #   black:   *gruvbox_dark_bg
-  #   red:     '#fb4934'
-  #   green:   '#b8bb26'
-  #   yellow:  '#d79921'
-  #   blue:    '#458588'
-  #   magenta: '#b16286'
-  #   cyan:    '#689d6a'
-  #   white:   '#a89984'
-  # dim:
-  #   black:   '#32302f'
-  #   red:     '#9d0006'
-  #   green:   '#79740e'
-  #   yellow:  '#b57614'
-  #   blue:    '#076678'
-  #   magenta: '#8f3f71'
-  #   cyan:    '#427b58'
-  #   white:   '#928374'
-  # indexed_colors: []
+# colors:
+#   primary:
+#     # hard contrast background - '#1d2021'
+#     background:        &gruvbox_dark_bg '#282828'
+#     # soft contrast background - '#32302f'
+#     # using fg2 (#d5c4a1) from gruvbox palete instead of
+#     # original fg. it's easier on the eyes.
+#     # #D2C49F
+#     foreground:        '#d5c4a1' #'#ebdbb2'
+#     foreground:        '#ebdbb2'
+#     # foreground:        '#cfcfc2'
+#   cursor:
+#     text:    '#282828'
+#     cursor:  '#8ec07c'
+#   bright:
+#     black:   '#928374'
+#     red:     '#fb4934'
+#     green:   '#b8bb26'
+#     yellow:  '#fabd2f'
+#     blue:    '#83a598'
+#     magenta: '#d3869b'
+#     cyan:    '#8ec07c'
+#     white:   '#ebdbb2'
+#   normal:
+#     black:   *gruvbox_dark_bg
+#     red:     '#fb4934'
+#     green:   '#b8bb26'
+#     yellow:  '#fabd2f'
+#     blue:    '#83a598'
+#     magenta: '#d3869b'
+#     cyan:    '#8ec07c'
+#     white:   '#d5c4a1'
+#   # normal:
+#   #   black:   *gruvbox_dark_bg
+#   #   red:     '#fb4934'
+#   #   green:   '#b8bb26'
+#   #   yellow:  '#d79921'
+#   #   blue:    '#458588'
+#   #   magenta: '#b16286'
+#   #   cyan:    '#689d6a'
+#   #   white:   '#a89984'
+#   # dim:
+#   #   black:   '#32302f'
+#   #   red:     '#9d0006'
+#   #   green:   '#79740e'
+#   #   yellow:  '#b57614'
+#   #   blue:    '#076678'
+#   #   magenta: '#8f3f71'
+#   #   cyan:    '#427b58'
+#   #   white:   '#928374'
+#   # indexed_colors: []
 
 
  # github Alacritty Colors

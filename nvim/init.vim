@@ -18,10 +18,10 @@ set shortmess+=asFtT           " using a custome command instead of `F` option
 set cursorline
 set cursorlineopt=number
 " set guicursor=
-set signcolumn=yes:1
+set signcolumn=no
 " set scrolloff=0
 " set scrolljump=-50
-set scrolloff=10
+set scrolloff=0
 set textwidth=80
 set cmdwinheight=12            " the special window that opens with :q or ctlr-f in cmd mode.
 set splitbelow
@@ -43,7 +43,7 @@ set tabstop=4
 set foldmethod=marker
 set diffopt=filler,internal,algorithm:patience,indent-heuristic
 set fillchars=diff:╱
-set iskeyword+=-
+" set iskeyword+=-
 let mapleader=" "
 
 filetype plugin indent on
@@ -61,7 +61,7 @@ augroup end
 " -----------------------------------------------
 " --- statusline ---
 " -----------------------------------------------
-set laststatus=3
+set laststatus=0
 set showcmd
 if &laststatus
     set showcmdloc=statusline
@@ -128,6 +128,7 @@ call plug#begin()
     Plug 'fneu/breezy'
     Plug 'Mofiqul/adwaita.nvim'
     Plug 'nanotech/jellybeans.vim'
+    Plug 'romainl/flattened'
 
     if has("nvim")
         Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
@@ -188,8 +189,8 @@ nnoremap \h :FzfLua help_tags<CR>
 lua require 'gitsigns'.setup()
 
 nnoremap <leader>gg :Gitsigns<space>
-nnoremap ]g :Gitsigns next_hunk<CR>
-nnoremap [g :Gitsigns prev_hunk<CR>
+nnoremap ]g kj:Gitsigns next_hunk<CR>:Gitsigns preview_hunk<CR>
+nnoremap [g jk:Gitsigns prev_hunk<CR>:Gitsigns preview_hunk<CR>
 
 " --- lsp ---
 lua require 'Lsp'
@@ -198,41 +199,60 @@ lua require 'Lsp'
 " --- colors ---
 " -----------------------------------------------
 set termguicolors
-color jellybeans
 
+" color jellybeans
 
-hi Normal guibg=#282828
-hi EndOfBuffer guibg=#282828
+" hi Normal guibg=#282828
+" hi EndOfBuffer guibg=#282828
 
-" hi Constant guifg=#8197bf
-" hi Constant guifg=#ffa0a0
-hi Constant guifg=#c6b6ee
-hi Statement guifg=#cf6a4c
+" " hi Constant guifg=#8197bf
+" " hi Constant guifg=#ffa0a0
+" hi Constant guifg=#c6b6ee
+" hi Statement guifg=#cf6a4c
 
-hi Identifier guifg=NONE
-" hi Type guifg=#c6b6ee
+" hi Identifier guifg=NONE
+" " hi Type guifg=#c6b6ee
 
-hi! link Structure Type
+" hi! link Structure Type
+" hi! link @lsp.type.namespace Normal
+
+" hi ErrorMsg gui=inverse
+
+" hi VertSplit guifg=#000000 guibg=NONE gui=NONE
+" hi! link FloatBorder VertSplit
+" hi! link CmpPmenuBorder VertSplit
+" hi Pmenu guibg=bg
+" hi PmenuSel gui=NONE guifg=NONE guibg=#3c3836
+" hi PmenuThumb guibg=#3c3836
+" hi StatusLine gui=NONE guibg=#3c3836 guifg=fg
+
+" hi SignColumn        guibg=bg
+" hi GruvboxRedSign    guibg=bg
+" hi GruvboxGreenSign  guibg=bg
+" hi GruvboxYellowSign guibg=bg
+" hi GruvboxBlueSign   guibg=bg
+" hi GruvboxPurpleSign guibg=bg
+" hi GruvboxAquaSign   guibg=bg
+" hi GruvboxOrangeSign guibg=bg
+
+" hi  GitSignsAdd       guifg=#218058     guibg=bg    gui=NONE
+" hi  GitSignsChange    guifg=#808021     guibg=bg    gui=NONE
+" hi  GitSignsDelete    guifg=#f44f4f     guibg=bg    gui=NONE
+
+color flattened_dark
+
 hi! link @lsp.type.namespace Normal
 
-hi ErrorMsg gui=inverse
-
-hi VertSplit guifg=#000000 guibg=NONE gui=NONE
+hi NormalFloat gui=NONE
+hi VertSplit guifg=fg guibg=NONE gui=NONE
 hi! link FloatBorder VertSplit
 hi! link CmpPmenuBorder VertSplit
+hi StatusLine gui=NONE
+hi! link PmenuSel StatusLine
+hi! link PmenuThumb StatusLine
 hi Pmenu guibg=bg
-hi PmenuSel gui=NONE guifg=NONE guibg=#3c3836
-hi PmenuThumb guibg=#3c3836
-hi StatusLine gui=NONE guibg=#3c3836 guifg=fg
 
-hi SignColumn        guibg=bg
-hi GruvboxRedSign    guibg=bg
-hi GruvboxGreenSign  guibg=bg
-hi GruvboxYellowSign guibg=bg
-hi GruvboxBlueSign   guibg=bg
-hi GruvboxPurpleSign guibg=bg
-hi GruvboxAquaSign   guibg=bg
-hi GruvboxOrangeSign guibg=bg
+hi Visual gui=NONE guibg=#27454C guifg=NONE
 
 hi  GitSignsAdd       guifg=#218058     guibg=bg    gui=NONE
 hi  GitSignsChange    guifg=#808021     guibg=bg    gui=NONE
