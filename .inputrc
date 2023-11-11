@@ -11,6 +11,8 @@ $include /etc/inputrc
 set show-all-if-ambiguous on
 # out put list of completion for file names with classification, like `ls -F`
 set visible-stats on
+# also color theme
+set colored-stats on
 
 set bell-style none
 set completion-ignore-case on
@@ -30,6 +32,11 @@ set show-mode-in-prompt on
 # be treated as non-printing string otherwise it bugs the input of the terminal
 set vi-cmd-mode-string "\1\033[1;30m\2[N]\1\033[0m\2"
 set vi-ins-mode-string "\1\033[1;34m\2[I]\1\033[0m\2"
+
+# set colored-completion-prefix on
+# ?
+set show-all-if-unmodified on
+
 
 set keymap vi-insert
 "\C-x": shell-expand-line

@@ -249,10 +249,12 @@ local function get_hl_group_color(group, fg_or_bg)
 end
 
 local function set_highlights()
-    vim.cmd.highlight({ args = {"DiagnosticStatusError", "guibg=", get_hl_group_color("StatusLine", "bg"), "guifg=", get_hl_group_color("DiagnosticError", "fg")} })
-    vim.cmd.highlight({ args = {"DiagnosticStatusWarn",  "guibg=", get_hl_group_color("StatusLine", "bg"), "guifg=", get_hl_group_color("DiagnosticWarn",  "fg")} })
-    vim.cmd.highlight({ args = {"DiagnosticStatusHint",  "guibg=", get_hl_group_color("StatusLine", "bg"), "guifg=", get_hl_group_color("DiagnosticHint",  "fg")} })
-    vim.cmd.highlight({ args = {"DiagnosticStatusInfo",  "guibg=", get_hl_group_color("StatusLine", "bg"), "guifg=", get_hl_group_color("DiagnosticInfo",  "fg")} })
+    if vim.o.laststatus > 0 then
+        vim.cmd.highlight({ args = {"DiagnosticStatusError", "guibg=", get_hl_group_color("StatusLine", "bg"), "guifg=", get_hl_group_color("DiagnosticError", "fg")} })
+        vim.cmd.highlight({ args = {"DiagnosticStatusWarn",  "guibg=", get_hl_group_color("StatusLine", "bg"), "guifg=", get_hl_group_color("DiagnosticWarn",  "fg")} })
+        vim.cmd.highlight({ args = {"DiagnosticStatusHint",  "guibg=", get_hl_group_color("StatusLine", "bg"), "guifg=", get_hl_group_color("DiagnosticHint",  "fg")} })
+        vim.cmd.highlight({ args = {"DiagnosticStatusInfo",  "guibg=", get_hl_group_color("StatusLine", "bg"), "guifg=", get_hl_group_color("DiagnosticInfo",  "fg")} })
+    end
 end
 
 -- hi StatusGitSignsBranch guifg=#f44f4f   guibg=#2d5c76 gui=NONE

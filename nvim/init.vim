@@ -19,10 +19,9 @@ set cursorline
 set cursorlineopt=number
 " set guicursor=
 set signcolumn=no
-" set scrolloff=0
 " set scrolljump=-50
 set scrolloff=0
-set textwidth=80
+set textwidth=90
 set cmdwinheight=12            " the special window that opens with :q or ctlr-f in cmd mode.
 set splitbelow
 set splitright
@@ -30,7 +29,7 @@ set hlsearch
 set incsearch
 set ignorecase
 set smartcase
-set nowrapscan
+set wrapscan
 set nowrap                     " Neovim become extremely slow and unresponsive editing large file with linewrap on
 set showbreak=>>>              " Break line symbol
 set matchpairs+=<:>
@@ -44,6 +43,8 @@ set foldmethod=marker
 set diffopt=filler,internal,algorithm:patience,indent-heuristic
 set fillchars=diff:╱
 " set iskeyword+=-
+set virtualedit=all
+
 let mapleader=" "
 
 filetype plugin indent on
@@ -91,7 +92,7 @@ if &laststatus
     set stl+=\ [%-8(%l:%c%)\ %P]
     set stl+=\ %y
 else
-    set rulerformat=%40(%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}%=[%l,%c\|%P]\ %m%q%w\ %y%)
+    set rulerformat=%40(%([%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}]%)%=[%l,%c\|%P]\ %m%q%w\ %y%)
     augroup FileName
         autocmd!
         autocmd BufEnter * call timer_start(0, 'EchoFileName')
@@ -100,7 +101,7 @@ endif
 
 if exists(':GuiFont')
     " Use GuiFont! to ignore font errors
-    GuiFont Iosevka Fixed:h14
+    GuiFont Maple Mono:h14
 
     set wrap
 endif
@@ -118,17 +119,13 @@ call plug#begin()
     Plug 'tpope/vim-fugitive'
     Plug 's4deghn/vim-cool'
     Plug 'ap/vim-css-color'
+    " using fzf-lua instead
     " Plug 'junegunn/fzf.vim'
 
     Plug 'gruvbox-community/gruvbox'
-    Plug 'NTBBloodbath/doom-one.nvim'
-    Plug 'sainnhe/edge'
-    Plug 'AlessandroYorba/Sierra'
-    Plug 'jnurmine/Zenburn'
     Plug 'fneu/breezy'
-    Plug 'Mofiqul/adwaita.nvim'
     Plug 'nanotech/jellybeans.vim'
-    Plug 'romainl/flattened'
+    Plug 'lifepillar/vim-solarized8', {'branch': 'neovim'}
 
     if has("nvim")
         Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
@@ -141,7 +138,7 @@ call plug#begin()
         Plug 'hrsh7th/nvim-cmp'
             Plug 'hrsh7th/cmp-nvim-lsp'
             Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
-            " Plug 'hrsh7th/cmp-buffer'
+            Plug 'hrsh7th/cmp-buffer'
             Plug 'hrsh7th/cmp-path'
             Plug 'L3MON4D3/LuaSnip'
             Plug 'saadparwaiz1/cmp_luasnip'
@@ -239,24 +236,20 @@ set termguicolors
 " hi  GitSignsChange    guifg=#808021     guibg=bg    gui=NONE
 " hi  GitSignsDelete    guifg=#f44f4f     guibg=bg    gui=NONE
 
-color flattened_dark
+" color solarized8_flat
+" hi! link @lsp.type.namespace Normal
 
-hi! link @lsp.type.namespace Normal
+" hi NormalFloat gui=NONE
+" hi VertSplit guibg=NONE
+" hi StatusLine guibg=fg
+" hi! link PmenuSel StatusLine
+" " hi! link PmenuThumb StatusLine
+" hi Pmenu guibg=bg
 
-hi NormalFloat gui=NONE
-hi VertSplit guifg=fg guibg=NONE gui=NONE
-hi! link FloatBorder VertSplit
-hi! link CmpPmenuBorder VertSplit
-hi StatusLine gui=NONE
-hi! link PmenuSel StatusLine
-hi! link PmenuThumb StatusLine
-hi Pmenu guibg=bg
+" hi Visual gui=NONE guibg=#27454C guifg=NONE
 
-hi Visual gui=NONE guibg=#27454C guifg=NONE
-
-hi  GitSignsAdd       guifg=#218058     guibg=bg    gui=NONE
-hi  GitSignsChange    guifg=#808021     guibg=bg    gui=NONE
-hi  GitSignsDelete    guifg=#f44f4f     guibg=bg    gui=NONE
+color arc-green
+hi Comment gui=italic
 
 " -----------------------------------------------
 " --- keymaps ---
@@ -297,7 +290,7 @@ xnoremap #         y?\V<C-R>"<CR>N
 nnoremap <silent>  <C-g>     :echo expand("%:p:~") '-' Get_file_perm()<CR>
 
 " inoremap <C-u>     <ESC>vb~`]a
-inoremap <C-z>     <ESC>b1z=`]a
+inoremap <C-z>       <ESC>b1z=`]a
 inoremap <C-S-V>     <C-r>+
 xnoremap <C-S-V>     <C-r>+
 

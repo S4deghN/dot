@@ -95,7 +95,7 @@ scrolling:
 # Font configuration
 font:
   # Normal (roman) font face
-  size: 14
+  size: 15
   normal:
     # Font family
     #
@@ -103,7 +103,7 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    family: Iosevka
+    family: iosevkalyteterm
 
     # The `style` can be specified to pick a specific face.
     #style: Regular
@@ -186,82 +186,85 @@ draw_bold_text_with_bright_colors: true
 #     cyan:    '#186c60'
 #     white:   '#63686d'
 
-# Colors (Solarized Dark)
-colors:
-  # Default colors
-  primary:
-    # background: '#002b36' # base03
-    # background: '#0A1B20' # base03
-    # background: '#001F27'
-    # background: '#001419'
-    # background: '#191A1C'
-    background: '#23292A'
-    background: '#1C2122'
-    foreground: '#839496' # base0
-
-  # Cursor colors
-  cursor:
-    text:   '#002b36' # base03
-    cursor: '#839496' # base0
-
-  # Normal colors
-  normal:
-    black:   '#1D2223' # base02
-    red:     '#CB4B16' # red
-    green:   '#859900' # green
-    yellow:  '#b58900' # yellow
-    blue:    '#268bd2' # blue
-    magenta: '#d33682' # magenta
-    cyan:    '#2aa198' # cyan
-    white:   '#839496' # base2
-
-  # Bright colors
-  bright:
-    black:   '#5A696A' # base02
-    red:     '#CB4B16' # red
-    green:   '#859900' # green
-    yellow:  '#b58900' # yellow
-    blue:    '#268bd2' # blue
-    magenta: '#d33682' # magenta
-    cyan:    '#2aa198' # cyan
-    white:   '#839496' # base2
-
-# # Colors (Arc Green)
+# # Colors (Solarized Dark)
 # colors:
 #   # Default colors
 #   primary:
-#     background: '#042327'
-#     background: '#202325'
-# 
-#     # foreground: '#b2b2b2'
-#     foreground: '#cfcfc2'
-#     foreground: '#c5c5c5'
+#     # background: '#002b36' # base03
+#     # background: '#0A1B20' # base03
+#     # background: '#001F27'
+#     # background: '#001419'
+#     # background: '#191A1C'
+#     background: '#23292A'
+#     background: '#1C2122'
+#     foreground: '#839496' # base0
+
+#   # Cursor colors
 #   cursor:
-#     text:    '#000000'
-#     cursor:  '#90EE90'
-# 
+#     text:   '#002b36' # base03
+#     cursor: '#839496' # base0
+
 #   # Normal colors
 #   normal:
-#     black:     '#031C20'
-#     black:     '#232627'
-#     red:       '#CF6A4C'
-#     green:     '#8F9D6A'
-#     yellow:    '#CDA869'
-#     blue:      '#789AC0'
-#     magenta:   '#b16286'
-#     cyan:      '#68BEA2'
-#     white:     '#6B7278'
-# 
+#     black:   '#1D2223' # base02
+#     red:     '#CB4B16' # red
+#     green:   '#859900' # green
+#     yellow:  '#b58900' # yellow
+#     blue:    '#268bd2' # blue
+#     magenta: '#d33682' # magenta
+#     cyan:    '#2aa198' # cyan
+#     white:   '#839496' # base2
+
 #   # Bright colors
 #   bright:
-#     black:     '#747C84'
-#     red:       '#CF6A4C'
-#     green:     '#87AF87'
+#     black:   '#5A696A' # base02
+#     red:     '#CB4B16' # red
+#     green:   '#859900' # green
+#     yellow:  '#b58900' # yellow
+#     blue:    '#268bd2' # blue
+#     magenta: '#d33682' # magenta
+#     cyan:    '#2aa198' # cyan
+#     white:   '#839496' # base2
+
+ # Colors (arc-green)
+colors:
+   # Default colors
+   primary:
+     background: '#042327'
+     background: '#202325'
+     background: '#202424'
+
+     # foreground: '#b2b2b2'
+     foreground: '#cfcfc2'
+     foreground: '#c5c5c5'
+     foreground: '#9aa9aa'
+   # cursor:
+   #   text:    '#000000'
+   #   cursor:  '#90EE90'
+
+   # Normal colors
+   normal:
+     black:     '#232627'
+     black:     '#202424'
+     red:       '#CF6A4C'
+     green:     '#8F9D6A'
+     yellow:    '#CDA869'
+     blue:      '#789AC0'
+     magenta:   '#b16286'
+     cyan:      '#68BEA2'
+     white:     '#6B7278'
+
+   # Bright colors
+   bright:
+     black:     '#747C84'
+     red:       '#CF6A4C'
+     green:     '#87AF87'
 #     yellow:    '#E6D78E'
-#     blue:      '#789AC0'
-#     magenta:   '#d3869b'
-#     cyan:      '#5FAFAF'
-#     white:     '#BCBCBC'
+     yellow:    '#CDA869'
+     blue:      '#789AC0'
+     magenta:   '#d3869b'
+     cyan:      '#5FAFAF'
+     white:     '#BCBCBC'
 
 # # Colors (Arc Dark)
 # colors:

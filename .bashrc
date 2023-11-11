@@ -94,7 +94,7 @@ vi-dot() {
     query=$(find ~/dot -not -path "*/\.git/*" -type f 2>/dev/null)
     [[ -z $query ]] && exit 1
 
-    local expr=$(printf "%s\n" $query | fzf -1)
+    local expr=$(printf "%s\n" $query | fzf-tmux -1 -p 80%,80% --preview 'highlight -O ansi -l {}')
 
     if [[ -n $expr ]]; then
         READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$EDITOR $expr${READLINE_LINE:$READLINE_POINT}"
@@ -106,7 +106,7 @@ vi-note() {
     query=$(find ~/note -not -path "*/\.git/*" -type f 2>/dev/null)
     [[ -z $query ]] && exit 1
 
-    local expr=$(printf "%s\n" $query | fzf -1)
+    local expr=$(printf "%s\n" $query | fzf-tmux -1 -p 80%,80% --preview 'highlight -O ansi -l {}')
 
     if [[ -n $expr ]]; then
         READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$EDITOR $expr${READLINE_LINE:$READLINE_POINT}"
@@ -114,14 +114,59 @@ vi-note() {
     fi
 }
 
+vi-find() {
+    query=$(find . -not -path "*/\.*" -type f 2>/dev/null)
+    [[ -z $query ]] && exit 1
+
+    local expr=$(printf "%s\n" $query | fzf-tmux -1 -p 80%,80% --preview 'highlight -O ansi -l {}')
+
+    if [[ -n $expr ]]; then
+        READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$EDITOR $expr${READLINE_LINE:$READLINE_POINT}"
+        READLINE_POINT=$(( READLINE_POINT + ${#EDITOR} + 1 + ${#expr} ))
+    fi
+}
+
+vi-find-all() {
+    query=$(find . -not -path "*/\.git/*" -type f 2>/dev/null)
+    [[ -z $query ]] && exit 1
+
+    local expr=$(printf "%s\n" $query | fzf-tmux -1 -p 80%,80% --preview 'highlight -O ansi -l {}')
+
+    if [[ -n $expr ]]; then
+        READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$EDITOR $expr${READLINE_LINE:$READLINE_POINT}"
+        READLINE_POINT=$(( READLINE_POINT + ${#EDITOR} + 1 + ${#expr} ))
+    fi
+}
+
+fzf-rl() {
+    builtin eval "
+        builtin bind ' \
+            \"\e@\": $(
+                builtin bind -l | command fzf +m
+            ) \
+        '
+    "
+}
+
 #---------------------------------------------------
 # binds
 #---------------------------------------------------
-bind -m vi-insert -x '"\C-e": vi-dot'
-bind -m vi-insert -x '"\C-n": vi-note'
-# bind -m vi-insert -x '"\C-t": vi-pwd'
+bind '"\M-al": accept-line'
+
+bind -x '"\e@vi-dot": vi-dot'
+bind -x '"\e@vi-note": vi-note'
+bind -x '"\e@vi-find": vi-find'
+bind -x '"\e@vi-find-all": vi-find-all'
+bind -x '"\e@fzf-rl": fzf-rl';
+
+bind -m vi-insert '"\C-e": "\e@vi-dot\M-al"'
+bind -m vi-insert '"\C-n": "\e@vi-note\M-al"'
+bind -m vi-insert '"\C-f": "\e@vi-find\M-al"'
+bind -m vi-insert '"\ef":  "\e@vi-find-all\M-al"'
+bind -m vi-insert '"\C-l": "\e@fzf-rl\e@"'
 
 #---------------------------------------------------
 # completions
 #---------------------------------------------------
 complete -C vic vic
+

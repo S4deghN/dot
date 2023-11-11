@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=Repeat-rate
-Comment=Run xset r rate 170 70
+Comment=Run xset r rate 170 90
 # Exec=sudo nice -n -20 ~/Downloads/repo/caps2esc/caps2esc -m 1 >caps2esc.log 2>caps2esc.err & ; xset r rate 170 70
-Exec=xset r rate 170 70
+Exec=xset r rate 170 90
 Terminal=false
 Type=Application

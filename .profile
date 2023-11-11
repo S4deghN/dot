@@ -8,14 +8,16 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
-export VISUAL="emacs --no-window-system"
-export EDITOR="emacs --no-window-system"
+export VISUAL="nvim"
+export EDITOR="nvim"
 export TERMINAL=st
 
 export GITLAB_HOME=/srv/gitlab
 
 export FZF_DEFAULT_COMMAND="find . -type f -not -path '*/\.git/*' -not -path '*/\.cargo/*'"
-export FZF_DEFAULT_OPTS="--height 50% --reverse"
+export FZF_COLORS="bg+:-1,fg:gray,fg+:white,border:gray,spinner:0,hl:yellow,header:blue,info:green,pointer:red,marker:blue,prompt:gray,hl+:red"
+export FZF_DEFAULT_OPTS="--height 50% --reverse --info inline --color=$FZF_COLORS"
+
 
 
 export QT_QPA_PLATFORMTHEME="qt5ct"

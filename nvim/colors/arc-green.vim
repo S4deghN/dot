@@ -17,7 +17,8 @@ set bg=dark
 
 let g:colors_name='green-arc'
 
-let s:black           = { "gui": "#1C2024", "cterm": "232" }
+" let s:black           = { "gui": "#1C2024", "cterm": "232" }
+let s:black           = { "gui": "#202424", "cterm": "232" }
 let s:medium_gray     = { "gui": "#767676", "cterm": "243" }
 let s:white           = { "gui": "#F1F1F1", "cterm": "15"  }
 let s:actual_white    = { "gui": "#FFFFFF", "cterm": "231" }
@@ -25,7 +26,10 @@ let s:subtle_black    = { "gui": "#303030", "cterm": "236" }
 let s:light_black     = { "gui": "#262626", "cterm": "235" }
 let s:lighter_black   = { "gui": "#4E4E4E", "cterm": "239" }
 let s:light_gray      = { "gui": "#A8A8A8", "cterm": "248" }
-let s:lighter_gray    = { "gui": "#c5c5c5", "cterm": "251" }
+" let s:lighter_gray    = { "gui": "#c5c5c5", "cterm": "251" }
+" let s:lighter_gray    = { "gui": "#aaaaaa", "cterm": "251" }
+let s:lighter_gray    = { "gui": "#9aa9aa", "cterm": "251" }
+" let s:lighter_gray    = { "gui": "#9faeaf", "cterm": "251" }
 let s:lightest_gray   = { "gui": "#EEEEEE", "cterm": "255" }
 let s:pink            = { "gui": "#fb007a", "cterm": "9"   }
 let s:dark_red        = { "gui": "#C30771", "cterm": "1"   }
@@ -208,8 +212,8 @@ hi link GitGutterChange             LineNr
 hi link GitGutterChangeDelete       LineNr
 
 " Custom
-hi  NormalFloat     guibg=NONE
-hi  FloatBorder     guibg=NONE
+hi  NormalFloat     guibg=bg
+hi  FloatBorder     guibg=bg
 
 hi  CursorLine      guibg=#393939
 hi  CursorColumn    guibg=#393939
@@ -233,7 +237,7 @@ hi  Type            guifg=#68BEA2
 hi  Statement       guifg=#CF6A4C       "gui=italic cterm=italic
 " hi  Comment         guifg=#5D646A     gui=NONE cterm=NONE
 hi  Comment         guifg=#5B6268     gui=NONE cterm=NONE
-hi  Ignore          guifg=NONE     gui=italic  cterm=NONE
+hi  Ignore          guibg=#1c2020 guifg=NONE   cterm=NONE
 hi! link @lsp.type.comment Ignore
 
 hi  Error           guibg=NONE          guifg=#af5f5f gui=underline cterm=underline
@@ -289,7 +293,8 @@ let g:fzf_colors =
 
 " Naysayer merge
 " hi! Normal guifg=fg guibg=#042327 gui=NONE
-hi! Normal guifg=fg guibg=NONE gui=NONE
+" #202424, #1c2020
+hi! Normal guifg=fg guibg=bg gui=NONE
 hi Visual guifg=NONE guibg=#08454D gui=NONE
 
 hi VertSplit guifg=#000000       guibg=NONE         gui=NONE
