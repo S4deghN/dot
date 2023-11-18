@@ -95,7 +95,7 @@ scrolling:
 # Font configuration
 font:
   # Normal (roman) font face
-  size: 15
+  size: 14
   normal:
     # Font family
     #
@@ -103,7 +103,7 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    family: iosevkalyteterm
+    family: iosevka
 
     # The `style` can be specified to pick a specific face.
     #style: Regular
@@ -237,6 +237,7 @@ colors:
      # foreground: '#b2b2b2'
      foreground: '#cfcfc2'
      foreground: '#c5c5c5'
+     foreground: '#9aa9aa'
      foreground: '#9aa9aa'
    # cursor:
    #   text:    '#000000'

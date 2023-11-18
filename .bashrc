@@ -94,7 +94,7 @@ vi-dot() {
     query=$(find ~/dot -not -path "*/\.git/*" -type f 2>/dev/null)
     [[ -z $query ]] && exit 1
 
-    local expr=$(printf "%s\n" $query | fzf-tmux -1 -p 80%,80% --preview 'highlight -O ansi -l {}')
+    local expr=$(printf "%s\n" $query | fzf -1 --preview 'highlight -O ansi -l {}')
 
     if [[ -n $expr ]]; then
         READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$EDITOR $expr${READLINE_LINE:$READLINE_POINT}"
@@ -106,7 +106,7 @@ vi-note() {
     query=$(find ~/note -not -path "*/\.git/*" -type f 2>/dev/null)
     [[ -z $query ]] && exit 1
 
-    local expr=$(printf "%s\n" $query | fzf-tmux -1 -p 80%,80% --preview 'highlight -O ansi -l {}')
+    local expr=$(printf "%s\n" $query | fzf -1 --preview 'highlight -O ansi -l {}')
 
     if [[ -n $expr ]]; then
         READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$EDITOR $expr${READLINE_LINE:$READLINE_POINT}"
@@ -118,7 +118,7 @@ vi-find() {
     query=$(find . -not -path "*/\.*" -type f 2>/dev/null)
     [[ -z $query ]] && exit 1
 
-    local expr=$(printf "%s\n" $query | fzf-tmux -1 -p 80%,80% --preview 'highlight -O ansi -l {}')
+    local expr=$(printf "%s\n" $query | fzf -1 --preview 'highlight -O ansi -l {}')
 
     if [[ -n $expr ]]; then
         READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$EDITOR $expr${READLINE_LINE:$READLINE_POINT}"
@@ -130,7 +130,7 @@ vi-find-all() {
     query=$(find . -not -path "*/\.git/*" -type f 2>/dev/null)
     [[ -z $query ]] && exit 1
 
-    local expr=$(printf "%s\n" $query | fzf-tmux -1 -p 80%,80% --preview 'highlight -O ansi -l {}')
+    local expr=$(printf "%s\n" $query | fzf -1 --preview 'highlight -O ansi -l {}')
 
     if [[ -n $expr ]]; then
         READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$EDITOR $expr${READLINE_LINE:$READLINE_POINT}"

@@ -14,7 +14,7 @@ set nobackup
 set undofile
 set undodir=/tmp/$USER.vimundo " Undo file shouldn't replace version control
 set mouse+=a                   " mouse support
-set shortmess+=asFtT           " using a custome command instead of `F` option
+set shortmess=aoOFtT           " using a custome command instead of `F` option
 set cursorline
 set cursorlineopt=number
 " set guicursor=
@@ -45,6 +45,8 @@ set fillchars=diff:╱
 " set iskeyword+=-
 set virtualedit=all
 
+" let g:load_doxygen_syntax=1
+
 let mapleader=" "
 
 filetype plugin indent on
@@ -62,7 +64,7 @@ augroup end
 " -----------------------------------------------
 " --- statusline ---
 " -----------------------------------------------
-set laststatus=0
+set laststatus=3
 set showcmd
 if &laststatus
     set showcmdloc=statusline
@@ -101,7 +103,7 @@ endif
 
 if exists(':GuiFont')
     " Use GuiFont! to ignore font errors
-    GuiFont Maple Mono:h14
+    GuiFont iosevkalyteterm:h14
 
     set wrap
 endif
@@ -272,6 +274,8 @@ map      gy        "+y
 map      gY        "+Y
 map      gp        "+]p
 map      gP        "+]P
+map      L         $
+map      H         ^
 nnoremap <C-n>     <C-e>
 nnoremap <C-p>     <C-y>
 nnoremap <C-j>     :cn<CR>
@@ -396,9 +400,10 @@ augroup Source
     autocmd BufWritePost *.vim,.vimrc,*.lua source %
 augroup end
 
-augroup yank
+augroup Visuals
     autocmd!
     autocmd TextYankPost * silent! lua vim.highlight.on_yank({ higroup="Visual", timeout=50 })
+    " autocmd SearchWrapped * echomsg 'Search wrapped!'
 augroup end
 
 augroup CmdLineGroup
