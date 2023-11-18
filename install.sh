@@ -20,6 +20,7 @@ if [[ $kind = "-d" ]]; then
     ln -sfv "$PWD"/.clang-tidy   "$HOME"/
     ln -sfv "$PWD"/.Xmodmap      "$HOME"/
     ln -sfv "$PWD"/.Xresources   "$HOME"/
+    ln -sfv "$PWD"/.emacs.d      "$HOME"/
     ln -sfv "$PWD"/bin           "$HOME"/.local/
     ln -sfv "$PWD"/tmux          "$HOME"/.config
     ln -sfv "$PWD"/fish          "$HOME"/.config/

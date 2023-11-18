@@ -1,0 +1,4 @@
+nvim
+ls
+set -o vi
+exit
