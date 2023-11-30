@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+
+st -e ssh -t root@pav "bash -c 'ssh -t root@lond1 tmux attach || tmux new'"
