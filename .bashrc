@@ -56,7 +56,7 @@ export HISTSIZE=50000
 # aliases
 #---------------------------------------------------
 alias ls='ls --color=auto --classify'
-alias la="ls -al"
+alias la="ls -alh"
 alias grep="grep --color=auto"
 alias e="$EDITOR"
 alias e.="$EDITOR ."
@@ -83,90 +83,77 @@ alias pac-view="pacman -Slq | fzf --preview 'pacman -Si {}' --layout=reverse"
 #---------------------------------------------------
 # env
 #---------------------------------------------------
+# Arch
 [[ -f "/usr/share/fzf/key-bindings.bash" ]] && . "/usr/share/fzf/key-bindings.bash"
-
-# -----------------------------------------------
-# --- functions ---
-# -----------------------------------------------
-# READLINE variable are only populated if the function is called by `bind -x`
-# TODO: what? why? how can I use if I don't wanna use bind -x?
-vi-dot() {
-    query=$(find ~/dot -not -path "*/\.git/*" -type f 2>/dev/null)
-    [[ -z $query ]] && exit 1
-
-    local expr=$(printf "%s\n" $query | fzf -1 --preview 'highlight -O ansi -l {}')
-
-    if [[ -n $expr ]]; then
-        READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$EDITOR $expr${READLINE_LINE:$READLINE_POINT}"
-        READLINE_POINT=$(( READLINE_POINT + ${#EDITOR} + 1 + ${#expr} ))
-    fi
-}
-
-vi-note() {
-    query=$(find ~/note -not -path "*/\.git/*" -type f 2>/dev/null)
-    [[ -z $query ]] && exit 1
-
-    local expr=$(printf "%s\n" $query | fzf -1 --preview 'highlight -O ansi -l {}')
-
-    if [[ -n $expr ]]; then
-        READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$EDITOR $expr${READLINE_LINE:$READLINE_POINT}"
-        READLINE_POINT=$(( READLINE_POINT + ${#EDITOR} + 1 + ${#expr} ))
-    fi
-}
-
-vi-find() {
-    query=$(find . -not -path "*/\.*" -type f 2>/dev/null)
-    [[ -z $query ]] && exit 1
-
-    local expr=$(printf "%s\n" $query | fzf -1 --preview 'highlight -O ansi -l {}')
-
-    if [[ -n $expr ]]; then
-        READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$EDITOR $expr${READLINE_LINE:$READLINE_POINT}"
-        READLINE_POINT=$(( READLINE_POINT + ${#EDITOR} + 1 + ${#expr} ))
-    fi
-}
-
-vi-find-all() {
-    query=$(find . -not -path "*/\.git/*" -type f 2>/dev/null)
-    [[ -z $query ]] && exit 1
-
-    local expr=$(printf "%s\n" $query | fzf -1 --preview 'highlight -O ansi -l {}')
-
-    if [[ -n $expr ]]; then
-        READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$EDITOR $expr${READLINE_LINE:$READLINE_POINT}"
-        READLINE_POINT=$(( READLINE_POINT + ${#EDITOR} + 1 + ${#expr} ))
-    fi
-}
-
-fzf-rl() {
-    builtin eval "
-        builtin bind ' \
-            \"\e@\": $(
-                builtin bind -l | command fzf +m
-            ) \
-        '
-    "
-}
-
-#---------------------------------------------------
-# binds
-#---------------------------------------------------
-bind '"\M-al": accept-line'
-
-bind -x '"\e@vi-dot": vi-dot'
-bind -x '"\e@vi-note": vi-note'
-bind -x '"\e@vi-find": vi-find'
-bind -x '"\e@vi-find-all": vi-find-all'
-bind -x '"\e@fzf-rl": fzf-rl';
-
-bind -m vi-insert '"\C-e": "\e@vi-dot\M-al"'
-bind -m vi-insert '"\C-n": "\e@vi-note\M-al"'
-bind -m vi-insert '"\C-f": "\e@vi-find\M-al"'
-bind -m vi-insert '"\ef":  "\e@vi-find-all\M-al"'
-bind -m vi-insert '"\C-l": "\e@fzf-rl\e@"'
+# Debian
+[[ -f "/usr/share/doc/fzf/examples/key-bindings.bash" ]] && . "/usr/share/doc/fzf/examples/key-bindings.bash"
 
 #---------------------------------------------------
 # completions
 #---------------------------------------------------
 complete -C vic vic
 
+# -----------------------------------------------
+# --- functions ---
+# -----------------------------------------------
+# READLINE variable are only populated if the function is called by `bind -x`. The
+# advantage of using READLINE stuff over normal functions is command history population
+# and easy input usage.
+vi-find() {
+    selection=$(find "${1:-.}" -name "*${READLINE_LINE:-*}*" \
+        -not -path "*/${2:-.}*/*" -type f 2>/dev/null |
+        fzf --preview 'highlight -O ansi -l {}')
+
+    if [[ -n $selection ]]; then
+        READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$EDITOR $selection${READLINE_LINE:$READLINE_POINT}"
+        READLINE_POINT=$(( READLINE_POINT + ${#EDITOR} + 1 + ${#selection} ))
+
+        builtin bind '"\e@": accept-line'
+    else
+        builtin bind '"\e@": abort'
+    fi
+}
+
+vi-grep() {
+    selection=$(grep --color=always -rni ${READLINE_LINE:-} 2>/dev/null |
+        fzf --ansi |
+        awk -F : '{print $1 " +" $2}')
+
+    if [[ -n $selection ]]; then
+        READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$EDITOR $selection${READLINE_LINE:$READLINE_POINT}"
+        READLINE_POINT=$(( READLINE_POINT + ${#EDITOR} + 1 + ${#selection} ))
+
+        builtin bind '"\e@": accept-line'
+    else
+        builtin bind '"\e@": abort'
+    fi
+}
+
+fzf-rl() {
+    builtin eval "
+        builtin bind ' \
+            \"\e#\": $(
+                builtin bind -l | command fzf +m
+            ) \
+        '
+    "
+}
+bind -x '"\exx":  fzf-rl'
+bind -m vi-insert '"\C-l": "\exx\e#"'
+
+#---------------------------------------------------
+# binds
+#---------------------------------------------------
+bind '"\M-al": accept-line'
+
+bind -x '"\ex1": vi-find'
+bind -x '"\ex2": vi-find ""     .git'
+bind -x '"\ex3": vi-find ~/dot  .git'
+bind -x '"\ex4": vi-find ~/note .git'
+bind -x '"\ex5": vi-grep'
+
+bind -m vi-insert '"\C-f": "\ex1\e@"'
+bind -m vi-insert '"\ef":  "\ex2\e@"'
+bind -m vi-insert '"\C-e": "\ex3\e@"'
+bind -m vi-insert '"\C-n": "\ex4\e@"'
+bind -m vi-insert '"\C-g": "\ex5\e@"'

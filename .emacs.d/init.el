@@ -5,13 +5,23 @@
 (tool-bar-mode 0)
 (set-fringe-mode 5)
 (column-number-mode 1)
+
+(setq show-paren-delay 0)
+(show-paren-mode 1)
+
 (setq inhibit-startup-screen t)
 (setq visible-bell nil)
 (setq ring-bell-function 'ignore)
-(setq show-paren-delay 0)
+(setq scroll-margin 0)
+(setq scroll-step 0)
+(setq scroll-conservatively 0)           
 
+;; --- Face ---
 (set-face-attribute 'default nil :family "Iosevka" :height 140 :weight 'normal :width 'normal)
+
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")                
 (load-theme 'wombat t)
+(set-cursor-color "#8ec07c")
 
 ;; -----------------------------------------------
 ;; --- Packages ---
@@ -19,14 +29,12 @@
 ;; Configure melpa package repository usage
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-
 (package-initialize)
 (unless package-archive-contents
   (package-refresh-contents))
 
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
-
 (require 'use-package)
 (setq use-package-always-ensure t)
 
@@ -55,7 +63,9 @@
   :config
   (ivy-mode 0))
 
-
+(use-package vterm
+  :ensure t
+  :config (add-hook 'vterm-mode-hook 'evil-collection-vterm-toggle-send-escape))
 ;; -----------------------------------------------
 ;; --- Keybindings ---
 ;; -----------------------------------------------
@@ -71,15 +81,11 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes '(wombat))
- '(custom-safe-themes
-   '("7b8f5bbdc7c316ee62f271acf6bcd0e0b8a272fdffe908f8c920b0ba34871d98" "046a2b81d13afddae309930ef85d458c4f5d278a69448e5a5261a5c78598e012" "e27c9668d7eddf75373fa6b07475ae2d6892185f07ebed037eedf783318761d7" default))
  '(package-selected-packages
-   '(evil-collection ivy evil-mode which-key solarized-theme color-theme-sanityinc-solarized gruber-darker-theme gruvbox-theme adwaita-dark-theme evil))
- '(show-paren-delay 0))
+   '(vterm which-key sublime-themes solarized-theme popup leuven-theme ivy gruvbox-theme gruber-darker-theme evil-collection color-theme-sanityinc-solarized adwaita-dark-theme)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(cursor ((t (:background "#8ec07c")))))
+ '(default ((t (:background nil)))))

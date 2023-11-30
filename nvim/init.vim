@@ -43,7 +43,7 @@ set foldmethod=marker
 set diffopt=filler,internal,algorithm:patience,indent-heuristic
 set fillchars=diff:╱
 " set iskeyword+=-
-set virtualedit=all
+set virtualedit=insert,block
 
 " let g:load_doxygen_syntax=1
 
@@ -95,15 +95,11 @@ if &laststatus
     set stl+=\ %y
 else
     set rulerformat=%40(%([%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}]%)%=[%l,%c\|%P]\ %m%q%w\ %y%)
-    augroup FileName
-        autocmd!
-        autocmd BufEnter * call timer_start(0, 'EchoFileName')
-    augroup end
 endif
 
 if exists(':GuiFont')
     " Use GuiFont! to ignore font errors
-    GuiFont iosevkalyteterm:h14
+    " GuiFont iosevka :h14
 
     set wrap
 endif
@@ -124,10 +120,13 @@ call plug#begin()
     " using fzf-lua instead
     " Plug 'junegunn/fzf.vim'
 
+    Plug 'jreybert/vimagit'
+
     Plug 'gruvbox-community/gruvbox'
     Plug 'fneu/breezy'
     Plug 'nanotech/jellybeans.vim'
     Plug 'lifepillar/vim-solarized8', {'branch': 'neovim'}
+    Plug 'yorickpeterse/happy_hacking.vim'
 
     if has("nvim")
         Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
@@ -199,59 +198,9 @@ lua require 'Lsp'
 " -----------------------------------------------
 set termguicolors
 
-" color jellybeans
-
-" hi Normal guibg=#282828
-" hi EndOfBuffer guibg=#282828
-
-" " hi Constant guifg=#8197bf
-" " hi Constant guifg=#ffa0a0
-" hi Constant guifg=#c6b6ee
-" hi Statement guifg=#cf6a4c
-
-" hi Identifier guifg=NONE
-" " hi Type guifg=#c6b6ee
-
-" hi! link Structure Type
-" hi! link @lsp.type.namespace Normal
-
-" hi ErrorMsg gui=inverse
-
-" hi VertSplit guifg=#000000 guibg=NONE gui=NONE
-" hi! link FloatBorder VertSplit
-" hi! link CmpPmenuBorder VertSplit
-" hi Pmenu guibg=bg
-" hi PmenuSel gui=NONE guifg=NONE guibg=#3c3836
-" hi PmenuThumb guibg=#3c3836
-" hi StatusLine gui=NONE guibg=#3c3836 guifg=fg
-
-" hi SignColumn        guibg=bg
-" hi GruvboxRedSign    guibg=bg
-" hi GruvboxGreenSign  guibg=bg
-" hi GruvboxYellowSign guibg=bg
-" hi GruvboxBlueSign   guibg=bg
-" hi GruvboxPurpleSign guibg=bg
-" hi GruvboxAquaSign   guibg=bg
-" hi GruvboxOrangeSign guibg=bg
-
-" hi  GitSignsAdd       guifg=#218058     guibg=bg    gui=NONE
-" hi  GitSignsChange    guifg=#808021     guibg=bg    gui=NONE
-" hi  GitSignsDelete    guifg=#f44f4f     guibg=bg    gui=NONE
-
-" color solarized8_flat
-" hi! link @lsp.type.namespace Normal
-
-" hi NormalFloat gui=NONE
-" hi VertSplit guibg=NONE
-" hi StatusLine guibg=fg
-" hi! link PmenuSel StatusLine
-" " hi! link PmenuThumb StatusLine
-" hi Pmenu guibg=bg
-
-" hi Visual gui=NONE guibg=#27454C guifg=NONE
-
 color arc-green
 hi Comment gui=italic
+hi Visual guibg=#2C3232
 
 " -----------------------------------------------
 " --- keymaps ---
@@ -303,6 +252,7 @@ nnoremap <C-h>     :tabp<CR>
 nnoremap <C-l>     :tabn<CR>
 nnoremap <leader>d :bp\|bd #<CR>
 nmap     <leader>b :b<space>
+nnoremap <C-w>t    <C-w>v:term<CR>
 " % is expanded to current file name. expand %% to current file directory
 cnoremap %%        <C-R>=expand('%:p:h').'/'<CR>
 nmap     <leader>e :e<space>%%
@@ -375,6 +325,11 @@ augroup vimStartup
       \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
       \ |   exe "normal! g`\""
       \ | endif
+augroup end
+
+augroup FileName
+    autocmd!
+    autocmd BufEnter * call timer_start(0, 'EchoFileName')
 augroup end
 
 augroup File

@@ -2,3 +2,15 @@ nvim
 ls
 set -o vi
 exit
+ls
+..
+make
+./main 
+lear
+clear
+echo $?
+clear
+ls
+..
+make
+ls
