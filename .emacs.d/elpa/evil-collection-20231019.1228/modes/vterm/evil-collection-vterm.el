@@ -238,7 +238,7 @@ But don't allow the cursor to move bellow the last prompt line."
 
   ;; Open to a better binding...
   (evil-collection-define-key '(normal insert) 'vterm-mode-map
-    (kbd "C-c C-z") 'evil-collection-vterm-toggle-send-escape)
+    (kbd "C-x C-z") 'evil-collection-vterm-toggle-send-escape)
 
   ;; Evil has some "C-" bindings in insert state that shadow regular terminal
   ;; bindings. Don't raw-send "C-c" (prefix key) nor "C-h" (help prefix).
@@ -262,6 +262,7 @@ But don't allow the cursor to move bellow the last prompt line."
     (kbd "C-w") 'vterm--self-insert
     (kbd "C-y") 'vterm--self-insert
     (kbd "C-z") 'vterm--self-insert
+    (kbd "C-c") 'vterm--self-insert     ; Self insert this too!
     (kbd "<delete>") 'vterm-send-delete)
 
   (evil-collection-define-key 'normal 'vterm-mode-map

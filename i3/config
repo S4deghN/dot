@@ -15,6 +15,7 @@
 exec --no-startup-id xrandr --output HDMI-2 --primary
 exec --no-startup-id xrandr --output eDP-1 --off
 exec --no-startup-id xrandr --output HDMI-2 --mode 1920x1080 --rate 75
+
 exec --no-startup-id nitrogen --restore
 
 # using the experimental option actually solved tearing problems
@@ -61,7 +62,7 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 # You can also use any non-zero value if you'd like to have a border
 for_window [class=".*"] border pixel 1
 client.focused #555555 #555555 #ffffff #2e9ef4 #d5c4a1
-gaps outer 7
+gaps outer 0
 gaps inner 0
 smart_borders on
 

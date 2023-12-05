@@ -18,7 +18,7 @@ set shortmess=aoOFtT           " using a custome command instead of `F` option
 set cursorline
 set cursorlineopt=number
 " set guicursor=
-set signcolumn=no
+set signcolumn=yes:1
 " set scrolljump=-50
 set scrolloff=0
 set textwidth=90
@@ -238,6 +238,8 @@ nnoremap zs        :%s/\s\+$//e<CR>''
 noremap  Q         @q
 nnoremap *         *N
 nnoremap #         #N
+nnoremap n         nzz
+nnoremap N         Nzz
 xnoremap *         y/\V<C-R>"<CR>N
 xnoremap #         y?\V<C-R>"<CR>N
 nnoremap <silent>  <C-g>     :echo expand("%:p:~") '-' Get_file_perm()<CR>

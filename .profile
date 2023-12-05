@@ -18,7 +18,8 @@ export FZF_DEFAULT_COMMAND="find . -type f -not -path '*/\.git/*' -not -path '*/
 export FZF_COLORS="bg+:-1,fg:gray,fg+:white,border:gray,spinner:0,hl:yellow,header:blue,info:green,pointer:red,marker:blue,prompt:gray,hl+:red"
 export FZF_DEFAULT_OPTS="--height 50% --reverse --info inline --color=$FZF_COLORS"
 
-
+# Disable accessibility processes of gtk dependend application and DE.
+export NO_AT_BRIDGE=1
 
 export QT_QPA_PLATFORMTHEME="qt5ct"
 # export QT_SCALE_FACTOR=1

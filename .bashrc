@@ -52,6 +52,13 @@ export HISTCONTROL=ignoreboth:erasedups
 shopt -s histappend
 export HISTSIZE=50000
 
+# Stupid!!!!
+if [ "$DISPLAY" ]; then
+    activ_win_id=$(xprop -root _NET_ACTIVE_WINDOW)
+    activ_win_id=$(echo "$activ_win_id" | awk '{ activ_win_id=substr($0,41,9); print activ_win_id; }' )
+    xprop -id "$activ_win_id" -remove WM_NORMAL_HINTS
+fi
+
 #---------------------------------------------------
 # aliases
 #---------------------------------------------------
@@ -64,6 +71,7 @@ alias vi="$EDITOR"
 alias dot="$HOME/dot"
 alias note="$HOME/note"
 alias enw="$EDITOR $HOME/note/en/words.md"
+alias t="tmux a || tmux"
 
 alias gits="git status"
 alias gitd="git diff"
