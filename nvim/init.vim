@@ -201,6 +201,7 @@ set termguicolors
 color arc-green
 hi Comment gui=italic
 hi Visual guibg=#2C3232
+hi VertSplit guifg=#2B2B2B
 
 " -----------------------------------------------
 " --- keymaps ---

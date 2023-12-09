@@ -125,7 +125,7 @@ cmp.setup {
         end,
     },
     completion = {
-        -- autocomplete = false,
+        autocomplete = false,
         -- completeopt = 'menu,menuone,noisert'
         completeopt = 'longest'
     },

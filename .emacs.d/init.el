@@ -22,7 +22,7 @@
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")                
 (load-theme 'naysayer t)
-(set-cursor-color "#8ec07c")
+;;(set-cursor-color "#8ec07c")
 
 ;; -----------------------------------------------
 ;; --- Packages ---
@@ -39,54 +39,37 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
-;; (use-package evil
-  ;; :ensure t
-  ;; :init
-  ;; ;; This is optional since it's already set to t by default.
-  ;; (setq evil-want-integration t)
-  ;; ;; Required by evil-collection
-  ;; (setq evil-want-keybinding nil)
-  ;; :config
-  ;; (evil-mode 1)
-  ;; ;; use default emacs undo-redo functionality when using <C-r> in evil mode
-  ;; ;; more info: `C-x v describe-variable` for evil-undo-system
-  ;; (evil-set-undo-system 'undo-redo)
-  ;; (setq evil-insert-state-cursor nil)
-  ;; (setq evil-visual-state-cursor nil))
-;; 
-;; (use-package evil-collection
-  ;; :after evil
-  ;; :ensure t
-  ;; :config
-  ;; (evil-collection-init))
-;; 
-;; (use-package ivy
-  ;; :config
-  ;; (ivy-mode 0))
-;; 
-;; (use-package vterm
-  ;; :ensure t
-  ;; :config (add-hook 'vterm-mode-hook 'evil-collection-vterm-toggle-send-escape))
+(use-package evil
+   :ensure t
+   :init
+   ;; This is optional since it's already set to t by default.
+   (setq evil-want-integration t)
+   ;; Required by evil-collection
+   (setq evil-want-keybinding nil)
+   :config
+   (evil-mode 1)
+   ;; use default emacs undo-redo functionality when using <C-r> in evil mode
+   ;; more info: `C-x v describe-variable` for evil-undo-system
+   (evil-set-undo-system 'undo-redo)
+   (setq evil-insert-state-cursor nil)
+   (setq evil-visual-state-cursor nil))
+
+(use-package evil-collection
+  :after evil
+  :ensure t
+  :config
+  (evil-collection-init))
+
+(use-package ivy
+  :config
+  (ivy-mode 0))
+
+(use-package vterm
+  :ensure t
+  :config (add-hook 'vterm-mode-hook 'evil-collection-vterm-toggle-send-escape))
+
 ;; -----------------------------------------------
 ;; --- Keybindings ---
 ;; -----------------------------------------------
 (global-set-key (kbd "C-w") 'backward-kill-word)
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-
-
-;; -----------------------------------------------
-;; --- Custom ---
-;; -----------------------------------------------
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(vterm which-key sublime-themes solarized-theme popup leuven-theme ivy gruvbox-theme gruber-darker-theme evil-collection color-theme-sanityinc-solarized adwaita-dark-theme)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:background nil)))))

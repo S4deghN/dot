@@ -231,8 +231,10 @@ colors:
    # Default colors
    primary:
      background: '#042327'
-     background: '#202325'
+     background: '#202326'
      background: '#202424'
+     background: '#191d1d'
+     background: '#000000'
 
      # foreground: '#b2b2b2'
      foreground: '#cfcfc2'
