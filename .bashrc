@@ -72,13 +72,16 @@ alias dot="$HOME/dot"
 alias note="$HOME/note"
 alias enw="$EDITOR $HOME/note/en/words.md"
 alias t="tmux a || tmux"
+alias o="octave"
+
 
 alias gits="git status"
 alias gitd="git diff"
 alias gita="git add"
 alias gitc="git commit"
 alias gitb="git branch"
-alias gitl="git log --graph --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%an%C(reset)%C(bold yellow)%d%C(reset) %C(dim white)- %s%C(reset)' --all"
+alias gitll="git log --graph --format=format:'%C(yellow)%h%C(reset) - %C(green)%ar%C(reset) %C(blue)%an%C(reset)%C(bold red)%d%C(reset) - %s'"
+alias gitl="git log --graph --oneline"
 
 
 #Pacman Shortcuts
