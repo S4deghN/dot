@@ -117,6 +117,7 @@ call plug#begin()
     Plug 'ap/vim-css-color'
     " using fzf-lua instead
     " Plug 'junegunn/fzf.vim'
+    Plug 'maxbrunsfeld/vim-yankstack'
 
     Plug 'jreybert/vimagit'
 
@@ -196,10 +197,10 @@ lua require 'Lsp'
 " -----------------------------------------------
 set termguicolors
 
-color arc-green
+color oblivion
 hi Comment gui=italic
-hi Visual guibg=#2C3232
-hi VertSplit guifg=#2B2B2B
+" hi Visual guibg=#2C3232
+" hi VertSplit guifg=#2B2B2B
 
 " -----------------------------------------------
 " --- keymaps ---
