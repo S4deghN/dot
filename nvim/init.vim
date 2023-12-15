@@ -199,6 +199,7 @@ set termguicolors
 
 color oblivion
 hi Comment gui=italic
+hi IncSearch guifg=green
 " hi Visual guibg=#2C3232
 " hi VertSplit guifg=#2B2B2B
 

@@ -27,6 +27,13 @@
 !
 ! Make Caps_Lock and additional Escape
 !
-remove lock = Caps_Lock
-keysym Caps_Lock = Escape
-add control = Caps_Lock
+! remove lock = Caps_Lock
+! keysym Caps_Lock = Escape
+! add control = Caps_Lock
+
+!
+! Make Caps_Lock Control
+!
+! remove lock = Caps_Lock
+! keysym Caps_Lock = Control_L
+! add control = Control_L
