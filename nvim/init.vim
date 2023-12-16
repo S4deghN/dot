@@ -118,6 +118,7 @@ call plug#begin()
     " using fzf-lua instead
     " Plug 'junegunn/fzf.vim'
     Plug 'maxbrunsfeld/vim-yankstack'
+    Plug 'pechorin/any-jump.vim'
 
     Plug 'jreybert/vimagit'
 
@@ -197,11 +198,10 @@ lua require 'Lsp'
 " -----------------------------------------------
 set termguicolors
 
-color oblivion
-hi Comment gui=italic
-hi IncSearch guifg=green
-" hi Visual guibg=#2C3232
-" hi VertSplit guifg=#2B2B2B
+color arc-green
+hi NormalFloat guibg=#111111
+hi Visual guibg=#2C3232
+hi VertSplit guifg=#2B2B2B
 
 " -----------------------------------------------
 " --- keymaps ---
