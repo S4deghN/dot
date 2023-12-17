@@ -72,7 +72,13 @@
    `(highlight           ((t (:foreground,nil :background ,selection))))
    `(show-paren-match    ((t (:background,gray :foreground ,blue))))
    `(show-paren-mismatch ((t (:background,gray :foreground ,blue))))
-   ;;`(set-cursor-color "#8ec07c")
+
+   ;; Customs
+   ;; *****************************************************************************
+
+   `(mode-line ((t (:background "dark slate gray" :foreground "#d1b897" :box nil))))
+   `(success   ((t (:foreground "#44b340" :weight bold))))
+
 
    ;; Font lock faces
    ;; *****************************************************************************
@@ -156,6 +162,8 @@
     'naysayer
     '(linum-format " %5i ")
   )
+
+
 )
 
 ;;;###autoload
