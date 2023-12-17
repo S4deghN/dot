@@ -28,35 +28,32 @@
 (defcustom naysayer-theme-cyan "#A1EFE4" "Primary colors - cyan" :type 'string :group 'monokai)
 (defcustom naysayer-theme-violet "#AE81FF" "Primary colors - violet" :type 'string :group 'monokai)
 
-(let (;(background "#062329")
-      (background "#062329")
-      (gutters    "#062329")
-      (gutter-fg  "#062329")
+(let (;(background    "#062329")
+      (background     "#062329")
+      (gutters        "#062329")
+      (gutter-fg      "#062329")
       (gutters-active "#062329")
-      (builtin      "#ffffff")
-      (selection  "#0000ff")
-      (text       "#d1b897")
-      (comments   "#44b340")
-      (punctuation "#8cde94")
-      (keywords "#ffffff")
-      (variables "#c1d1e3")
-      (functions "#ffffff")
-      (methods    "#c1d1e3")
-      (strings    "#2ec09c")
-      (constants "#7ad0c6")
-      (macros "#8cde94")
-      (numbers "#7ad0c6")
-      (white     "#ffffff")
-      (error "#ff0000")
-      (warning "#ffaa00")
+      (builtin        "#ffffff")
+      (selection      "#0000ff")
+      (text           "#d1b897")
+      (comments       "#44b340")
+      (punctuation    "#8cde94")
+      (keywords       "#ffffff")
+      (variables      "#c1d1e3")
+      (functions      "#ffffff")
+      (methods        "#c1d1e3")
+      (strings        "#2ec09c")
+      (constants      "#7ad0c6")
+      (macros         "#8cde94")
+      (numbers        "#7ad0c6")
+      (white          "#ffffff")
+      (error          "#ff0000")
+      (warning        "#ffaa00")
       (highlight-line "#0b3335")
-      (line-fg "#126367")
-      (cursor "#8ec07c")
-
-      (gray "#4D4D4D")
-      (blue "#4F94CD")
-
-      )
+      (line-fg        "#126367")
+      (cursor         "#8ec07c")
+      (gray           "#4D4D4D")
+      (blue           "#4F94CD"))
 
   (custom-theme-set-faces
    'naysayer
@@ -143,6 +140,10 @@
    ;; `(powerline-inactive1 ((t (:background ,background :foreground ,text))))
    ;; `(powerline-inactive2 ((t (:background ,background :foreground ,text))))
 
+   ;; better compatibility with default DOOM mode-line
+   `(error ((t (:foreground nil :weight normal))))
+   `(doom-modeline-project-dir ((t (:foreground nil :weight bold))))
+
    ;; js2-mode
    `(js2-function-call ((t (:inherit (font-lock-function-name-face)))))
    `(js2-function-param ((t (:foreground ,text))))
@@ -155,16 +156,11 @@
    `(js2-warning ((t (:foreground ,warning))))
 
    ;; highlight numbers
-   `(highlight-numbers-number ((t (:foreground ,numbers))))
-  )
+   `(highlight-numbers-number ((t (:foreground ,numbers)))))
 
   (custom-theme-set-variables
-    'naysayer
-    '(linum-format " %5i ")
-  )
-
-
-)
+   'naysayer
+   '(linum-format " %5i ")))
 
 ;;;###autoload
 (when (and (boundp 'custom-theme-load-path) load-file-name)
