@@ -9,4 +9,5 @@ nvim/plugin/
 .emacs.d/transient
 .emacs.d/ede-projects.el
 .emacs.d/tutorial
+.emacs.d/url
 *~
