@@ -1,3 +1,11 @@
 nvim/plugin/
-semanticdb
+.emacs.d/auto-save-list
+.emacs.d/eshell
+.emacs.d/semanticdb
+.emacs.d/elpa
+.emacs.d/melpa
+.emacs.d/games
+.emacs.d/projects
+.emacs.d/transient
+.emacs.d/ede-projects.el
 *~
