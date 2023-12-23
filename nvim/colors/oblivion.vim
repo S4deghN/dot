@@ -23,7 +23,7 @@ let s:bg3="#4f5456"
 let s:bg4="#606566"
 let s:keyword="#FFFFFF"
 let s:builtin="#AD7FA8"
-let s:const= "#CE5C00"
+let s:const="#CE5C00"
 let s:comment="#888A85"
 let s:func="#D3D7CF"
 let s:str="#EDD400"
@@ -56,7 +56,7 @@ exe 'hi WildMenu guifg='s:str' guibg='s:bg
 exe 'hi Boolean guifg='s:const
 exe 'hi Character guifg='s:const
 exe 'hi Comment guifg='s:comment
-exe 'hi Conditional guifg='s:keyword
+exe 'hi Conditional guifg='s:keyword' gui=bold'
 exe 'hi Constant guifg='s:const
 exe 'hi Todo guibg='s:bg
 exe 'hi Define guifg='s:keyword
@@ -68,17 +68,17 @@ exe 'hi ErrorMsg guifg='s:warning' guibg='s:bg2' gui=bold'
 exe 'hi WarningMsg guifg='s:fg' guibg='s:warning2
 exe 'hi Float guifg='s:const
 exe 'hi Function guifg='s:func
-exe 'hi Identifier guifg='s:type'  gui=italic'
+exe 'hi Identifier guifg='s:fg
 exe 'hi Keyword guifg='s:keyword'  gui=bold'
 exe 'hi Label guifg='s:var
 exe 'hi NonText guifg='s:bg4' guibg='s:bg2
 exe 'hi Number guifg='s:const
 exe 'hi Operator guifg='s:keyword
-exe 'hi PreProc guifg='s:keyword
-exe 'hi Special guifg='s:fg
+exe 'hi PreProc guifg='s:builtin
+exe 'hi Special guifg='s:const
 exe 'hi SpecialKey guifg='s:fg2' guibg='s:bg2
 exe 'hi Statement guifg='s:keyword
-exe 'hi StorageClass guifg='s:type'  gui=italic'
+exe 'hi StorageClass guifg='s:keyword'  gui=bold'
 exe 'hi String guifg='s:str
 exe 'hi Tag guifg='s:keyword
 exe 'hi Title guifg='s:fg'  gui=bold'
@@ -150,5 +150,6 @@ exe 'hi htmlSpecialTagName guifg='s:keyword
 
 " Markdown Highlighting
 exe 'hi mkdCode guifg='s:builtin
+
 
 

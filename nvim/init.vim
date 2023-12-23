@@ -18,7 +18,7 @@ set shortmess=aoOFtT           " using a custome command instead of `F` option
 set cursorline
 set cursorlineopt=number
 " set guicursor=
-set signcolumn=yes:1
+set signcolumn=no
 " set scrolljump=-50
 set scrolloff=0
 set textwidth=90
@@ -30,8 +30,8 @@ set incsearch
 set ignorecase
 set smartcase
 set wrapscan
-set nowrap                     " Neovim become extremely slow and unresponsive editing large file with linewrap on
-set showbreak=>>>              " Break line symbol
+" set nowrap                     " Neovim become extremely slow and unresponsive editing large file with linewrap on
+set showbreak=\\>               " Break line symbol
 set matchpairs+=<:>
 set nosmarttab                 " when unset you can delete inserted tab with C-w without deleting the word before it
 set smartindent
@@ -79,7 +79,7 @@ if &laststatus
 
     set statusline=
     " Left
-    set stl+=[%f]
+    set stl+=[%F]
     set stl+=%(\ %)
     set stl+=%([%{GetGitSignsStatus()}\ ]%)
     set stl+=\ %q%h%w%m%r
@@ -119,16 +119,18 @@ call plug#begin()
     " Plug 'junegunn/fzf.vim'
     Plug 'maxbrunsfeld/vim-yankstack'
     Plug 'pechorin/any-jump.vim'
+    " Plug 'andymass/vim-matchup'
+    " Plug 'justinmk/vim-matchparenalways'
+    " Plug 'Yggdroot/hiPairs'
+
+    Plug 'ollykel/v-vim'
 
     Plug 'jreybert/vimagit'
 
-    Plug 'gruvbox-community/gruvbox'
-    Plug 'fneu/breezy'
-    Plug 'nanotech/jellybeans.vim'
-    Plug 'lifepillar/vim-solarized8', {'branch': 'neovim'}
-    Plug 'yorickpeterse/happy_hacking.vim'
-
     if has("nvim")
+        Plug 'folke/neodev.nvim'
+        Plug 'yorickpeterse/nvim-pqf'
+
         Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
         Plug 'sindrets/diffview.nvim'
         Plug 'lewis6991/gitsigns.nvim'
@@ -164,6 +166,10 @@ nmap gw :Rg<CR>
 nmap gW :Rg ""<Left>
 xmap gw y:Rg "<C-R>""<CR>
 
+" --- matchup ---
+let g:matchup_matchparen_deferred = 1
+let g:matchup_matchparen_hi_surround_always = 1
+
 " --- fzf-lua ---
 nnoremap \\ :FzfLua<CR>
 nnoremap \<space> :FzfLua resume<CR>
@@ -192,6 +198,7 @@ nnoremap [g jk:Gitsigns prev_hunk<CR>:Gitsigns preview_hunk<CR>
 
 " --- lsp ---
 lua require 'Lsp'
+lua require('pqf').setup()
 
 " -----------------------------------------------
 " --- colors ---
@@ -199,9 +206,13 @@ lua require 'Lsp'
 set termguicolors
 
 color arc-green
-hi NormalFloat guibg=#111111
-hi Visual guibg=#2C3232
-hi VertSplit guifg=#2B2B2B
+" hi Normal guibg=#191919
+hi Visual guibg=#232729
+hi VertSplit guifg=#232729
+
+" hi NormalFloat guibg=#111111
+" hi Visual guibg=#2C3232
+" hi VertSplit guifg=#2B2B2B
 
 " -----------------------------------------------
 " --- keymaps ---
@@ -215,6 +226,10 @@ nnoremap <M-6> :6tabnext<CR>
 nnoremap <M-7> :7tabnext<CR>
 nnoremap <M-8> :8tabnext<CR>
 nnoremap <M-9> :9tabnext<CR>
+
+nnoremap gd [<C-I>
+nnoremap gn ]<C-I>
+map <F4> [I:let nr = input("Which one: ")<Bar>exe "normal " .. nr .. "[\t"<CR>
 
 " --- miscellaneous ---
 inoremap <C-c>     <ESC>
@@ -245,7 +260,7 @@ xnoremap *         y/\V<C-R>"<CR>N
 xnoremap #         y?\V<C-R>"<CR>N
 nnoremap <silent>  <C-g>     :echo expand("%:p:~") '-' Get_file_perm()<CR>
 
-" inoremap <C-u>     <ESC>vb~`]a
+inoremap <C-u>       <ESC>vbU`]a
 inoremap <C-z>       <ESC>b1z=`]a
 inoremap <C-S-V>     <C-r>+
 xnoremap <C-S-V>     <C-r>+
@@ -276,6 +291,8 @@ nnoremap <C-s>ap yiwvap<Esc>:'<,'>:s/<C-R>"//g<Left><Left>
 " inconsistent!
 xnoremap <C-s>s :s//g<Left><Left>
 xnoremap <C-s>f y:<C-w>%s/<C-r>"//g<Left><Left>
+
+nnoremap <leader>h :vert h<space>
 
 " -----------------------------------------------
 " --- functions ---
@@ -383,8 +400,8 @@ augroup end
 augroup Enter
     autocmd!
     " Open help splits on right
-    autocmd BufRead,BufEnter */doc/* wincmd L
-    autocmd BufRead,BufEnter man://* wincmd L
+    " autocmd BufRead,BufEnter */doc/* wincmd L
+    " autocmd BufRead,BufEnter man://* wincmd L
     " autocmd BufEnter * call timer_start(0, 'EchoFileName')
     " autocmd BufEnter * echo expand('%:p:~')
 augroup end

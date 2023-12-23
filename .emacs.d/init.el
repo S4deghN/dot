@@ -20,6 +20,8 @@
 (setq backup-inhibited t)
 (setq auto-save-default nil)
 (setq read-file-name-completion-ignore-case t)
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
 
 ;; --- Face ---
 (set-face-attribute 'default nil :family "jetbrains mono" :height 130)
@@ -84,6 +86,10 @@
 (use-package rainbow-mode
   :hook (emacs-lisp-mode text-mode lisp-mode c-mode))
 
+(use-package company
+  :ensure t
+  :config (add-hook 'after-init-hook 'global-company-mode))
+
 ;(use-package doom-modeline
 ;  :ensure t
 ;  :init (doom-modeline-mode 1)
@@ -101,8 +107,8 @@
 ;; --- Semantic ---
 ;; -----------------------------------------------
 (add-hook 'c-mode-hook #'(lambda()
-			   (semantic-mode t)
-			   (semantic-idle-summary-mode t)))
+                           (semantic-mode t)
+                           (semantic-idle-summary-mode t)))
 ;; for project specific include path use this expresion
 ;; in `.dir-local.el' at the project root directory.
 ;; ((c-mode
@@ -172,10 +178,13 @@
 (global-set-key (kbd "C-w") 'backward-kill-word)
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
-(evil-global-set-key 'normal (kbd "C-e") 'end-of-line)
-
-(evil-define-key 'normal 'global "L" (kbd "M-e"))
-(evil-define-key 'normal 'global "H" (kbd "M-a"))
+;; set leader key in normal state
+(evil-set-leader 'normal (kbd "SPC"))
+(evil-define-key 'normal 'global (kbd "L")         (kbd "M-e"))
+(evil-define-key 'normal 'global (kbd "H")         (kbd "M-a"))
+(evil-define-key 'normal 'global (kbd "C-e")       'end-of-line)
+(evil-define-key 'normal 'global (kbd "<leader>d") 'kill-this-buffer)
+(evil-define-key 'normal 'global (kbd "<leader>s") 'save-buffer)
 
 ;; -----------------------------------------------
 ;; --- Custom ---
@@ -185,8 +194,11 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("b814c4915805b7f9d5e50298b5942ac13aaf44f23b148f7e5da7588ac52b42a4" "d9717212622f16f6b9e0bccc99f98761cbeb14065c4d9fa7d88f6b4507a0dbf6" default))
+ '(helm-minibuffer-history-key "M-p")
  '(package-selected-packages
-   '(doom-themes rust-mode disaster magit oblivion-theme))
+   '(company marginalia orderless vertico vertigo ac-helm helm-ack helm highlight-blocks highlight-parentheses markdown-mode doom-themes rust-mode disaster magit oblivion-theme))
  '(safe-local-variable-values
    '((eval semantic-add-system-include "~/dev/embedded/keil1/Drivers/CMSIS/Core/Include")
      (eval semantic-add-system-include "~/dev/embedded/keil1/Core/Src")

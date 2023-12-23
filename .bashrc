@@ -73,6 +73,7 @@ alias note="$HOME/note"
 alias enw="$EDITOR $HOME/note/en/words.md"
 alias t="tmux a || tmux"
 alias o="octave"
+alias r="ranger"
 
 
 alias gits="git status"
