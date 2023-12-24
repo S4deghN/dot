@@ -127,6 +127,8 @@ call plug#begin()
 
     Plug 'jreybert/vimagit'
 
+    Plug 'embear/vim-localvimrc'
+
     if has("nvim")
         Plug 'folke/neodev.nvim'
         Plug 'yorickpeterse/nvim-pqf'
