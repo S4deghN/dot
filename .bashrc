@@ -117,8 +117,8 @@ vi-find() {
         fzf --preview 'highlight -O ansi -l {}')
 
     if [[ -n $selection ]]; then
-        READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$EDITOR $selection${READLINE_LINE:$READLINE_POINT}"
-        READLINE_POINT=$(( READLINE_POINT + ${#EDITOR} + 1 + ${#selection} ))
+        READLINE_LINE="$EDITOR $selection${READLINE_LINE:$READLINE_POINT}"
+        READLINE_POINT=$(( ${#EDITOR} + 1 + ${#selection} ))
 
         builtin bind '"\e@": accept-line'
     else
@@ -132,8 +132,8 @@ vi-grep() {
         awk -F : '{print $1 " +" $2}')
 
     if [[ -n $selection ]]; then
-        READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$EDITOR $selection${READLINE_LINE:$READLINE_POINT}"
-        READLINE_POINT=$(( READLINE_POINT + ${#EDITOR} + 1 + ${#selection} ))
+        READLINE_LINE="$EDITOR $selection${READLINE_LINE:$READLINE_POINT}"
+        READLINE_POINT=$(( ${#EDITOR} + 1 + ${#selection} ))
 
         builtin bind '"\e@": accept-line'
     else
@@ -157,6 +157,8 @@ bind -m vi-insert '"\C-l": "\exx\e#"'
 # binds
 #---------------------------------------------------
 bind '"\M-al": accept-line'
+
+bind '"\e@": end-of-line'
 
 bind -x '"\ex1": vi-find'
 bind -x '"\ex2": vi-find ""     .git'
