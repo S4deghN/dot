@@ -1,10 +1,13 @@
+require("telescope").load_extension("emoji")
+require("telescope").load_extension("pathogen")
+
 require('telescope').setup {
     defaults = {
+        prompt_prefix = '>>> ',
+        sorting_strategy = 'ascending',
+        layout_strategy = 'horizontal',
         layout_config = {
-            vertical = { width = 0.5 }
-            -- other layout configuration here
+            prompt_position = 'top',
         },
-        -- other defaults configuration here
     },
-    -- other configuration values here
 }
