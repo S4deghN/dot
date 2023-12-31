@@ -48,15 +48,6 @@ set laststatus=0
 if &laststatus
     set showcmdloc=statusline
 
-    function! GetGitSignsStatus()
-        if !exists('b:gitsigns_status_dict.added')
-            return ''
-        endif
-
-        let d = b:gitsigns_status_dict
-        return d.head.' +'.d.added.' ~'.d.changed.' -'.d.removed
-    endfunction
-
     set statusline=
     " Left
     set stl+=[%F]
@@ -127,7 +118,7 @@ nmap gch <cmd>r ~/.config/nvim/snips/hcomment<cr>gcc=lf-ela
 
 " --- vim-rooter ---
 let g:rooter_silent_chdir = 1
-
+ 
 " --- rip-grep ---
 let g:rg_highlight = 1
 nmap gw <cmd>Rg<cr>
@@ -166,12 +157,13 @@ color arc-green
 hi Normal guibg=#191919
 hi Visual guibg=#232729
 hi VertSplit guifg=#232729
+hi MsgArea guibg=#101010
 
 " -----------------------------------------------
 " --- keymaps ---
 " -----------------------------------------------
 let mapleader=" "
-
+ 
 map '    `
 map Y    y$
 map gy   "+y
@@ -235,6 +227,14 @@ xnoremap <C-S-v> <C-r>+
 " -----------------------------------------------
 " --- functions ---
 " -----------------------------------------------
+function! GetGitSignsStatus()
+    if !exists('b:gitsigns_status_dict.added')
+        return ''
+    endif
+    let d = b:gitsigns_status_dict
+    return d.head.' +'.d.added.' ~'.d.changed.' -'.d.removed
+endfunction
+
 function! s:tmux_apply_title()
     let filename = expand("%:t")
     if strlen(filename)
@@ -269,12 +269,16 @@ augroup autoCommands
                 \ |   exe "normal! g`\""
                 \ | endif
 
-    " autocmd BufEnter * call timer_start(0, 'EchoFileName')
-    autocmd BufEnter *
-                \ let f = expand('%:p:~')
-                \ | if len(f) < 80 
-                \ |     echo f
-                \ | endif
+    " " autocmd BufEnter * call timer_start(0, 'EchoFileName')
+    " autocmd BufEnter *
+    "             \ let f = expand('%:p:~')
+    "             \ | if len(f) < 80
+    "             " \ |     echo f
+    "             " \ |     normal gg
+    "             \ |     call feedkeys("gg")
+    "             \ | endif
+
+    autocmd BufEnter * call feedkeys("\<C-g>")
 
     autocmd Filetype tex,text,markdown,gitcommit setlocal spell
     autocmd Filetype cpp,rust setlocal matchpairs+=<:>

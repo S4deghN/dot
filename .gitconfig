@@ -9,10 +9,8 @@
 	helper = !/usr/bin/gh auth git-credential
 [init]
 	defaultBranch = main
-
 [core]
 	pager = perl /usr/share/git/diff-highlight/diff-highlight | less
-
 [interactive]
     diffFilter = perl /usr/share/git/diff-highlight/diff-highlight
 [credential]
