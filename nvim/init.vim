@@ -89,6 +89,10 @@ call plug#begin()
     Plug 'tpope/vim-fugitive'
     Plug 'jreybert/vimagit'
 
+    Plug 'jackguo380/vim-lsp-cxx-highlight'
+
+    Plug 'gruvbox-community/gruvbox'
+
     if has("nvim")
         Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
 
@@ -102,6 +106,7 @@ call plug#begin()
             Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
             Plug 'hrsh7th/cmp-buffer'
             Plug 'hrsh7th/cmp-path'
+            Plug 'quangnguyen30192/cmp-nvim-tags'
             Plug 'L3MON4D3/LuaSnip'
             Plug 'saadparwaiz1/cmp_luasnip'
     endif
@@ -246,6 +251,12 @@ function! s:tmux_reset_title()
     call system("tmux set-window-option automatic-rename on")
 endfunc
 
+" Get highlight groups of word under cursor in Vim
+function! Syn()
+    for id in synstack(line("."), col("."))
+        echo synIDattr(id, "name")
+    endfor
+endfunction
 " -----------------------------------------------
 " --- cmds ---
 " -----------------------------------------------
@@ -253,6 +264,7 @@ endfunc
 " file it was loaded from, thus the changes you made.
 command! DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
             \ | wincmd p | diffthis
+
 command! Syn call Syn()
 command! Run call system("tmux-run ".&filetype)
 command! DiagEnable lua vim.diagnostic.enable()

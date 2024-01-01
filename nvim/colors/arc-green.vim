@@ -298,15 +298,19 @@ let g:fzf_colors =
 " #202424, #1c2020
 hi! Normal guifg=fg guibg=bg gui=NONE
 hi Visual guifg=NONE guibg=#08454D gui=NONE
+hi Visual guibg=#232729
+hi VertSplit guifg=#232729
+
+hi MsgArea guibg=#1c1c1c
 
 hi VertSplit guifg=#000000       guibg=NONE         gui=NONE
 hi! link FloatBorder VertSplit
 hi! link CmpPmenuBorder VertSplit
-hi Pmenu guibg=#031C20
-hi! link Pmenu Visual
-hi! link PmenuSel Pmenu
+" hi Pmenu guibg=#031C20
+" hi! link Pmenu Visual
+" hi! link PmenuSel Pmenu
+hi pmenuSel guibg=#232729
 hi PmenuThumb guibg=fg
-
 
 hi Folded guifg=#878787 guibg=bg
 hi StatusLine gui=NONE guibg=#031C20
