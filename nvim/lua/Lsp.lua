@@ -279,16 +279,16 @@ function GetDiag()
         local info = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO })
 
         if err ~= 0 then
-            str = str .. "%#DiagnosticStatusError# E" .. err .. "%*"
+            str = str .. "%#DiagnosticStatusError# " .. err .. "%*"
         end
         if warn ~= 0 then
-            str = str .. "%#DiagnosticStatusWarn# W" .. warn .. "%*"
+            str = str .. "%#DiagnosticStatusWarn# " .. warn .. "%*"
         end
         if hint ~= 0 then
-            str = str .. "%#DiagnosticStatusHint# H" .. hint .. "%*"
+            str = str .. "%#DiagnosticStatusHint# " .. hint .. "%*"
         end
         if info ~= 0 then
-            str = str .. "%#DiagnosticStatusInfo# I" .. info .. "%*"
+            str = str .. "%#DiagnosticStatusInfo# " .. info .. "%*"
         end
     end
     return str
@@ -453,46 +453,46 @@ require("lspconfig").rust_analyzer.setup {
 --     },
 -- }
 
-require("lspconfig").ccls.setup {
-    on_attach    = on_attach,
-    capabilities = capabilities,
-    flags        = lsp_flags,
-    init_options = {
-        -- compilationDatabaseDirectory = "build";
-        highlight = {
-            lsRanges = true
-        },
-        index = {
-            onChange = true,
-            threads = 0,
-        };
-        -- clang = {
-        --     -- excludeArgs = { "-frounding-math" };
-        --     -- extraArgs = { "-I /usr/include/c++/v1/experimental/*", }
-        -- };
-    },
-}
-
--- require("lspconfig").clangd.setup {
---     on_attach = on_attach,
+-- require("lspconfig").ccls.setup {
+--     on_attach    = on_attach,
 --     capabilities = capabilities,
---     flags = lsp_flags,
---     cmd = {
---         "clangd",
---         "--clang-tidy",
---         "--all-scopes-completion=true", -- If set to true, code completion will include index symbols that are not defined in the scopes (e.g. namespaces) visible from the code completion point. Such completions can insert scope qualifiers
---         "--completion-style=detailed",
---         "--header-insertion=iwyu",      -- add headers when accepting completion
---         "--header-insertion-decorators",
---         "-j=2",
---         -- "--malloc-trim",
---         "--background-index", --index in background and persist on disk
+--     flags        = lsp_flags,
+--     init_options = {
+--         -- compilationDatabaseDirectory = "build";
+--         highlight = {
+--             lsRanges = true
+--         },
+--         index = {
+--             onChange = true,
+--             threads = 0,
+--         };
+--         -- clang = {
+--         --     -- excludeArgs = { "-frounding-math" };
+--         --     -- extraArgs = { "-I /usr/include/c++/v1/experimental/*", }
+--         -- };
 --     },
---     -- root_dir = function()
---     --     print("clangd-Rootdir", vim.loop.cwd())
---     --     return vim.loop.cwd()
---     -- end,
 -- }
+
+require("lspconfig").clangd.setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    flags = lsp_flags,
+    cmd = {
+        "clangd",
+        "--clang-tidy",
+        "--all-scopes-completion=true", -- If set to true, code completion will include index symbols that are not defined in the scopes (e.g. namespaces) visible from the code completion point. Such completions can insert scope qualifiers
+        "--completion-style=detailed",
+        "--header-insertion=iwyu",      -- add headers when accepting completion
+        "--header-insertion-decorators",
+        "-j=2",
+        -- "--malloc-trim",
+        "--background-index", --index in background and persist on disk
+    },
+    -- root_dir = function()
+    --     print("clangd-Rootdir", vim.loop.cwd())
+    --     return vim.loop.cwd()
+    -- end,
+}
 
 -- the extension calls require("lspconfig").clangd.setup{} automatically
 -- require("clangd_extensions").setup {

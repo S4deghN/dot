@@ -44,7 +44,7 @@ augroup end
 " -----------------------------------------------
 " --- statusline ---
 " -----------------------------------------------
-set laststatus=0
+set laststatus=3
 if &laststatus
     set showcmdloc=statusline
 
@@ -123,7 +123,7 @@ nmap gch <cmd>r ~/.config/nvim/snips/hcomment<cr>gcc=lf-ela
 
 " --- vim-rooter ---
 let g:rooter_silent_chdir = 1
- 
+
 " --- rip-grep ---
 let g:rg_highlight = 1
 nmap gw <cmd>Rg<cr>
@@ -158,17 +158,17 @@ lua require 'Lsp'
 " -----------------------------------------------
 set termguicolors
 
-color arc-green
-hi Normal guibg=#191919
-hi Visual guibg=#232729
-hi VertSplit guifg=#232729
-hi MsgArea guibg=#101010
+color naysayer
+" hi Normal guibg=#191919
+" hi Visual guibg=#232729
+" hi VertSplit guifg=#232729
+" hi MsgArea guibg=#101010
 
 " -----------------------------------------------
 " --- keymaps ---
 " -----------------------------------------------
 let mapleader=" "
- 
+
 map '    `
 map Y    y$
 map gy   "+y
