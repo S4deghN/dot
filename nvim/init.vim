@@ -81,7 +81,7 @@ call plug#begin()
     Plug 'normen/vim-pio'
     Plug 'jremmen/vim-ripgrep'
     Plug 'tpope/vim-dispatch'
-    Plug 'maxbrunsfeld/vim-yankstack'
+    " Plug 'maxbrunsfeld/vim-yankstack'
     Plug 'embear/vim-localvimrc'
     Plug 's4deghn/vim-cool' " smarter search highlight.
     Plug 'ap/vim-css-color'
@@ -158,27 +158,26 @@ lua require 'Lsp'
 " -----------------------------------------------
 set termguicolors
 
-color naysayer
+color arc-green
 " hi Normal guibg=#191919
-" hi Visual guibg=#232729
-" hi VertSplit guifg=#232729
-" hi MsgArea guibg=#101010
+hi Visual guibg=#232729
+hi VertSplit guifg=#232729
+hi MsgArea guibg=#101010
 
 " -----------------------------------------------
 " --- keymaps ---
 " -----------------------------------------------
 let mapleader=" "
 
-map '    `
-map Y    y$
-map gy   "+y
-map gY   "+Y
-map gp   "+]p
-map gP   "+]P
-map L    $
-map H    ^
-map <F4> [I:let nr = input("Which one: ")<Bar>exe "normal " .. nr .. "[\t"<cr>
-
+noremap '    `
+noremap Y    y$
+noremap gy   "+y
+noremap gY   "+Y
+noremap gp   "+]p
+noremap gP   "+]P
+noremap L    $
+noremap H    ^
+noremap <F4> [I:let nr = input("Which one: ")<Bar>exe "normal " .. nr .. "[\t"<cr>
 noremap n     nzz
 noremap N     Nzz
 noremap Q     @q
