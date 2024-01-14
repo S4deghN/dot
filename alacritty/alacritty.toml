@@ -43,7 +43,7 @@ size = 13
 
 [font.normal]
 # ibm plex mono
-family = "ibm plex mono"
+family = "iosevka extended"
 
 [font.glyph_offset]
 x = 0
