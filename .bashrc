@@ -83,6 +83,7 @@ alias gitc="git commit"
 alias gitb="git branch"
 alias gitll="git log --graph --format=format:'%C(yellow)%h%C(reset) - %C(green)%ar%C(reset) %C(blue)%an%C(reset)%C(bold red)%d%C(reset) - %s'"
 alias gitl="git log --graph --oneline"
+alias giti="git describe --abbrev=4 --dirty --always --tags"
 
 
 #Pacman Shortcuts
