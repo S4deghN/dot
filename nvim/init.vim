@@ -69,7 +69,7 @@ endif
 
 if exists(':GuiFont')
     " Use GuiFont! to ignore font errors
-    GuiFont iosevka :h14
+    GuiFont iosevka\ extended:h13
 endif
 if exists('g:nvy')
     set guifont=iosevka:h14
