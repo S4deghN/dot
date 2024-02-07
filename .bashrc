@@ -27,7 +27,10 @@ __ps1() {
     suffixP='\[\e[0;32m\]$\[\e[m\]'
     dircP='\[\e[0;32m\]\w\[\e[m\]'
 
-    PS1="$userP@$hostP $dircP$branchP $errP\n$suffixP "
+# -- ╭──────╮
+# -- │ test │
+# -- ╰──────╯
+    PS1="╭$userP@$hostP $dircP$branchP $errP\n$suffixP "
 }
 
 PROMPT_COMMAND="__ps1"
@@ -62,6 +65,8 @@ fi
 #---------------------------------------------------
 # aliases
 #---------------------------------------------------
+alias ta="~/Downloads/textadept/textadept-gtk"
+
 alias ls='ls --color=auto --classify'
 alias la="ls -alh"
 alias grep="grep --color=auto"

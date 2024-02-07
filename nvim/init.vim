@@ -10,13 +10,14 @@ set undodir=/tmp/$USER.vimundo " Undo file shouldn't replace version control
 set mouse+=a                   " mouse support
 set shortmess=aoOFtT           " using a custome command instead of `F` option
 " set guicursor=
-set signcolumn=no
+set signcolumn=yes:1
 set textwidth=90
 set cmdwinheight=12            " the special window that opens with q: or ctrl-f in cmd mode.
 set splitbelow
 set splitright
 set ignorecase
 set smartcase
+set nomodeline
 " set nowrap                     " Neovim become extremely slow and unresponsive editing large file with linewrap on
 set showbreak=>               " Break line symbol
 set nosmarttab                 " when unset you can delete inserted tab with C-w without deleting the word before it
@@ -27,7 +28,7 @@ set tabstop=4
 set foldmethod=marker
 set diffopt=filler,internal,algorithm:patience,indent-heuristic
 set fillchars=diff:╱
-" set iskeyword+=-
+set iskeyword-=_
 set virtualedit=block
 match CursorLine '\s\+$'       " mark trailing spaces as errors using highlight group CursorLine
 
@@ -298,7 +299,7 @@ augroup autoCommands
     autocmd BufEnter .clang* set filetype=yaml
     autocmd BufEnter /tmp/bash* set filetype=sh " for the v command in bash vi mode
 
-    autocmd BufWritePost *.vim,.vimrc,*.lua source %
+    autocmd BufWritePost *.vim,.vimrc,nvim/lua/*.lua source %
 
     autocmd TextYankPost * silent! lua vim.highlight.on_yank({ higroup="Visual", timeout=50 })
     " autocmd SearchWrapped * echomsg 'Search wrapped!'
