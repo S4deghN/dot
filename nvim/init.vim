@@ -1,5 +1,4 @@
 " -----------------------------------------------
-"  I edited this!
 " --- options ---
 " -----------------------------------------------
 set wildmode=longest:list      " behave like bash
@@ -72,6 +71,9 @@ if exists(':GuiFont')
     " Use GuiFont! to ignore font errors
     GuiFont iosevka :h14
 endif
+if exists('g:nvy')
+    set guifont=iosevka:h14
+endif
 
 " -----------------------------------------------
 " --- plugins ---
@@ -94,6 +96,8 @@ call plug#begin()
     Plug 'jackguo380/vim-lsp-cxx-highlight'
 
     Plug 'gruvbox-community/gruvbox'
+
+    Plug 'ton/vim-alternate'
 
     if has("nvim")
         Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
@@ -129,8 +133,11 @@ let g:rooter_silent_chdir = 1
 " --- rip-grep ---
 let g:rg_highlight = 1
 nmap gw <cmd>Rg<cr>
-nmap gW <cmd>Rg ""<left>
+nmap gW :Rg ""<left>
 xmap gw y<cmd>Rg "<C-r>""<cr>
+
+" --- alternate-file ---
+let g:AlternatePaths = ['../itf', '../source', '../include', '../inc', '../src', '.', '..']
 
 " --- fzf-lua ---
 noremap \\       <cmd>FzfLua<cr>
@@ -221,6 +228,9 @@ nnoremap <C-s>f  :%s/<C-R>=expand('<cword>')<cr>//g<Left><Left>
 xnoremap <C-s>f  y:<C-w>%s/<C-r>"//g<Left><Left>
 nnoremap <C-s>ip yiwvip<Esc>:'<,'>:s/<C-R>"//g<Left><Left>
 nnoremap <C-s>ap yiwvap<Esc>:'<,'>:s/<C-R>"//g<Left><Left>
+
+nnoremap gF mm:%!clang-format<cr>`m
+nnoremap go <cmd>Alternate<cr>
 
 inoremap <C-c> <esc>
 inoremap <C-u> <esc>vbU`]a

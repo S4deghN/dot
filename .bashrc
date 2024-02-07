@@ -60,15 +60,20 @@ shopt -s histappend
 export HISTSIZE=50000
 
 # Stupid!!!!
-if [ "$DISPLAY" ]; then
-    activ_win_id=$(xprop -root _NET_ACTIVE_WINDOW)
-    activ_win_id=$(echo "$activ_win_id" | awk '{ activ_win_id=substr($0,41,9); print activ_win_id; }' )
-    xprop -id "$activ_win_id" -remove WM_NORMAL_HINTS
+if [[ "$OSTYPE" == "LINUX" ]]; then
+    if [ "$DISPLAY" ]; then
+        activ_win_id=$(xprop -root _NET_ACTIVE_WINDOW)
+        activ_win_id=$(echo "$activ_win_id" | awk '{ activ_win_id=substr($0,41,9); print activ_win_id; }' )
+        xprop -id "$activ_win_id" -remove WM_NORMAL_HINTS
+    fi
 fi
 
 #---------------------------------------------------
 # aliases
 #---------------------------------------------------
+#if [[ "$OSTYPE" == "msys" ]]; then
+#fi
+
 alias ta="~/Downloads/textadept/textadept-gtk"
 
 alias ls='ls --color=auto --classify'
@@ -108,6 +113,8 @@ alias pac-view="pacman -Slq | fzf --preview 'pacman -Si {}' --layout=reverse"
 # Arch
 [[ -f "/usr/share/fzf/key-bindings.bash" ]] && . "/usr/share/fzf/key-bindings.bash"
 # Debian
+[[ -f "/usr/share/doc/fzf/examples/key-bindings.bash" ]] && . "/usr/share/doc/fzf/examples/key-bindings.bash"
+# Windows
 [[ -f "/usr/share/doc/fzf/examples/key-bindings.bash" ]] && . "/usr/share/doc/fzf/examples/key-bindings.bash"
 
 #---------------------------------------------------
