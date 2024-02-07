@@ -34,13 +34,9 @@ export LESS_TERMCAP_so=$'\e[1;33m\033[40m'
 export LESS_TERMCAP_us=$'\e[1;1;31m'
 export LESS_TERMCAP_ue=$'\e[0m'
 
-# if running bash
-if [ -n "$BASH_VERSION" ]; then
-    # include .bashrc if it exists
-    if [ -f "$HOME/.bashrc" ]; then
-	. "$HOME/.bashrc"
-    fi
-fi
+# This makes symlinks work on windows with git-bash if developer mode is
+# enabled or the process is run as admin.
+export MSYS=winsymlinks:nativestrict
 
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ] ; then
