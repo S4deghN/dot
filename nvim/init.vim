@@ -171,7 +171,7 @@ set termguicolors
 
 color arc-green
 hi Normal guibg=#202020
-" hi Visual guibg=#232729
+hi Visual guibg=#333739
 " hi VertSplit guifg=#232729
 " hi MsgArea guibg=#000000
 
@@ -206,6 +206,7 @@ noremap zs    :%s/\s\+$//e<cr>''
 
 cmap <C-x>b <C-r>=expand('%:p')<cr>
 cmap <C-x>d <C-r>=expand('%:p:h').'/'<cr>
+cmap <C-x>r redir<space>@l\|<space>\|redir<space>end<C-left><C-left>
 
 tmap <C-]> <C-\><C-n>
 

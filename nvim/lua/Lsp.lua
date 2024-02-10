@@ -337,6 +337,7 @@ function GetDiag()
     return str
 end
 
+
 -- -- it should not be here!
 -- function GitSignsStatus()
 --     local git_info = vim.b.gitsigns_status_dict
@@ -362,10 +363,12 @@ end
 ------------------------------------------------------------
 -- lsp
 ------------------------------------------------------------
-
 function GetRunningLsp()
     local str = ""
     vim.lsp.for_each_buffer_client(0, function(client, client_id, bufnr)
+        if #str > 1 then
+            str = str .. " "
+        end
         str = str .. client.name
     end)
     return str
@@ -410,6 +413,19 @@ local lsp_flags = {
     -- This is the default in Nvim 0.7+
     debounce_text_changes = 150,
 }
+
+-- start an arbitrary sever using the default configurations.
+-- TODO: make this function prompt for `cmd` and `root_dir`.
+function LspStartServer(name, root)
+vim.lsp.start({
+    name = name[1],
+    cmd = name,
+    root_dir = vim.fs.dirname(vim.fs.find(root, { upward = true })[1]),
+    capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol .make_client_capabilities()),
+    on_attach = on_attach,
+})
+end
+
 
 require("lspconfig").bashls.setup {
     on_attach    = on_attach,
