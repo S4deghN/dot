@@ -38,12 +38,18 @@ export LESS_TERMCAP_ue=$'\e[0m'
 # enabled or the process is run as admin.
 export MSYS=winsymlinks:nativestrict
 
-# set PATH so it includes user's private bin if it exists
+# if running bash
+if [ -n "$BASH_VERSION" ]; then
+    # include .bashrc if it exists
+    if [ -f "$HOME/.bashrc" ]; then
+	. "$HOME/.bashrc"
+    fi
+fi
+
 if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
 
-# set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
@@ -59,7 +65,3 @@ fi
 if [ -d "$HOME/go/bin" ] ; then
     PATH="$HOME/go/bin:$PATH"
 fi
-
-# if [ -d "/home/s4/.arduino15/packages/STMicroelectronics/tools/STM32Tools/2.1.1" ] ; then
-#    PATH="/home/s4/.arduino15/packages/STMicroelectronics/tools/STM32Tools/2.1.1:$PATH"
-# fi

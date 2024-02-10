@@ -2,10 +2,6 @@
 # ~/.bashrc
 #
 
-if [ -f ~/.profile ]; then
-    source ~/.profile
-fi
-
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
@@ -60,7 +56,7 @@ shopt -s histappend
 export HISTSIZE=50000
 
 # Stupid!!!!
-if [[ "$OSTYPE" == "LINUX" ]]; then
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
     if [ "$DISPLAY" ]; then
         activ_win_id=$(xprop -root _NET_ACTIVE_WINDOW)
         activ_win_id=$(echo "$activ_win_id" | awk '{ activ_win_id=substr($0,41,9); print activ_win_id; }' )
@@ -115,7 +111,7 @@ alias pac-view="pacman -Slq | fzf --preview 'pacman -Si {}' --layout=reverse"
 # Debian
 [[ -f "/usr/share/doc/fzf/examples/key-bindings.bash" ]] && . "/usr/share/doc/fzf/examples/key-bindings.bash"
 # Windows
-[[ -f "/usr/share/doc/fzf/examples/key-bindings.bash" ]] && . "/usr/share/doc/fzf/examples/key-bindings.bash"
+# [[ -f "/usr/share/doc/fzf/examples/key-bindings.bash" ]] && . "/usr/share/doc/fzf/examples/key-bindings.bash"
 
 #---------------------------------------------------
 # completions
