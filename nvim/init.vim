@@ -1,7 +1,11 @@
 " -----------------------------------------------
 " --- options ---
 " -----------------------------------------------
+"TODO:
+" checkout `quickfixtextfunc`
 set wildmode=longest:list      " behave like bash
+set pumheight=5
+set previewheight=10
 set wildignorecase
 set ttimeoutlen=0              " timeout for key sequences of terminal like esc and such
 set noswapfile
@@ -19,7 +23,7 @@ set ignorecase
 set smartcase
 set nomodeline
 " set nowrap                     " Neovim become extremely slow and unresponsive editing large file with linewrap on
-set showbreak=>               " Break line symbol
+set showbreak=>                " Break line symbol
 set nosmarttab                 " when unset you can delete inserted tab with C-w without deleting the word before it
 set smartindent
 set expandtab                  " convert tabs to spaces
@@ -28,7 +32,7 @@ set tabstop=4
 set foldmethod=marker
 set diffopt=filler,internal,algorithm:patience,indent-heuristic
 set fillchars=diff:╱
-set iskeyword-=_
+" set iskeyword-=_
 set virtualedit=block
 match CursorLine '\s\+$'       " mark trailing spaces as errors using highlight group CursorLine
 
@@ -45,7 +49,7 @@ augroup end
 " -----------------------------------------------
 " --- statusline ---
 " -----------------------------------------------
-set laststatus=3
+set laststatus=2
 if &laststatus
     set showcmdloc=statusline
 
@@ -93,9 +97,7 @@ call plug#begin()
     Plug 'tpope/vim-fugitive'
     Plug 'jreybert/vimagit'
 
-    Plug 'jackguo380/vim-lsp-cxx-highlight'
-
-    Plug 'gruvbox-community/gruvbox'
+    " Plug 'jackguo380/vim-lsp-cxx-highlight'
 
     Plug 'ton/vim-alternate'
 
@@ -168,10 +170,10 @@ lua require 'Lsp'
 set termguicolors
 
 color arc-green
-" hi Normal guibg=#191919
-hi Visual guibg=#232729
-hi VertSplit guifg=#232729
-hi MsgArea guibg=#101010
+hi Normal guibg=#202020
+" hi Visual guibg=#232729
+" hi VertSplit guifg=#232729
+" hi MsgArea guibg=#000000
 
 " -----------------------------------------------
 " --- keymaps ---
@@ -184,8 +186,8 @@ noremap gy   "+y
 noremap gY   "+Y
 noremap gp   "+]p
 noremap gP   "+]P
-noremap L    $
-noremap H    ^
+" noremap L    $
+" noremap H    ^
 noremap <F4> [I:let nr = input("Which one: ")<Bar>exe "normal " .. nr .. "[\t"<cr>
 noremap n     nzz
 noremap N     Nzz
@@ -239,6 +241,10 @@ inoremap <C-z> <esc>b1z=`]a
 " if not using terminal
 inoremap <C-S-v> <C-r>+
 xnoremap <C-S-v> <C-r>+
+
+" emacs :)
+noremap <M-x> :
+cnoremap <M-x> <C-c>
 
 " -----------------------------------------------
 " --- functions ---

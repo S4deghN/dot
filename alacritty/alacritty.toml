@@ -104,7 +104,7 @@ multiplier = 3
 
 [shell]
 args = ["--login"]
-program = "C:/Program Files/Git/usr/bin/bash"
+program = "/usr/bin/bash"
 
 [window]
 decorations = "full"
