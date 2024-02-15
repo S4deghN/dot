@@ -4,6 +4,7 @@
 "TODO:
 " checkout `quickfixtextfunc`
 set wildmode=longest:list      " behave like bash
+set completeopt=menu,menuone,noselect
 set pumheight=5
 set previewheight=10
 set wildignorecase
@@ -15,6 +16,7 @@ set mouse+=a                   " mouse support
 set shortmess=aoOFtT           " using a custome command instead of `F` option
 " set guicursor=
 set signcolumn=yes:1
+set scrolloff=7
 set textwidth=90
 set cmdwinheight=12            " the special window that opens with q: or ctrl-f in cmd mode.
 set splitbelow
@@ -45,6 +47,8 @@ augroup FormatGroup
     " TODO: find a better workaround.
     autocmd BufEnter * set formatoptions=tcrqljn1p " defaults: tcroql
 augroup end
+
+let mapleader=" "
 
 " -----------------------------------------------
 " --- statusline ---
@@ -157,9 +161,10 @@ noremap \h       <cmd>FzfLua help_tags<cr>
 " --- GitSgings ---
 lua require 'gitsigns'.setup()
 
-nnoremap <leader>gg :Gitsigns<space>
-nnoremap ]g         kj<cmd>Gitsigns next_hunk<cr><cmd>Gitsigns preview_hunk<cr>
-nnoremap [g         jk<cmd>Gitsigns prev_hunk<cr><cmd>Gitsigns preview_hunk<cr>
+noremap <leader>gg :Gitsigns<space>
+noremap <leader>gp <cmd>Gitsigns preview_hunk_inline<cr>
+noremap ]g         kj<cmd>Gitsigns next_hunk<cr><cmd>Gitsigns preview_hunk<cr>
+noremap [g         jk<cmd>Gitsigns prev_hunk<cr><cmd>Gitsigns preview_hunk<cr>
 
 " --- lsp ---
 lua require 'Lsp'
@@ -170,7 +175,7 @@ lua require 'Lsp'
 set termguicolors
 
 color arc-green
-hi Normal guibg=#202020
+hi Normal guibg=#191919
 hi Visual guibg=#333739
 " hi VertSplit guifg=#232729
 " hi MsgArea guibg=#000000
@@ -178,8 +183,6 @@ hi Visual guibg=#333739
 " -----------------------------------------------
 " --- keymaps ---
 " -----------------------------------------------
-let mapleader=" "
-
 noremap '    `
 noremap Y    y$
 noremap gy   "+y

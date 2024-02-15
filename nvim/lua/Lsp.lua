@@ -29,9 +29,6 @@ vim.api.nvim_create_autocmd({ "VimLeave" }, {
 ------------------------------------------------------------
 -- cmp
 ------------------------------------------------------------
---   פּ ﯟ   some other good icons
-
-
 local kind_icons = {
   Text = " ",
   Method = "󰆧 ",
@@ -61,36 +58,6 @@ local kind_icons = {
   TypeParameter = "󰅲 ",
 }
 
--- local
---  icons = {              kind_icons = {
---  File          = "󰈙 ",  Text = ' ',
---  Module        = " ",  Method = ' ',
---  Namespace     = "󰌗 ",  Namespace = "󰌗 ",
---  Package       = " ",  Constructor = ' ',
---  Class         = "󰌗 ",  Field = '',
---  Method        = "󰆧 ",  Variable = ' ',
---  Property      = " ",  Class = ' ',
---  Field         = " ",  Interface = ' ',
---  Constructor   = " ",  Module = ' ',
---  Enum          = "󰕘",   Property = ' ',
---  Interface     = "󰕘",   Unit = ' ',
---  Function      = "󰊕 ",  Value = ' ',
---  Variable      = "󰆧 ",  Enum = ' ',
---  Constant      = "󰏿 ",  Keyword = ' ',
---  String        = " ",  Snippet = ' ',
---  Number        = "󰎠 ",  Color = ' ',
---  Boolean       = "◩ ",  File = ' ',
---  Array         = "󰅪 ",  Reference = ' ',
---  Object        = "󰅩 ",  Folder = ' ',
---  Key           = "󰌋 ",  EnumMember = ' ',
---  Null          = "󰟢 ",  Constant = ' ',
---  EnumMember    = " ",  Struct = ' ',
---  Struct        = "󰌗 ",  Event = ' ',
---  Event         = " ",  Operator = ' ',
---  Operator      = "󰆕 ",  TypeParameter = ' ',
---  TypeParameter = "󰊄 ",  Function = ' ',
---  },                     }
-
 -- find more here: https://www.nerdfonts.com/cheat-sheet
 
 -- ╭──────╮
@@ -112,8 +79,7 @@ local border = {
 -- local border = { '╔', '═', '╗', '║', '╝', '═', '╚', '║' }
 
 -- Setup nvim-cmp.
-local
-cmp = require("cmp");
+local cmp = require("cmp");
 cmp.setup {
     snippet = {
         -- REQUIRED - you must specify a snippet engine
@@ -124,6 +90,7 @@ cmp.setup {
             -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
         end,
     },
+    preselect = cmp.PreselectMode.Item,
     completion = {
         -- autocomplete = false,
         -- completeopt = 'menu,menuone,noisert'
@@ -154,12 +121,12 @@ cmp.setup {
     mapping = cmp.mapping.preset.insert({
         ['<C-n>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
-                cmp.select_next_item()
+                cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
             else
                 cmp.complete()
             end
         end),
-        ['<C-p>'] = cmp.mapping.select_prev_item(),
+        ['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
         ['<C-l>'] = cmp.mapping(function (fallback)
             if cmp.visible_docs() then
                 cmp.close_docs()
@@ -176,10 +143,11 @@ cmp.setup {
         ['<C-e>'] = cmp.mapping.abort(),
     }),
     formatting = {
-        fields = { "kind", "abbr", "menu" },
+        -- fields = { "kind", "abbr", "menu" },
+        fields = { "menu", "abbr" },
         format = function(entry, item)
             -- Kind icons
-            item.kind = string.format("%s", kind_icons[item.kind])
+            -- item.kind = string.format("%s", kind_icons[item.kind])
             item.menu = ({
                 nvim_lsp = "[LSP]",
                 nvim_lsp_signature_help = "[Sig]",
@@ -189,33 +157,10 @@ cmp.setup {
                 path = "[Path]",
             })[entry.source.name]
 
-            local fixed_width = 60
-            -- Set 'fixed_width' to false if not provided.
-            fixed_width = fixed_width or false
-
-            -- Get the completion entry text shown in the completion window.
-            local content = item.abbr
-
-            -- Set the fixed completion window width.
-            if fixed_width then
-                vim.o.pumwidth = fixed_width
-            end
-
-            -- Get the width of the current window.
-            local win_width = vim.api.nvim_win_get_width(0)
-
-            -- Set the max content width based on either: 'fixed_width'
-            -- or a percentage of the window width, in this case 20%.
-            -- We subtract 10 from 'fixed_width' to leave room for 'kind' fields.
-            local max_content_width = fixed_width and fixed_width - 10 or math.floor(win_width * 0.2)
-
-            -- Truncate the completion entry text if it's longer than the
-            -- max content width. We subtract 3 from the max content width
-            -- to account for the "..." that will be appended to it.
-            if #content > max_content_width then
-                item.abbr = vim.fn.strcharpart(content, 0, max_content_width - 3) .. "..."
+            if #item.abbr > 35 then
+                item.abbr = string.sub(item.abbr, 0, 35-2) .. ".."
             else
-                item.abbr = content .. (" "):rep(max_content_width - #content)
+                item.abbr = item.abbr .. (" "):rep(35 - #item.abbr)
             end
 
             return item
