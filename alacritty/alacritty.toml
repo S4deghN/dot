@@ -39,7 +39,7 @@ shape = "Block"
 TERM = "xterm-256color"
 
 [font]
-size = 13
+size = 15
 
 [font.normal]
 # ibm plex mono
@@ -56,17 +56,12 @@ y = 0
 [[keyboard.bindings]]
 action = "Paste"
 key = "V"
-mods = "Control"
+mods = "Control|Shift"
 
 [[keyboard.bindings]]
 action = "Copy"
 key = "C"
-mods = "Control"
-
-[[keyboard.bindings]]
-action = "PasteSelection"
-key = "Insert"
-mods = "Shift"
+mods = "Control|Shift"
 
 [[keyboard.bindings]]
 action = "ResetFontSize"
@@ -95,8 +90,8 @@ action = "PasteSelection"
 mouse = "Middle"
 
 [[mouse.bindings]]
-# action = "copySelection"
-# mouse = "Right"
+action = "copySelection"
+mouse = "Right"
 
 [scrolling]
 history = 10000
@@ -111,7 +106,7 @@ decorations = "full"
 decorations_theme_variant = "Dark"
 dynamic_padding = false
 dynamic_title = true
-opacity = 1
+opacity = 0.95
 
 [window.class]
 general = "Alacritty"
@@ -119,7 +114,7 @@ instance = "Alacritty"
 
 [window.dimensions]
 columns = 140
-lines = 40
+lines = 38
 
 [window.padding]
 x = 0

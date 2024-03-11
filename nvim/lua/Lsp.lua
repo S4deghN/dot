@@ -64,16 +64,16 @@ local kind_icons = {
 -- │ test │
 -- ╰──────╯
 
-local border = {
-    { "╭", "FloatBorder" },
-    { "─", "FloatBorder" },
-    { "╮", "FloatBorder" },
-    { "│", "FloatBorder" },
-    { "╯", "FloatBorder" },
-    { "─", "FloatBorder" },
-    { "╰", "FloatBorder" },
-    { "│", "FloatBorder" },
-}
+-- local border = {
+--     { "╭", "FloatBorder" },
+--     { "─", "FloatBorder" },
+--     { "╮", "FloatBorder" },
+--     { "│", "FloatBorder" },
+--     { "╯", "FloatBorder" },
+--     { "─", "FloatBorder" },
+--     { "╰", "FloatBorder" },
+--     { "│", "FloatBorder" },
+-- }
 
 -- local border = { '┌', '─', '┐', '│', '┘', '─', '└', '│' }
 -- local border = { '╔', '═', '╗', '║', '╝', '═', '╚', '║' }
@@ -108,12 +108,12 @@ cmp.setup {
         -- completion = cmp.config.window.bordered(),
         -- documentation = cmp.config.window.bordered(),
         completion = {
-            border = border,
+            -- border = border,
             winhighlight = 'Normal:NormalFloat,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Type',
             zindex = 100,
         },
         documentation = {
-            border = border,
+            -- border = border,
             winhighlight = 'Normal:NormalFloat,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Type',
             zindex = 50,
         },
@@ -157,10 +157,10 @@ cmp.setup {
                 path = "[Path]",
             })[entry.source.name]
 
-            if #item.abbr > 35 then
-                item.abbr = string.sub(item.abbr, 0, 35-2) .. ".."
+            if #item.abbr > 37 then
+                item.abbr = string.sub(item.abbr, 0, 37)
             else
-                item.abbr = item.abbr .. (" "):rep(35 - #item.abbr)
+                item.abbr = item.abbr .. (" "):rep(37 - #item.abbr)
             end
 
             return item
@@ -212,6 +212,7 @@ vim.diagnostic.config({
     --     source = true,
     -- },
     float = {
+        header = "",
         format = function(diagnostic)
             print(vim.inspect(diagnostic))
             return string.format("%s (%s)", diagnostic.message, diagnostic.code)

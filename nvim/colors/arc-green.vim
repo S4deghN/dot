@@ -302,7 +302,7 @@ hi Visual guifg=NONE guibg=#08454D gui=NONE
 hi Visual guibg=#232729
 hi VertSplit guifg=#232729
 
-hi MsgArea guibg=#1c1c1c
+" hi MsgArea guibg=#1c1c1c
 
 hi VertSplit guifg=#000000       guibg=NONE         gui=NONE
 hi! link FloatBorder VertSplit
@@ -310,7 +310,7 @@ hi! link CmpPmenuBorder VertSplit
 " hi Pmenu guibg=#031C20
 " hi! link Pmenu Visual
 " hi! link PmenuSel Pmenu
-hi pmenuSel guibg=#232729
+hi pmenuSel guibg=#333333
 hi PmenuThumb guibg=fg
 
 hi Folded guifg=#878787 guibg=bg

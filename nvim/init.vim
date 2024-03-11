@@ -105,6 +105,14 @@ call plug#begin()
 
     Plug 'ton/vim-alternate'
 
+    Plug 'romainl/Apprentice'
+    Plug 'axvr/raider.vim'
+    Plug 'blazkowolf/gruber-darker.nvim'
+    Plug 'morhetz/gruvbox'
+    Plug 'vim-scripts/vim_colors'
+    Plug 'vim-scripts/railscasts'
+    Plug 'voithos/vim-colorpack'
+
     if has("nvim")
         Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
 
@@ -144,6 +152,10 @@ xmap gw y<cmd>Rg "<C-r>""<cr>
 
 " --- alternate-file ---
 let g:AlternatePaths = ['../itf', '../source', '../include', '../inc', '../src', '.', '..']
+let g:AlternateExtensionMappings = [
+            \{'.cpp' : '.h', '.h' : '.hpp', '.hpp' : '.cpp', '.hxx' : '.cpp'},
+            \{'.c': '.h', '.h': '.c'}
+            \]
 
 " --- fzf-lua ---
 noremap \\       <cmd>FzfLua<cr>
@@ -175,10 +187,64 @@ lua require 'Lsp'
 set termguicolors
 
 color arc-green
-hi Normal guibg=#191919
+hi Normal guibg=#202020
+hi Normal guibg=#2E3436
+hi Normal guibg=#232829
+hi Normal guibg=#1E2223
+hi Normal guibg=NONE
+" hi Normal guibg=#191D1E
+hi NormalFloat guibg=#232829
 hi Visual guibg=#333739
+hi pmenusel guibg=#2E3436
 " hi VertSplit guifg=#232729
 " hi MsgArea guibg=#000000
+
+" color apprentice
+" hi SignColumn guibg=bg
+" hi Delimiter guifg=fg guibg=NONE
+" hi Delimiter guibg=none
+" hi Function guifg=#D5D592
+" hi Function guifg=#d0d08c
+" hi Search guibg=#D5D592
+" hi  GitSignsAdd       guifg=#8F9D6A     guibg=NONE    gui=NONE cterm=NONE
+" hi  GitSignsDelete    guifg=#af5f5f     guibg=NONE    gui=NONE cterm=NONE
+" hi  GitSignsChange    guifg=#789AC0     guibg=NONE    gui=NONE cterm=NONE
+" hi! link @lsp.type.nameSpace Macro
+" hi statusline guibg=#444444 guifg=#87875f
+" hi statuslineNC guifg=bg
+" hi folded guibg=bg
+" " hi NormalFloat guibg=#393939
+" " hi Function guifg=PaleGreen
+" " hi Statement gui=none
+" " hi Type gui=none
+
+" color gruber-darker
+" hi Normal guibg=#333333
+
+" color oblivion
+" hi SignColumn guibg=bg
+" hi Statement   gui=none
+" hi Conditional gui=none
+" hi Keyword     gui=none
+" hi Type        gui=none
+
+" color desert
+" hi Normal guibg=NONE
+" hi NonText guibg=bg
+" hi Function guifg=lightgreen
+" hi Statement gui=NONE
+" hi Type gui=NONE
+" hi Statement guifg=#f0e68c
+" hi PreProc   guifg=#cd5c5c
+" hi Type      guifg=#bdb76b
+" hi  GitSignsAdd       guifg=lightgreen     guibg=NONE    gui=NONE cterm=NONE
+" hi  GitSignsDelete    guifg=#cd5c5c     guibg=NONE    gui=NONE cterm=NONE
+" hi  GitSignsChange    guifg=#6dceeb     guibg=NONE    gui=NONE cterm=NONE
+
+" color naysayer
+" hi Normal guibg=NONE
+" hi NonText guibg=bg
+" hi EndOfBuffer guibg=bg
 
 " -----------------------------------------------
 " --- keymaps ---

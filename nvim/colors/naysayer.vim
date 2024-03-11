@@ -23,7 +23,7 @@ highlight! link Float Number
 highlight! link Constant Number
 
 highlight! link Identifier Normal
-highlight! link Function Statement
+" highlight! link Function Statement
 
 highlight! Statement guifg=#eeeeee guibg=NONE gui=NONE
 highlight! link Conditional Statement
@@ -84,7 +84,7 @@ highlight VertSplit                  guifg=#000000       guibg=NONE         gui=
 highlight! EndOfBuffer               guifg=#042327       guibg=#042327      gui=NONE
 
 " Addons
-hi NormalFloat guibg=bg
+" hi NormalFloat guibg=bg
 hi CmpPmenuBorder guifg=#000000
 hi SignColumn guibg=bg
 hi StatusLine gui=NONE guibg=#08454D
@@ -94,7 +94,7 @@ hi Folded guifg=#878787 guibg=bg
 hi QuickFixLine guibg=#031E21
 hi Pmenu guibg=#031C20
 hi! link Pmenu Visual
-hi! link PmenuSel Pmenu
+" hi! link PmenuSel Pmenu
 hi PmenuThumb guibg=fg
 hi IncSearch     guibg=#ee799f guifg=#cfcfc2 gui=NONE
 hi Search        guibg=#218058 guifg=#cfcfc2 gui=NONE
