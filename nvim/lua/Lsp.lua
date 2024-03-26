@@ -346,6 +346,8 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', 'gs',    vim.lsp.buf.signature_help,  bufopts)
     vim.keymap.set('n', 'gr',    vim.lsp.buf.references,      bufopts)
     vim.keymap.set('n', 'gR',    vim.lsp.buf.rename,          bufopts)
+    vim.keymap.set('n', 'gli',   vim.lsp.buf.incoming_calls,  bufopts)
+    vim.keymap.set('n', 'glo',   vim.lsp.buf.outgoing_calls,  bufopts)
     vim.keymap.set('n', 'glt',   vim.lsp.buf.type_definition, bufopts)
     vim.keymap.set('n', 'gla',   vim.lsp.buf.code_action,     bufopts)
     vim.keymap.set('n', 'glf',   vim.lsp.buf.format,          bufopts)
@@ -484,102 +486,21 @@ require("lspconfig").clangd.setup {
     flags = lsp_flags,
     cmd = {
         "clangd",
-        "--clang-tidy",
+        -- "--clang-tidy",
         "--all-scopes-completion=true", -- If set to true, code completion will include index symbols that are not defined in the scopes (e.g. namespaces) visible from the code completion point. Such completions can insert scope qualifiers
         "--completion-style=detailed",
         "--function-arg-placeholders",
         "--header-insertion=iwyu",      -- add headers when accepting completion
         "--header-insertion-decorators",
-        "-j=2",
+        "-j=1",
         -- "--malloc-trim",
         "--background-index", --index in background and persist on disk
         "--enable-config", --enable usage of .clangd config file
+        "--pch-storage=disk",
+        -- "--query-driver=/opt/clang7/bin/clang++",
     },
     -- root_dir = function()
     --     print("clangd-Rootdir", vim.loop.cwd())
     --     return vim.loop.cwd()
     -- end,
 }
-
--- the extension calls require("lspconfig").clangd.setup{} automatically
--- require("clangd_extensions").setup {
---     server = {
---         -- options to pass to nvim-lspconfig
---         -- i.e. the arguments to require("lspconfig").clangd.setup({})
---         on_attach    = on_attach,
---         capabilities = capabilities,
---         flags        = lsp_flags,
---         cmd          = {
---             "clangd",
---             "--clang-tidy",
---             -- "-j=5",
---             "--background-index", --index in background and persist on disk
---         },
---         -- root_dir     = function()
---         --     print("clangd-Rootdir", vim.loop.cwd())
---         --     return vim.loop.cwd()
---         -- end,
---     },
---     extensions = {
---         -- defaults:
---         -- Automatically set inlay hints (type hints)
---         autoSetHints = true,
---         -- These apply to the default ClangdSetInlayHints command
---         inlay_hints = {
---             -- Only show inlay hints for the current line
---             only_current_line = false,
---             -- Event which triggers a refersh of the inlay hints.
---             -- You can make this "CursorMoved" or "CursorMoved,CursorMovedI" but
---             -- not that this may cause  higher CPU usage.
---             -- This option is only respected when only_current_line and
---             -- autoSetHints both are true.
---             only_current_line_autocmd = "CursorHold",
---             -- whether to show parameter hints with the inlay hints or not
---             show_parameter_hints = true,
---             -- prefix for parameter hints
---             parameter_hints_prefix = " ⟶ ",
---             -- prefix for all the other hints (type, chaining)
---             other_hints_prefix = "=> ",
---             -- whether to align to the length of the longest line in the file
---             max_len_align = false,
---             -- padding from the left if max_len_align is true
---             max_len_align_padding = 1,
---             -- whether to align to the extreme right or not
---             right_align = false,
---             -- padding from the right if right_align is true
---             right_align_padding = 7,
---             -- The color of the hints
---             highlight = "Comment",
---             -- The highlight group priority for extmark
---             priority = 100,
---         },
---         ast = {
---             role_icons = {
---                 type = "",
---                 declaration = "",
---                 expression = "",
---                 specifier = "",
---                 statement = "",
---                 -- [--[[ "template argument" ]]] = "",
---             },
---             kind_icons = {
---                 Compound = "",
---                 RECOVERY = "",
---                 TRANSLATIONUNIT = "",
---                 PACKEXPANSION = "",
---                 TEMPLATETYPEPARM = "",
---                 TEMPLATETEMPLATEPARM = "",
---                 TEMPLATEPARAMOBJECT = "",
---             },
---             HIGHLIGHTS = {
---                 DETAIL = "COMMENT",
---             },
---         },
---         MEMORY_USAGE = {
---             BORDER = "NONE",
---         },
---         SYMBOL_INFO = {
---             BORDER = "NONE",
---         },
---     },
--- }

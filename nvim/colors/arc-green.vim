@@ -241,7 +241,10 @@ hi  Statement       guifg=#CF6A4C       "gui=italic cterm=italic
 hi  Comment         guifg=#5B6268     gui=NONE cterm=NONE
 hi  Ignore          guibg=#1c2020 guifg=NONE   cterm=NONE
 hi! link @lsp.type.comment Ignore
-hi! link @lsp.type.nameSpace Macro
+hi! link @lsp.type.nameSpace Type
+" hi @lsp.type.nameSpace guifg=#6B7278
+
+hi! link @keyword.modifier.cpp Type
 
 hi  Error           guibg=NONE          guifg=#af5f5f gui=underline cterm=underline
 hi  ErrorMsg        guifg=#af5f5f

@@ -5,8 +5,18 @@ live_config_reload = true
 draw_bold_text_with_bright_colors = true
 
 [colors.primary]
-background = "#191919"
+background = "#1a1a1a"
 foreground = "#9aa9aa"
+
+[colors.normal]
+black   = "#191920"
+blue    = "#789AC0"
+cyan    = "#68BEA2"
+green   = "#8F9D6A"
+magenta = "#b16286"
+red     = "#CF6A4C"
+white   = "#6B7278"
+yellow  = "#CDA869"
 
 [colors.bright]
 black   = "#747C84"
@@ -18,15 +28,6 @@ red     = "#CF6A4C"
 white   = "#BCBCBC"
 yellow  = "#CDA869"
 
-[colors.normal]
-black   = "#000000"
-blue    = "#789AC0"
-cyan    = "#68BEA2"
-green   = "#8F9D6A"
-magenta = "#b16286"
-red     = "#CF6A4C"
-white   = "#6B7278"
-yellow  = "#CDA869"
 
 [cursor]
 blink_interval = 450
@@ -39,7 +40,7 @@ shape = "Block"
 TERM = "xterm-256color"
 
 [font]
-size = 15
+size = 14
 
 [font.normal]
 # ibm plex mono
@@ -106,7 +107,7 @@ decorations = "full"
 decorations_theme_variant = "Dark"
 dynamic_padding = false
 dynamic_title = true
-opacity = 0.95
+opacity = 1
 
 [window.class]
 general = "Alacritty"

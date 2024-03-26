@@ -14,7 +14,7 @@ set undofile
 set undodir=/tmp/$USER.vimundo " Undo file shouldn't replace version control
 set mouse+=a                   " mouse support
 set shortmess=aoOFtT           " using a custome command instead of `F` option
-" set guicursor=
+set guicursor=
 set signcolumn=yes:1
 set scrolloff=7
 set textwidth=90
@@ -53,7 +53,7 @@ let mapleader=" "
 " -----------------------------------------------
 " --- statusline ---
 " -----------------------------------------------
-set laststatus=2
+set laststatus=0
 if &laststatus
     set showcmdloc=statusline
 
@@ -93,17 +93,23 @@ call plug#begin()
     Plug 'normen/vim-pio'
     Plug 'jremmen/vim-ripgrep'
     Plug 'tpope/vim-dispatch'
+    Plug 'tpope/vim-eunuch'
+    Plug 'tpope/vim-abolish'
     " Plug 'maxbrunsfeld/vim-yankstack'
     Plug 'embear/vim-localvimrc'
     Plug 's4deghn/vim-cool' " smarter search highlight.
-    Plug 'ap/vim-css-color'
+    Plug 'wellle/context.vim'
+
+    " Plug 'ap/vim-css-color'
     " TODO: choose one!
     Plug 'tpope/vim-fugitive'
     Plug 'jreybert/vimagit'
 
-    " Plug 'jackguo380/vim-lsp-cxx-highlight'
+    Plug 'jackguo380/vim-lsp-cxx-highlight'
 
     Plug 'ton/vim-alternate'
+
+    Plug 'pechorin/any-jump.vim'
 
     Plug 'romainl/Apprentice'
     Plug 'axvr/raider.vim'
@@ -115,6 +121,13 @@ call plug#begin()
 
     if has("nvim")
         Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
+
+        " Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+        " Plug 'nvim-treesitter/nvim-treesitter-context'
+
+        Plug 'brenoprata10/nvim-highlight-colors'
+
+        Plug 'kelly-lin/ranger.nvim'
 
         Plug 'sindrets/diffview.nvim'
         Plug 'lewis6991/gitsigns.nvim'
@@ -131,6 +144,9 @@ call plug#begin()
             Plug 'saadparwaiz1/cmp_luasnip'
     endif
 call plug#end()
+
+lua require('nvim-highlight-colors').setup({ enable_named_colors = false, render = 'background'})
+lua require("ranger-nvim").setup({ replace_netrw = false, enable_cmds = true })
 
 " --- easy-align ---
 xmap ga <plug>(EasyAlign)
@@ -158,11 +174,14 @@ let g:AlternateExtensionMappings = [
             \]
 
 " --- fzf-lua ---
+lua require('fzf-lua').setup{ winopts = { fullscreen=true, preview = { layout = 'flex', horizontal='right:50%' } } }
+
 noremap \\       <cmd>FzfLua<cr>
 noremap \<space> <cmd>FzfLua resume<cr>
 noremap \f       <cmd>FzfLua files<cr>
 noremap \b       <cmd>FzfLua buffers<cr>
 noremap \w       <cmd>FzfLua grep_cword<cr>
+xnoremap \w      <cmd>FzfLua grep_visual<cr>
 noremap \W       <cmd>FzfLua live_grep<cr>
 noremap \r       <cmd>FzfLua lsp_references<cr>
 noremap \d       <cmd>FzfLua lsp_definitions<cr>
@@ -175,11 +194,14 @@ lua require 'gitsigns'.setup()
 
 noremap <leader>gg :Gitsigns<space>
 noremap <leader>gp <cmd>Gitsigns preview_hunk_inline<cr>
+noremap <leader>gb <cmd>Gitsigns blame_line<cr>
+noremap ]G         <cmd>Gitsigns preview_hunk<cr>
 noremap ]g         kj<cmd>Gitsigns next_hunk<cr><cmd>Gitsigns preview_hunk<cr>
 noremap [g         jk<cmd>Gitsigns prev_hunk<cr><cmd>Gitsigns preview_hunk<cr>
 
 " --- lsp ---
 lua require 'Lsp'
+lua require'treesitter-context'.setup{}
 
 " -----------------------------------------------
 " --- colors ---
@@ -288,6 +310,7 @@ nmap <leader>e :e<space><C-x>d
 nmap <leader>E :Exp<cr>
 nmap <leader>h :vert h<space>
 nmap <C-w>t    <C-w>v:term<cr>
+nmap <leader>c :cd <C-x>d<cr>
 
 nnoremap <C-g>   1<C-g>
 nnoremap *       *N

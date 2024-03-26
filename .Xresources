@@ -1,6 +1,49 @@
 Xcursor.size: 16
 Xft.dpi: 96
 
-/* XTerm.vt100.faceName: Iosevka Fixed:size=14:antialias=false */
-/* XTerm.vt100.foreground: rgb:c5/c5/c5 */
-/* XTerm.vt100.background: rgb:20/23/25 */
+## https://unix.stackexchange.com/questions/194696/alt-and-alt-and-possibly-some-other-keys-not-working-in-elinks
+*metaSendsEscape: true
+*disallowedWindowOps: 20,21,SetXprop
+*selectToClipboard: true
+## https://wiki.archlinux.org/title/Xterm#Fix_the_backspace_key
+*backarrowKey: false
+*ttyModes: erase ^?
+
+*translations: #override \n\
+        Ctrl Shift <Key>C: copy-selection(CLIPBOARD) \n\
+        Ctrl Shift <Key>V: insert-selection(CLIPBOARD)
+
+*faceName: JetBrainsMono Nerd Font:size=13:antialias=true,Symbols Nerd Font Mono:size=13
+/* *faceNameDoublesize: Symbols Nerd Font Mono */
+/* urxvt -fn 'xft:DejaVu Sans:pixelsize=14,xft:Symbola,xft:Noto Emoji:minspace=False' */
+
+*background:   #1A1A1A
+*foreground:   #9AA9AA
+! special
+*.foreground:   #9aa9aa
+*.background:   #1a1a1a
+*.cursorColor:  #8ec07c
+! black
+*.color0:       #191919
+*.color8:       #747C84
+! red
+*.color1:       #CF6A4C
+*.color9:       #CF6A4C
+! green
+*.color2:       #8F9D6A
+*.color10:      #87AF87
+! yellow
+*.color3:       #CDA869
+*.color11:      #CDA869
+! blue
+*.color4:       #789AC0
+*.color12:      #789AC0
+! magenta
+*.color5:       #85678f
+*.color13:      #b294bb
+! cyan
+*.color6:       #5e8d87
+*.color14:      #8abeb7
+! white
+*.color7:       #707880
+*.color15:      #c5c8c6

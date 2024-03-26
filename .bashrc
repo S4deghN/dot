@@ -113,7 +113,7 @@ alias pac-view="pacman -Slq | fzf --preview 'pacman -Si {}' --layout=reverse"
 # Windows
 # [[ -f "/usr/share/doc/fzf/examples/key-bindings.bash" ]] && . "/usr/share/doc/fzf/examples/key-bindings.bash"
 
-export FZF_DEFAULT_COMMAND="find . -type f -not -path '*/\.git/*' -not -path '*/\.cargo/*'"
+export FZF_DEFAULT_COMMAND="find . -type f -not -path '*/\.git/*' -not -path '*/\.cargo/*' -not -path '*/\.ccls-cache/*'"
 export FZF_COLORS="bg+:-1,fg:gray,fg+:white,border:gray,spinner:0,hl:yellow,header:blue,info:green,pointer:red,marker:blue,prompt:white:regular,hl+:red"
 export FZF_DEFAULT_OPTS="--prompt '╰─> ' --height 50% --reverse --info inline --color=$FZF_COLORS"
 
