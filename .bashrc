@@ -52,8 +52,8 @@ export HISTCONTROL=ignoreboth:erasedups
 # HISTFILE variable when the shell exits, rather than overwriting the file. (in
 # order to prevent the issue of lossig bash session history when multiple
 # instances are running)
-shopt -s histappend
-export HISTSIZE=50000
+# shopt -s histappend
+export HISTSIZE=-1
 
 # Stupid!!!!
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
@@ -114,7 +114,7 @@ alias pac-view="pacman -Slq | fzf --preview 'pacman -Si {}' --layout=reverse"
 # [[ -f "/usr/share/doc/fzf/examples/key-bindings.bash" ]] && . "/usr/share/doc/fzf/examples/key-bindings.bash"
 
 export FZF_DEFAULT_COMMAND="find . -type f -not -path '*/\.git/*' -not -path '*/\.cargo/*' -not -path '*/\.ccls-cache/*'"
-export FZF_COLORS="bg+:-1,fg:gray,fg+:white,border:gray,spinner:0,hl:yellow,header:blue,info:green,pointer:red,marker:blue,prompt:white:regular,hl+:red"
+export FZF_COLORS="fg:-1,fg+:-1:reverse,hl:yellow,hl+:yellow:reverse,border:gray,spinner:-1,header:blue,info:green,pointer:white,marker:blue,prompt:white:regular,gutter:-1"
 export FZF_DEFAULT_OPTS="--prompt '╰─> ' --height 50% --reverse --info inline --color=$FZF_COLORS"
 
 #---------------------------------------------------

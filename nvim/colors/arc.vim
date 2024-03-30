@@ -21,6 +21,7 @@ let g:colors_name='green-arc'
 let s:black           = { "gui": "#202424", "cterm": "232" }
 let s:black           = { "gui": "#191d1d", "cterm": "232" }
 let s:black           = { "gui": "#000000", "cterm": "232" }
+let s:black           = { "gui": "#202020", "cterm": "232" }
 let s:medium_gray     = { "gui": "#767676", "cterm": "243" }
 let s:white           = { "gui": "#F1F1F1", "cterm": "15"  }
 let s:actual_white    = { "gui": "#FFFFFF", "cterm": "231" }
@@ -300,10 +301,9 @@ let g:fzf_colors =
   \   'header':  ['fg', 'Comment'] }
 
 " Naysayer merge
-" hi! Normal guifg=fg guibg=#042327 gui=NONE
-" #202424, #1c2020
-hi! Normal guifg=fg guibg=bg gui=NONE
-hi Visual guifg=NONE guibg=#08454D gui=NONE
+hi Normal guifg=fg guibg=bg gui=NONE
+hi NormalFloat guibg=#303030
+hi Visual guifg=NONE guibg=#285577 gui=NONE
 " hi Visual guibg=#232729
 
 " hi MsgArea guibg=#1c1c1c
@@ -318,12 +318,7 @@ hi! link PmenuSel Visual
 hi PmenuThumb guibg=fg
 
 hi Folded guifg=#878787 guibg=bg
-hi StatusLine gui=NONE guibg=#031C20
 hi! link StatusLine Visual
-" hi QuickFixLine guibg=#031C20
-" hi CursorLineNr guibg=#031C20
-" hi CursorLine guibg=#031C20
-
 hi! link QuickFixLine CursorLine
 hi! link QfFileName String
 hi! link QfLineNr Constant

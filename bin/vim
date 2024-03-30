@@ -1,0 +1,4 @@
+#!/bin/sh
+
+echo "don't!"
+return 1

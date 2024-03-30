@@ -8,7 +8,7 @@ vim.api.nvim_create_autocmd({ "VimLeave" }, {
 -- treesiter
 ------------------------------------------------------------
 -- local tshl = require("nvim-treesitter.configs").setup {
---     ensure_installed = { "c", "cpp", "fish" }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+--     ensure_installed = { "c", "cpp", "vim" }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
 --     sync_install = true, -- install languages synchronously (only applied to `ensure_installed`)
 --     -- ignore_install = { "comment" }, -- List of parsers to ignore installing
 --     autopairs = {
@@ -98,6 +98,7 @@ cmp.setup {
     },
     experimental = {
         ghost_text = { hl_group = "Comment" },
+        native_menu = fasle,
     },
     view = {
         docs = {
@@ -144,7 +145,7 @@ cmp.setup {
     }),
     formatting = {
         -- fields = { "kind", "abbr", "menu" },
-        fields = { "menu", "abbr" },
+        fields = { "abbr", "menu", "kind" },
         format = function(entry, item)
             -- Kind icons
             -- item.kind = string.format("%s", kind_icons[item.kind])
@@ -157,11 +158,11 @@ cmp.setup {
                 path = "[Path]",
             })[entry.source.name]
 
-            if #item.abbr > 37 then
-                item.abbr = string.sub(item.abbr, 0, 37)
-            else
-                item.abbr = item.abbr .. (" "):rep(37 - #item.abbr)
-            end
+            -- if #item.abbr > 37 then
+            --     item.abbr = string.sub(item.abbr, 0, 37)
+            -- else
+            --     item.abbr = item.abbr .. (" "):rep(37 - #item.abbr)
+            -- end
 
             return item
         end,
@@ -231,7 +232,7 @@ vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
 vim.keymap.set('n', '[e', function() vim.diagnostic.goto_prev({ severity = sev.e }) end, opts)
 vim.keymap.set('n', ']e', function() vim.diagnostic.goto_next({ severity = sev.e }) end, opts)
-vim.keymap.set('n', '<leader>ld', vim.diagnostic.setloclist, opts)
+vim.keymap.set('n', 'ge', vim.diagnostic.setqflist, opts)
 
 local function get_hl_group_color(group, fg_or_bg)
     local id = vim.fn["hlID"](group)
@@ -268,16 +269,16 @@ function GetDiag()
         local info = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO })
 
         if err ~= 0 then
-            str = str .. "%#DiagnosticStatusError# " .. err .. "%*"
+            str = str .. "%#DiagnosticStatusError# " .. err .. "E%*"
         end
         if warn ~= 0 then
-            str = str .. "%#DiagnosticStatusWarn# " .. warn .. "%*"
+            str = str .. "%#DiagnosticStatusWarn# " .. warn .. "W%*"
         end
         if hint ~= 0 then
-            str = str .. "%#DiagnosticStatusHint# " .. hint .. "%*"
+            str = str .. "%#DiagnosticStatusHint# " .. hint .. "H%*"
         end
         if info ~= 0 then
-            str = str .. "%#DiagnosticStatusInfo# " .. info .. "%*"
+            str = str .. "%#DiagnosticStatusInfo# " .. info .. "I%*"
         end
     end
     return str
@@ -333,7 +334,7 @@ end
 local on_attach = function(client, bufnr)
 
     -- We have to set these highlights only after they're set by vim
-    set_highlights()
+    -- set_highlights()
 
     -- Enable completion triggered by <c-x><c-o>
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
@@ -497,6 +498,7 @@ require("lspconfig").clangd.setup {
         "--background-index", --index in background and persist on disk
         "--enable-config", --enable usage of .clangd config file
         "--pch-storage=disk",
+        "--malloc-trim",
         -- "--query-driver=/opt/clang7/bin/clang++",
     },
     -- root_dir = function()

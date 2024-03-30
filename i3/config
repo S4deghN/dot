@@ -9,6 +9,8 @@
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
+set $mod Mod4
+
 #----------------------------------------------------------------------------
 # -- Desktop --
 #----------------------------------------------------------------------------
@@ -71,7 +73,7 @@ bindsym --release $mod+Print exec --no-startup-id import "$HOME/Pictures/screens
 # You can also use any non-zero value if you'd like to have a border
 for_window [class=".*"] border pixel 1
 # client.focused #555555 #555555 #ffffff #2e9ef4 #d5c4a1
-gaps outer 10
+# gaps outer 10
 gaps inner 0
 smart_borders on
 
@@ -97,10 +99,12 @@ for_window [class="VirtualBox"] floating enable
 #----------------------------------------------------------------------------
 # -- Keybindings --
 #----------------------------------------------------------------------------
-set $mod Mod4
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
+
+# toggle gaps
+bindsym $mod+Shift+g exec --no-startup-id i3-toggle-gap $HOME/.config/i3/config, reload
 
 # start a terminal
 # depends on jq and custom i3WorkspaceName script

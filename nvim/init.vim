@@ -3,77 +3,87 @@
 " -----------------------------------------------
 "TODO:
 " checkout `quickfixtextfunc`
-set wildmode=longest:list      " behave like bash
-set completeopt=menu,menuone,noselect
-set pumheight=5
-set previewheight=10
-set wildignorecase
-set ttimeoutlen=0              " timeout for key sequences of terminal like esc and such
-set noswapfile
-set undofile
-set undodir=/tmp/$USER.vimundo " Undo file shouldn't replace version control
-set mouse+=a                   " mouse support
-set shortmess=aoOFtT           " using a custome command instead of `F` option
-set guicursor=
-set signcolumn=yes:1
-set scrolloff=7
-set textwidth=90
-set cmdwinheight=12            " the special window that opens with q: or ctrl-f in cmd mode.
-set splitbelow
-set splitright
-set ignorecase
-set smartcase
-set nomodeline
-" set nowrap                     " Neovim become extremely slow and unresponsive editing large file with linewrap on
-set showbreak=>                " Break line symbol
-set nosmarttab                 " when unset you can delete inserted tab with C-w without deleting the word before it
-set smartindent
-set expandtab                  " convert tabs to spaces
-set shiftwidth=4               " the number of spaces inserted for each indentation
-set tabstop=4
-set foldmethod=marker
-set diffopt=filler,internal,algorithm:patience,indent-heuristic
-set fillchars=diff:╱
-" set iskeyword-=_
-set virtualedit=block
-match CursorLine '\s\+$'       " mark trailing spaces as errors using highlight group CursorLine
 
-filetype plugin indent on
+set ttimeoutlen=0              " timeout for key sequences of terminal like esc and such
+
+set noswapfile undofile undodir=/tmp/$USER.vimundo " Undo file shouldn't replace version control
+
+" let loaded_matchparen = 1
+
+set mouse=ar                   " mouse support
+let mapleader = " "
+
+set completeopt=menu,menuone,noinsert
+set pumheight=6 previewheight=10
+set wildignorecase wildmode=longest:list      " behave like bash
+
+set signcolumn=yes:1
+set noshowmode
+set shortmess=aoFOtT           " using a custome command instead of `F` option
+" set cmdwinheight=12            " the special window that opens with q: or ctrl-f in cmd mode.
+set laststatus=2
+if &laststatus
+    set showcmdloc=statusline
+    set statusline=
+    " Left
+    set stl+=%(\ %{GetGitSignsStatus()}\ -%)
+    set stl+=\ %t
+    set stl+=\ %q%h%w%r%m
+    " Middle
+    set stl+=%=
+    set stl+=%S
+    " Right
+    set stl+=%=
+    " set stl+=%([%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}]%)
+    set stl+=%([%{%v:lua.GetRunningLsp()%}]%)
+    set stl+=\ \ \ \ %-8(%l,%c%)\ %P
+    " set stl+=\ %y
+else
+    set rulerformat=%40(%([%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}]%)%=[%l,%c\|%P]\ %m%q%w\ %y%)
+endif
+
+set scrolloff=10
+
+set splitbelow splitright
+
+set ignorecase smartcase
+" set nowrap                     " Neovim become extremely slow and unresponsive editing large file with linewrap on
+
+set smartindent
+set nosmarttab                 " when unset you can delete inserted tab with C-w without deleting the word before it
+set expandtab shiftwidth=4 tabstop=4
+set foldmethod=marker
+set textwidth=90
+
+set diffopt=internal,filler,closeoff,indent-heuristic,algorithm:histogram
+
+set showbreak=>                " Break line symbol
+set fillchars=diff:╱,vert:\|
+
+if executable('rg')
+    set grepprg=rg\ -H\ --no-heading\ --vimgrep
+    set grepformat=%f:%l:%c:%m
+endif
 
 augroup FormatGroup
     autocmd!
     " ftplugin's default options usualy set formatoptions. but I don't want that.
     " I want consistent formating options across any file type.
     " TODO: find a better workaround.
-    autocmd BufEnter * set formatoptions=tcrqljn1p " defaults: tcroql
+    autocmd BufAdd * set formatoptions=tcrqljn1p " defaults: tcroql
 augroup end
 
-let mapleader=" "
+" set iskeyword-=_
+set nomodeline                 " would cause problem with keil project files
+match CursorLine '\s\+$'       " mark trailing spaces as errors using highlight group CursorLine
+filetype plugin indent on
+let g:vimsyn_embed = 'l'
+syntax on
+set termguicolors
 
-" -----------------------------------------------
-" --- statusline ---
-" -----------------------------------------------
-set laststatus=0
-if &laststatus
-    set showcmdloc=statusline
-
-    set statusline=
-    " Left
-    set stl+=[%F]
-    set stl+=%(\ %)
-    set stl+=%([%{GetGitSignsStatus()}\ ]%)
-    set stl+=\ %q%h%w%m%r
-    " Middle
-    set stl+=%=
-    set stl+=%S
-    " Right
-    set stl+=%=
-    set stl+=%([%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}]%)
-    set stl+=\ [%-8(%l:%c%)\ %P]
-    set stl+=\ %y
-else
-    set rulerformat=%40(%([%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}]%)%=[%l,%c\|%P]\ %m%q%w\ %y%)
-endif
+" TODO:
+" set define=
+" set list
 
 if exists(':GuiFont')
     " Use GuiFont! to ignore font errors
@@ -93,41 +103,27 @@ call plug#begin()
     Plug 'normen/vim-pio'
     Plug 'jremmen/vim-ripgrep'
     Plug 'tpope/vim-dispatch'
-    Plug 'tpope/vim-eunuch'
-    Plug 'tpope/vim-abolish'
-    " Plug 'maxbrunsfeld/vim-yankstack'
+    Plug 'tpope/vim-eunuch' "?
+    Plug 'tpope/vim-abolish' "?
     Plug 'embear/vim-localvimrc'
-    Plug 's4deghn/vim-cool' " smarter search highlight.
-    Plug 'wellle/context.vim'
+    " Plug 'romainl/vim-cool' " smarter search highlight.
+    " Plug 'junegunn/vim-slash'
+    Plug 'pgdouyon/vim-evanesco'
+    Plug 'ton/vim-alternate'
 
-    " Plug 'ap/vim-css-color'
     " TODO: choose one!
     Plug 'tpope/vim-fugitive'
-    Plug 'jreybert/vimagit'
+    Plug 'junegunn/gv.vim'
 
-    Plug 'jackguo380/vim-lsp-cxx-highlight'
-
-    Plug 'ton/vim-alternate'
 
     Plug 'pechorin/any-jump.vim'
 
     Plug 'romainl/Apprentice'
-    Plug 'axvr/raider.vim'
-    Plug 'blazkowolf/gruber-darker.nvim'
-    Plug 'morhetz/gruvbox'
-    Plug 'vim-scripts/vim_colors'
-    Plug 'vim-scripts/railscasts'
-    Plug 'voithos/vim-colorpack'
 
     if has("nvim")
         Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
 
-        " Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-        " Plug 'nvim-treesitter/nvim-treesitter-context'
-
         Plug 'brenoprata10/nvim-highlight-colors'
-
-        Plug 'kelly-lin/ranger.nvim'
 
         Plug 'sindrets/diffview.nvim'
         Plug 'lewis6991/gitsigns.nvim'
@@ -145,52 +141,100 @@ call plug#begin()
     endif
 call plug#end()
 
-lua require('nvim-highlight-colors').setup({ enable_named_colors = false, render = 'background'})
-lua require("ranger-nvim").setup({ replace_netrw = false, enable_cmds = true })
-
 " --- easy-align ---
-xmap ga <plug>(EasyAlign)
-nmap ga <plug>(EasyAlign)
 
 " --- vim-commentary ---
-nmap gcA gcc^dWA <C-r>"
-nmap gcH <cmd>r ~/.config/nvim/snips/Hcomment<cr>gc2j=2jjf-ela
-nmap gch <cmd>r ~/.config/nvim/snips/hcomment<cr>gcc=lf-ela
 
 " --- vim-rooter ---
 let g:rooter_silent_chdir = 1
 
 " --- rip-grep ---
-let g:rg_highlight = 1
-nmap gw <cmd>Rg<cr>
-nmap gW :Rg ""<left>
-xmap gw y<cmd>Rg "<C-r>""<cr>
+" let g:rg_highlight = 1
 
 " --- alternate-file ---
 let g:AlternatePaths = ['../itf', '../source', '../include', '../inc', '../src', '.', '..']
 let g:AlternateExtensionMappings = [
-            \{'.cpp' : '.h', '.h' : '.hpp', '.hpp' : '.cpp', '.hxx' : '.cpp'},
-            \{'.c': '.h', '.h': '.c'}
+            \{'.c': '.h', '.h': '.c'},
+            \{'.cpp': '.h', '.h': '.cpp'},
+            \{'.cpp': '.hxx', '.hxx': '.cpp'},
+            \{'.cpp': '.hpp', '.hpp': '.cpp'},
             \]
 
-" --- fzf-lua ---
-lua require('fzf-lua').setup{ winopts = { fullscreen=true, preview = { layout = 'flex', horizontal='right:50%' } } }
+" --- nvim-highlight-colors ---
+lua require('nvim-highlight-colors').setup({ enable_named_colors = false, render = 'background'})
 
-noremap \\       <cmd>FzfLua<cr>
-noremap \<space> <cmd>FzfLua resume<cr>
-noremap \f       <cmd>FzfLua files<cr>
-noremap \b       <cmd>FzfLua buffers<cr>
-noremap \w       <cmd>FzfLua grep_cword<cr>
-xnoremap \w      <cmd>FzfLua grep_visual<cr>
-noremap \W       <cmd>FzfLua live_grep<cr>
-noremap \r       <cmd>FzfLua lsp_references<cr>
-noremap \d       <cmd>FzfLua lsp_definitions<cr>
-noremap \l       <cmd>FzfLua lsp_finder<cr>
-noremap \z       <cmd>FzfLua spell_suggest<cr>
-noremap \h       <cmd>FzfLua help_tags<cr>
+" --- fzf-lua ---
+lua require('fzf-lua').setup{fzf_bin = 'fzf', winopts = { split = "botright new", border = 'none', preview = { hidden = 'nohidden', layout = "horizontal", horizontal = 'right:50%', delay = 50 } }, previewers = { builtin = { treesitter = { enable = false} } } }
 
 " --- GitSgings ---
-lua require 'gitsigns'.setup()
+lua require('gitsigns').setup()
+
+" --- lsp ---
+lua require 'Lsp'
+
+" -----------------------------------------------
+" --- keymaps ---
+" -----------------------------------------------
+cmap <C-x>f <C-r>=expand('%:p')<cr>
+cmap <C-x>d <C-r>=expand('%:p:h').'/'<cr>
+cmap <C-x>r redir<space>@l\|<space>\|redir<space>end<C-left><C-left>
+
+tmap <C-]> <C-\><C-n>
+
+" if not using terminal
+inoremap <C-S-v> <C-r>+
+xnoremap <C-S-v> <C-r>+
+
+inoremap <C-c> <esc>
+inoremap <C-u> <esc>vbU`]a
+inoremap <C-z> <esc>b1z=`]a
+inoremap <c-x><c-f> <cmd>lua require("fzf-lua").complete_path()<cr>
+
+noremap <F4> [I:let nr = input("Which one: ")<Bar>exe "normal " .. nr .. "[\t"<cr>
+
+noremap '      `
+noremap Y      y$
+noremap gy     "+y
+noremap gY     "+Y
+noremap gp     "+]p
+noremap gP     "+]P
+" noremap L    $
+" noremap H    ^
+noremap n      nzz
+noremap N      Nzz
+noremap Q      @q
+noremap <C-j>  <cmd>cn<cr>
+noremap <C-k>  <cmd>cp<cr>
+noremap gV     V`]
+noremap gj     kddpkJ0
+noremap gk     K
+noremap gd     [<C-I>
+noremap gn     ]<C-I>
+noremap gz     1z=
+noremap zs     :%s/\s\+$//e<cr>''
+noremap <C-g>  1<C-g>
+noremap <C-h>  :tabp<cr>
+noremap <C-l>  :tabn<cr>
+noremap <C-w>t <C-w>v:term<cr>
+noremap <M-a>  'A
+noremap <M-s>  'S
+noremap <M-d>  'D
+noremap <M-f>  'F
+
+nnoremap gF mm:%!clang-format<cr>`m
+nnoremap go <cmd>Alternate<cr>
+
+xnoremap ga <plug>(EasyAlign)
+nnoremap ga <plug>(EasyAlign)
+
+nmap gcA gcc^dWA <C-r>"
+nmap gcH <cmd>r ~/.config/nvim/snips/Hcomment<cr>gc2j=2jjf-ela
+nmap gch <cmd>r ~/.config/nvim/snips/hcomment<cr>gcc=lf-ela
+nmap gcd yygccp
+
+noremap  gw mO<cmd>Rg<cr>
+noremap  gW mO:Rg ""<left>
+xnoremap gw mOy<cmd>Rg "<C-r>""<cr>
 
 noremap <leader>gg :Gitsigns<space>
 noremap <leader>gp <cmd>Gitsigns preview_hunk_inline<cr>
@@ -199,145 +243,58 @@ noremap ]G         <cmd>Gitsigns preview_hunk<cr>
 noremap ]g         kj<cmd>Gitsigns next_hunk<cr><cmd>Gitsigns preview_hunk<cr>
 noremap [g         jk<cmd>Gitsigns prev_hunk<cr><cmd>Gitsigns preview_hunk<cr>
 
-" --- lsp ---
-lua require 'Lsp'
-lua require'treesitter-context'.setup{}
+noremap  <leader><leader> <cmd>FzfLua<cr>
+noremap  <leader><cr>     <cmd>FzfLua resume<cr>
+noremap  <leader>f        <cmd>FzfLua files<cr>
+noremap  <leader>B        <cmd>FzfLua buffers<cr>
+noremap  <leader>lr       <cmd>FzfLua lsp_references<cr>
+noremap  <leader>ld       <cmd>FzfLua lsp_definitions<cr>
+noremap  <leader>lf       <cmd>FzfLua lsp_finder<cr>
+noremap  <leader>H        <cmd>FzfLua help_tags<cr>
+nnoremap <leader>w        <cmd>FzfLua grep_cword<cr>
+xnoremap <leader>s        <cmd>FzfLua gep_visual<cr>
+nnoremap <leader>s        <cmd>FzfLua live_grep<cr>
 
-" -----------------------------------------------
-" --- colors ---
-" -----------------------------------------------
-set termguicolors
+nnoremap <leader>d :bp\|bd #<cr>
+" nnoremap <Leader>d :call <SID>BufKill("bdelete!")<CR>
+" nnoremap <Leader>D :call <SID>BufKill("bwipe!")<CR>
 
-color arc-green
-hi Normal guibg=#202020
-hi Normal guibg=#2E3436
-hi Normal guibg=#232829
-hi Normal guibg=#1E2223
-hi Normal guibg=NONE
-" hi Normal guibg=#191D1E
-hi NormalFloat guibg=#232829
-hi Visual guibg=#333739
-hi pmenusel guibg=#2E3436
-" hi VertSplit guifg=#232729
-" hi MsgArea guibg=#000000
-
-" color apprentice
-" hi SignColumn guibg=bg
-" hi Delimiter guifg=fg guibg=NONE
-" hi Delimiter guibg=none
-" hi Function guifg=#D5D592
-" hi Function guifg=#d0d08c
-" hi Search guibg=#D5D592
-" hi  GitSignsAdd       guifg=#8F9D6A     guibg=NONE    gui=NONE cterm=NONE
-" hi  GitSignsDelete    guifg=#af5f5f     guibg=NONE    gui=NONE cterm=NONE
-" hi  GitSignsChange    guifg=#789AC0     guibg=NONE    gui=NONE cterm=NONE
-" hi! link @lsp.type.nameSpace Macro
-" hi statusline guibg=#444444 guifg=#87875f
-" hi statuslineNC guifg=bg
-" hi folded guibg=bg
-" " hi NormalFloat guibg=#393939
-" " hi Function guifg=PaleGreen
-" " hi Statement gui=none
-" " hi Type gui=none
-
-" color gruber-darker
-" hi Normal guibg=#333333
-
-" color oblivion
-" hi SignColumn guibg=bg
-" hi Statement   gui=none
-" hi Conditional gui=none
-" hi Keyword     gui=none
-" hi Type        gui=none
-
-" color desert
-" hi Normal guibg=NONE
-" hi NonText guibg=bg
-" hi Function guifg=lightgreen
-" hi Statement gui=NONE
-" hi Type gui=NONE
-" hi Statement guifg=#f0e68c
-" hi PreProc   guifg=#cd5c5c
-" hi Type      guifg=#bdb76b
-" hi  GitSignsAdd       guifg=lightgreen     guibg=NONE    gui=NONE cterm=NONE
-" hi  GitSignsDelete    guifg=#cd5c5c     guibg=NONE    gui=NONE cterm=NONE
-" hi  GitSignsChange    guifg=#6dceeb     guibg=NONE    gui=NONE cterm=NONE
-
-" color naysayer
-" hi Normal guibg=NONE
-" hi NonText guibg=bg
-" hi EndOfBuffer guibg=bg
-
-" -----------------------------------------------
-" --- keymaps ---
-" -----------------------------------------------
-noremap '    `
-noremap Y    y$
-noremap gy   "+y
-noremap gY   "+Y
-noremap gp   "+]p
-noremap gP   "+]P
-" noremap L    $
-" noremap H    ^
-noremap <F4> [I:let nr = input("Which one: ")<Bar>exe "normal " .. nr .. "[\t"<cr>
-noremap n     nzz
-noremap N     Nzz
-noremap Q     @q
-noremap <C-n> <C-e>
-noremap <C-p> <C-y>
-noremap <C-j> <cmd>cn<cr>
-noremap <C-k> <cmd>cp<cr>
-noremap gV    V`]
-noremap gj    kddpkJ0
-noremap gk    K
-noremap gd    [<C-I>
-noremap gn    ]<C-I>
-noremap gz    1z=
-noremap zs    :%s/\s\+$//e<cr>''
-
-cmap <C-x>b <C-r>=expand('%:p')<cr>
-cmap <C-x>d <C-r>=expand('%:p:h').'/'<cr>
-cmap <C-x>r redir<space>@l\|<space>\|redir<space>end<C-left><C-left>
-
-tmap <C-]> <C-\><C-n>
-
-nmap <C-h>     :tabp<cr>
-nmap <C-l>     :tabn<cr>
-nmap <leader>d :bp\|bd #<cr>
 nmap <leader>b :b<space>
-nmap <leader>f :e<space><C-x>b
+" nmap <leader>f :e<space><C-x>f
 nmap <leader>e :e<space><C-x>d
 nmap <leader>E :Exp<cr>
 nmap <leader>h :vert h<space>
-nmap <C-w>t    <C-w>v:term<cr>
-nmap <leader>c :cd <C-x>d<cr>
+" nmap <leader>c :cd <C-x>d<cr>
 
-nnoremap <C-g>   1<C-g>
-nnoremap *       *N
-xnoremap *       y/\V<C-R>"<cr>N
-nnoremap #       #N
-xnoremap #       y?\V<C-R>"<cr>N
+" nnoremap cd :Gcd<CR>:pwd<CR>
+" do git ...
+nnoremap <silent> dgb :Git blame<CR>
+nnoremap <silent> dgs :Git <Bar> wincmd J<CR>
+nnoremap <silent> dgd :Gvdiffsplit<CR>
+nnoremap <silent> dgC :tab split<Bar>Git diff --cached<CR>:Git commit<CR>
+nnoremap <silent> dga :Gwrite<CR>
+nnoremap <silent> dgr :Gread<CR>
+nnoremap <silent> dgp :Git push origin master<CR>
+" see git ...
+nnoremap <silent> sgl :Git log<CR>
+nnoremap <silent> sgb :Git branch<CR>
+nnoremap <silent> sgd :0Git diff<CR>
+nnoremap <silent> sgc :0Git diff --cached<CR>
+nnoremap <silent> sgh :0Git show HEAD --format=short<CR>
+
+" using 'pgdouyon/vim-evanesco' instead
+" nnoremap *       *N
+" xnoremap *       y/\V<C-R>"<cr>N
+" nnoremap #       #N
+" xnoremap #       y?\V<C-R>"<cr>N
+
+"substitute
 nnoremap <C-s>s  :s/<C-R>=expand('<cword>')<cr>//g<Left><Left>
 xnoremap <C-s>s  :s//g<Left><Left>
 nnoremap <C-s>f  :%s/<C-R>=expand('<cword>')<cr>//g<Left><Left>
 xnoremap <C-s>f  y:<C-w>%s/<C-r>"//g<Left><Left>
 nnoremap <C-s>ip yiwvip<Esc>:'<,'>:s/<C-R>"//g<Left><Left>
 nnoremap <C-s>ap yiwvap<Esc>:'<,'>:s/<C-R>"//g<Left><Left>
-
-nnoremap gF mm:%!clang-format<cr>`m
-nnoremap go <cmd>Alternate<cr>
-
-inoremap <C-c> <esc>
-inoremap <C-u> <esc>vbU`]a
-inoremap <C-z> <esc>b1z=`]a
-
-" if not using terminal
-inoremap <C-S-v> <C-r>+
-xnoremap <C-S-v> <C-r>+
-
-" emacs :)
-noremap <M-x> :
-cnoremap <M-x> <C-c>
 
 " -----------------------------------------------
 " --- functions ---
@@ -347,7 +304,8 @@ function! GetGitSignsStatus()
         return ''
     endif
     let d = b:gitsigns_status_dict
-    return d.head.' +'.d.added.' ~'.d.changed.' -'.d.removed
+    " return d.head.' +'.d.added.' ~'.d.changed.' -'.d.removed
+    return d.head
 endfunction
 
 function! s:tmux_apply_title()
@@ -367,6 +325,7 @@ function! Syn()
         echo synIDattr(id, "name")
     endfor
 endfunction
+
 " -----------------------------------------------
 " --- cmds ---
 " -----------------------------------------------
@@ -400,18 +359,19 @@ augroup autoCommands
     "             \ |     call feedkeys("gg")
     "             \ | endif
 
-    autocmd BufEnter * call feedkeys("\<C-g>")
+    " autocmd BufEnter * call feedkeys("\<C-g>")
 
     autocmd Filetype tex,text,markdown,gitcommit setlocal spell
-    autocmd Filetype cpp,rust setlocal matchpairs+=<:>
+    " autocmd Filetype cpp,rust setlocal matchpairs+=<:>
     autocmd Filetype netrw call NetrwConfig()
     autocmd Filetype qf nmap <buffer> <Esc> ZQ
-    autocmd BufEnter .clang* set filetype=yaml
-    autocmd BufEnter /tmp/bash* set filetype=sh " for the v command in bash vi mode
+    autocmd Filetype qf wincmd L
+    autocmd BufAdd .clang* set filetype=yaml
+    autocmd BufAdd /tmp/bash* set filetype=sh " for the v command in bash vi mode
 
     autocmd BufWritePost *.vim,.vimrc,nvim/lua/*.lua source %
 
-    autocmd TextYankPost * silent! lua vim.highlight.on_yank({ higroup="Visual", timeout=50 })
+    autocmd TextYankPost * silent! lua vim.highlight.on_yank({ higroup="Visual", timeout=25 })
     " autocmd SearchWrapped * echomsg 'Search wrapped!'
 
     autocmd CmdwinEnter * nmap <buffer> <Esc> :q<cr>
@@ -456,3 +416,87 @@ function! NetrwConfig()
     " retrieve the last deleted file
     " nmap <buffer> u
 endfunction
+
+" ----------------------------------------------------------------------
+" BufKill
+" ----------------------------------------------------------------------
+function! s:BufKill(kill_command)
+    let buf_to_kill = bufnr("%")
+    let orig_win = winnr()
+    let orig_tab = tabpagenr()
+    for i in range(tabpagenr("$"))
+        execute "noautocmd tabnext " . (i + 1)
+        while bufwinnr(buf_to_kill) != -1
+            execute "noautocmd" bufwinnr(buf_to_kill) "wincmd w"
+            execute bufname("%") ==# bufname("#") ? "wincmd q" : "buffer #"
+        endwhile
+    endfor
+    execute "noautocmd tabnext" orig_tab
+    execute "noautocmd" orig_win "wincmd w"
+    execute "silent!" a:kill_command buf_to_kill
+endfunction
+
+" ----------------------------------------------------------------------
+" Fugitive Settings
+" ----------------------------------------------------------------------
+augroup fugitive_vimrc
+    autocmd!
+    autocmd BufReadPost fugitive://* setlocal bufhidden=delete
+augroup END
+
+" -----------------------------------------------
+" --- colors ---
+" -----------------------------------------------
+color arc
+hi Normal guibg=NONE
+" hi Normal guibg=#202020
+
+" color apprentice
+" hi SignColumn guibg=bg
+" hi Delimiter guifg=fg guibg=NONE
+" hi Delimiter guibg=none
+" hi Function guifg=#D5D592
+" hi Function guifg=#d0d08c
+" hi Search guibg=#D5D592
+" hi Constant guifg=#dfA869
+" hi  GitSignsAdd       guifg=#8F9D6A     guibg=NONE    gui=NONE cterm=NONE
+" hi  GitSignsDelete    guifg=#af5f5f     guibg=NONE    gui=NONE cterm=NONE
+" hi  GitSignsChange    guifg=#789AC0     guibg=NONE    gui=NONE cterm=NONE
+" " hi! link @lsp.type.nameSpace Macro
+" " hi statusline guibg=#444444 guifg=#87875f
+" " hi statuslineNC guifg=bg
+" hi folded guibg=bg
+" " hi NormalFloat guibg=#393939
+" " hi Function guifg=PaleGreen
+" " hi Statement gui=none
+" " hi Type gui=none
+" " hi VertSplit guibg=#666666 guifg=#666666
+
+" color gruber-darker
+" hi Normal guibg=#333333
+
+" color oblivion
+" hi SignColumn guibg=bg
+" hi Statement   gui=none
+" hi Conditional gui=none
+" hi Keyword     gui=none
+" hi Type        gui=none
+
+" color desert
+" hi Normal guibg=NONE
+" hi NonText guibg=bg
+" hi Function guifg=lightgreen
+" hi Statement gui=NONE
+" hi Type gui=NONE
+" hi Statement guifg=#f0e68c
+" hi PreProc   guifg=#cd5c5c
+" hi Type      guifg=#bdb76b
+" hi  GitSignsAdd       guifg=lightgreen     guibg=NONE    gui=NONE cterm=NONE
+" hi  GitSignsDelete    guifg=#cd5c5c     guibg=NONE    gui=NONE cterm=NONE
+" hi  GitSignsChange    guifg=#6dceeb     guibg=NONE    gui=NONE cterm=NONE
+
+" color naysayer
+" hi Normal guibg=NONE
+" hi NonText guibg=bg
+" hi EndOfBuffer guibg=bg
+

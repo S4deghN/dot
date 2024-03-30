@@ -1,6 +1,6 @@
 [user]
 	email = sadegh.nobakhti@gmail.com
-	name = s4
+	name = Zero
 [credential "https://github.com"]
 	helper = 
 	helper = !/usr/bin/gh auth git-credential
