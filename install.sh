@@ -45,6 +45,7 @@ else
     ln -sfv "$PWD"/nvim          "$HOME"/.config/
     ln -sfv "$PWD"/fish          "$HOME"/.config/
     ln -sfv "$PWD"/alacritty     "$HOME"/.config/
+    ln -sfv "$PWD"/ranger        "$HOME"/.config/
 fi
 
 popd || return

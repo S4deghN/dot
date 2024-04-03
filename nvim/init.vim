@@ -252,7 +252,7 @@ noremap  <leader>ld       <cmd>FzfLua lsp_definitions<cr>
 noremap  <leader>lf       <cmd>FzfLua lsp_finder<cr>
 noremap  <leader>H        <cmd>FzfLua help_tags<cr>
 nnoremap <leader>w        <cmd>FzfLua grep_cword<cr>
-xnoremap <leader>s        <cmd>FzfLua gep_visual<cr>
+xnoremap <leader>s        <cmd>FzfLua grep_visual<cr>
 nnoremap <leader>s        <cmd>FzfLua live_grep<cr>
 
 nnoremap <leader>d :bp\|bd #<cr>
