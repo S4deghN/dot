@@ -1,12 +1,12 @@
 [Desktop Entry]
-Comment[en_IN]=Source .Xmodmap
 Comment=Source .Xmodmap
+Comment[en_IN]=Source .Xmodmap
 Exec=xmodmap '~/.Xmodmap'
-GenericName[en_IN]=
 GenericName=
+GenericName[en_IN]=
 MimeType=
-Name[en_IN]=Keymap
 Name=Keymap
+Name[en_IN]=Keymap
 Path=
 StartupNotify=true
 Terminal=false
@@ -14,3 +14,5 @@ TerminalOptions=
 Type=Application
 X-KDE-SubstituteUID=false
 X-KDE-Username=
+Hidden=true
+

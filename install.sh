@@ -20,6 +20,7 @@ if [[ $kind = "-d" ]]; then
     ln -sfv "$PWD"/.clang-tidy   "$HOME"/
     ln -sfv "$PWD"/.Xmodmap      "$HOME"/
     ln -sfv "$PWD"/.Xresources   "$HOME"/
+    ln -sfv "$PWD"/.xprofile     "$HOME"/
     ln -sfv "$PWD"/.emacs.d      "$HOME"/
     ln -sfv "$PWD"/bin           "$HOME"/.local/
     ln -sfv "$PWD"/tmux          "$HOME"/.config
@@ -29,6 +30,7 @@ if [[ $kind = "-d" ]]; then
     ln -sfv "$PWD"/i3status      "$HOME"/.config/
     ln -sfv "$PWD"/picom         "$HOME"/.config/
     ln -sfv "$PWD"/polybar       "$HOME"/.config/
+    ln -sfv "$PWD"/dunst         "$HOME"/.config/
     ln -sfv "$PWD"/nvim          "$HOME"/.config/
     ln -sfv "$PWD"/alacritty     "$HOME"/.config/
     ln -sfv "$PWD"/tridactyl     "$HOME"/.config/

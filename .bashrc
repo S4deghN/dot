@@ -103,6 +103,8 @@ alias pac-unlock="sudo rm /var/lib/pacman/db.lck"
 alias pac-size="pacman -Qq | pacman -Qi - | egrep '(Size|Name[^s])' | sed -E 's/ ([KM])iB/\1/' | sed -z 's/\nInstalled/ /g' | perl -pe 's/(Name|Size) *: //g' | column -t | sort -hk2 -r | cat -n | tac"
 alias pac-view="pacman -Slq | fzf --preview 'pacman -Si {}' --layout=reverse"
 
+alias bf="WINEPREFIX=~/Games/skylords-reborn/ wine /home/s4/Games/skylords-reborn/drive_c/Program\ Files/BattleForge/BattleForge.exe"
+
 #---------------------------------------------------
 # env
 #---------------------------------------------------
@@ -114,7 +116,7 @@ alias pac-view="pacman -Slq | fzf --preview 'pacman -Si {}' --layout=reverse"
 # [[ -f "/usr/share/doc/fzf/examples/key-bindings.bash" ]] && . "/usr/share/doc/fzf/examples/key-bindings.bash"
 
 export FZF_DEFAULT_COMMAND="find . -type f -not -path '*/\.git/*' -not -path '*/\.cargo/*' -not -path '*/\.ccls-cache/*'"
-export FZF_COLORS="fg:-1,fg+:-1:reverse,hl:yellow,hl+:yellow:reverse,border:gray,spinner:-1,header:blue,info:green,pointer:white,marker:blue,prompt:white:regular,gutter:-1"
+export FZF_COLORS="fg:-1,fg+:-1,hl:yellow,hl+:yellow:reverse,border:gray,spinner:-1,header:blue,info:green,pointer:white,marker:blue,prompt:white:regular,gutter:-1"
 export FZF_DEFAULT_OPTS="--prompt '╰─> ' --height 50% --reverse --info inline --color=$FZF_COLORS"
 
 #---------------------------------------------------

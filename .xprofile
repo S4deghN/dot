@@ -1,0 +1,17 @@
+#!
+#! caps as escape on release and ctrl while held down
+#!
+#! make CapsLock behave like Ctrl:
+# setxkbmap -option ctrl:nocaps
+#! make short-pressed Ctrl behave like Escape:
+# xcape -e 'Control_L=Escape'
+
+#!
+#! caps as escape on key down
+#!
+setxkbmap -option caps:escape_shifted_capslock
+
+xset r rate 170 70
+
+xrandr --output eDP-1 --off
+xrandr --output HDMI-2 --primary --mode 1920x1080 --rate 75

@@ -17,6 +17,7 @@ set completeopt=menu,menuone,noinsert
 set pumheight=6 previewheight=10
 set wildignorecase wildmode=longest:list      " behave like bash
 
+set guicursor=n-v-c-sm:block,i-ci-ve:block,r-cr-o:hor20
 set signcolumn=yes:1
 set noshowmode
 set shortmess=aoFOtT           " using a custome command instead of `F` option
@@ -26,9 +27,9 @@ if &laststatus
     set showcmdloc=statusline
     set statusline=
     " Left
-    set stl+=%(\ %{GetGitSignsStatus()}\ -%)
-    set stl+=\ %t
-    set stl+=\ %q%h%w%r%m
+    set stl+=%(\ %{GetGitSignsStatus()}%)
+    set stl+=%(\ %q%h%w%r%m%)
+    set stl+=\ %F
     " Middle
     set stl+=%=
     set stl+=%S
@@ -110,6 +111,7 @@ call plug#begin()
     " Plug 'junegunn/vim-slash'
     Plug 'pgdouyon/vim-evanesco'
     Plug 'ton/vim-alternate'
+    Plug 'vbextreme/dumpx'
 
     " TODO: choose one!
     Plug 'tpope/vim-fugitive'
@@ -368,6 +370,7 @@ augroup autoCommands
     autocmd Filetype qf wincmd L
     autocmd BufAdd .clang* set filetype=yaml
     autocmd BufAdd /tmp/bash* set filetype=sh " for the v command in bash vi mode
+    autocmd BufReadPost *.lub set filetype=lua
 
     autocmd BufWritePost *.vim,.vimrc,nvim/lua/*.lua source %
 

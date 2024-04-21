@@ -51,6 +51,10 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
+if [ -d "$HOME/.local/wine_bin" ] ; then
+    PATH="$HOME/.local/wine_bin:$PATH"
+fi
+
 if [ -d "$HOME/.cargo/env" ] ; then
     PATH="$HOME/.cargo/env:$PATH"
 fi

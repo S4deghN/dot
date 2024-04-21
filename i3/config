@@ -52,28 +52,10 @@ exec --no-startup-id nm-applet
 # Mountable device manager as an applet
 exec --no-startup-id udiskie -t
 
+exec --no-startup-id xfce4-notifyd
+
 
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-
-# Use pactl to adjust volume in PulseAudio.
-set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
-# Media player controls (you need to install `playerctl`)
-bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
-bindsym XF86AudioPause exec --no-startup-id playerctl play-pause
-bindsym XF86AudioNext exec --no-startup-id playerctl next
-bindsym XF86AudioPrev exec --no-startup-id playerctl previous
-
-bindsym --release Print exec --no-startup-id import -window root "$HOME/Pictures/screenshot-$(date +%y-%m-%d-%H-%M).png"
-bindsym --release $mod+Print exec --no-startup-id import "$HOME/Pictures/screenshot-$(date +%y-%m-%d-%H-%M).png"
-
-# The middle button over a titlebar kills the window
-bindsym --release button2 kill
-# The right button toggles floating
-bindsym button3 floating toggle
 
 # for_window [class="^Spotify$"] floating enable
 for_window [class="Blueman-manager"] floating enable
@@ -89,7 +71,7 @@ default_border pixel 2
 default_floating_border normal 1
 smart_borders on
 
-# gaps outer 10
+gaps outer 15
 gaps inner 0
 
 # class                 border  backgr. text    indicator child_border
@@ -112,12 +94,45 @@ focus_follows_mouse no
 
 workspace_layout tabbed
 
+workspace_auto_back_and_forth yes
+
+# Define names for default workspaces for which we configure key bindings later on.
+# We use variables to avoid repeating the names in multiple places.
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
 #----------------------------------------------------------------------------
 # -- Keybindings --
 #----------------------------------------------------------------------------
+# The middle button over a titlebar kills the window
+bindsym --release button2 kill
+# The right button toggles floating
+bindsym button3 floating toggle
 
-# Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
+
+# Use pactl to adjust volume in PulseAudio.
+set $refresh_i3status killall -SIGUSR1 i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%  && notify-send -r 1 "volume: $(pamixer --get-volume-human)"
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%  && notify-send -r 1 "volume: $(pamixer --get-volume-human)"
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle        && notify-send -r 1 "volume: $(pamixer --get-volume-human)"
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && notify-send -r 1 "volume: $(pamixer --get-volume-human)"
+# Media player controls (you need to install `playerctl`)
+bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
+bindsym XF86AudioPause exec --no-startup-id playerctl play-pause
+bindsym XF86AudioNext exec --no-startup-id playerctl next
+bindsym XF86AudioPrev exec --no-startup-id playerctl previous
+
+bindsym --release Print exec --no-startup-id import -window root "$HOME/Pictures/screenshot-$(date +%y-%m-%d-%H-%M).png" && notify-send "Screenshot taken!"
+bindsym --release $mod+Print exec --no-startup-id import "$HOME/Pictures/screenshot-$(date +%y-%m-%d-%H-%M).png"
 
 # toggle gaps
 bindsym $mod+Shift+g exec --no-startup-id i3-toggle-gap $HOME/.config/i3/config, reload
@@ -132,6 +147,8 @@ bindsym $mod+b exec --no-startup-id firefox
 
 # kill focused window
 bindsym $mod+d kill
+# why is --release needed for this to work?
+bindsym --release $mod+Shift+d exec --no-startup-id xkill
 
 # start dmenu (a program launcher)
 bindsym $mod+a exec --no-startup-id rofi -show drun
@@ -142,17 +159,21 @@ bindsym $mod+x exec --no-startup-id rofi -show run
 # .desktop file. It is a wrapper around dmenu, so you need that installed.
 # bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
 
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exit
+
+bindsym $mod+Left workspace prev
+bindsym $mod+Right workspace next
+
 # change focus
 bindsym $mod+h focus left
 bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
-
-# # alternatively, you can use the cursor keys:
-# bindsym $mod+Left focus left
-# bindsym $mod+Down focus down
-# bindsym $mod+Up focus up
-# bindsym $mod+Right focus right
 
 # move focused window
 bindsym $mod+Shift+h move left
@@ -176,7 +197,7 @@ bindsym $mod+v split v
 bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
-bindsym $mod+s layout stacking
+bindsym $mod+q layout stacking
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
@@ -192,22 +213,16 @@ bindsym $mod+p focus parent
 # focus the child container
 bindsym $mod+n focus child
 
+bindsym $mod+s scratchpad show
+bindsym $mod+Shift+s move scratchpad
+
+bindsym $mod+c [title="Genius*"] scratchpad show
+bindsym $mod+i [class="Org.gnome.Dictionary"] scratchpad show
+bindsym $mod+u [class="discord"] focus
+
 # Mod1 = Alt
 bindsym Mod1+Tab fullscreen disable, focus right, fullscreen enable
 bindsym Mod1+Shift+Tab fullscreen disable, focus left, fullscreen enable
-
-# Define names for default workspaces for which we configure key bindings later on.
-# We use variables to avoid repeating the names in multiple places.
-set $ws1 "1"
-set $ws2 "2"
-set $ws3 "3"
-set $ws4 "4"
-set $ws5 "5"
-set $ws6 "6"
-set $ws7 "7"
-set $ws8 "8"
-set $ws9 "9"
-set $ws10 "10"
 
 # switch to workspace
 bindsym $mod+1 workspace number $ws1
@@ -221,11 +236,6 @@ bindsym $mod+8 workspace number $ws8
 bindsym $mod+9 workspace number $ws9
 bindsym $mod+0 workspace number $ws10
 
-bindsym $mod+Left workspace prev
-bindsym $mod+Right workspace next
-# bindsym $mod+p workspace prev
-# bindsym $mod+n workspace next
-
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace number $ws1
 bindsym $mod+Shift+2 move container to workspace number $ws2
@@ -237,13 +247,6 @@ bindsym $mod+Shift+7 move container to workspace number $ws7
 bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
-
-# reload the configuration file
-bindsym $mod+Shift+c reload
-# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r restart
-# exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exit
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -291,6 +294,11 @@ bindsym $mod+m mode "$mode_system"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 # bar {
-#     status_command    i3status
-#     font pango:Ubuntu 9
+#     status_command SCRIPT_DIR=~/.config/i3blocks/ i3blocks
+#     font pango:Ubuntu 10
+
+#     colors {
+#         background #000000
+#         statusline #C5C8C6
+#     }
 # }
