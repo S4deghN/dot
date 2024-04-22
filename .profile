@@ -66,3 +66,7 @@ fi
 if [ -d "$HOME/go/bin" ] ; then
     PATH="$HOME/go/bin:$PATH"
 fi
+
+# if [[ "$(tty)" = "/dev/tty1" ]]; then
+#     pgrep Xorg || startx
+# fi
