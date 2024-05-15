@@ -64,16 +64,19 @@ for_window [class="Gnome-calculator"] floating enable
 for_window [class="VirtualBox"] floating enable
 
 for_window [class="firefox"] border pixel 2
+for_window [class="St"] border pixel 2
+for_window [class="XTerm"] border pixel 2
 
 # You can also use any non-zero value if you'd like to have a border
 # for_window [class=".*"] border pixel 1
 
-default_border normal 0
+default_border normal 1
 default_floating_border normal 1
 smart_borders on
+#for_window [all] title_window_icon on
 
-gaps outer 7
-gaps inner 3
+# gaps outer 7
+# gaps inner 3
 
 # class                 border  backgr. text    indicator child_border
 client.focused          #4c7899 #285577 #ffffff #2e9ef4   #285577
@@ -95,7 +98,7 @@ focus_follows_mouse no
 
 workspace_layout tabbed
 
-workspace_auto_back_and_forth yes
+workspace_auto_back_and_forth no
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
@@ -122,10 +125,10 @@ floating_modifier $mod
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%  && notify-send -r 1 "volume: $(pamixer --get-volume-human)"
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%  && notify-send -r 1 "volume: $(pamixer --get-volume-human)"
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle        && notify-send -r 1 "volume: $(pamixer --get-volume-human)"
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && notify-send -r 1 "volume: $(pamixer --get-volume-human)"
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%  && notify-send -r 1 -t 2000 "volume: $(pamixer --get-volume-human)"
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%  && notify-send -r 1 -t 2000 "volume: $(pamixer --get-volume-human)"
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle        && notify-send -r 1 -t 2000 "volume: $(pamixer --get-volume-human)"
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && notify-send -r 1 -t 2000 "volume: $(pamixer --get-volume-human)"
 # Media player controls (you need to install `playerctl`)
 bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
 bindsym XF86AudioPause exec --no-startup-id playerctl play-pause
@@ -133,7 +136,7 @@ bindsym XF86AudioNext exec --no-startup-id playerctl next
 bindsym XF86AudioPrev exec --no-startup-id playerctl previous
 
 bindsym --release Print exec --no-startup-id import -window root "$HOME/Pictures/screenshot-$(date +%y-%m-%d-%H-%M).png" && notify-send "Screenshot taken!"
-bindsym --release $mod+Print exec --no-startup-id import "$HOME/Pictures/screenshot-$(date +%y-%m-%d-%H-%M).png"
+bindsym --release $mod+Print exec --no-startup-id import "$HOME/Pictures/screenshot-$(date +%y-%m-%d-%H-%M).png"         &&  notify-send "Screenshot taken!"
 
 # toggle gaps
 bindsym $mod+Shift+g exec --no-startup-id i3-toggle-gap $HOME/.config/i3/config, reload
@@ -145,6 +148,7 @@ bindsym $mod+Return exec --no-startup-id st -e fish
 bindsym $mod+t exec --no-startup-id st
 bindsym $mod+r exec --no-startup-id st -e ranger
 bindsym $mod+b exec --no-startup-id firefox
+
 
 # kill focused window
 bindsym $mod+d kill
@@ -217,9 +221,14 @@ bindsym $mod+n focus child
 bindsym $mod+s scratchpad show
 bindsym $mod+Shift+s move scratchpad
 
-bindsym $mod+c [title="Genius*"] scratchpad show
+for_window [title="Genius|Qalculate"] move scratchpad, scratchpad show
+bindsym $mod+c [title="Genius|Qalculate"] scratchpad show
+
+for_window [class="Org.gnome.Dictionary"] move scratchpad, scratchpad show
 bindsym $mod+i [class="Org.gnome.Dictionary"] scratchpad show
-bindsym $mod+u [class="discord"] focus
+
+for_window [class="Spotify"] move scratchpad, scratchpad show
+bindsym $mod+m [class="Spotify"] scratchpad show
 
 # Mod1 = Alt
 bindsym Mod1+Tab fullscreen disable, focus right, fullscreen enable
@@ -290,7 +299,7 @@ mode "$mode_system" {
     bindsym Escape mode "default"
 }
 
-bindsym $mod+m mode "$mode_system"
+bindsym $mod+y mode "$mode_system"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)

@@ -24,6 +24,7 @@ highlight! link Constant Number
 
 highlight! link Identifier Normal
 " highlight! link Function Statement
+highlight Function guifg=#cceeee
 
 highlight! Statement guifg=#eeeeee guibg=NONE gui=NONE
 highlight! link Conditional Statement

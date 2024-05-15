@@ -143,6 +143,13 @@ call plug#begin()
     endif
 call plug#end()
 
+packadd shout
+
+" let t:shout_cmd = "cc"
+" command! -nargs=1 -bang -complete=file Sh shout#CaptureOutput(<q-args>)
+" nnoremap co :Sh<space>
+" nnoremap cc :Sh <C-r>=expand(t:shout_cmd)<cr>
+
 " --- easy-align ---
 
 " --- vim-commentary ---
@@ -194,12 +201,14 @@ inoremap <c-x><c-f> <cmd>lua require("fzf-lua").complete_path()<cr>
 
 noremap <F4> [I:let nr = input("Which one: ")<Bar>exe "normal " .. nr .. "[\t"<cr>
 
-noremap '      `
-noremap Y      y$
+map '      `
+map p      ]p
+map P      [p
+map gp     "+p
+map gP     "+P
 noremap gy     "+y
-noremap gY     "+Y
-noremap gp     "+]p
-noremap gP     "+]P
+nmap Y      y$
+nmap gY     "+Y
 " noremap L    $
 " noremap H    ^
 noremap n      nzz

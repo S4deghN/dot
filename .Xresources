@@ -9,19 +9,21 @@ Xft.dpi: 96
 *backarrowKey: false
 *ttyModes: erase ^?
 
+*.cursorBlink: true
+*.cursorOffTime: 500
+*.cursorOnTime: 800
+
 *translations: #override \n\
         Ctrl Shift <Key>C: copy-selection(CLIPBOARD) \n\
         Ctrl Shift <Key>V: insert-selection(CLIPBOARD)
 
-*faceName: JetBrainsMono Nerd Font:size=13:antialias=true,Symbols Nerd Font Mono:size=13
+*faceName: Ubuntu Mono:size=14:antialias=true,Symbols Nerd Font Mono:size=14
 /* *faceNameDoublesize: Symbols Nerd Font Mono */
 /* urxvt -fn 'xft:DejaVu Sans:pixelsize=14,xft:Symbola,xft:Noto Emoji:minspace=False' */
 
-*background:   #1A1A1A
-*foreground:   #9AA9AA
 ! special
 *.foreground:   #9aa9aa
-*.background:   #1a1a1a
+*.background:   #000000
 *.cursorColor:  #8ec07c
 ! black
 *.color0:       #191919
@@ -47,3 +49,8 @@ Xft.dpi: 96
 ! white
 *.color7:       #707880
 *.color15:      #c5c8c6
+
+*VT100.colorBDMode:     true
+*VT100.colorBD:         #CDA869
+*VT100.colorULMode:     true
+*VT100.colorUL:         #CF6A4C
