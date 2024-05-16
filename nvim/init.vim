@@ -28,7 +28,7 @@ if &laststatus
     set statusline=
     " Left
     set stl+=%(\ %{GetGitSignsStatus()}%)
-    set stl+=%(\ %q%h%w%r%m%)
+    set stl+=%(%q%h%w%r%m%)
     set stl+=\ %F
     " Middle
     set stl+=%=
@@ -116,6 +116,8 @@ call plug#begin()
     " TODO: choose one!
     Plug 'tpope/vim-fugitive'
     Plug 'junegunn/gv.vim'
+
+    Plug 'chrisbra/Colorizer'
 
 
     Plug 'pechorin/any-jump.vim'
