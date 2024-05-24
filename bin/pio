@@ -1,6 +1,13 @@
 #!/usr/bin/bash
 
+set -e -o pipefail
+
 # Take in arguments and pass to `pio` (copy paste from internet)
+
+if [[ ! -d "$HOME/.platformio/penv/bin/" ]]; then
+    exit 0
+fi
+
 declare -a A=("$@")
 [[ -p /dev/stdin ]] && { \
     mapfile -t -O ${#A[@]} A; set -- "${A[@]}"; \

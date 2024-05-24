@@ -8,7 +8,8 @@ set ttimeoutlen=0              " timeout for key sequences of terminal like esc 
 
 set noswapfile undofile undodir=/tmp/$USER.vimundo " Undo file shouldn't replace version control
 
-" let loaded_matchparen = 1
+" Uncomment to disable
+ "let loaded_matchparen = 1
 
 set mouse=ar                   " mouse support
 let mapleader = " "
@@ -17,7 +18,7 @@ set completeopt=menu,menuone,noinsert
 set pumheight=6 previewheight=10
 set wildignorecase wildmode=longest:list      " behave like bash
 
-set guicursor=n-v-c-sm:block,i-ci-ve:block,r-cr-o:hor20
+set guicursor=n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20
 set signcolumn=yes:1
 set noshowmode
 set shortmess=aoFOtT           " using a custome command instead of `F` option
@@ -145,12 +146,13 @@ call plug#begin()
     endif
 call plug#end()
 
+
+
 packadd shout
 
-" let t:shout_cmd = "cc"
-" command! -nargs=1 -bang -complete=file Sh shout#CaptureOutput(<q-args>)
-" nnoremap co :Sh<space>
-" nnoremap cc :Sh <C-r>=expand(t:shout_cmd)<cr>
+let t:shout_cmd = "cc"
+nnoremap co :Sh<space>
+nnoremap cc :Sh <C-r>=expand(t:shout_cmd)<cr>
 
 " --- easy-align ---
 
@@ -248,6 +250,11 @@ nmap gcd yygccp
 noremap  gw mO<cmd>Rg<cr>
 noremap  gW mO:Rg ""<left>
 xnoremap gw mOy<cmd>Rg "<C-r>""<cr>
+
+xnoremap <C-e> oeo
+xnoremap <C-S-e> oEo
+xnoremap <C-b> ogeo
+xnoremap <C-S-b> ogEo
 
 noremap <leader>gg :Gitsigns<space>
 noremap <leader>gp <cmd>Gitsigns preview_hunk_inline<cr>

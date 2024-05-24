@@ -22,6 +22,7 @@ let s:black           = { "gui": "#202424", "cterm": "232" }
 let s:black           = { "gui": "#191d1d", "cterm": "232" }
 let s:black           = { "gui": "#000000", "cterm": "232" }
 let s:black           = { "gui": "#202020", "cterm": "232" }
+let s:black           = { "gui": "#151515", "cterm": "232" }
 let s:medium_gray     = { "gui": "#767676", "cterm": "243" }
 let s:white           = { "gui": "#F1F1F1", "cterm": "15"  }
 let s:actual_white    = { "gui": "#FFFFFF", "cterm": "231" }
@@ -272,6 +273,7 @@ hi  htmlH4          guibg=NONE          guifg=#cda869 gui=bold cterm=bold
 hi  htmlH5          guibg=NONE          guifg=#cda869 gui=bold cterm=bold
 hi  htmlH6          guibg=NONE          guifg=#cda869 gui=bold cterm=bold
 hi! link            helpHyperTextJump Statement
+hi  markdownCode guifg=#458588
 
 hi  SpellBad guifg=fg gui=underline
 
@@ -303,7 +305,7 @@ let g:fzf_colors =
 " Naysayer merge
 hi Normal guifg=fg guibg=bg gui=NONE
 hi NormalFloat guibg=#303030
-hi Visual guifg=NONE guibg=#285577 gui=NONE
+hi Visual guifg=NONE guibg=#163339 gui=NONE
 " hi Visual guibg=#232729
 
 " hi MsgArea guibg=#1c1c1c
