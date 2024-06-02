@@ -248,6 +248,7 @@ if has('nvim')
     hi! link @lsp.type.nameSpace Type
     " hi @lsp.type.nameSpace guifg=#6B7278
     hi! link @keyword.modifier.cpp Type
+    hi! link @keyword.modifier.cpp Type
 endif
 
 hi  Error           guibg=NONE          guifg=#af5f5f gui=underline cterm=underline
@@ -326,4 +327,9 @@ hi! link QfFileName String
 hi! link QfLineNr Constant
 
 hi IncSearch     guibg=#ee799f guifg=black gui=NONE
+hi! link CurSearch Incsearch
 hi Search        guibg=#218058 guifg=black gui=NONE
+
+hi link @markup.link.vimdoc Type
+hi link @constant.macro Macro
+hi @variable guifg=fg

@@ -28,7 +28,7 @@ if &laststatus
     set showcmdloc=statusline
     set statusline=
     " Left
-    set stl+=%(\ %{GetGitSignsStatus()}%)
+    set stl+=%(%{GetGitSignsStatus()}\ %)
     set stl+=%(%q%h%w%r%m%)
     set stl+=\ %F
     " Middle
@@ -108,9 +108,9 @@ call plug#begin()
     Plug 'tpope/vim-eunuch' "?
     Plug 'tpope/vim-abolish' "?
     Plug 'embear/vim-localvimrc'
-    " Plug 'romainl/vim-cool' " smarter search highlight.
+    Plug 'romainl/vim-cool' " smarter search highlight.
     " Plug 'junegunn/vim-slash'
-    Plug 'pgdouyon/vim-evanesco'
+    "Plug 'pgdouyon/vim-evanesco'
     Plug 'ton/vim-alternate'
     Plug 'vbextreme/dumpx'
 
@@ -302,11 +302,11 @@ nnoremap <silent> sgd :0Git diff<CR>
 nnoremap <silent> sgc :0Git diff --cached<CR>
 nnoremap <silent> sgh :0Git show HEAD --format=short<CR>
 
-" using 'pgdouyon/vim-evanesco' instead
-" nnoremap *       *N
-" xnoremap *       y/\V<C-R>"<cr>N
-" nnoremap #       #N
-" xnoremap #       y?\V<C-R>"<cr>N
+" comment if using 'pgdouyon/vim-evanesco'
+ nnoremap *       *N
+ xnoremap *       y/\V<C-R>"<cr>N
+ nnoremap #       #N
+ xnoremap #       y?\V<C-R>"<cr>N
 
 "substitute
 nnoremap <C-s>s  :s/<C-R>=expand('<cword>')<cr>//g<Left><Left>
@@ -496,28 +496,22 @@ hi Normal guibg=NONE
 " color gruber-darker
 " hi Normal guibg=#333333
 
-" color oblivion
-" hi SignColumn guibg=bg
-" hi Statement   gui=none
-" hi Conditional gui=none
-" hi Keyword     gui=none
-" hi Type        gui=none
+ color oblivion
 
-" color desert
-" hi Normal guibg=NONE
-" hi NonText guibg=bg
-" hi Function guifg=lightgreen
-" hi Statement gui=NONE
-" hi Type gui=NONE
-" hi Statement guifg=#f0e68c
-" hi PreProc   guifg=#cd5c5c
-" hi Type      guifg=#bdb76b
-" hi  GitSignsAdd       guifg=lightgreen     guibg=NONE    gui=NONE cterm=NONE
-" hi  GitSignsDelete    guifg=#cd5c5c     guibg=NONE    gui=NONE cterm=NONE
-" hi  GitSignsChange    guifg=#6dceeb     guibg=NONE    gui=NONE cterm=NONE
-
-" color naysayer
-" hi Normal guibg=NONE
-" hi NonText guibg=bg
-" hi EndOfBuffer guibg=bg
-
+ "color desert
+ "hi Normal guibg=NONE
+ "hi NonText guibg=bg
+ "hi Function guifg=lightgreen
+ "hi Statement gui=NONE
+ "hi Type gui=NONE
+ "hi Statement guifg=#f0e68c
+ "hi PreProc   guifg=#cd5c5c
+ "hi Type      guifg=#bdb76b
+ "hi  GitSignsAdd       guifg=lightgreen     guibg=NONE    gui=NONE cterm=NONE
+ "hi  GitSignsDelete    guifg=#cd5c5c     guibg=NONE    gui=NONE cterm=NONE
+ "hi  GitSignsChange    guifg=#6dceeb     guibg=NONE    gui=NONE cterm=NONE
+ "
+ "color naysayer
+ ""hi Normal guibg=NONE
+ "hi NonText guibg=bg
+ "hi EndOfBuffer guibg=bg

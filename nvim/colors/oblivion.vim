@@ -151,5 +151,21 @@ exe 'hi htmlSpecialTagName guifg='s:keyword
 " Markdown Highlighting
 exe 'hi mkdCode guifg='s:builtin
 
+hi Character guifg=#edd400
+hi Number    guifg=#edd400
+hi Boolean   guifg=#edd400
+hi Float     guifg=#edd400
 
+hi Search gui=NONE
 
+hi SignColumn guibg=bg
+hi Statement   gui=none
+hi Conditional gui=none
+hi Keyword     gui=none
+hi Type        gui=none
+
+hi @variable guifg=fg
+hi link @markup.link.vimdoc Type
+hi link @constant.macro Macro
+
+hi WarningMsg gui=inverse guifg=bg

@@ -74,21 +74,22 @@ highlight! link csEndColon Normal
 highlight! link csLogicSymbols Normal
 
 " Window UI
-highlight Cursor                     guifg=#000000       guibg=#8EC07C      gui=NONE
-highlight MoreMsg                    guifg=#dfaf87       guibg=NONE         gui=NONE
-highlight Visual                     guifg=NONE          guibg=#08454D      gui=NONE
-highlight Question                   guifg=#875f5f       guibg=NONE         gui=NONE
-highlight Search                     guifg=#dfdfaf       guibg=#878787      gui=NONE
-highlight PmenuSel                   guifg=#dfdfaf       guibg=#875f5f      gui=NONE
-highlight MatchParen                 guifg=#dfdfaf       guibg=#875f5f      gui=NONE
-highlight VertSplit                  guifg=#000000       guibg=NONE         gui=NONE
-highlight! EndOfBuffer               guifg=#042327       guibg=#042327      gui=NONE
+hi Cursor                     guifg=#000000       guibg=#8EC07C      gui=NONE
+hi MoreMsg                    guifg=#dfaf87       guibg=NONE         gui=NONE
+hi Visual                     guifg=NONE          guibg=#08454D      gui=NONE
+hi Question                   guifg=#875f5f       guibg=NONE         gui=NONE
+hi Search                     guifg=#dfdfaf       guibg=#878787      gui=NONE
+hi PmenuSel                   guifg=#dfdfaf       guibg=#875f5f      gui=NONE
+hi MatchParen                 guifg=#dfdfaf       guibg=#875f5f      gui=NONE
+hi VertSplit                  guifg=#000000       guibg=NONE         gui=NONE
+hi WinSeparator               guifg=#000000       guibg=NONE         gui=NONE
+hi! EndOfBuffer               guifg=#042327       guibg=#042327      gui=NONE
 
 " Addons
 " hi NormalFloat guibg=bg
 hi CmpPmenuBorder guifg=#000000
 hi SignColumn guibg=bg
-hi StatusLine gui=NONE guibg=#08454D
+hi StatusLine gui=NONE guibg=#08454D guifg=fg
 hi LineNr guifg=#18555D
 hi ErrorMsg guifg=red guibg=bg
 hi Folded guifg=#878787 guibg=bg
@@ -98,6 +99,7 @@ hi! link Pmenu Visual
 " hi! link PmenuSel Pmenu
 hi PmenuThumb guibg=fg
 hi IncSearch     guibg=#ee799f guifg=#cfcfc2 gui=NONE
+hi! link CurSearch Incsearch
 hi Search        guibg=#218058 guifg=#cfcfc2 gui=NONE
 
 hi DiffAdd       guibg=#123723 guifg=NONE    gui=NONE
@@ -115,6 +117,7 @@ hi! link Directory Statement
 hi! link CursorLine Visual
 
 hi! link @lsp.type.namespace @lsp.type.enumMember
+hi @variable guifg=fg
 
 hi  Title guifg=#2ec09c
 hi! link  FloatTitle        Title

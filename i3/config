@@ -125,10 +125,10 @@ floating_modifier $mod
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%  && notify-send -r 1 -t 2000 "volume: $(pamixer --get-volume-human)"
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%  && notify-send -r 1 -t 2000 "volume: $(pamixer --get-volume-human)"
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle        && notify-send -r 1 -t 2000 "volume: $(pamixer --get-volume-human)"
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && notify-send -r 1 -t 2000 "volume: $(pamixer --get-volume-human)"
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%  && notify-send -r 1 -t 2000 -i audio-volume-medium "volume: $(pamixer --get-volume-human)"
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%  && notify-send -r 1 -t 2000 -i audio-volume-medium "volume: $(pamixer --get-volume-human)"
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle        && notify-send -r 1 -t 2000 -i audio-volume-medium "volume: $(pamixer --get-volume-human)"
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && notify-send -r 1 -t 2000 -i audio-volume-medium "volume: $(pamixer --get-volume-human)"
 # Media player controls (you need to install `playerctl`)
 bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
 bindsym XF86AudioPause exec --no-startup-id playerctl play-pause
