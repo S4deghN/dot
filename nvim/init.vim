@@ -60,7 +60,7 @@ set textwidth=90
 set diffopt=internal,filler,closeoff,indent-heuristic,algorithm:histogram
 
 set showbreak=>                " Break line symbol
-set fillchars=diff:╱,vert:\|
+set fillchars=diff:╱
 
 if executable('rg')
     set grepprg=rg\ -H\ --no-heading\ --vimgrep
@@ -197,6 +197,8 @@ tmap <C-]> <C-\><C-n>
 " if not using terminal
 inoremap <C-S-v> <C-r>+
 xnoremap <C-S-v> <C-r>+
+inoremap <C-c> <esc>
+inoremap <C-u> <esc>vbU`]a
 
 inoremap <C-c> <esc>
 inoremap <C-u> <esc>vbU`]a
@@ -206,8 +208,8 @@ inoremap <c-x><c-f> <cmd>lua require("fzf-lua").complete_path()<cr>
 noremap <F4> [I:let nr = input("Which one: ")<Bar>exe "normal " .. nr .. "[\t"<cr>
 
 map '      `
-map p      ]p
-map P      [p
+map p      pV`]=
+map P      PV`]=
 map gp     "+p
 map gP     "+P
 noremap gy     "+y
@@ -510,7 +512,8 @@ hi Normal guibg=NONE
  "hi  GitSignsAdd       guifg=lightgreen     guibg=NONE    gui=NONE cterm=NONE
  "hi  GitSignsDelete    guifg=#cd5c5c     guibg=NONE    gui=NONE cterm=NONE
  "hi  GitSignsChange    guifg=#6dceeb     guibg=NONE    gui=NONE cterm=NONE
- "
+
+
  "color naysayer
  ""hi Normal guibg=NONE
  "hi NonText guibg=bg

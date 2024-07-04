@@ -10,8 +10,13 @@ endif
 
 let g:colors_name="naysayer88"
 
-" highlight! Normal guifg=#d1b897 guibg=#042327 gui=NONE
-highlight! Normal guifg=#d1b897 guibg=#062329 gui=NONE
+"062329
+"highlight! Normal guifg=#d1b897 guibg=#072727 gui=NONE
+"highlight! Normal guifg=#d1b897 guibg=#062626 gui=NONE
+ "highlight! Normal guifg=#d1b897 guibg=#042327 gui=NONE
+"highlight! Normal guifg=#d1b897 guibg=#042327 gui=NONE
+"highlight! Normal guifg=#d1b897 guibg=#062326 gui=NONE
+highlight! Normal guifg=#d1b897 guibg=#062626 gui=NONE
 
 highlight! Comment guifg=#44b340 guibg=NONE gui=NONE
 
@@ -24,7 +29,8 @@ highlight! link Constant Number
 
 highlight! link Identifier Normal
 " highlight! link Function Statement
-highlight Function guifg=#cceeee
+"highlight Function guifg=#cceeee
+highlight Function guifg=fg
 
 highlight! Statement guifg=#eeeeee guibg=NONE gui=NONE
 highlight! link Conditional Statement
@@ -76,20 +82,27 @@ highlight! link csLogicSymbols Normal
 " Window UI
 hi Cursor                     guifg=#000000       guibg=#8EC07C      gui=NONE
 hi MoreMsg                    guifg=#dfaf87       guibg=NONE         gui=NONE
-hi Visual                     guifg=NONE          guibg=#08454D      gui=NONE
+"hi Visual                     guifg=NONE          guibg=#08454D      gui=NONE
+hi Visual                     guifg=NONE          guibg=#1f3f3f      gui=NONE
+"hi Visual                     guifg=NONE          guibg=#0000bf      gui=NONE
 hi Question                   guifg=#875f5f       guibg=NONE         gui=NONE
 hi Search                     guifg=#dfdfaf       guibg=#878787      gui=NONE
-hi PmenuSel                   guifg=#dfdfaf       guibg=#875f5f      gui=NONE
+"hi PmenuSel                   guifg=#dfdfaf       guibg=#875f5f      gui=NONE
+hi PmenuSel                   guifg=NONE guibg=#0f2f2f      gui=NONE
 hi MatchParen                 guifg=#dfdfaf       guibg=#875f5f      gui=NONE
-hi VertSplit                  guifg=#000000       guibg=NONE         gui=NONE
-hi WinSeparator               guifg=#000000       guibg=NONE         gui=NONE
+hi VertSplit                  guifg=#0f2f2f       guibg=NONE         gui=NONE
+hi WinSeparator               guifg=#0f2f2f       guibg=NONE         gui=NONE
 hi! EndOfBuffer               guifg=#042327       guibg=#042327      gui=NONE
 
 " Addons
-" hi NormalFloat guibg=bg
+hi NormalFloat guibg=#002020
 hi CmpPmenuBorder guifg=#000000
 hi SignColumn guibg=bg
-hi StatusLine gui=NONE guibg=#08454D guifg=fg
+"hi StatusLine gui=none guibg=fg guifg=black
+"hi StatusLine gui=NONE guibg=#08454D guifg=fg
+"hi StatusLine gui=NONE guibg=#2f4f4f guifg=fg
+hi StatusLine gui=NONE guibg=#0f2f2f guifg=fg
+hi StatusLineNC gui=NONE guibg=#002020 guifg=fg
 hi LineNr guifg=#18555D
 hi ErrorMsg guifg=red guibg=bg
 hi Folded guifg=#878787 guibg=bg
@@ -118,6 +131,7 @@ hi! link CursorLine Visual
 
 hi! link @lsp.type.namespace @lsp.type.enumMember
 hi @variable guifg=fg
+hi! link @lsp.type.macro Macro
 
 hi  Title guifg=#2ec09c
 hi! link  FloatTitle        Title
@@ -130,6 +144,14 @@ hi! link  htmlH6            Title
 hi! link  helpHyperTextJump Title
 
 hi NonText guifg=gray
+
+hi DiagnosticError guifg=#af5f5f
+hi DiagnosticWarn  guifg=NvimLightYellow
+hi DiagnosticWarn  guifg=#eeee5f
+hi DiagnosticInfo  guifg=NvimLightCyan
+hi DiagnosticHint  guifg=NvimLightBlue
+hi DiagnosticOk    guifg=NvimLightGreen
+
 
 let g:fzf_colors =
   \ { 'fg':      ['fg', 'NormalFloat'],

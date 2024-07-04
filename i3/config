@@ -19,7 +19,7 @@ set $mod Mod4
 #exec --no-startup-id xrandr --output HDMI-2 --mode 1920x1080 --rate 75
 
 # keyboard layout
-exec_always --no-startup-id setxkbmap -layout us,ir -option 'grp:alt_shift_toggle'
+exec_always --no-startup-id setxkbmap -layout us,ir
 
 # exec_always --no-startup-id source ~/.xprofile
 
@@ -66,6 +66,7 @@ for_window [class="VirtualBox"] floating enable
 for_window [class="firefox"] border pixel 2
 for_window [class="St"] border pixel 2
 for_window [class="XTerm"] border pixel 2
+for_window [class="Emacs"] border pixel 2
 
 # You can also use any non-zero value if you'd like to have a border
 # for_window [class=".*"] border pixel 1

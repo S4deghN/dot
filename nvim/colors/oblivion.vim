@@ -23,7 +23,8 @@ let s:bg3="#4f5456"
 let s:bg4="#606566"
 let s:keyword="#FFFFFF"
 let s:builtin="#AD7FA8"
-let s:const="#CE5C00"
+"let s:const="#CE5C00"
+let s:const="#ff8800"
 let s:comment="#888A85"
 let s:func="#D3D7CF"
 let s:str="#EDD400"
@@ -44,7 +45,7 @@ exe 'hi LineNr guifg='s:fg2' guibg='s:bg2
 exe 'hi CursorLineNr guifg='s:fg' guibg='s:bg2
 exe 'hi VertSplit guifg='s:fg3' guibg='s:bg3
 exe 'hi MatchParen guifg='s:warning2'  gui=underline'
-exe 'hi StatusLine guifg='s:fg2' guibg='s:bg3' gui=bold'
+exe 'hi StatusLine guifg='s:fg2' guibg='s:bg3
 exe 'hi Pmenu guifg='s:fg' guibg='s:bg2
 exe 'hi PmenuSel  guibg='s:bg3
 exe 'hi IncSearch guifg='s:bg' guibg='s:keyword
@@ -151,6 +152,9 @@ exe 'hi htmlSpecialTagName guifg='s:keyword
 " Markdown Highlighting
 exe 'hi mkdCode guifg='s:builtin
 
+hi NormalFloat guibg=#282e30
+hi PmenuSel gui=NONE guifg=NONE guibg=#3f4446
+
 hi Character guifg=#edd400
 hi Number    guifg=#edd400
 hi Boolean   guifg=#edd400
@@ -158,6 +162,7 @@ hi Float     guifg=#edd400
 
 hi Search gui=NONE
 
+"hi Function guifg=#789AC0
 hi SignColumn guibg=bg
 hi Statement   gui=none
 hi Conditional gui=none
@@ -165,7 +170,10 @@ hi Keyword     gui=none
 hi Type        gui=none
 
 hi @variable guifg=fg
-hi link @markup.link.vimdoc Type
-hi link @constant.macro Macro
+hi! link @markup.link.vimdoc Type
+hi! link @constant.macro Macro
+hi! link Structure Statement
 
 hi WarningMsg gui=inverse guifg=bg
+hi NonText guibg=bg
+hi EndOfBuffer guibg=bg
