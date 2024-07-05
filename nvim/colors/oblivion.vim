@@ -162,7 +162,7 @@ hi Float     guifg=#edd400
 
 hi Search gui=NONE
 
-"hi Function guifg=#789AC0
+hi Function guifg=#789AC0
 hi SignColumn guibg=bg
 hi Statement   gui=none
 hi Conditional gui=none

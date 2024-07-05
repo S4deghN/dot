@@ -514,7 +514,7 @@ hi Normal guibg=NONE
  "hi  GitSignsChange    guifg=#6dceeb     guibg=NONE    gui=NONE cterm=NONE
 
 
- "color naysayer
- ""hi Normal guibg=NONE
- "hi NonText guibg=bg
- "hi EndOfBuffer guibg=bg
+ color naysayer
+ "hi Normal guibg=NONE
+ hi NonText guibg=bg
+ hi EndOfBuffer guibg=bg
