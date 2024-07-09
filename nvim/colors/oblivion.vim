@@ -2,7 +2,7 @@
 " oblivion
 " Created by s4 with ThemeCreator (https://github.com/mswift42/themecreator)
 
-"hi clear
+hi clear
 
 if exists("syntax on")
 syntax reset
@@ -159,6 +159,7 @@ hi Character guifg=#edd400
 hi Number    guifg=#edd400
 hi Boolean   guifg=#edd400
 hi Float     guifg=#edd400
+hi Title     guifg=#edd400
 
 hi Search gui=NONE
 
@@ -182,3 +183,8 @@ hi EndOfBuffer guibg=bg
 " Lsp hover text highlighting
 hi @markup.raw.markdown_inline guifg=fg
 hi @markup.raw.block.markdown guifg=fg
+
+hi  DiffAdd guifg=NONE guibg=#1D2B21
+hi  DiffDelete guifg=#484E52 guibg=NONE
+hi  DiffChange guifg=NONE guibg=#1F385B
+hi  DiffText guifg=NONE guibg=#172A45
