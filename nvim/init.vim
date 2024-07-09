@@ -56,6 +56,7 @@ set nosmarttab                 " when unset you can delete inserted tab with C-w
 set expandtab shiftwidth=4 tabstop=4
 set foldmethod=marker
 set textwidth=90
+set virtualedit=onemore
 
 set diffopt=internal,filler,closeoff,indent-heuristic,algorithm:histogram
 
@@ -237,6 +238,8 @@ noremap <M-a>  'A
 noremap <M-s>  'S
 noremap <M-d>  'D
 noremap <M-f>  'F
+noremap <M-g>  'G
+
 
 nnoremap gF mm:%!clang-format<cr>`m
 nnoremap go <cmd>Alternate<cr>
@@ -467,12 +470,14 @@ augroup fugitive_vimrc
     autocmd BufReadPost fugitive://* setlocal bufhidden=delete
 augroup END
 
-" -----------------------------------------------
-" --- colors ---
-" -----------------------------------------------
-color arc
-hi Normal guibg=NONE
-" hi Normal guibg=#202020
+ "-----------------------------------------------
+ "--- colors ---
+ "-----------------------------------------------
+
+"color arc
+"hi Normal guibg=NONE
+
+ "hi Normal guibg=#202020
 
 " color apprentice
 " hi SignColumn guibg=bg
@@ -514,7 +519,7 @@ hi Normal guibg=NONE
  "hi  GitSignsChange    guifg=#6dceeb     guibg=NONE    gui=NONE cterm=NONE
 
 
- color naysayer
- "hi Normal guibg=NONE
- hi NonText guibg=bg
- hi EndOfBuffer guibg=bg
+ "color naysayer
+ ""hi Normal guibg=NONE
+ "hi NonText guibg=bg
+ "hi EndOfBuffer guibg=bg

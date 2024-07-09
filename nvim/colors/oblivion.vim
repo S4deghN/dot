@@ -2,7 +2,7 @@
 " oblivion
 " Created by s4 with ThemeCreator (https://github.com/mswift42/themecreator)
 
-hi clear
+"hi clear
 
 if exists("syntax on")
 syntax reset
@@ -79,7 +79,7 @@ exe 'hi PreProc guifg='s:builtin
 exe 'hi Special guifg='s:const
 exe 'hi SpecialKey guifg='s:fg2' guibg='s:bg2
 exe 'hi Statement guifg='s:keyword
-exe 'hi StorageClass guifg='s:keyword'  gui=bold'
+exe 'hi StorageClass guifg='s:keyword
 exe 'hi String guifg='s:str
 exe 'hi Tag guifg='s:keyword
 exe 'hi Title guifg='s:fg'  gui=bold'
@@ -87,23 +87,23 @@ exe 'hi Todo guifg='s:fg2'  gui=inverse,bold'
 exe 'hi Type guifg='s:type
 exe 'hi Underlined   gui=underline'
 
-" Neovim Terminal Mode
-let g:terminal_color_0 = s:bg
-let g:terminal_color_1 = s:warning
-let g:terminal_color_2 = s:keyword
-let g:terminal_color_3 = s:bg4
-let g:terminal_color_4 = s:func
-let g:terminal_color_5 = s:builtin
-let g:terminal_color_6 = s:fg3
-let g:terminal_color_7 = s:str
-let g:terminal_color_8 = s:bg2
-let g:terminal_color_9 = s:warning2
-let g:terminal_color_10 = s:fg2
-let g:terminal_color_11 = s:var
-let g:terminal_color_12 = s:type
-let g:terminal_color_13 = s:const
-let g:terminal_color_14 = s:fg4
-let g:terminal_color_15 = s:comment
+"" Neovim Terminal Mode
+"let g:terminal_color_0 = s:bg
+"let g:terminal_color_1 = s:warning
+"let g:terminal_color_2 = s:keyword
+"let g:terminal_color_3 = s:bg4
+"let g:terminal_color_4 = s:func
+"let g:terminal_color_5 = s:builtin
+"let g:terminal_color_6 = s:fg3
+"let g:terminal_color_7 = s:str
+"let g:terminal_color_8 = s:bg2
+"let g:terminal_color_9 = s:warning2
+"let g:terminal_color_10 = s:fg2
+"let g:terminal_color_11 = s:var
+"let g:terminal_color_12 = s:type
+"let g:terminal_color_13 = s:const
+"let g:terminal_color_14 = s:fg4
+"let g:terminal_color_15 = s:comment
 
 " Ruby Highlighting
 exe 'hi rubyAttribute guifg='s:builtin
@@ -163,6 +163,7 @@ hi Float     guifg=#edd400
 hi Search gui=NONE
 
 hi Function guifg=#789AC0
+hi Function guifg=#88aAd0
 hi SignColumn guibg=bg
 hi Statement   gui=none
 hi Conditional gui=none
@@ -177,3 +178,7 @@ hi! link Structure Statement
 hi WarningMsg gui=inverse guifg=bg
 hi NonText guibg=bg
 hi EndOfBuffer guibg=bg
+
+" Lsp hover text highlighting
+hi @markup.raw.markdown_inline guifg=fg
+hi @markup.raw.block.markdown guifg=fg
