@@ -30,8 +30,8 @@ highlight! link Constant Number
 
 highlight! link Identifier Normal
 " highlight! link Function Statement
-"highlight Function guifg=#cceeee
-highlight Function guifg=fg
+highlight Function guifg=#cceeee
+" highlight Function guifg=fg
 
 highlight! Statement guifg=#eeeeee guibg=NONE gui=NONE
 highlight! link Conditional Statement
@@ -96,7 +96,7 @@ hi WinSeparator               guifg=#0f2f2f       guibg=NONE         gui=NONE
 hi! EndOfBuffer               guifg=#042327       guibg=#042327      gui=NONE
 
 " Addons
-hi NormalFloat guibg=#002020
+hi NormalFloat guibg=#0f2f2f
 hi CmpPmenuBorder guifg=#000000
 hi SignColumn guibg=bg
 "hi StatusLine gui=none guibg=fg guifg=black
