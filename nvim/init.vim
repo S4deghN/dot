@@ -28,9 +28,10 @@ if &laststatus
     set showcmdloc=statusline
     set statusline=
     " Left
-    set stl+=%(%{GetGitSignsStatus()}\ %)
-    set stl+=%(%q%h%w%r%m%)
-    set stl+=\ %F
+    set stl+=%(%#Number#%{GetGitSignsStatus()}\ %*%)
+    set stl+=%#Number#%m%*
+    set stl+=%(%q%h%w%r%)
+    set stl+=\ %f
     " Middle
     set stl+=%=
     set stl+=%S
@@ -271,7 +272,8 @@ noremap [g         jk<cmd>Gitsigns prev_hunk<cr><cmd>Gitsigns preview_hunk<cr>
 noremap  <leader><leader> <cmd>FzfLua<cr>
 noremap  <leader><cr>     <cmd>FzfLua resume<cr>
 noremap  <leader>f        <cmd>FzfLua files<cr>
-noremap  <leader>B        <cmd>FzfLua buffers<cr>
+noremap  <leader>r        <cmd>FzfLua oldfiles<cr>
+noremap  <leader>b        <cmd>FzfLua buffers<cr>
 noremap  <leader>lr       <cmd>FzfLua lsp_references<cr>
 noremap  <leader>ld       <cmd>FzfLua lsp_definitions<cr>
 noremap  <leader>lf       <cmd>FzfLua lsp_finder<cr>
@@ -284,7 +286,7 @@ nnoremap <leader>d :bp\|bd #<cr>
 " nnoremap <Leader>d :call <SID>BufKill("bdelete!")<CR>
 " nnoremap <Leader>D :call <SID>BufKill("bwipe!")<CR>
 
-nmap <leader>b :b<space>
+nmap <leader>B :b<space>
 " nmap <leader>f :e<space><C-x>f
 nmap <leader>e :e<space><C-x>d
 nmap <leader>E :Exp<cr>
@@ -375,14 +377,14 @@ augroup autoCommands
                 \ |   exe "normal! g`\""
                 \ | endif
 
-    " " autocmd BufEnter * call timer_start(0, 'EchoFileName')
-    " autocmd BufEnter *
-    "             \ let f = expand('%:p:~')
-    "             \ | if len(f) < 80
-    "             " \ |     echo f
-    "             " \ |     normal gg
-    "             \ |     call feedkeys("gg")
-    "             \ | endif
+    " autocmd BufEnter * call timer_start(0, 'EchoFileName')
+    autocmd BufEnter *
+                \ let f = expand('%:p:~')
+                \ | if len(f) < 80
+                \ |     echo f
+                " \ |     normal gg
+                " \ |     call feedkeys("gg")
+                \ | endif
 
     " autocmd BufEnter * call feedkeys("\<C-g>")
 
@@ -390,7 +392,7 @@ augroup autoCommands
     " autocmd Filetype cpp,rust setlocal matchpairs+=<:>
     autocmd Filetype netrw call NetrwConfig()
     autocmd Filetype qf nmap <buffer> <Esc> ZQ
-    autocmd Filetype qf wincmd L
+    " autocmd Filetype qf wincmd L
     autocmd BufAdd .clang* set filetype=yaml
     autocmd BufAdd /tmp/bash* set filetype=sh " for the v command in bash vi mode
     autocmd BufReadPost *.lub set filetype=lua

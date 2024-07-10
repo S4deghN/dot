@@ -166,10 +166,10 @@ hi Search gui=NONE
 hi Function guifg=#789AC0
 hi Function guifg=#88aAd0
 hi SignColumn guibg=bg
-hi Statement   gui=none
-hi Conditional gui=none
-hi Keyword     gui=none
-hi Type        gui=none
+hi Statement   gui=NONE
+hi Conditional gui=NONE
+hi Keyword     gui=NONE
+hi Type        gui=NONE
 
 hi @variable guifg=fg
 hi! link @markup.link.vimdoc Type
@@ -184,7 +184,14 @@ hi EndOfBuffer guibg=bg
 hi @markup.raw.markdown_inline guifg=fg
 hi @markup.raw.block.markdown guifg=fg
 
-hi  DiffAdd guifg=NONE guibg=#1D2B21
-hi  DiffDelete guifg=#484E52 guibg=NONE
-hi  DiffChange guifg=NONE guibg=#1F385B
-hi  DiffText guifg=NONE guibg=#172A45
+hi  DiffAdd    guifg=NONE guibg=#2D3B31 gui=NONE
+hi  DiffChange guifg=NONE guibg=#1F385B gui=NONE
+hi  DiffText   guifg=NONE guibg=#172A45 gui=NONE
+hi  DiffDelete guifg=NONE guibg=NONE gui=NONE
+
+hi  GitSignsAdd       guifg=#8F9D6A     guibg=NONE    gui=NONE cterm=NONE
+hi  GitSignsDelete    guifg=#af5f5f     guibg=NONE    gui=NONE cterm=NONE
+hi  GitSignsChange    guifg=#88aAd0     guibg=NONE    gui=NONE cterm=NONE
+
+hi Statusline gui=NONE
+hi StatusLineNC gui=NONE guibg=#282e30
