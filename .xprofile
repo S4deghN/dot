@@ -14,10 +14,11 @@ setxkbmap -layout us,ir
 setxkbmap -option caps:escape_shifted_capslock
 # setxkbmap -option caps:ctrl_modifier
 
-# work keyboard
-setxkbmap -option ctrl:swap_lwin_lctl
-setxkbmap -option ctrl:swap_rwin_rctl
-setxkbmap -option altwin:menu_win
+if [ $HOSTNAME -eq "naad" ] then;
+    setxkbmap -option ctrl:swap_lwin_lctl
+    setxkbmap -option ctrl:swap_rwin_rctl
+    setxkbmap -option altwin:menu_win
+fi
 
 xset r rate 170 70
 
