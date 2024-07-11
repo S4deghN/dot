@@ -16,7 +16,7 @@ export GITLAB_HOME=/srv/gitlab
 
 # Disable accessibility processes of gtk dependend application and DE.
 export NO_AT_BRIDGE=1
-export GTK_THEME=Adwaita:dark
+# export GTK_THEME=Adwaita:dark
 
 export QT_QPA_PLATFORMTHEME="qt5ct"
 # export QT_SCALE_FACTOR=1
@@ -71,7 +71,11 @@ fi
 #     pgrep Xorg || startx
 # fi
 
-export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+if [ $HOSTNAME = "naad" ]; then
+    export PYENV_ROOT="$HOME/.pyenv"
+    if [ -d $PYENV_ROOT/bin ]; then
+        export PATH="$PYENV_ROOT/bin:$PATH"
+        eval "$(pyenv init -)"
+        eval "$(pyenv virtualenv-init -)"
+    fi
+fi

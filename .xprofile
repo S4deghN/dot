@@ -8,21 +8,20 @@ setxkbmap -layout us,ir
 #! make short-pressed Ctrl behave like Escape:
 # xcape -e 'Control_L=Escape'
 
-#!
-#! caps as escape on key down
-#!
 setxkbmap -option caps:escape_shifted_capslock
 # setxkbmap -option caps:ctrl_modifier
 
-if [ $HOSTNAME -eq "naad" ] then;
+xset r rate 170 70
+
+if [ $HOSTNAME = "naad" ]; then
     setxkbmap -option ctrl:swap_lwin_lctl
     setxkbmap -option ctrl:swap_rwin_rctl
     setxkbmap -option altwin:menu_win
+    xrandr --output HDMI-2 --primary --mode 1920x1080 --rate 75
+else
+    # default home computer
+    xrandr --output eDP-1 --off
+    xrandr --output HDMI-2 --primary --mode 1920x1080 --rate 75
+    # xrandr --output eDP-1 --mode 1920x1080
 fi
 
-xset r rate 170 70
-
-# xrandr --output eDP-1 --off
-# xrandr --output HDMI-2 --primary --mode 1920x1080 --rate 75
-
-# xrandr --output eDP-1 --mode 1920x1080

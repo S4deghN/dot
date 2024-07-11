@@ -57,7 +57,7 @@ set nosmarttab                 " when unset you can delete inserted tab with C-w
 set expandtab shiftwidth=4 tabstop=4
 set foldmethod=marker
 set textwidth=90
-set virtualedit=onemore
+"set virtualedit=onemore
 
 set diffopt=internal,filler,closeoff,indent-heuristic,algorithm:histogram
 
@@ -135,6 +135,9 @@ call plug#begin()
         Plug 'sindrets/diffview.nvim'
         Plug 'lewis6991/gitsigns.nvim'
 
+        "Plug 'nvim-lua/plenary.nvim'
+        "Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.8' }
+
         " lsp
         Plug 'neovim/nvim-lspconfig'
         Plug 'hrsh7th/nvim-cmp'
@@ -186,6 +189,8 @@ lua require('gitsigns').setup()
 
 " --- lsp ---
 lua require 'Lsp'
+
+lua require 'Telescope'
 
 " -----------------------------------------------
 " --- keymaps ---
@@ -282,6 +287,8 @@ nnoremap <leader>w        <cmd>FzfLua grep_cword<cr>
 xnoremap <leader>s        <cmd>FzfLua grep_visual<cr>
 nnoremap <leader>s        <cmd>FzfLua live_grep<cr>
 
+"noremap <leader>t <cmd>Telescope<cr>
+
 nnoremap <leader>d :bp\|bd #<cr>
 " nnoremap <Leader>d :call <SID>BufKill("bdelete!")<CR>
 " nnoremap <Leader>D :call <SID>BufKill("bwipe!")<CR>
@@ -377,19 +384,28 @@ augroup autoCommands
                 \ |   exe "normal! g`\""
                 \ | endif
 
-    " autocmd BufEnter * call timer_start(0, 'EchoFileName')
-    autocmd BufEnter *
-                \ let f = expand('%:p:~')
-                \ | if len(f) < 80
-                \ |     echo f
-                " \ |     normal gg
-                " \ |     call feedkeys("gg")
-                \ | endif
 
-    " autocmd BufEnter * call feedkeys("\<C-g>")
+
+    function! EchoFileName(timer)
+        let f = expand('%:p:~')
+        if len(f) < 80
+            echo f
+        endif
+    endfunction
+
+    "autocmd BufEnter * call timer_start(0, 'EchoFileName')
+    "autocmd BufEnter *
+    "            \ let f = expand('%:p:~')
+    "            \ | if len(f) < 80
+    "            \ |     echo f
+    "            " \ |     normal gg
+    "            " \ |     call feedkeys("gg")
+    "            \ | endif
+
+    autocmd BufWinEnter * call feedkeys("\<C-g>")
 
     autocmd Filetype tex,text,markdown,gitcommit setlocal spell
-    " autocmd Filetype cpp,rust setlocal matchpairs+=<:>
+    autocmd Filetype cpp,rust setlocal matchpairs+=<:>
     autocmd Filetype netrw call NetrwConfig()
     autocmd Filetype qf nmap <buffer> <Esc> ZQ
     " autocmd Filetype qf wincmd L

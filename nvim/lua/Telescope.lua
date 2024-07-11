@@ -1,5 +1,5 @@
-require("telescope").load_extension("emoji")
-require("telescope").load_extension("pathogen")
+-- require("telescope").load_extension("emoji")
+-- require("telescope").load_extension("pathogen")
 
 require('telescope').setup {
     defaults = {
