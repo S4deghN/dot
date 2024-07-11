@@ -48,7 +48,7 @@ exe 'hi MatchParen guifg='s:warning2'  gui=underline'
 exe 'hi StatusLine guifg='s:fg2' guibg='s:bg3
 exe 'hi Pmenu guifg='s:fg' guibg='s:bg2
 exe 'hi PmenuSel  guibg='s:bg3
-exe 'hi IncSearch guifg='s:bg' guibg='s:keyword
+exe 'hi IncSearch guifg='s:type
 exe 'hi Search   gui=underline'
 exe 'hi Directory guifg='s:const
 exe 'hi Folded guifg='s:fg4' guibg='s:bg

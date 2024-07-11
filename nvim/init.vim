@@ -170,7 +170,7 @@ let g:rooter_silent_chdir = 1
 " let g:rg_highlight = 1
 
 " --- alternate-file ---
-let g:AlternatePaths = ['../itf', '../source', '../include', '../inc', '../src', '.', '..']
+let g:AlternatePaths = ['../itf', '../inc', '../include', '../source', '../src', '.', '..']
 let g:AlternateExtensionMappings = [
             \{'.c': '.h', '.h': '.c'},
             \{'.cpp': '.h', '.h': '.cpp'},
@@ -190,7 +190,7 @@ lua require('gitsigns').setup()
 " --- lsp ---
 lua require 'Lsp'
 
-lua require 'Telescope'
+" lua require 'Telescope'
 
 " -----------------------------------------------
 " --- keymaps ---
@@ -334,12 +334,17 @@ nnoremap <C-s>ap yiwvap<Esc>:'<,'>:s/<C-R>"//g<Left><Left>
 " --- functions ---
 " -----------------------------------------------
 function! GetGitSignsStatus()
-    if !exists('b:gitsigns_status_dict.added')
+    if !exists('b:gitsigns_status_dict.root')
         return ''
     endif
-    let d = b:gitsigns_status_dict
-    " return d.head.' +'.d.added.' ~'.d.changed.' -'.d.removed
-    return d.head
+    " let d = b:gitsigns_status_dict
+    " " return d.head.' +'.d.added.' ~'.d.changed.' -'.d.removed
+    " return d.head
+    let ret = b:gitsigns_status_dict.head
+    " if !exists('b:gitsigns_status_dict.added')
+    "     let ret = 'U - ' .. ret
+    " endif
+    return ret
 endfunction
 
 function! s:tmux_apply_title()
@@ -393,7 +398,7 @@ augroup autoCommands
         endif
     endfunction
 
-    "autocmd BufEnter * call timer_start(0, 'EchoFileName')
+    autocmd BufEnter * call timer_start(0, 'EchoFileName')
     "autocmd BufEnter *
     "            \ let f = expand('%:p:~')
     "            \ | if len(f) < 80
@@ -402,7 +407,7 @@ augroup autoCommands
     "            " \ |     call feedkeys("gg")
     "            \ | endif
 
-    autocmd BufWinEnter * call feedkeys("\<C-g>")
+    " autocmd BufEnter * call feedkeys("\<C-g>")
 
     autocmd Filetype tex,text,markdown,gitcommit setlocal spell
     autocmd Filetype cpp,rust setlocal matchpairs+=<:>
