@@ -20,9 +20,8 @@ let g:colors_name='green-arc'
 "let s:black           = { "gui": "#1C2024", "cterm": "232" }
 "let s:black           = { "gui": "#202424", "cterm": "232" }
 "let s:black           = { "gui": "#191d1d", "cterm": "232" }
-"let s:black           = { "gui": "#000000", "cterm": "232" }
-"let s:black           = { "gui": "#202020", "cterm": "232" }
-let s:black           = { "gui": "#151515", "cterm": "232" }
+"let s:black           = { "gui": "#1d1d1d", "cterm": "232" }
+let s:black           = { "gui": "#242424", "cterm": "232" }
 let s:medium_gray     = { "gui": "#767676", "cterm": "243" }
 let s:white           = { "gui": "#F1F1F1", "cterm": "15"  }
 let s:actual_white    = { "gui": "#FFFFFF", "cterm": "231" }
@@ -32,8 +31,9 @@ let s:lighter_black   = { "gui": "#4E4E4E", "cterm": "239" }
 let s:light_gray      = { "gui": "#A8A8A8", "cterm": "248" }
 " let s:lighter_gray    = { "gui": "#c5c5c5", "cterm": "251" }
 " let s:lighter_gray    = { "gui": "#aaaaaa", "cterm": "251" }
-let s:lighter_gray    = { "gui": "#9aa9aa", "cterm": "251" }
-" let s:lighter_gray    = { "gui": "#9faeaf", "cterm": "251" }
+"let s:lighter_gray    = { "gui": "#9aa9aa", "cterm": "251" }
+let s:lighter_gray    = { "gui": "#9faeaf", "cterm": "251" }
+let s:lighter_gray    = { "gui": "#b2bbbb", "cterm": "251" }
 let s:lightest_gray   = { "gui": "#EEEEEE", "cterm": "255" }
 let s:pink            = { "gui": "#fb007a", "cterm": "9"   }
 let s:dark_red        = { "gui": "#C30771", "cterm": "1"   }
@@ -312,8 +312,10 @@ hi Normal guifg=fg guibg=bg gui=NONE
 "hi NormalFloat guibg=#303030
 hi NormalFloat guibg=#151515
 hi floatBorder guifg=#303030 guibg=#151515
-hi Visual guifg=NONE guibg=#163339 gui=NONE
-hi Visual guifg=NONE guibg=#08454D gui=NONE
+"hi Visual guifg=NONE guibg=#163339 gui=NONE
+"hi Visual guifg=NONE guibg=#08454D gui=NONE
+hi Visual guifg=NONE guibg=#08373f gui=NONE
+hi visual guifg=NONE guibg=#285577
 
 " hi Visual guibg=#232729
 
@@ -347,8 +349,7 @@ hi! link @constant.macro Macro
 hi @variable guifg=fg
 hi! link @type.builtin Type
 hi! link @keyword.modifier.cpp statement
-"hi! link cppStructure statement
+hi! link cppStructure statement
+hi! link cStructure statement
 ""hi! link cStorageClass statement
-"hi! link cStructure statement
 "hi! link cTypedef statement
-

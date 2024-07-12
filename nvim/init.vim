@@ -127,6 +127,7 @@ call plug#begin()
     Plug 'pechorin/any-jump.vim'
 
     Plug 'romainl/Apprentice'
+    Plug 'takiyu/tango-lx'
 
     if has("nvim")
         Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
@@ -135,6 +136,8 @@ call plug#begin()
 
         Plug 'sindrets/diffview.nvim'
         Plug 'lewis6991/gitsigns.nvim'
+        Plug 'vim-scripts/tango.vim'
+        Plug 'junegunn/seoul256.vim'
 
         Plug 'yorickpeterse/nvim-pqf'
 
