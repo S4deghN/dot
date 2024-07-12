@@ -17,11 +17,11 @@ set bg=dark
 
 let g:colors_name='green-arc'
 
-" let s:black           = { "gui": "#1C2024", "cterm": "232" }
-let s:black           = { "gui": "#202424", "cterm": "232" }
-let s:black           = { "gui": "#191d1d", "cterm": "232" }
-let s:black           = { "gui": "#000000", "cterm": "232" }
-let s:black           = { "gui": "#202020", "cterm": "232" }
+"let s:black           = { "gui": "#1C2024", "cterm": "232" }
+"let s:black           = { "gui": "#202424", "cterm": "232" }
+"let s:black           = { "gui": "#191d1d", "cterm": "232" }
+"let s:black           = { "gui": "#000000", "cterm": "232" }
+"let s:black           = { "gui": "#202020", "cterm": "232" }
 let s:black           = { "gui": "#151515", "cterm": "232" }
 let s:medium_gray     = { "gui": "#767676", "cterm": "243" }
 let s:white           = { "gui": "#F1F1F1", "cterm": "15"  }
@@ -288,6 +288,10 @@ hi  DiffDelete guifg=#484E52 guibg=NONE
 hi  DiffChange guifg=NONE guibg=#1F385B
 hi  DiffText guifg=NONE guibg=#172A45
 
+hi Added   guifg=#8F9D6A
+hi Removed guifg=#CF6A4C
+hi Changed guifg=NONE guibg=#1F385B
+
 let g:fzf_colors =
   \ { 'fg':      ['fg', 'NormalFloat'],
   \   'bg':      ['bg', 'NormalFloat'],
@@ -305,15 +309,21 @@ let g:fzf_colors =
 
 " Naysayer merge
 hi Normal guifg=fg guibg=bg gui=NONE
-hi NormalFloat guibg=#303030
+"hi NormalFloat guibg=#303030
+hi NormalFloat guibg=#151515
+hi floatBorder guifg=#303030 guibg=#151515
 hi Visual guifg=NONE guibg=#163339 gui=NONE
+hi Visual guifg=NONE guibg=#08454D gui=NONE
+
 " hi Visual guibg=#232729
 
 " hi MsgArea guibg=#1c1c1c
 
 " hi VertSplit guifg=#000000       guibg=NONE         gui=NONE
-" hi VertSplit guifg=#232729 guibg=bg
-hi! link FloatBorder VertSplit
+"hi VertSplit guifg=#232729 guibg=bg
+hi WinSeparator guibg=bg guifg=#303030
+hi! link VertSplit winSeperator
+"hi! link FloatBorder VertSplit
 hi! link CmpPmenuBorder VertSplit
 hi Pmenu guibg=#303030
 " hi! link Pmenu Visual
@@ -330,6 +340,15 @@ hi IncSearch     guibg=#ee799f guifg=black gui=NONE
 hi! link CurSearch Incsearch
 hi Search        guibg=#218058 guifg=black gui=NONE
 
-hi link @markup.link.vimdoc Type
-hi link @constant.macro Macro
+"hi @markup.raw.markdown_inline guifg=fg
+hi @markup.raw.block.markdown guifg=fg
+hi! link @markup.link.vimdoc Type
+hi! link @constant.macro Macro
 hi @variable guifg=fg
+hi! link @type.builtin Type
+hi! link @keyword.modifier.cpp statement
+"hi! link cppStructure statement
+""hi! link cStorageClass statement
+"hi! link cStructure statement
+"hi! link cTypedef statement
+

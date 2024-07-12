@@ -1,7 +1,7 @@
 -- Workaround this https://github.com/neovim/neovim/issues/21856
 vim.api.nvim_create_autocmd({ "VimLeave" }, {
     callback = function()
-        vim.fn.jobstart('notify-send ""', {detach=true})
+        vim.fn.jobstart('notify-send ""', { detach = true })
     end,
 })
 ------------------------------------------------------------
@@ -25,37 +25,37 @@ vim.api.nvim_create_autocmd({ "VimLeave" }, {
 --         enable_autocmd = false,
 --     },
 -- }
-
+--
 ------------------------------------------------------------
 -- cmp
 ------------------------------------------------------------
 local kind_icons = {
-  Text = " ",
-  Method = "󰆧 ",
-  Namespace = "󰌗  ",
-  Function = "󰊕 ",
-  Constructor = " ",
-  Field = "󰇽 ",
-  Variable = "󰂡 ",
-  Class = "󰠱 ",
-  Interface = " ",
-  Module = " ",
-  Property = "󰜢 ",
-  Unit = " ",
-  Value = "󰎠 ",
-  Enum = " ",
-  Keyword = "󰌋 ",
-  Snippet = " ",
-  Color = "󰏘 ",
-  File = "󰈙 ",
-  Reference = " ",
-  Folder = "󰉋 ",
-  EnumMember = " ",
-  Constant = "󰏿 ",
-  Struct = " ",
-  Event = " ",
-  Operator = "󰆕 ",
-  TypeParameter = "󰅲 ",
+    Text = " ",
+    Method = "󰆧 ",
+    Namespace = "󰌗  ",
+    Function = "󰊕 ",
+    Constructor = " ",
+    Field = "󰇽 ",
+    Variable = "󰂡 ",
+    Class = "󰠱 ",
+    Interface = " ",
+    Module = " ",
+    Property = "󰜢 ",
+    Unit = " ",
+    Value = "󰎠 ",
+    Enum = " ",
+    Keyword = "󰌋 ",
+    Snippet = " ",
+    Color = "󰏘 ",
+    File = "󰈙 ",
+    Reference = " ",
+    Folder = "󰉋 ",
+    EnumMember = " ",
+    Constant = "󰏿 ",
+    Struct = " ",
+    Event = " ",
+    Operator = "󰆕 ",
+    TypeParameter = "󰅲 ",
 }
 
 -- find more here: https://www.nerdfonts.com/cheat-sheet
@@ -64,16 +64,16 @@ local kind_icons = {
 -- │ test │
 -- ╰──────╯
 
--- local border = {
---     { "╭", "FloatBorder" },
---     { "─", "FloatBorder" },
---     { "╮", "FloatBorder" },
---     { "│", "FloatBorder" },
---     { "╯", "FloatBorder" },
---     { "─", "FloatBorder" },
---     { "╰", "FloatBorder" },
---     { "│", "FloatBorder" },
--- }
+local border = {
+    { "╭", "FloatBorder" },
+    { "─", "FloatBorder" },
+    { "╮", "FloatBorder" },
+    { "│", "FloatBorder" },
+    { "╯", "FloatBorder" },
+    { "─", "FloatBorder" },
+    { "╰", "FloatBorder" },
+    { "│", "FloatBorder" },
+}
 
 -- local border = { '┌', '─', '┐', '│', '┘', '─', '└', '│' }
 -- local border = { '╔', '═', '╗', '║', '╝', '═', '╚', '║' }
@@ -114,7 +114,7 @@ cmp.setup {
             zindex = 100,
         },
         documentation = {
-            -- border = border,
+            border = border,
             winhighlight = 'Normal:NormalFloat,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Type',
             zindex = 50,
         },
@@ -128,7 +128,7 @@ cmp.setup {
             end
         end),
         ['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
-        ['<C-l>'] = cmp.mapping(function (fallback)
+        ['<C-l>'] = cmp.mapping(function(fallback)
             if cmp.visible_docs() then
                 cmp.close_docs()
             else
@@ -209,15 +209,15 @@ vim.diagnostic.config({
     signs = true,
     virtual_text = false,
     -- virtual_text = {
-    --     severity = sev.e,
-    --     source = true,
+    --     severity = { min = sev.e },
+    --     source = 'if_may',
     -- },
     float = {
         header = "",
-        format = function(diagnostic)
-            print(vim.inspect(diagnostic))
-            return string.format("%s (%s)", diagnostic.message, diagnostic.code)
-        end,
+        -- format = function(diagnostic)
+        --     print(vim.inspect(diagnostic))
+        --     return string.format("%s (%s)", diagnostic.message, diagnostic.code)
+        -- end,
         prefix = function(diagnostic, i, total)
             return string.format("%s:%s ", diagnostic.source, diagnostic.col)
         end
@@ -241,12 +241,12 @@ local function get_hl_group_color(group, fg_or_bg)
     return color
 end
 
-local function set_highlights()
+local function set_status_diag_highlight()
     if vim.o.laststatus > 0 then
-        vim.cmd.highlight({ args = {"DiagnosticStatusError", "guibg=", get_hl_group_color("StatusLine", "bg"), "guifg=", get_hl_group_color("DiagnosticError", "fg")} })
-        vim.cmd.highlight({ args = {"DiagnosticStatusWarn",  "guibg=", get_hl_group_color("StatusLine", "bg"), "guifg=", get_hl_group_color("DiagnosticWarn",  "fg")} })
-        vim.cmd.highlight({ args = {"DiagnosticStatusHint",  "guibg=", get_hl_group_color("StatusLine", "bg"), "guifg=", get_hl_group_color("DiagnosticHint",  "fg")} })
-        vim.cmd.highlight({ args = {"DiagnosticStatusInfo",  "guibg=", get_hl_group_color("StatusLine", "bg"), "guifg=", get_hl_group_color("DiagnosticInfo",  "fg")} })
+        vim.cmd.highlight({ args = { "DiagnosticStatusError", "guibg=", get_hl_group_color("StatusLine", "bg"), "guifg=", get_hl_group_color("DiagnosticError", "fg") } })
+        vim.cmd.highlight({ args = { "DiagnosticStatusWarn", "guibg=", get_hl_group_color("StatusLine", "bg"), "guifg=", get_hl_group_color("DiagnosticWarn", "fg") } })
+        vim.cmd.highlight({ args = { "DiagnosticStatusHint", "guibg=", get_hl_group_color("StatusLine", "bg"), "guifg=", get_hl_group_color("DiagnosticHint", "fg") } })
+        vim.cmd.highlight({ args = { "DiagnosticStatusInfo", "guibg=", get_hl_group_color("StatusLine", "bg"), "guifg=", get_hl_group_color("DiagnosticInfo", "fg") } })
     end
 end
 
@@ -284,28 +284,32 @@ function GetDiag()
     return str
 end
 
-
 -- -- it should not be here!
--- function GitSignsStatus()
---     local git_info = vim.b.gitsigns_status_dict
---     if not git_info or git_info.head == "" then
---         return ""
---     end
+function GitSignsStatus()
+    local git_info = vim.b.gitsigns_status_dict
+    if not git_info or git_info.root == "" then
+        return ""
+    end
 
---     local str = git_info.head
+    local str = git_info.head
 
---     if git_info.added ~= 0 then
---         str = str .. " +" .. git_info.added
---     end
---     if git_info.changed ~= 0 then
---         str = str .. " ~" .. git_info.changed
---     end
---     if git_info.removed ~= 0 then
---         str = str .. " -" .. git_info.removed
---     end
+    -- if git_info.added ~= nil then
+    --     str = str .. " +" .. git_info.added
+    -- end
+    -- if git_info.changed ~= nil then
+    --     str = str .. " ~" .. git_info.changed
+    -- end
+    -- if git_info.removed ~= nil then
+    --     str = str .. " -" .. git_info.removed
+    -- end
 
---     return str
--- end
+    if git_info.added ~= nil or git_info.changed ~= nil or git_info.removed ~= nil then
+        str = str .. "*"
+    end
+
+
+    return str
+end
 
 ------------------------------------------------------------
 -- lsp
@@ -332,27 +336,26 @@ end
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
-
     -- We have to set these highlights only after they're set by vim
-    -- set_highlights()
+    set_status_diag_highlight()
 
     -- Enable completion triggered by <c-x><c-o>
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
     local bufopts = { noremap = true, silent = false, buffer = bufnr }
-    vim.keymap.set('n', 'K',      vim.lsp.buf.hover,                                   bufopts)
-    vim.keymap.set('n', 'gd',     vim.lsp.buf.definition,                              bufopts)
-    vim.keymap.set('n', 'gD',     vim.lsp.buf.declaration,                             bufopts)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
     vim.keymap.set('n', 'g<C-d>', "<cmd>tab split | lua vim.lsp.buf.definition()<CR>", bufopts)
-    vim.keymap.set('n', 'gI',     vim.lsp.buf.implementation,                          bufopts)
-    vim.keymap.set('n', 'gs',     vim.lsp.buf.signature_help,                          bufopts)
-    vim.keymap.set('n', 'gr',     vim.lsp.buf.references,                              bufopts)
-    vim.keymap.set('n', 'gR',     vim.lsp.buf.rename,                                  bufopts)
-    vim.keymap.set('n', 'gli',    vim.lsp.buf.incoming_calls,                          bufopts)
-    vim.keymap.set('n', 'glo',    vim.lsp.buf.outgoing_calls,                          bufopts)
-    vim.keymap.set('n', 'glt',    vim.lsp.buf.type_definition,                         bufopts)
-    vim.keymap.set('n', 'gla',    vim.lsp.buf.code_action,                             bufopts)
-    vim.keymap.set('n', 'glf',    vim.lsp.buf.format,                                  bufopts)
+    vim.keymap.set('n', 'gI', vim.lsp.buf.implementation, bufopts)
+    vim.keymap.set('n', 'gs', vim.lsp.buf.signature_help, bufopts)
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+    vim.keymap.set('n', 'gR', vim.lsp.buf.rename, bufopts)
+    vim.keymap.set('n', 'gli', vim.lsp.buf.incoming_calls, bufopts)
+    vim.keymap.set('n', 'glo', vim.lsp.buf.outgoing_calls, bufopts)
+    vim.keymap.set('n', 'glt', vim.lsp.buf.type_definition, bufopts)
+    vim.keymap.set('n', 'gla', vim.lsp.buf.code_action, bufopts)
+    vim.keymap.set('n', 'glf', vim.lsp.buf.format, bufopts)
 
     vim.keymap.set('n', 'glwa', vim.lsp.buf.add_workspace_folder, bufopts)
     vim.keymap.set('n', 'glwr', vim.lsp.buf.remove_workspace_folder, bufopts)
@@ -366,16 +369,21 @@ local lsp_flags = {
 
 -- start an arbitrary sever using the default configurations.
 -- TODO: make this function prompt for `cmd` and `root_dir`.
-function LspStartServer(name, root)
-vim.lsp.start({
-    name = name[1],
-    cmd = name,
-    root_dir = vim.fs.dirname(vim.fs.find(root, { upward = true })[1]),
-    capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol .make_client_capabilities()),
-    on_attach = on_attach,
-})
+function LspStartServer()
+    vim.cmd[[:echohl Directory]]
+    local string_cmd = vim.fn.input("Enter server command: ", "", "shellcmd")
+    local cmd = vim.split(string_cmd, " ")
+    local root_dir = vim.fn.input("Enter root file/folder name: ", vim.fn.getcwd(), "file")
+    vim.cmd[[:echohl None]]
+    vim.lsp.start({
+        name = cmd[1],
+        cmd = cmd,
+        -- root_dir = vim.fs.dirname(vim.fs.find(root, { upward = true })[1]),
+        root_dir =  root,
+        capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities()),
+        on_attach = on_attach,
+    })
 end
-
 
 require("lspconfig").bashls.setup {
     on_attach    = on_attach,
@@ -492,12 +500,12 @@ require("lspconfig").clangd.setup {
         "--all-scopes-completion=true", -- If set to true, code completion will include index symbols that are not defined in the scopes (e.g. namespaces) visible from the code completion point. Such completions can insert scope qualifiers
         "--completion-style=detailed",
         "--function-arg-placeholders",
-        "--header-insertion=iwyu",      -- add headers when accepting completion
+        "--header-insertion=iwyu", -- add headers when accepting completion
         "--header-insertion-decorators",
         "-j=1",
         -- "--malloc-trim",
         "--background-index", --index in background and persist on disk
-        "--enable-config", --enable usage of .clangd config file
+        "--enable-config",    --enable usage of .clangd config file
         "--pch-storage=disk",
         "--malloc-trim",
         -- "--query-driver=/opt/clang7/bin/clang++",

@@ -48,7 +48,7 @@ exe 'hi MatchParen guifg='s:warning2'  gui=underline'
 exe 'hi StatusLine guifg='s:fg2' guibg='s:bg3
 exe 'hi Pmenu guifg='s:fg' guibg='s:bg2
 exe 'hi PmenuSel  guibg='s:bg3
-exe 'hi IncSearch guifg='s:type
+exe 'hi IncSearch guibg='s:type' guifg='s:bg' gui=NONE'
 exe 'hi Search   gui=underline'
 exe 'hi Directory guifg='s:const
 exe 'hi Folded guifg='s:fg4' guibg='s:bg
@@ -71,7 +71,7 @@ exe 'hi Float guifg='s:const
 exe 'hi Function guifg='s:func
 exe 'hi Identifier guifg='s:fg
 exe 'hi Keyword guifg='s:keyword'  gui=bold'
-exe 'hi Label guifg='s:var
+exe 'hi Label guifg='s:keyword' gui=NONE'
 exe 'hi NonText guifg='s:bg4' guibg='s:bg2
 exe 'hi Number guifg='s:const
 exe 'hi Operator guifg='s:keyword
@@ -82,7 +82,7 @@ exe 'hi Statement guifg='s:keyword
 exe 'hi StorageClass guifg='s:keyword
 exe 'hi String guifg='s:str
 exe 'hi Tag guifg='s:keyword
-exe 'hi Title guifg='s:fg'  gui=bold'
+exe 'hi Title guifg=#ffffff  gui=NONE'
 exe 'hi Todo guifg='s:fg2'  gui=inverse,bold'
 exe 'hi Type guifg='s:type
 exe 'hi Underlined   gui=underline'
@@ -159,7 +159,6 @@ hi Character guifg=#edd400
 hi Number    guifg=#edd400
 hi Boolean   guifg=#edd400
 hi Float     guifg=#edd400
-hi Title     guifg=#edd400
 
 hi Search gui=NONE
 
@@ -181,7 +180,7 @@ hi NonText guibg=bg
 hi EndOfBuffer guibg=bg
 
 " Lsp hover text highlighting
-hi @markup.raw.markdown_inline guifg=fg
+"hi @markup.raw.markdown_inline guifg=fg
 hi @markup.raw.block.markdown guifg=fg
 
 hi  DiffAdd    guifg=NONE guibg=#2D3B31 gui=NONE
@@ -192,6 +191,11 @@ hi  DiffDelete guifg=NONE guibg=NONE gui=NONE
 hi  GitSignsAdd       guifg=#8F9D6A     guibg=NONE    gui=NONE cterm=NONE
 hi  GitSignsDelete    guifg=#af5f5f     guibg=NONE    gui=NONE cterm=NONE
 hi  GitSignsChange    guifg=#88aAd0     guibg=NONE    gui=NONE cterm=NONE
+
+hi  DiagnosticError guifg=#FE7F78
+hi  DiagnosticWarn  guifg=#FBDF63
+"hi  DiagnosticInfo  guifg=#88aAd0
+"hi  DiagnosticHint  guifg=#888A85
 
 hi Statusline gui=NONE
 hi StatusLineNC gui=NONE guibg=#282e30

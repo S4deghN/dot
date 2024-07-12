@@ -28,8 +28,9 @@ if &laststatus
     set showcmdloc=statusline
     set statusline=
     " Left
-    set stl+=%(%#Number#%{GetGitSignsStatus()}\ %*%)
-    set stl+=%#Number#%m%*
+    "set stl+=%(%#Number#%{GetGitSignsStatus()}\ %*%)
+    set stl+=%(%#number#%{v:lua.GitSignsStatus()}\ %*%)
+    set stl+=%(\ %m%)
     set stl+=%(%q%h%w%r%)
     set stl+=\ %f
     " Middle
@@ -37,10 +38,10 @@ if &laststatus
     set stl+=%S
     " Right
     set stl+=%=
-    " set stl+=%([%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}]%)
-    set stl+=%([%{%v:lua.GetRunningLsp()%}]%)
+    set stl+=%([%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}]%)
+    "set stl+=%([%{%v:lua.GetRunningLsp()%}]%)
     set stl+=\ \ \ \ %-8(%l,%c%)\ %P
-    " set stl+=\ %y
+    "set stl+=\ %y
 else
     set rulerformat=%40(%([%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}]%)%=[%l,%c\|%P]\ %m%q%w\ %y%)
 endif
@@ -120,7 +121,7 @@ call plug#begin()
     Plug 'tpope/vim-fugitive'
     Plug 'junegunn/gv.vim'
 
-    Plug 'chrisbra/Colorizer'
+    "Plug 'chrisbra/Colorizer'
 
 
     Plug 'pechorin/any-jump.vim'
@@ -134,6 +135,8 @@ call plug#begin()
 
         Plug 'sindrets/diffview.nvim'
         Plug 'lewis6991/gitsigns.nvim'
+
+        Plug 'yorickpeterse/nvim-pqf'
 
         "Plug 'nvim-lua/plenary.nvim'
         "Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.8' }
@@ -155,7 +158,7 @@ call plug#end()
 
 packadd shout
 
-let t:shout_cmd = "cc"
+let t:shout_cmd = ""
 nnoremap co :Sh<space>
 nnoremap cc :Sh <C-r>=expand(t:shout_cmd)<cr>
 
@@ -182,7 +185,7 @@ let g:AlternateExtensionMappings = [
 lua require('nvim-highlight-colors').setup({ enable_named_colors = false, render = 'background'})
 
 " --- fzf-lua ---
-lua require('fzf-lua').setup{fzf_bin = 'fzf', winopts = { split = "botright new", border = 'none', preview = { hidden = 'nohidden', layout = "horizontal", horizontal = 'right:50%', delay = 50 } }, previewers = { builtin = { treesitter = { enable = false} } } }
+lua require('fzf-lua').setup{fzf_bin = 'fzf', winopts = { split = "botright new", border = 'none', preview = { hidden = 'nohidden', layout = "horizontal", horizontal = 'right:50%', delay = 50 , winopts = { number = false } } }, previewers = { builtin = { treesitter = { enable = false} } } }
 
 " --- GitSgings ---
 lua require('gitsigns').setup()
@@ -191,13 +194,15 @@ lua require('gitsigns').setup()
 lua require 'Lsp'
 
 " lua require 'Telescope'
-
+"
 " -----------------------------------------------
 " --- keymaps ---
 " -----------------------------------------------
 cmap <C-x>f <C-r>=expand('%:p')<cr>
 cmap <C-x>d <C-r>=expand('%:p:h').'/'<cr>
 cmap <C-x>r redir<space>@l\|<space>\|redir<space>end<C-left><C-left>
+cmap <C-j> <Down>
+cmap <C-k> <Up>
 
 tmap <C-]> <C-\><C-n>
 
@@ -279,13 +284,16 @@ noremap  <leader><cr>     <cmd>FzfLua resume<cr>
 noremap  <leader>f        <cmd>FzfLua files<cr>
 noremap  <leader>r        <cmd>FzfLua oldfiles<cr>
 noremap  <leader>b        <cmd>FzfLua buffers<cr>
-noremap  <leader>lr       <cmd>FzfLua lsp_references<cr>
-noremap  <leader>ld       <cmd>FzfLua lsp_definitions<cr>
-noremap  <leader>lf       <cmd>FzfLua lsp_finder<cr>
 noremap  <leader>H        <cmd>FzfLua help_tags<cr>
 nnoremap <leader>w        <cmd>FzfLua grep_cword<cr>
 xnoremap <leader>s        <cmd>FzfLua grep_visual<cr>
 nnoremap <leader>s        <cmd>FzfLua live_grep<cr>
+noremap  <leader>lr       <cmd>FzfLua lsp_references<cr>
+noremap  <leader>ld       <cmd>FzfLua lsp_definitions<cr>
+noremap  <leader>lD       <cmd>FzfLua lsp_declarations<cr>
+noremap  <leader>lf       <cmd>FzfLua lsp_finder<cr>
+noremap  <leader>li       <cmd>FzfLua lsp_incoming_calls<cr>
+noremap  <leader>lo       <cmd>FzfLua lsp_outgoing_calls<cr>
 
 "noremap <leader>t <cmd>Telescope<cr>
 
@@ -377,6 +385,7 @@ command! Syn call Syn()
 command! Run call system("tmux-run ".&filetype)
 command! DiagEnable lua vim.diagnostic.enable()
 command! DiagDisable lua vim.diagnostic.disable()
+command! Lsp lua LspStartServer()
 
 " -----------------------------------------------
 " --- auto cmds ---
@@ -398,7 +407,7 @@ augroup autoCommands
         endif
     endfunction
 
-    autocmd BufEnter * call timer_start(0, 'EchoFileName')
+    "autocmd BufEnter * call timer_start(0, 'EchoFileName')
     "autocmd BufEnter *
     "            \ let f = expand('%:p:~')
     "            \ | if len(f) < 80
@@ -407,7 +416,7 @@ augroup autoCommands
     "            " \ |     call feedkeys("gg")
     "            \ | endif
 
-    " autocmd BufEnter * call feedkeys("\<C-g>")
+    autocmd BufEnter * call feedkeys("\<C-g>")
 
     autocmd Filetype tex,text,markdown,gitcommit setlocal spell
     autocmd Filetype cpp,rust setlocal matchpairs+=<:>
@@ -497,8 +506,8 @@ augroup END
  "--- colors ---
  "-----------------------------------------------
 
-"color arc
-"hi Normal guibg=NONE
+color arc
+hi Normal guibg=NONE
 
  "hi Normal guibg=#202020
 
@@ -526,7 +535,7 @@ augroup END
 " color gruber-darker
 " hi Normal guibg=#333333
 
- color oblivion
+ "color oblivion
 
  "color desert
  "hi Normal guibg=NONE

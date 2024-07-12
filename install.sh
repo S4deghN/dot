@@ -35,7 +35,7 @@ if [[ $1 = "-d" ]]; then
     ln -sfv "$PWD"/dunst         "$HOME"/.config/
     ln -sfv "$PWD"/alacritty     "$HOME"/.config/
     ln -sfv "$PWD"/tridactyl     "$HOME"/.config/
-    ln -sfv "$PWD"/fontconfig    "$HOME"/.config/
+    # ln -sfv "$PWD"/fontconfig    "$HOME"/.config/
 fi
 
 popd || return

@@ -117,7 +117,7 @@ alias bf="WINEPREFIX=~/Games/skylords-reborn/ wine /home/s4/Games/skylords-rebor
 
 export FZF_DEFAULT_COMMAND="find . -type f -not -path '*/\.git/*' -not -path '*/\.cargo/*' -not -path '*/\.ccls-cache/*'"
 export FZF_COLORS="fg:-1,fg+:-1,hl:yellow,hl+:yellow:reverse,border:gray,spinner:-1,header:blue,info:green,pointer:white,marker:blue,prompt:white:regular,gutter:-1"
-export FZF_DEFAULT_OPTS="--prompt '╰─> ' --height 50% --reverse --info inline --color=$FZF_COLORS"
+export FZF_DEFAULT_OPTS="--prompt '╰─> ' --pointer '>' --height 50% --reverse --info inline --color=$FZF_COLORS"
 
 #---------------------------------------------------
 # completions
