@@ -189,7 +189,7 @@ let g:AlternateExtensionMappings = [
 lua require('nvim-highlight-colors').setup({ enable_named_colors = false, render = 'background'})
 
 " --- fzf-lua ---
-lua require('fzf-lua').setup{fzf_bin = 'fzf', winopts = { split = "botright new", border = 'none', preview = { hidden = 'nohidden', layout = "horizontal", horizontal = 'right:50%', delay = 50 , winopts = { number = false } } }, previewers = { builtin = { treesitter = { enable = false} } } }
+lua require('fzf-lua').setup{fzf_bin = 'fzf', fzf_colors = true, winopts = { split = "botright new", border = 'none', preview = { hidden = 'nohidden', layout = "horizontal", horizontal = 'right:50%', delay = 50 , winopts = { number = false } } }, previewers = { builtin = { treesitter = { enable = false} } }, keymap = { builtin = { true,  ["ctrl-g"] = "" }, fzf = { true, ["ctrl-g"] = ""} } }
 
 " --- GitSgings ---
 lua require('gitsigns').setup()

@@ -224,6 +224,8 @@ hi  CursorColumn    guibg=#303030
 hi  Folded          guibg=#303030     guifg=#747C84
 hi  VertSplit       guibg=NONE
 
+hi  Cursor guibg=#8ec07c
+
 " #CD5C5C
 " #D3869B
 " #EBC06D
@@ -292,21 +294,6 @@ hi Added   guifg=#8F9D6A
 hi Removed guifg=#CF6A4C
 hi Changed guifg=NONE guibg=#1F385B
 
-let g:fzf_colors =
-  \ { 'fg':      ['fg', 'NormalFloat'],
-  \   'bg':      ['bg', 'NormalFloat'],
-  \   'hl':      ['fg', 'Search'],
-  \   'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  \   'bg+':     ['bg', 'Visual'],
-  \   'hl+':     ['bg', 'IncSearch'],
-  \   'info':    ['fg', 'PreProc'],
-  \   'border':  ['fg', 'Normal'],
-  \   'prompt':  ['fg', 'Constatn'],
-  \   'pointer': ['fg', 'Exception'],
-  \   'marker':  ['fg', 'Keyword'],
-  \   'spinner': ['fg', 'Label'],
-  \   'header':  ['fg', 'Comment'] }
-
 " Naysayer merge
 hi Normal guifg=fg guibg=bg gui=NONE
 "hi NormalFloat guibg=#303030
@@ -354,3 +341,10 @@ hi! link cppStructure statement
 hi! link cStructure statement
 ""hi! link cStorageClass statement
 "hi! link cTypedef statement
+
+hi FzfLuaBufNr guifg=fg
+hi FzfLuaTabMarker guifg=fg
+hi FzfLuaHeaderBind guifg=fg
+hi! link FzfLuaCursor Cursor
+hi! link FzfLuaheaderText Number
+hi! link FzfLuaPathLineNr String
