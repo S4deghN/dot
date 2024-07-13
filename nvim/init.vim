@@ -138,6 +138,7 @@ call plug#begin()
         Plug 'lewis6991/gitsigns.nvim'
         Plug 'vim-scripts/tango.vim'
         Plug 'junegunn/seoul256.vim'
+        Plug 'lifepillar/vim-solarized8'
 
         Plug 'yorickpeterse/nvim-pqf'
 

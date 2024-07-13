@@ -32,8 +32,8 @@ let s:light_gray      = { "gui": "#A8A8A8", "cterm": "248" }
 " let s:lighter_gray    = { "gui": "#c5c5c5", "cterm": "251" }
 " let s:lighter_gray    = { "gui": "#aaaaaa", "cterm": "251" }
 "let s:lighter_gray    = { "gui": "#9aa9aa", "cterm": "251" }
-let s:lighter_gray    = { "gui": "#9faeaf", "cterm": "251" }
-let s:lighter_gray    = { "gui": "#b2bbbb", "cterm": "251" }
+"let s:lighter_gray    = { "gui": "#9faeaf", "cterm": "251" }
+let s:lighter_gray    = { "gui": "#a2aaaa", "cterm": "251" }
 let s:lightest_gray   = { "gui": "#EEEEEE", "cterm": "255" }
 let s:pink            = { "gui": "#fb007a", "cterm": "9"   }
 let s:dark_red        = { "gui": "#C30771", "cterm": "1"   }
@@ -260,7 +260,7 @@ hi  DiagnosticWarn  guifg=#cda869
 hi  DiagnosticInfo  guifg=LightBlue
 hi  DiagnosticHint  guifg=#747C84
 
-hi  Visual          guibg=navy  guifg=NONE
+hi  Visual          guibg=#23272E  guifg=NONE
 hi! link            Directory         Constant
 hi! link            IncSearch         Visual
 hi  Search          guibg=#23272E     guifg=lightblue
@@ -314,7 +314,7 @@ hi NormalFloat guibg=#151515
 hi floatBorder guifg=#303030 guibg=#151515
 "hi Visual guifg=NONE guibg=#163339 gui=NONE
 "hi Visual guifg=NONE guibg=#08454D gui=NONE
-hi Visual guifg=NONE guibg=#08373f gui=NONE
+"hi Visual guifg=NONE guibg=#08373f gui=NONE
 hi visual guifg=NONE guibg=#285577
 
 " hi Visual guibg=#232729
@@ -333,7 +333,8 @@ hi! link PmenuSel Visual
 hi PmenuThumb guibg=fg
 
 hi Folded guifg=#878787 guibg=bg
-hi! link StatusLine Visual
+hi StatusLine   guibg=#343434
+hi StatusLineNC guibg=#303030
 hi! link QuickFixLine CursorLine
 hi! link QfFileName String
 hi! link QfLineNr Constant
