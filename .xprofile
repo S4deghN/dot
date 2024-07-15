@@ -8,8 +8,11 @@ setxkbmap -layout us,ir
 #! make short-pressed Ctrl behave like Escape:
 # xcape -e 'Control_L=Escape'
 
-setxkbmap -option caps:escape_shifted_capslock
-# setxkbmap -option caps:ctrl_modifier
+if [$VISUAL = "nvim" ]; then
+    setxkbmap -option caps:escape_shifted_capslock
+else if [ $VISUAL = "emacs" ]; then
+    setxkbmap -option caps:ctrl_modifier
+fi
 
 xset r rate 170 70
 

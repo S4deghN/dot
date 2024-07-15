@@ -75,7 +75,7 @@ augroup FormatGroup
     " ftplugin's default options usualy set formatoptions. but I don't want that.
     " I want consistent formating options across any file type.
     " TODO: find a better workaround.
-    autocmd BufAdd * set formatoptions=tcrqljn1p " defaults: tcroql
+    autocmd BufWinEnter * set formatoptions=tcrqljn1p " defaults: tcroql
 augroup end
 
 " set iskeyword-=_
@@ -144,6 +144,8 @@ call plug#begin()
 
         "Plug 'nvim-lua/plenary.nvim'
         "Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.8' }
+
+        Plug 'p00f/clangd_extensions.nvim'
 
         " lsp
         Plug 'neovim/nvim-lspconfig'

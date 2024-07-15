@@ -102,7 +102,7 @@ cmp.setup {
     },
     view = {
         docs = {
-            auto_open = false,
+            auto_open = true,
         },
     },
     window = {
@@ -261,6 +261,10 @@ end
 
 -- Functions
 function GetDiag()
+    if vim.diagnostic.is_disabled() then
+        return ""
+    end
+
     local str = ""
     if vim.api.nvim_get_mode()["mode"] == 'n' then
         local err  = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
@@ -496,10 +500,10 @@ require("lspconfig").clangd.setup {
     flags = lsp_flags,
     cmd = {
         "clangd",
-        -- "--clang-tidy",
+        "--clang-tidy",
         "--all-scopes-completion=true", -- If set to true, code completion will include index symbols that are not defined in the scopes (e.g. namespaces) visible from the code completion point. Such completions can insert scope qualifiers
         "--completion-style=detailed",
-        "--function-arg-placeholders",
+        -- "--function-arg-placeholders",
         "--header-insertion=iwyu", -- add headers when accepting completion
         "--header-insertion-decorators",
         "-j=1",
