@@ -21,7 +21,7 @@ let g:colors_name='green-arc'
 "let s:black           = { "gui": "#202424", "cterm": "232" }
 "let s:black           = { "gui": "#191d1d", "cterm": "232" }
 "let s:black           = { "gui": "#1d1d1d", "cterm": "232" }
-let s:black           = { "gui": "#242424", "cterm": "232" }
+let s:black           = { "gui": "#2b2b2b", "cterm": "232" }
 let s:medium_gray     = { "gui": "#767676", "cterm": "243" }
 let s:white           = { "gui": "#F1F1F1", "cterm": "15"  }
 let s:actual_white    = { "gui": "#FFFFFF", "cterm": "231" }
@@ -33,7 +33,7 @@ let s:light_gray      = { "gui": "#A8A8A8", "cterm": "248" }
 " let s:lighter_gray    = { "gui": "#aaaaaa", "cterm": "251" }
 "let s:lighter_gray    = { "gui": "#9aa9aa", "cterm": "251" }
 "let s:lighter_gray    = { "gui": "#9faeaf", "cterm": "251" }
-let s:lighter_gray    = { "gui": "#a2aaaa", "cterm": "251" }
+let s:lighter_gray    = { "gui": "#a7afaf", "cterm": "251" }
 let s:lightest_gray   = { "gui": "#EEEEEE", "cterm": "255" }
 let s:pink            = { "gui": "#fb007a", "cterm": "9"   }
 let s:dark_red        = { "gui": "#C30771", "cterm": "1"   }
@@ -242,7 +242,7 @@ hi  Delimiter       guifg=fg
 hi  Type            guifg=#68BEA2
 hi  Statement       guifg=#CF6A4C
 " hi  Comment         guifg=#5D646A     gui=NONE cterm=NONE
-hi  Comment         guifg=#5B6268 gui=NONE cterm=NONE
+hi  Comment         guifg=#60676d gui=NONE cterm=NONE
 hi  Ignore          guibg=#1c2020 guifg=NONE   cterm=NONE
 if has('nvim')
     hi! link @lsp.type.comment Ignore

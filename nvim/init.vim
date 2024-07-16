@@ -123,7 +123,6 @@ call plug#begin()
 
     "Plug 'chrisbra/Colorizer'
 
-
     Plug 'pechorin/any-jump.vim'
 
     Plug 'romainl/Apprentice'
