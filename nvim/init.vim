@@ -1,11 +1,3 @@
-" TODO:
-" [ ] add utility commands + keybindings to use shout for greping and commpiling in a project.
-" [ ] look up how to use vim's builtin `grep`.
-" [ ] look up how to use vim's builtin `make`.
-" [ ] key binding for toggling qflist.
-" [ ] look up location list and it's differences with qflist.
-
-
 " -----------------------------------------------
 " --- options ---
 " -----------------------------------------------
@@ -228,6 +220,9 @@ noremap  <leader>gC :BCommits<cr>
 "nnoremap <leader>w        <cmd>FZF grep_cword<cr>
 "nnoremap <leader>s        <cmd>RG<cr>
 "xnoremap <leader>s        <cmd>FZF grep_visual<cr>
+
+nnoremap <leader>gg :Git<cr>
+
 nnoremap sn :Sh<space>
 nnoremap ss :Sh <C-r>=expand(t:shout_cmd)<cr>
 nnoremap sq :ShoutToQf<cr>
@@ -239,6 +234,9 @@ nnoremap sk :PrevErrorJump<cr>
 nnoremap s0 :FirstErrorJump<cr>
 nnoremap s$ :LastErrorJump<cr>
 
+nnoremap gw :Grep <C-r>=expand('<cexpr>')<cr><cr>
+vnoremap gw :<C-u>Grep <C-r>=GetVisualSelection()<cr><cr>
+nnoremap gW :Grep<space>
 
 "substitute
 nnoremap <C-s>s  :s/<C-R>=expand('<cword>')<cr>//g<Left><Left>
@@ -294,6 +292,51 @@ function! VertOrNot() abort
     return result
 endfunction
 
+function! GetVisualSelection()
+    let l:mode = mode()
+    let l:content = ''
+    let l:start = {}
+    let l:end = {}
+
+    if l:mode == 'v' || l:mode == 'V' || l:mode == "\<C-V>"
+        " getpos() -> [bufnum, lnum, col, off]
+        let l:start = getpos('.')
+        let l:end = getpos('v')
+
+        if l:mode == 'V'
+            let l:start[2] = 1
+            let l:end[2] = 999
+        endif
+    else
+        let l:start = getpos("'<")
+        let l:end = getpos("'>")
+    endif
+
+    let l:lines = getline(l:start[1], l:end[1])
+    if len(l:lines) <= 0
+        return ''
+    endif
+
+    let l:lines[-1] = strpart(l:lines[-1], 0, l:end[2])
+    let l:lines[0] = strpart(l:lines[0], l:start[2] - 1)
+
+    let l:content = join(l:lines)
+    return l:content
+endfunction
+
+function! SetOption(option)
+    echohl Function
+    exec "let default = &" .. a:option
+    let input = input(a:option .. ": ", default , "option")
+    echohl None
+    if strlen(input) == 0
+        return
+    endif
+    " escape spaces
+    let prg=substitute(input, '\ ', '\\\ ', 'g')
+    exec "set " .. a:option .. "=" .. prg
+endfunction
+
 " -----------------------------------------------
 " --- commands ---
 " -----------------------------------------------
@@ -303,7 +346,13 @@ command! Run call system("tmux-run ".&filetype)
 command! DiagEnable lua vim.diagnostic.enable()
 command! DiagDisable lua vim.diagnostic.disable()
 command! Lsp lua LspStartServer()
+command! -nargs=1 Grep silent grep! <f-args> | copen | wincmd p
 
+command! -nargs=1 -complete=option Set call SetOption(<f-args>)
+command! SetGrep call SetOption("grepprg")
+command! SetMake call SetOption("makrprg")
+
+command! -nargs=1 ShGrep Sh rg -H --no-heading --vimgrep "<args>"
 
 " -----------------------------------------------
 " --- auto commands ---
@@ -325,7 +374,9 @@ augroup auto
     autocmd Filetype cpp,rust setlocal matchpairs+=<:>
     autocmd Filetype netrw call NetrwConfig()
     autocmd Filetype qf nmap <buffer> <Esc> ZQ
+    autocmd Filetype qf setlocal nowrap
     autocmd Filetype help,qf if strlen(VertOrNot()) > 0 | wincmd L | endif
+    "autocmd Filetype help wincmd L
     autocmd BufAdd .clang* set filetype=yaml
     " for visual mode in bash vi mode
     autocmd BufAdd /tmp/bash* set filetype=sh
