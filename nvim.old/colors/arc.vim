@@ -21,7 +21,7 @@ let g:colors_name='green-arc'
 "let s:black           = { "gui": "#202424", "cterm": "232" }
 "let s:black           = { "gui": "#191d1d", "cterm": "232" }
 "let s:black           = { "gui": "#1d1d1d", "cterm": "232" }
-let s:black           = { "gui": "#242424", "cterm": "232" }
+let s:black           = { "gui": "#2b2b2b", "cterm": "232" }
 let s:medium_gray     = { "gui": "#767676", "cterm": "243" }
 let s:white           = { "gui": "#F1F1F1", "cterm": "15"  }
 let s:actual_white    = { "gui": "#FFFFFF", "cterm": "231" }
@@ -33,7 +33,7 @@ let s:light_gray      = { "gui": "#A8A8A8", "cterm": "248" }
 " let s:lighter_gray    = { "gui": "#aaaaaa", "cterm": "251" }
 "let s:lighter_gray    = { "gui": "#9aa9aa", "cterm": "251" }
 "let s:lighter_gray    = { "gui": "#9faeaf", "cterm": "251" }
-let s:lighter_gray    = { "gui": "#a2aaaa", "cterm": "251" }
+let s:lighter_gray    = { "gui": "#a7afaf", "cterm": "251" }
 let s:lightest_gray   = { "gui": "#EEEEEE", "cterm": "255" }
 let s:pink            = { "gui": "#fb007a", "cterm": "9"   }
 let s:dark_red        = { "gui": "#C30771", "cterm": "1"   }
@@ -251,14 +251,6 @@ if has('nvim')
     " hi @lsp.type.nameSpace guifg=#6B7278
     hi! link @keyword.modifier.cpp Type
     hi! link @keyword.modifier.cpp Type
-    "hi @markup.raw.markdown_inline guifg=fg
-    hi @markup.raw.block.markdown guifg=fg
-    hi! link @markup.link.vimdoc Type
-    hi! link @constant.macro Macro
-    hi @variable guifg=fg
-    hi! link @type.builtin Type
-    hi! link @keyword.modifier.cpp statement
-
 endif
 
 hi  Error           guibg=NONE          guifg=#af5f5f gui=underline cterm=underline
@@ -338,7 +330,21 @@ hi IncSearch     guibg=#ee799f guifg=black gui=NONE
 hi! link CurSearch Incsearch
 hi Search        guibg=#218058 guifg=black gui=NONE
 
+"hi @markup.raw.markdown_inline guifg=fg
+hi @markup.raw.block.markdown guifg=fg
+hi! link @markup.link.vimdoc Type
+hi! link @constant.macro Macro
+hi @variable guifg=fg
+hi! link @type.builtin Type
+hi! link @keyword.modifier.cpp statement
 hi! link cppStructure statement
 hi! link cStructure statement
 ""hi! link cStorageClass statement
 "hi! link cTypedef statement
+
+hi FzfLuaBufNr guifg=fg
+hi FzfLuaTabMarker guifg=fg
+hi FzfLuaHeaderBind guifg=fg
+hi! link FzfLuaCursor Cursor
+hi! link FzfLuaheaderText Number
+hi! link FzfLuaPathLineNr String
