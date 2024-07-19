@@ -79,105 +79,103 @@ local border = {
 -- local border = { '╔', '═', '╗', '║', '╝', '═', '╚', '║' }
 
 -- Setup nvim-cmp.
--- local cmp = require("cmp");
--- cmp.setup {
---     snippet = {
---         -- REQUIRED - you must specify a snippet engine
---         expand = function(args)
---             -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
---             require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
---             -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
---             -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
---         end,
---     },
---     preselect = cmp.PreselectMode.Item,
---     completion = {
---         -- autocomplete = false,
---         -- completeopt = 'menu,menuone,noisert'
---         -- completeopt = 'longest'
---     },
---     experimental = {
---         ghost_text = { hl_group = "Comment" },
---         native_menu = fasle,
---     },
---     view = {
---         docs = {
---             auto_open = true,
---         },
---     },
---     window = {
---         -- completion = cmp.config.window.bordered(),
---         -- documentation = cmp.config.window.bordered(),
---         completion = {
---             -- border = border,
---             winhighlight = 'Normal:NormalFloat,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Type',
---             zindex = 100,
---         },
---         documentation = {
---             border = border,
---             winhighlight = 'Normal:NormalFloat,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Type',
---             zindex = 50,
---         },
---     },
---     mapping = cmp.mapping.preset.insert({
---         ['<C-n>'] = cmp.mapping(function(fallback)
---             if cmp.visible() then
---                 cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
---             else
---                 cmp.complete()
---             end
---         end),
---         ['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
---         ['<C-l>'] = cmp.mapping(function(fallback)
---             if cmp.visible_docs() then
---                 cmp.close_docs()
---             else
---                 cmp.open_docs()
---             end
---         end),
---         ['<C-j>'] = cmp.mapping.select_next_item(),
---         ['<C-k>'] = cmp.mapping.select_prev_item(),
---         ['<C-d>'] = cmp.mapping.scroll_docs(4),
---         ['<C-u>'] = cmp.mapping.scroll_docs(-4),
---         ['<C-f>'] = cmp.mapping.confirm({ select = true }),
---         ['<C-y>'] = cmp.mapping.confirm({ select = true }),
---         ['<C-e>'] = cmp.mapping.abort(),
---     }),
---     formatting = {
---         -- fields = { "kind", "abbr", "menu" },
---         fields = { "abbr", "menu", "kind" },
---         format = function(entry, item)
---             -- Kind icons
---             -- item.kind = string.format("%s", kind_icons[item.kind])
---             item.menu = ({
---                 nvim_lsp = "[LSP]",
---                 nvim_lsp_signature_help = "[Sig]",
---                 tags = "[Tag]",
---                 luasnip = "[Snip]",
---                 buffer = "[Buf]",
---                 path = "[Path]",
---             })[entry.source.name]
---
---             -- if #item.abbr > 37 then
---             --     item.abbr = string.sub(item.abbr, 0, 37)
---             -- else
---             --     item.abbr = item.abbr .. (" "):rep(37 - #item.abbr)
---             -- end
---
---             return item
---         end,
---     },
---     sources = {
---         { name = 'nvim_lsp' },
---         { name = 'nvim_lsp_signature_help' },
---         { name = 'tags' },
---         { name = "path" },
---         { name = 'buffer' },
---     },
--- }
+local cmp = require("cmp");
+cmp.setup {
+    snippet = {
+        -- REQUIRED - you must specify a snippet engine
+        expand = function(args)
+            vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+            -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+            -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
+            -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+        end,
+    },
+    preselect = cmp.PreselectMode.Item,
+    completion = {
+        autocomplete = false,
+    },
+    experimental = {
+        ghost_text = { hl_group = "Comment" },
+        -- native_menu = false,
+    },
+    view = {
+        docs = {
+            auto_open = true,
+        },
+    },
+    window = {
+        -- completion = cmp.config.window.bordered(),
+        -- documentation = cmp.config.window.bordered(),
+        completion = {
+            -- border = border,
+            -- winhighlight = 'Normal:NormalFloat,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Type',
+            zindex = 100,
+        },
+        documentation = {
+            border = border,
+            -- winhighlight = 'Normal:NormalFloat,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Type',
+            zindex = 50,
+        },
+    },
+    mapping = cmp.mapping.preset.insert({
+        ['<C-n>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+            else
+                cmp.complete()
+            end
+        end),
+        ['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+        ['<C-l>'] = cmp.mapping(function(fallback)
+            if cmp.visible_docs() then
+                cmp.close_docs()
+            else
+                cmp.open_docs()
+            end
+        end),
+        ['<C-j>'] = cmp.mapping.select_next_item(),
+        ['<C-k>'] = cmp.mapping.select_prev_item(),
+        ['<C-d>'] = cmp.mapping.scroll_docs(4),
+        ['<C-u>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-f>'] = cmp.mapping.confirm({ select = true }),
+        ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+        ['<C-e>'] = cmp.mapping.abort(),
+    }),
+    formatting = {
+        -- fields = { "kind", "abbr", "menu" },
+        fields = { "abbr", "menu", "kind" },
+        format = function(entry, item)
+            -- Kind icons
+            -- item.kind = string.format("%s", kind_icons[item.kind])
+            item.menu = ({
+                nvim_lsp = "[LSP]",
+                nvim_lsp_signature_help = "[Sig]",
+                tags = "[Tag]",
+                luasnip = "[Snip]",
+                buffer = "[Buf]",
+                path = "[Path]",
+            })[entry.source.name]
+
+            -- if #item.abbr > 37 then
+            --     item.abbr = string.sub(item.abbr, 0, 37)
+            -- else
+            --     item.abbr = item.abbr .. (" "):rep(37 - #item.abbr)
+            -- end
+
+            return item
+        end,
+    },
+    sources = {
+        { name = 'nvim_lsp' },
+        { name = 'nvim_lsp_signature_help' },
+        { name = 'tags' },
+        { name = "path" },
+        { name = 'buffer' },
+    },
+}
 
 -- Setup lspconfig.
--- local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
 -- require('lspconfig')['clangd'].setup {
 --   capabilities = capabilities
@@ -347,19 +345,20 @@ local on_attach = function(client, bufnr)
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
     local bufopts = { noremap = true, silent = false, buffer = bufnr }
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+    vim.keymap.set('n', 'K',  vim.lsp.buf.hover,       bufopts)
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition,  bufopts)
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
     vim.keymap.set('n', 'g<C-d>', "<cmd>tab split | lua vim.lsp.buf.definition()<CR>", bufopts)
-    vim.keymap.set('n', 'gI', vim.lsp.buf.implementation, bufopts)
-    vim.keymap.set('n', 'gs', vim.lsp.buf.signature_help, bufopts)
-    vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-    vim.keymap.set('n', 'gR', vim.lsp.buf.rename, bufopts)
-    vim.keymap.set('n', 'gli', vim.lsp.buf.incoming_calls, bufopts)
-    vim.keymap.set('n', 'glo', vim.lsp.buf.outgoing_calls, bufopts)
+    vim.keymap.set('n', 'gI',  vim.lsp.buf.implementation,  bufopts)
+    vim.keymap.set('n', 'gs',  vim.lsp.buf.signature_help,  bufopts)
+    vim.keymap.set('n', 'gr',  vim.lsp.buf.references,      bufopts)
+    vim.keymap.set('n', 'gR',  vim.lsp.buf.rename,          bufopts)
+    vim.keymap.set('n', 'gt',  vim.lsp.buf.typehierarchy,   bufopts)
+    vim.keymap.set('n', 'gli', vim.lsp.buf.incoming_calls,  bufopts)
+    vim.keymap.set('n', 'glo', vim.lsp.buf.outgoing_calls,  bufopts)
     vim.keymap.set('n', 'glt', vim.lsp.buf.type_definition, bufopts)
-    vim.keymap.set('n', 'gla', vim.lsp.buf.code_action, bufopts)
-    vim.keymap.set('n', 'glf', vim.lsp.buf.format, bufopts)
+    vim.keymap.set('n', 'gla', vim.lsp.buf.code_action,     bufopts)
+    vim.keymap.set('n', 'glf', vim.lsp.buf.format,          bufopts)
 
     vim.keymap.set('n', 'glwa', vim.lsp.buf.add_workspace_folder, bufopts)
     vim.keymap.set('n', 'glwr', vim.lsp.buf.remove_workspace_folder, bufopts)

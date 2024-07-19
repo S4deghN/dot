@@ -1,3 +1,7 @@
+" TODO:
+" [ ] make `:chistory` work with fzf
+" [ ] make `:registers` work with fzf
+
 " -----------------------------------------------
 " --- options ---
 " -----------------------------------------------
@@ -6,7 +10,7 @@ set ttimeoutlen=0
 " Undo file shouldn't replace version control
 set noswapfile undofile undodir=/tmp/$USER.vimundo
 set mouse=ar
-set completeopt=menu,menuone,noinsert
+set completeopt=menu,noinsert,popup
 set pumheight=6 previewheight=10
 set nowildmenu wildignorecase wildmode=longest,list,full
 set ignorecase smartcase
@@ -84,11 +88,21 @@ Plug 'airblade/vim-rooter'
 Plug 'chrisbra/Colorizer'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/fzf.vim'
+Plug 'dnlhc/glance.nvim'
+Plug 'ojroques/nvim-lspfuzzy'
 Plug '~/.config/nvim/local/vim8-shout'
 Plug '~/.config/nvim/local/vim-cool'
 " for now I just don't wanna deal with other plugins so I use the lua
 Plug 'neovim/nvim-lspconfig'
 Plug 'p00f/clangd_extensions.nvim'
+Plug 'hrsh7th/nvim-cmp'
+    Plug 'hrsh7th/cmp-nvim-lsp'
+    Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
+    Plug 'quangnguyen30192/cmp-nvim-tags'
+    Plug 'hrsh7th/cmp-buffer'
+    Plug 'hrsh7th/cmp-path'
+    Plug 'hrsh7th/cmp-vsnip'
+    Plug 'hrsh7th/vim-vsnip'
 call plug#end()
 
 let g:rooter_silent_chdir = 1
@@ -107,18 +121,19 @@ let g:fzf_action = {
             \ 'ctrl-x': 'split',
             \ 'ctrl-v': 'vsplit',
             \}
-let g:fzf_layout = { 'down': '25%' }
+let g:fzf_layout = { 'down': '33%' }
 let g:fzf_vim.buffers_jump = 1
-let g:fzf_history_dir = '~/.local/share/fzf-history'
+"let g:fzf_history_dir = '~/.local/share/fzf-history'
 
 let t:shout_cmd = ""
 
 lua require 'Lsp'
-
+lua require('glance').setup({})
+"lua require('lspfuzzy').setup { methods = 'all', jump_one = true, save_last = true, callback = nil, fzf_preview = { 'hidden,right,50%,+{2}-/2', 'ctrl-l' }, fzf_action = { ['ctrl-t'] = 'tab split', ['ctrl-v'] = 'vsplit', ['ctrl-x'] = 'split', }, fzf_modifier = ':~:.', fzf_trim = true }
+"
 " -----------------------------------------------
 " --- mapings ---
 " -----------------------------------------------
-
 map ' `
 
 inoremap <C-j> <C-j><Up>
@@ -148,7 +163,6 @@ inoremap <C-S-v> <C-r>+
 vmap <C-S-v> "+p
 nmap <C-S-v> "+p
 
-
 " indent
 nnoremap =if mzggVG=g`z
 nnoremap =ap mz=apgg`z
@@ -164,10 +178,10 @@ vnoremap gq   mzgqg`z
 noremap  gz 1z=
 noremap  zs :%s/\s\+$//e<cr>''
 nnoremap gF mz:%!clang-format<cr>g`z
-xnoremap ga <plug>(easyalign)
-nnoremap ga <plug>(easyalign)
 nmap gcA gcc^dWA <C-r>"
 nmap gcn yygccp
+nnoremap ga <plug>(EasyAlign)
+xnoremap ga <plug>(EasyAlign)
 
 
 " navigation
@@ -192,6 +206,9 @@ xnoremap # y?\V<C-R>"<cr>N
 noremap n nzz
 noremap N Nzz
 noremap <C-w>t :belowright term<cr>
+"map <Tab> %
+"map <S-Tab> [%
+
 
 " cmd
 cmap <C-x>f <C-r>=expand('%:p')<cr>
@@ -248,6 +265,11 @@ nnoremap <C-s>ap yiwvap<Esc>:'<,'>:s/<C-R>"//g<Left><Left>
 
 " Miscellaneous
 noremap <C-g>  1<C-g>
+
+imap <expr> <Tab>   vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<Tab>'
+smap <expr> <Tab>   vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<Tab>'
+imap <expr> <S-Tab> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<S-Tab>'
+smap <expr> <S-Tab> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<S-Tab>'
 
 " -----------------------------------------------
 " --- functions ---
@@ -337,6 +359,21 @@ function! SetOption(option)
     exec "set " .. a:option .. "=" .. prg
 endfunction
 
+function! FzfChistorySink(num)
+    "exe a:num .. "chistory"
+    echo a:num
+endfunction
+
+function! FzfChistory()
+    redir => hlist
+    silent chistory
+    redir end
+    "let suggestions = spellsuggest(expand("<cword>"))
+    let src = split(hlist, '\n')
+    echo src
+    return fzf#run({'source': src, 'sink': function("FzfChistorySink")})
+endfunction
+
 " -----------------------------------------------
 " --- commands ---
 " -----------------------------------------------
@@ -351,8 +388,6 @@ command! -nargs=1 Grep silent grep! <f-args> | copen | wincmd p
 command! -nargs=1 -complete=option Set call SetOption(<f-args>)
 command! SetGrep call SetOption("grepprg")
 command! SetMake call SetOption("makrprg")
-
-command! -nargs=1 ShGrep Sh rg -H --no-heading --vimgrep "<args>"
 
 " -----------------------------------------------
 " --- auto commands ---
@@ -373,10 +408,15 @@ augroup auto
     autocmd Filetype tex,text,markdown,gitcommit setlocal spell
     autocmd Filetype cpp,rust setlocal matchpairs+=<:>
     autocmd Filetype netrw call NetrwConfig()
+
     autocmd Filetype qf nmap <buffer> <Esc> ZQ
     autocmd Filetype qf setlocal nowrap
-    autocmd Filetype help,qf if strlen(VertOrNot()) > 0 | wincmd L | endif
-    "autocmd Filetype help wincmd L
+    autocmd Filetype qf if strlen(VertOrNot()) > 0 | wincmd L | endif
+
+    autocmd Filetype man if strlen(VertOrNot()) > 0 | wincmd L | endif
+    "autocmd Filetype help
+    autocmd BufWinEnter */doc/*.txt if strlen(VertOrNot()) > 0 | wincmd L | endif
+
     autocmd BufAdd .clang* set filetype=yaml
     " for visual mode in bash vi mode
     autocmd BufAdd /tmp/bash* set filetype=sh

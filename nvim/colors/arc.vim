@@ -305,8 +305,8 @@ hi Changed guifg=NONE guibg=#1F385B
 " Naysayer merge
 hi Normal guifg=fg guibg=bg gui=NONE
 "hi NormalFloat guibg=#303030
-hi NormalFloat guibg=#151515
-hi floatBorder guifg=#303030 guibg=#151515
+hi floatBorder guifg=#343434 guibg=bg
+hi NormalFloat guibg=bg guifg=fg
 "hi Visual guifg=NONE guibg=#163339 gui=NONE
 "hi Visual guifg=NONE guibg=#08454D gui=NONE
 "hi Visual guifg=NONE guibg=#08373f gui=NONE
@@ -318,7 +318,7 @@ hi visual guifg=NONE guibg=#285577
 
 " hi VertSplit guifg=#000000       guibg=NONE         gui=NONE
 "hi VertSplit guifg=#232729 guibg=bg
-hi WinSeparator guibg=bg guifg=#303030
+hi WinSeparator guibg=bg guifg=#343434
 hi! link VertSplit winSeperator
 "hi! link FloatBorder VertSplit
 hi! link CmpPmenuBorder VertSplit
