@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# List of mapping options
+# `/usr/share/X11/xkb/rules/xorg.lst`
+
 setxkbmap -layout us,ir
 
 #!
