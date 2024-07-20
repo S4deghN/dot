@@ -129,7 +129,7 @@ let t:shout_cmd = ""
 
 lua require 'Lsp'
 lua require('glance').setup({})
-"lua require('lspfuzzy').setup { methods = 'all', jump_one = true, save_last = true, callback = nil, fzf_preview = { 'hidden,right,50%,+{2}-/2', 'ctrl-l' }, fzf_action = { ['ctrl-t'] = 'tab split', ['ctrl-v'] = 'vsplit', ['ctrl-x'] = 'split', }, fzf_modifier = ':~:.', fzf_trim = true }
+lua require('lspfuzzy').setup { methods = 'all', jump_one = true, save_last = true, callback = nil, fzf_preview = { 'hidden,right,50%,+{2}-/2', 'ctrl-l' }, fzf_action = { ['ctrl-t'] = 'tab split', ['ctrl-v'] = 'vsplit', ['ctrl-x'] = 'split', }, fzf_modifier = ':~:.', fzf_trim = true }
 "
 " -----------------------------------------------
 " --- mapings ---
@@ -226,6 +226,10 @@ nmap     <leader>h  :h<space>
 nmap     <leader>q  :vert h<space>
 noremap  <leader>f  :Files<cr>
 nmap     <leader>F  :Files<space><C-x>d
+nnoremap <leader>w  :Rg <C-r>=expand('<cexpr>')<cr><cr>
+vnoremap <leader>w  :<C-u>Rg <C-r>=GetVisualSelection()<cr><cr>
+nnoremap <leader>W  :RG<cr>
+nnoremap <leader>s  :RG<cr>
 noremap  <leader>r  :Histor<cr>
 noremap  <leader>b  :Buffers<cr>
 noremap  <leader>H  :Helptags<cr>
