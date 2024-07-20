@@ -85,7 +85,6 @@ alias t="tmux a || tmux"
 alias o="octave"
 alias r="ranger"
 
-
 alias gits="git status"
 alias gitd="git diff"
 alias gita="git add"
@@ -95,13 +94,13 @@ alias gitll="git log --graph --format=format:'%C(yellow)%h%C(reset) - %C(green)%
 alias gitl="git log --graph --oneline"
 alias giti="git describe --abbrev=4 --dirty --always --tags"
 
-
 #Pacman Shortcuts
 alias pac-rm-cache="sudo pacman -Scc"
 alias pac-rm-orphan="pacman -Qtdq | sudo pacman -Rns -"
 alias pac-unlock="sudo rm /var/lib/pacman/db.lck"
 alias pac-size="pacman -Qq | pacman -Qi - | egrep '(Size|Name[^s])' | sed -E 's/ ([KM])iB/\1/' | sed -z 's/\nInstalled/ /g' | perl -pe 's/(Name|Size) *: //g' | column -t | sort -hk2 -r | cat -n | tac"
 alias pac-view="pacman -Slq | fzf --preview 'pacman -Si {}' --layout=reverse"
+alias file-of="pacman -Qo"
 
 alias bf="WINEPREFIX=~/Games/skylords-reborn/ wine /home/s4/Games/skylords-reborn/drive_c/Program\ Files/BattleForge/BattleForge.exe"
 

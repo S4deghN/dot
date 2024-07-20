@@ -109,7 +109,8 @@ call plug#end()
 let g:rooter_silent_chdir = 1
 let g:rooter_patterns = ['.git', '_darcs', '.hg', '.bzr', '.svn', 'Makefile', 'package.json', '.gitignore']
 
-if hostname() == "naad"
+" ubuntu doesn't put the file in plugin folder of vim by default
+if system("sed -n 's/^ID=//p' /etc/os-release") == "ubuntu"
     source /usr/share/doc/fzf/examples/fzf.vim
 endif
 let g:fzf_vim = {}
@@ -211,8 +212,8 @@ xnoremap # y?\V<C-R>"<cr>N
 noremap n nzz
 noremap N Nzz
 noremap <C-w>t :belowright term<cr>
-map <Tab> %
-map <S-Tab> [%
+"map <Tab> %
+"map <S-Tab> [%
 
 
 " cmd

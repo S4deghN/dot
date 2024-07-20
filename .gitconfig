@@ -1,20 +1,16 @@
 [user]
 	email = sadegh.nobakhti@gmail.com
-	name = Sadegh
+	name = Zero
 [credential "https://github.com"]
-	helper = 
 	helper = !/usr/bin/gh auth git-credential
 [credential "https://gist.github.com"]
-	helper = 
 	helper = !/usr/bin/gh auth git-credential
 [init]
 	defaultBranch = main
 [core]
-	; pager = perl /usr/share/git/diff-highlight/diff-highlight | less
-    pager = perl /usr/share/doc/git/contrib/diff-highlight/diff-highlight | less
+	pager = perl /usr/share/git/diff-highlight/diff-highlight | less
 [interactive]
-    ; diffFilter = perl /usr/share/git/diff-highlight/diff-highlight
-    pager = perl /usr/share/doc/git/contrib/diff-highlight/diff-highlight
+    diffFilter = perl /usr/share/git/diff-highlight/diff-highlight
 [credential]
 	helper = cache
 [filter "lfs"]
@@ -22,3 +18,5 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[includeIf "gitdir:/home/naad/"]
+    path = ~/.naad.gitconfig
