@@ -1,6 +1,6 @@
 [user]
 	email = sadegh.nobakhti@gmail.com
-	name = Zero
+	name = Sadegh
 [credential "https://github.com"]
 	helper = 
 	helper = !/usr/bin/gh auth git-credential
@@ -10,9 +10,11 @@
 [init]
 	defaultBranch = main
 [core]
-	pager = perl /usr/share/git/diff-highlight/diff-highlight | less
+	; pager = perl /usr/share/git/diff-highlight/diff-highlight | less
+    pager = perl /usr/share/doc/git/contrib/diff-highlight/diff-highlight | less
 [interactive]
-    diffFilter = perl /usr/share/git/diff-highlight/diff-highlight
+    ; diffFilter = perl /usr/share/git/diff-highlight/diff-highlight
+    pager = perl /usr/share/doc/git/contrib/diff-highlight/diff-highlight
 [credential]
 	helper = cache
 [filter "lfs"]

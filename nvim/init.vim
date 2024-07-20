@@ -1,6 +1,7 @@
 " TODO:
 " [ ] make `:chistory` work with fzf
 " [ ] make `:registers` work with fzf
+" [ ] in visual search (rg and such) search for literal string instead of regex.
 
 " -----------------------------------------------
 " --- options ---
@@ -106,8 +107,11 @@ Plug 'hrsh7th/nvim-cmp'
 call plug#end()
 
 let g:rooter_silent_chdir = 1
-let g:rooter_paterns = ['.git', '_darcs', '.hg', '.bzr', '.svn', 'Makefile', 'package.json', '.gitignore']
+let g:rooter_patterns = ['.git', '_darcs', '.hg', '.bzr', '.svn', 'Makefile', 'package.json', '.gitignore']
 
+if hostname() == "naad"
+    source /usr/share/doc/fzf/examples/fzf.vim
+endif
 let g:fzf_vim = {}
 let g:fzf_vim.preview_window = ['hidden,right,50%', 'ctrl-l']
 function! s:build_quickfix_list(lines)
@@ -139,6 +143,7 @@ map ' `
 inoremap <C-j> <C-j><Up>
 inoremap <C-k> <Del>
 inoremap <C-z> <esc>b1z=`]a
+inoremap <C-u> <esc>ugi
 " for accepting auto complete
 inoremap <C-f> <C-y>
 inoremap <C-^> <esc><C-^>
@@ -415,7 +420,7 @@ augroup auto
 
     autocmd Filetype qf nmap <buffer> <Esc> ZQ
     autocmd Filetype qf setlocal nowrap
-    autocmd Filetype qf if strlen(VertOrNot()) > 0 | wincmd L | endif
+    "autocmd Filetype qf if strlen(VertOrNot()) > 0 | wincmd L | endif
 
     autocmd Filetype man if strlen(VertOrNot()) > 0 | wincmd L | endif
     "autocmd Filetype help

@@ -91,9 +91,9 @@ cmp.setup {
         end,
     },
     preselect = cmp.PreselectMode.Item,
-    completion = {
-        autocomplete = false,
-    },
+    -- completion = {
+    --     autocomplete = true,
+    -- },
     experimental = {
         ghost_text = { hl_group = "Comment" },
         -- native_menu = false,

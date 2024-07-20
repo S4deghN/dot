@@ -1,0 +1,6 @@
+[submodule "nvim/local/vim-cool"]
+	path = nvim/local/vim-cool
+	url = https://github.com/s4deghn/vim-cool.git
+[submodule "nvim/local/vim8-shout"]
+	path = nvim/local/vim8-shout
+	url = https://github.com/s4deghn/vim8-shout.git
