@@ -211,8 +211,8 @@ xnoremap # y?\V<C-R>"<cr>N
 noremap n nzz
 noremap N Nzz
 noremap <C-w>t :belowright term<cr>
-"map <Tab> %
-"map <S-Tab> [%
+map <Tab> %
+map <S-Tab> [%
 
 
 " cmd
@@ -228,7 +228,6 @@ nmap     <leader>b  :b<space>
 nmap     <leader>e  :e<space><C-x>d
 nmap     <leader>E  :Exp<cr>
 nmap     <leader>h  :h<space>
-nmap     <leader>q  :vert h<space>
 noremap  <leader>f  :Files<cr>
 nmap     <leader>F  :Files<space><C-x>d
 nnoremap <leader>w  :Rg <C-r>=expand('<cexpr>')<cr><cr>
@@ -369,18 +368,20 @@ function! SetOption(option)
 endfunction
 
 function! FzfChistorySink(num)
-    "exe a:num .. "chistory"
-    echo a:num
+    exe a:num[3] .. "chistory"
+    "echo a:num[3]
 endfunction
 
 function! FzfChistory()
     redir => hlist
     silent chistory
     redir end
-    "let suggestions = spellsuggest(expand("<cword>"))
+    "echo hlist
+
     let src = split(hlist, '\n')
-    echo src
-    return fzf#run({'source': src, 'sink': function("FzfChistorySink")})
+    let src = map(src, { _, v -> substitute(v, '^\(>*\s*\)[^0-9]*\|\sof\s[0-9]\|errors', '\1\ ', 'g')})
+
+    return fzf#run(fzf#wrap('chistory', {'source': src, 'sink': function("FzfChistorySink")}))
 endfunction
 
 " -----------------------------------------------
