@@ -341,4 +341,12 @@ hi Search        guibg=#218058 guifg=black gui=NONE
 hi! link cppStructure statement
 hi! link cStructure statement
 ""hi! link cStorageClass statement
-"hi! link cTypedef statement
+hi! link cTypedef statement
+
+" Highlighting in git (diff) files
+hi! link diffIndexLine comment
+hi! link diffFile comment
+hi! link diffOldFile function
+hi! link diffNewFile function
+hi! link diffline function
+hi! link diffSubname Normal
