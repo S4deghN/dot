@@ -266,7 +266,8 @@ nnoremap gw :Grep <C-r>=expand('<cexpr>')<cr><cr>
 vnoremap gw :<C-u>Grep <C-r>=GetVisualSelection()<cr><cr>
 nnoremap gW :Grep<space>
 
-nnoremap ql <Plug>(qf_qf_toggle_stay)
+nnoremap q; <Plug>(qf_qf_toggle_stay)
+nnoremap ql :call FzfChistory()<cr>
 
 "substitute
 nnoremap <C-s>s  :s/<C-R>=expand('<cword>')<cr>//g<Left><Left>
@@ -372,11 +373,6 @@ function! SetOption(option)
     exec "set " .. a:option .. "=" .. prg
 endfunction
 
-function! FzfChistorySink(num)
-    exe a:num[3] .. "chistory"
-    "echo a:num[3]
-endfunction
-
 function! FzfChistory()
     redir => hlist
     silent chistory
@@ -386,7 +382,7 @@ function! FzfChistory()
     let src = split(hlist, '\n')
     let src = map(src, { _, v -> substitute(v, '^\(>*\s*\)[^0-9]*\|\sof\s[0-9]\|errors', '\1\ ', 'g')})
 
-    return fzf#run(fzf#wrap('chistory', {'source': src, 'sink': function("FzfChistorySink")}))
+    return fzf#run(fzf#wrap('chistory', { 'source': src, 'sink': function({ num -> execute(num[3] .. "chistory") }) }))
 endfunction
 
 " -----------------------------------------------
