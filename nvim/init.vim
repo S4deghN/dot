@@ -90,6 +90,7 @@ Plug 'chrisbra/Colorizer'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-endwise'
 Plug 'junegunn/fzf.vim'
+Plug 'romainl/vim-qf'
 Plug 'dnlhc/glance.nvim'
 Plug 'ojroques/nvim-lspfuzzy'
 Plug '~/.config/nvim/local/vim8-shout'
@@ -109,6 +110,8 @@ call plug#end()
 
 let g:rooter_silent_chdir = 1
 let g:rooter_patterns = ['.git', '_darcs', '.hg', '.bzr', '.svn', 'Makefile', 'package.json', '.gitignore']
+
+let g:qf_max_height = 8
 
 " ubuntu doesn't put the file in plugin folder of vim by default
 if system("sed -n 's/^ID=//p' /etc/os-release") == "ubuntu"
@@ -243,12 +246,10 @@ noremap  <leader>gf :GFiles<cr>
 noremap  <leader>gs :GFiles?<cr>
 noremap  <leader>gc :Commits<cr>
 noremap  <leader>gC :BCommits<cr>
-" for now use grep!
-"nnoremap <leader>w        <cmd>FZF grep_cword<cr>
-"nnoremap <leader>s        <cmd>RG<cr>
-"xnoremap <leader>s        <cmd>FZF grep_visual<cr>
-
 nnoremap <leader>gg :Git<cr>
+nnoremap <leader>co :ClangdSwitchSourceHeader<cr>
+nnoremap <leader>ct :ClangdTypeHierarchy<cr>
+nnoremap <leader>ci :ClangdSymbolInfo<cr>
 
 nnoremap sn :Sh<space>
 nnoremap ss :Sh <C-r>=expand(t:shout_cmd)<cr>
@@ -264,6 +265,8 @@ nnoremap s$ :LastErrorJump<cr>
 nnoremap gw :Grep <C-r>=expand('<cexpr>')<cr><cr>
 vnoremap gw :<C-u>Grep <C-r>=GetVisualSelection()<cr><cr>
 nnoremap gW :Grep<space>
+
+nnoremap ql <Plug>(qf_qf_toggle_stay)
 
 "substitute
 nnoremap <C-s>s  :s/<C-R>=expand('<cword>')<cr>//g<Left><Left>
@@ -423,7 +426,10 @@ augroup auto
 
     autocmd Filetype qf nmap <buffer> <Esc> ZQ
     autocmd Filetype qf setlocal nowrap
-    "autocmd Filetype qf if strlen(VertOrNot()) > 0 | wincmd L | endif
+    autocmd Filetype qf nmap <buffer> <Left>  <Plug>(qf_older)
+    autocmd Filetype qf nmap <buffer> <Right> <Plug>(qf_newer)
+    "autocmd BufEnter quickfix call QfResize()
+    "autocmd BufEnter * if &l:buftype ==# 'quickfix' | call QfResize() | endif
 
     autocmd Filetype man if strlen(VertOrNot()) > 0 | wincmd L | endif
     "autocmd Filetype help
