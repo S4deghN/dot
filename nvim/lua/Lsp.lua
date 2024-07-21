@@ -230,7 +230,6 @@ vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
 vim.keymap.set('n', '[e', function() vim.diagnostic.goto_prev({ severity = sev.e }) end, opts)
 vim.keymap.set('n', ']e', function() vim.diagnostic.goto_next({ severity = sev.e }) end, opts)
-vim.keymap.set('n', 'ge', vim.diagnostic.setqflist, opts)
 
 local function get_hl_group_color(group, fg_or_bg)
     local id = vim.fn["hlID"](group)

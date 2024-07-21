@@ -114,9 +114,11 @@ let g:rooter_patterns = ['.git', '_darcs', '.hg', '.bzr', '.svn', 'Makefile', 'p
 let g:qf_max_height = 8
 
 " ubuntu doesn't put the file in plugin folder of vim by default
-if system("sed -n 's/^ID=//p' /etc/os-release") == "ubuntu"
+let distro = trim(system("sed -n 's/^ID=//p' /etc/os-release"))
+if distro == "ubuntu"
     source /usr/share/doc/fzf/examples/fzf.vim
 endif
+
 let g:fzf_vim = {}
 let g:fzf_vim.preview_window = ['hidden,right,50%', 'ctrl-l']
 function! s:build_quickfix_list(lines)
