@@ -58,7 +58,7 @@ if &laststatus
     set stl+=%([%{%v:lua.GetRunningLsp()%}]%)
     set stl+=\ \ \ \ %-8(%l,%c%)\ %P
 else
-    set rulerformat=%40(%=[%l,%c\|%P]\ %m%q%w\ %y%)
+    set rulerformat=%60(%([%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}]%)%=\ \ \ \ %-8(%l,%c%)\ %P%)
 endif
 
 let mapleader = " "
@@ -92,7 +92,8 @@ Plug 'tpope/vim-endwise'
 Plug 'junegunn/fzf.vim'
 Plug 'romainl/vim-qf'
 Plug 'dnlhc/glance.nvim'
-Plug 'ojroques/nvim-lspfuzzy'
+"Plug 'ojroques/nvim-lspfuzzy'
+Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
 Plug '~/.config/nvim/local/vim8-shout'
 Plug '~/.config/nvim/local/vim-cool'
 " for now I just don't wanna deal with other plugins so I use the lua
@@ -137,8 +138,9 @@ let g:fzf_vim.buffers_jump = 1
 let t:shout_cmd = ""
 
 lua require 'Lsp'
+lua require 'FzfLua'
 lua require('glance').setup({})
-lua require('lspfuzzy').setup { methods = 'all', jump_one = true, save_last = true, callback = nil, fzf_preview = { 'hidden,right,50%,+{2}-/2', 'ctrl-l' }, fzf_action = { ['ctrl-t'] = 'tab split', ['ctrl-v'] = 'vsplit', ['ctrl-x'] = 'split', }, fzf_modifier = ':~:.', fzf_trim = true }
+"lua require('lspfuzzy').setup { methods = 'all', jump_one = true, save_last = true, callback = nil, fzf_preview = { 'hidden,right,50%,+{2}-/2', 'ctrl-l' }, fzf_action = { ['ctrl-t'] = 'tab split', ['ctrl-v'] = 'vsplit', ['ctrl-x'] = 'split', }, fzf_modifier = ':~:.', fzf_trim = true }
 "
 " -----------------------------------------------
 " --- mapings ---
@@ -229,23 +231,40 @@ cmap <C-k> <Up>
 
 " fast access
 nnoremap <leader>d  :bp\|bd #<cr>
-nmap     <leader>b  :b<space>
+nmap     <leader>B  :b<space>
 nmap     <leader>e  :e<space><C-x>d
 nmap     <leader>E  :Exp<cr>
 nmap     <leader>h  :h<space>
-noremap  <leader>f  :Files<cr>
-nmap     <leader>F  :Files<space><C-x>d
-nnoremap <leader>w  :Rg <C-r>=expand('<cexpr>')<cr><cr>
-vnoremap <leader>w  :<C-u>Rg <C-r>=GetVisualSelection()<cr><cr>
-nnoremap <leader>W  :RG<cr>
-nnoremap <leader>s  :RG<cr>
-noremap  <leader>r  :Histor<cr>
-noremap  <leader>b  :Buffers<cr>
-noremap  <leader>H  :Helptags<cr>
-noremap  <leader>gf :GFiles<cr>
-noremap  <leader>gs :GFiles?<cr>
-noremap  <leader>gc :Commits<cr>
-noremap  <leader>gC :BCommits<cr>
+"noremap  <leader>f  :Files<cr>
+"nmap     <leader>F  :Files<space><C-x>d
+"nnoremap <leader>w  :Rg <C-r>=expand('<cexpr>')<cr><cr>
+"vnoremap <leader>w  :<C-u>Rg <C-r>=GetVisualSelection()<cr><cr>
+"nnoremap <leader>W  :RG<cr>
+"nnoremap <leader>s  :RG<cr>
+"noremap  <leader>r  :Histor<cr>
+"noremap  <leader>b  :Buffers<cr>
+"noremap  <leader>H  :Helptags<cr>
+"noremap  <leader>gf :GFiles<cr>
+"noremap  <leader>gs :GFiles?<cr>
+"noremap  <leader>gc :Commits<cr>
+"noremap  <leader>gC :BCommits<cr>
+
+noremap  <leader><leader> <cmd>FzfLua<cr>
+noremap  <leader><cr>     <cmd>FzfLua resume<cr>
+noremap  <leader>f        <cmd>FzfLua files<cr>
+noremap  <leader>r        <cmd>FzfLua oldfiles<cr>
+noremap  <leader>b        <cmd>FzfLua buffers<cr>
+noremap  <leader>H        <cmd>FzfLua help_tags<cr>
+nnoremap <leader>w        <cmd>FzfLua grep_cword<cr>
+xnoremap <leader>s        <cmd>FzfLua grep_visual<cr>
+nnoremap <leader>s        <cmd>FzfLua live_grep<cr>
+noremap  <leader>lr       <cmd>FzfLua lsp_references<cr>
+noremap  <leader>ld       <cmd>FzfLua lsp_definitions<cr>
+noremap  <leader>lD       <cmd>FzfLua lsp_declarations<cr>
+noremap  <leader>lf       <cmd>FzfLua lsp_finder<cr>
+noremap  <leader>li       <cmd>FzfLua lsp_incoming_calls<cr>
+noremap  <leader>lo       <cmd>FzfLua lsp_outgoing_calls<cr>
+
 nnoremap <leader>gg :Git<cr>
 nnoremap <leader>co :ClangdSwitchSourceHeader<cr>
 nnoremap <leader>ct :ClangdTypeHierarchy<cr>
@@ -266,8 +285,8 @@ nnoremap gw :Grep <C-r>=expand('<cexpr>')<cr><cr>
 vnoremap gw :<C-u>Grep <C-r>=GetVisualSelection()<cr><cr>
 nnoremap gW :Grep<space>
 
-nnoremap q; <Plug>(qf_qf_toggle_stay)
-nnoremap ql :call FzfChistory()<cr>
+nnoremap <leader>q <Plug>(qf_qf_toggle_stay)
+nnoremap <leader>Q :call FzfChistory()<cr>
 
 "substitute
 nnoremap <C-s>s  :s/<C-R>=expand('<cword>')<cr>//g<Left><Left>
@@ -415,6 +434,7 @@ augroup auto
                 \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
                 \ |   exe "normal! g`\""
                 \ | endif
+    "autocmd BufEnter * call feedkeys("\<C-g>")
     " TODO: move file type specific autocmds to their ftplugin file.
     autocmd Filetype tex,text,markdown,gitcommit setlocal spell
     autocmd Filetype cpp,rust setlocal matchpairs+=<:>

@@ -220,6 +220,7 @@ hi  NormalFloat     guibg=bg
 hi  FloatBorder     guibg=bg
 
 hi  CursorLine      guibg=#303030
+hi  CursorLine      guibg=#191960
 hi  CursorColumn    guibg=#303030
 hi  Folded          guibg=#303030     guifg=#747C84
 hi  VertSplit       guibg=NONE
