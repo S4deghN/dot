@@ -36,7 +36,7 @@ set fillchars=diff:╱
 "set iskeyword-=_
 
 " switch case indentation
-set cinoptions+=1l
+set cinoptions+=1l,N0
 
 if executable('rg')
     set grepprg=rg\ -H\ --no-heading\ --vimgrep
