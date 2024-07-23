@@ -36,7 +36,8 @@ set fillchars=diff:╱
 "set iskeyword-=_
 
 " switch case indentation
-set cinoptions+=1l,N0
+set cinoptions+=1l:N0
+set cinoptions=>s,e0,n0,f0,{0,}0,^0,L-1,:s,=s,l1,b0,gs,hs,N0,E0,ps,ts,is,+s,c3,C0,/0,(2s,us,U0,w0,W0,k0,m0,j0,J0,)20,*70,#0,P0
 
 if executable('rg')
     set grepprg=rg\ -H\ --no-heading\ --vimgrep
@@ -218,8 +219,8 @@ nnoremap * *N
 xnoremap * y/\V<C-R>"<cr>N
 nnoremap # #N
 xnoremap # y?\V<C-R>"<cr>N
-noremap n nzz
-noremap N Nzz
+"noremap n nzz
+"noremap N Nzz
 noremap <C-w>t :belowright term<cr>
 "map <Tab> %
 "map <S-Tab> [%
