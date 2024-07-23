@@ -35,6 +35,9 @@ set fillchars=diff:╱
 " TODO: look this up for big word!
 "set iskeyword-=_
 
+" switch case indentation
+set cinoptions+=1l
+
 if executable('rg')
     set grepprg=rg\ -H\ --no-heading\ --vimgrep
     set grepformat=%f:%l:%c:%m
