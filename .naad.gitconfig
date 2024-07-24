@@ -1,5 +1,5 @@
 [user]
-    name = Sadegh
+    name = Sadegh Nobakhti
 [core]
     pager = perl /usr/share/doc/git/contrib/diff-highlight/diff-highlight | less
 [interactive]
