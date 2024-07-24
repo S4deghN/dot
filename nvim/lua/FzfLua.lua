@@ -2,8 +2,8 @@ require('fzf-lua').setup {
     fzf_bin = 'fzf',
     fzf_colors = true,
     winopts = {
-        -- split = "botright new",
-        -- border = 'none',
+        split = "botright new",
+        border = 'none',
         -- fullscreen = true,
         height           = 0.5,            -- window height
         width            = 1,            -- window width

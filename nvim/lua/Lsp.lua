@@ -90,13 +90,16 @@ cmp.setup {
             -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
         end,
     },
-    preselect = cmp.PreselectMode.Item,
-    -- completion = {
-    --     autocomplete = true,
-    -- },
+    completion = {
+        autocomplete = false,
+    },
     experimental = {
         ghost_text = { hl_group = "Comment" },
         -- native_menu = false,
+    },
+    performance = {
+        throttle = 0,
+        debounce = 0,
     },
     view = {
         docs = {
@@ -133,11 +136,18 @@ cmp.setup {
                 cmp.open_docs()
             end
         end),
+        ['<C-f>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.confirm({ select = true })
+            else
+                cmp.complete()
+            end
+        end),
         ['<C-j>'] = cmp.mapping.select_next_item(),
         ['<C-k>'] = cmp.mapping.select_prev_item(),
         ['<C-d>'] = cmp.mapping.scroll_docs(4),
         ['<C-u>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-f>'] = cmp.mapping.confirm({ select = true }),
+        -- ['<C-f>'] = cmp.mapping.confirm({ select = true }),
         ['<C-y>'] = cmp.mapping.confirm({ select = true }),
         ['<C-e>'] = cmp.mapping.abort(),
     }),
@@ -339,6 +349,8 @@ end
 local on_attach = function(client, bufnr)
     -- We have to set these highlights only after they're set by vim
     set_status_diag_highlight()
+    -- Disable diagnostics by default
+    vim.diagnostic.enable(false)
 
     -- Enable completion triggered by <c-x><c-o>
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')

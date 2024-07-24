@@ -59,7 +59,7 @@ if &laststatus
     set stl+=%S
     " Right
     set stl+=%=
-    set stl+=%([%{%v:lua.GetRunningLsp()%}]%)
+    set stl+=%([%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}]%)
     set stl+=\ \ \ \ %-8(%l,%c%)\ %P
 else
     set rulerformat=%60(%([%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}]%)%=\ \ \ \ %-8(%l,%c%)\ %P%)
@@ -428,8 +428,7 @@ endfunction
 command! DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis | wincmd p | diffthis
 command! Syn call Syn()
 command! Run call system("tmux-run ".&filetype)
-command! DiagEnable lua vim.diagnostic.enable()
-command! DiagDisable lua vim.diagnostic.disable()
+command! DiagToggle lua vim.diagnostic.enable(not vim.diagnostic.is_enabled())
 command! Lsp lua LspStartServer()
 command! -nargs=1 Grep silent grep! <f-args> | copen | wincmd p
 
