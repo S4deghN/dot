@@ -15,7 +15,7 @@ set completeopt=menu,noinsert,popup
 set pumheight=6 previewheight=10
 set nowildmenu wildignorecase wildmode=longest,list,full
 set ignorecase smartcase
-set signcolumn=no
+set signcolumn=yes:1
 set noshowmode
 set guicursor=n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20
 set shortmess=aoFOtT
@@ -93,8 +93,9 @@ Plug 'airblade/vim-rooter'
 Plug 'chrisbra/Colorizer'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-endwise'
-Plug 'junegunn/fzf.vim'
+"Plug 'junegunn/fzf.vim'
 Plug 'romainl/vim-qf'
+Plug 'lewis6991/gitsigns.nvim'
 Plug 'dnlhc/glance.nvim'
 "Plug 'ojroques/nvim-lspfuzzy'
 Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
@@ -124,32 +125,33 @@ if distro == "ubuntu"
     source /usr/share/doc/fzf/examples/fzf.vim
 endif
 
-let g:fzf_vim = {}
-let g:fzf_vim.preview_window = ['hidden,right,50%', 'ctrl-l']
-function! s:build_quickfix_list(lines)
-    call setqflist(map(copy(a:lines), '{ "filename": v:val, "lnum": 1 }'))
-    copen
-    wincmd p
-endfunction
-let g:fzf_action = {
-            \ 'ctrl-q': function('s:build_quickfix_list'),
-            \ 'ctrl-t': 'tab split',
-            \ 'ctrl-x': 'split',
-            \ 'ctrl-v': 'vsplit',
-            \}
-let g:fzf_layout = { 'down': '33%' }
-let g:fzf_vim.buffers_jump = 1
-"let g:fzf_history_dir = '~/.local/share/fzf-history'
+"let g:fzf_vim = {}
+"let g:fzf_vim.preview_window = ['hidden,right,50%', 'ctrl-l']
+"function! s:build_quickfix_list(lines)
+"    call setqflist(map(copy(a:lines), '{ "filename": v:val, "lnum": 1 }'))
+"    copen
+"    wincmd p
+"endfunction
+"let g:fzf_action = {
+"            \ 'ctrl-q': function('s:build_quickfix_list'),
+"            \ 'ctrl-t': 'tab split',
+"            \ 'ctrl-x': 'split',
+"            \ 'ctrl-v': 'vsplit',
+"            \}
+"let g:fzf_layout = { 'down': '33%' }
+"let g:fzf_vim.buffers_jump = 1
+""let g:fzf_history_dir = '~/.local/share/fzf-history'
 
 let t:shout_cmd = ""
 
 lua require 'Lsp'
 lua require 'FzfLua'
-lua require('glance').setup({})
+lua require('gitsigns').setup()
+lua require('glance').setup()
 "lua require('lspfuzzy').setup { methods = 'all', jump_one = true, save_last = true, callback = nil, fzf_preview = { 'hidden,right,50%,+{2}-/2', 'ctrl-l' }, fzf_action = { ['ctrl-t'] = 'tab split', ['ctrl-v'] = 'vsplit', ['ctrl-x'] = 'split', }, fzf_modifier = ':~:.', fzf_trim = true }
 "
 " -----------------------------------------------
-" --- mapings ---
+" --- keymaps ---
 " -----------------------------------------------
 map ' `
 
@@ -227,7 +229,6 @@ noremap <C-w>t :belowright term<cr>
 "map <Tab> %
 "map <S-Tab> [%
 
-
 " cmd
 cmap <C-x>f <C-r>=expand('%:p')<cr>
 cmap <C-x>d <C-r>=expand('%:p:h').'/'<cr>
@@ -272,9 +273,20 @@ noremap  <leader>li       <cmd>FzfLua lsp_incoming_calls<cr>
 noremap  <leader>lo       <cmd>FzfLua lsp_outgoing_calls<cr>
 
 nnoremap <leader>gg :Git<cr>
+
 nnoremap <leader>co :ClangdSwitchSourceHeader<cr>
 nnoremap <leader>ct :ClangdTypeHierarchy<cr>
 nnoremap <leader>ci :ClangdSymbolInfo<cr>
+
+"noremap <leader>gg :Gitsigns<space>
+noremap <leader>gd :Gitsigns diffthis<space>
+noremap <leader>gr <cmd>Gitsigns reset_hunk<cr>
+noremap <leader>gu <cmd>Gitsigns undo_stage_hunk<cr>
+noremap <leader>gb <cmd>Gitsigns blame_line<cr>
+noremap <leader>gp <cmd>Gitsigns preview_hunk<cr>
+noremap <leader>gh <cmd>Gitsigns preview_hunk_inline<cr>
+noremap ]g         <cmd>Gitsigns next_hunk<cr><cmd>Gitsigns preview_hunk<cr>
+noremap [g         <cmd>Gitsigns prev_hunk<cr><cmd>Gitsigns preview_hunk<cr>
 
 nnoremap sn :Sh<space>
 nnoremap ss :Sh <C-r>=expand(t:shout_cmd)<cr>
