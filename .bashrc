@@ -122,6 +122,7 @@ export FZF_DEFAULT_OPTS="--prompt '╰─> ' --pointer '>' --height 50% --revers
 # completions
 #---------------------------------------------------
 complete -C vic vic
+[[ -x $(command -v pomo) ]] && complete -C pomo pomo
 
 # -----------------------------------------------
 # --- functions ---

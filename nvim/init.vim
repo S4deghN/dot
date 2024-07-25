@@ -199,7 +199,7 @@ noremap  gz 1z=
 noremap  zs :%s/\s\+$//e<cr>''
 nnoremap gF mz:%!clang-format<cr>g`z
 nmap gcA gcc^dWA <C-r>"
-nmap gcn yygccp
+nmap gcd yygccp
 nnoremap ga <plug>(EasyAlign)
 xnoremap ga <plug>(EasyAlign)
 
