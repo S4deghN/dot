@@ -11,12 +11,12 @@ endif
 let g:colors_name="naysayer88"
 
 "062329
-highlight! Normal guifg=#d1b897 guibg=#072727 gui=NONE
+"highlight! Normal guifg=#d1b897 guibg=#072727 gui=NONE
 "highlight! Normal guifg=#d1b897 guibg=#062626 gui=NONE
 "highlight! Normal guifg=#d1b897 guibg=#042327 gui=NONE
 "highlight! Normal guifg=#d1b897 guibg=#042327 gui=NONE
 "highlight! Normal guifg=#d1b897 guibg=#062326 gui=NONE
-"highlight! Normal guifg=#d1b897 guibg=#062329 gui=NONE
+highlight! Normal guifg=#d1b897 guibg=#062329 gui=NONE
 "highlight! Normal guifg=#d1b897 guibg=#062626 gui=NONE
 
 highlight! Comment guifg=#44b340 guibg=NONE gui=NONE

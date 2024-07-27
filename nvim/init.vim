@@ -17,7 +17,8 @@ set nowildmenu wildignorecase wildmode=longest,list,full
 set ignorecase smartcase
 set signcolumn=yes:1
 set noshowmode
-set guicursor=n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20
+"set guicursor=n-v-c-sm:block,i-ci-ve:hor24,r-cr-o:hor20
+set guicursor=r-cr-o:hor20
 set shortmess=aoFOtT
 set smartindent
 " when unset you can delete inserted tab with C-w without deleting the word before it
@@ -25,6 +26,7 @@ set nosmarttab
 set expandtab shiftwidth=4 tabstop=4
 set foldmethod=marker
 set textwidth=100
+"set cursorline
 " set virtualedit=onemore
 set splitbelow splitright
 set jumpoptions=view,stack
@@ -82,17 +84,28 @@ let g:c_function_pointers = 1
 set termguicolors
 color arc
 
+"hi Normal guibg=#303030 guifg=#dddddd
+"hi Statusline guibg=#a29f85 guifg=#000000
+"hi StatuslineNC guibg=#827f65 guifg=#000000
+"hi WinSeparator guibg=bg guifg=gray
+"
+"hi Type gui=NONE guifg=#69db78
+"hi Statement gui=NONE
+"hi Identifier guifg=fg
+
 " -----------------------------------------------
 " --- plugins ---
 " -----------------------------------------------
 "let loaded_matchparen = 0
 
 call plug#begin()
+Plug 'junegunn/vim-peekaboo'
 Plug 'junegunn/vim-easy-align'
 Plug 'airblade/vim-rooter'
 Plug 'chrisbra/Colorizer'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-capslock'
 "Plug 'junegunn/fzf.vim'
 Plug 'romainl/vim-qf'
 Plug 'lewis6991/gitsigns.nvim'
@@ -149,19 +162,20 @@ lua require 'FzfLua'
 lua require('gitsigns').setup()
 lua require('glance').setup()
 "lua require('lspfuzzy').setup { methods = 'all', jump_one = true, save_last = true, callback = nil, fzf_preview = { 'hidden,right,50%,+{2}-/2', 'ctrl-l' }, fzf_action = { ['ctrl-t'] = 'tab split', ['ctrl-v'] = 'vsplit', ['ctrl-x'] = 'split', }, fzf_modifier = ':~:.', fzf_trim = true }
-"
+
 " -----------------------------------------------
 " --- keymaps ---
 " -----------------------------------------------
 map ' `
 
-inoremap <C-j> <C-j><Up>
+inoremap <C-j> <Esc>O
 inoremap <C-k> <Del>
 inoremap <C-z> <esc>b1z=`]a
 inoremap <C-u> <esc>ugi
 " for accepting auto complete
 inoremap <C-f> <C-y>
 inoremap <C-^> <esc><C-^>
+inoremap <C-s> <Plug>CapsLockToggle
 
 " yank
 nnoremap yif mzggVGyg`z
@@ -203,8 +217,11 @@ nmap gcd yygccp
 nnoremap ga <plug>(EasyAlign)
 xnoremap ga <plug>(EasyAlign)
 
-
 " navigation
+nnoremap j gj
+nnoremap k gk
+nnoremap gj j
+nnoremap gk k
 noremap <C-h> <cmd>tabp<cr>
 noremap <C-l> <cmd>tabn<cr>
 noremap <C-j> <cmd>cn<cr>
@@ -304,6 +321,8 @@ nnoremap sk :PrevErrorJump<cr>
 nnoremap s0 :FirstErrorJump<cr>
 nnoremap s$ :LastErrorJump<cr>
 
+nnoremap cc :wa<cr>:Sh <C-r>=expand(t:shout_cmd)<cr>
+
 nnoremap gw :Grep <C-r>=expand('<cexpr>')<cr><cr>
 vnoremap gw :<C-u>Grep <C-r>=GetVisualSelection()<cr><cr>
 nnoremap gW :Grep<space>
@@ -316,6 +335,7 @@ nnoremap <C-s>s  :s/<C-R>=expand('<cword>')<cr>//g<Left><Left>
 xnoremap <C-s>s  :s//g<Left><Left>
 nnoremap <C-s>f  :%s/<C-R>=expand('<cword>')<cr>//g<Left><Left>
 xnoremap <C-s>f  y:<C-w>%s/<C-r>"//g<Left><Left>
+nnoremap <C-s>h  :'<,'>:s/<C-R>=expand('<cword>')<CR>//g<Left><Left>
 nnoremap <C-s>ip yiwvip<Esc>:'<,'>:s/<C-R>"//g<Left><Left>
 nnoremap <C-s>ap yiwvap<Esc>:'<,'>:s/<C-R>"//g<Left><Left>
 

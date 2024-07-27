@@ -3,9 +3,15 @@ BasedOnStyle: Google
 IndentWidth: 4
 AccessModifierOffset: -4
 UseTab: Never
-ColumnLimit: 120
+ColumnLimit: 100
 
 IndentPPDirectives: BeforeHash
+IndentCaseLabels: false
+
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterControlStatement: MultiLine
+
 
 AlignConsecutiveAssignments: false
 AlignConsecutiveDeclarations: false

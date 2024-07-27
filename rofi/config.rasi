@@ -150,3 +150,4 @@ kb-cancel: "Escape,Control+c,Control+bracketleft";
 //@theme "/usr/share/rofi/themes/Arc-Dark.rasi"
 //@theme "/home/s4/.local/share/rofi/themes/rounded-gray-dark.rasi"
 //@theme "/home/s4/.local/share/rofi/themes/rounded-gray-dark.rasi"
+@theme "/home/s4/.local/share/rofi/themes/rounded-gray-dark.rasi"
