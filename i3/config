@@ -117,12 +117,15 @@ set $ws10 "10"
 #----------------------------------------------------------------------------
 # -- Keybindings --
 #----------------------------------------------------------------------------
+floating_modifier $mod
+tiling_drag modifier titlebar
+
 # The middle button over a titlebar kills the window
 bindsym --release button2 kill
+
 # The right button toggles floating
 bindsym button3 floating toggle
 
-floating_modifier $mod
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -211,7 +214,7 @@ bindsym $mod+e layout toggle split
 bindsym $mod+Shift+F floating toggle
 
 # change focus between tiling / floating windows
-bindsym $mod+g focus mode_toggle
+bindsym $mod+o focus mode_toggle
 
 # focus the parent container
 bindsym $mod+p focus parent
