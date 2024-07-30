@@ -453,7 +453,7 @@ endfunction
 command! DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis | wincmd p | diffthis
 command! Syn call Syn()
 command! Run call system("tmux-run ".&filetype)
-command! DiagToggle lua vim.diagnostic.enable(not vim.diagnostic.is_enabled())
+command! DiagToggle lua vim.g.diag_enabled = not vim.g.diag_enabled; vim.diagnostic.enable(vim.g.diag_enabled)
 command! Lsp lua LspStartServer()
 command! -nargs=1 Grep silent grep! <f-args> | copen | wincmd p
 

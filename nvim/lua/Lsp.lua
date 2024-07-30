@@ -344,13 +344,14 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
     return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
 
+vim.g.diag_enabled = 1;
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
     -- We have to set these highlights only after they're set by vim
     set_status_diag_highlight()
     -- Disable diagnostics by default
-    vim.diagnostic.enable(false)
+    vim.diagnostic.enable(vim.g.diag_enabled)
 
     -- Enable completion triggered by <c-x><c-o>
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
