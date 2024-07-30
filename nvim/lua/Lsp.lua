@@ -77,9 +77,22 @@ local border = {
 
 -- local border = { '┌', '─', '┐', '│', '┘', '─', '└', '│' }
 -- local border = { '╔', '═', '╗', '║', '╝', '═', '╚', '║' }
-
 -- Setup nvim-cmp.
+
 local cmp = require("cmp");
+
+local cmp_autocomplete_enabled = true
+function CmpAutoCompleteToggle()
+    cmp_autocomplete_enabled = not cmp_autocomplete_enabled
+    if cmp_autocomplete_enabled then
+        cmp.setup{ completion = {autocomplete =  { InsertEnter = "InsertEnter", TextChanged = "TextChanged" } }}
+    else
+        cmp.setup{ completion = {autocomplete = false }}
+    end
+end
+
+vim.keymap.set('n', '<leader>lla', CmpAutoCompleteToggle, opts)
+
 cmp.setup {
     snippet = {
         -- REQUIRED - you must specify a snippet engine
@@ -232,6 +245,12 @@ vim.diagnostic.config({
     },
 })
 
+vim.g.diag_enabled = true;
+function DiagToggle()
+    vim.g.diag_enabled = not vim.g.diag_enabled;
+    vim.diagnostic.enable(vim.g.diag_enabled)
+end
+
 -- Mappings
 local opts = { noremap = true, silent = false }
 vim.keymap.set('n', 'gh', vim.diagnostic.open_float, opts)
@@ -240,6 +259,7 @@ vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
 vim.keymap.set('n', '[e', function() vim.diagnostic.goto_prev({ severity = sev.e }) end, opts)
 vim.keymap.set('n', ']e', function() vim.diagnostic.goto_next({ severity = sev.e }) end, opts)
+vim.keymap.set('n', '<leader>lld', DiagToggle, opts)
 
 local function get_hl_group_color(group, fg_or_bg)
     local id = vim.fn["hlID"](group)
@@ -344,7 +364,6 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
     return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
 
-vim.g.diag_enabled = 1;
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)

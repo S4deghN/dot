@@ -168,9 +168,9 @@ lua require('glance').setup()
 " -----------------------------------------------
 map ' `
 
-inoremap <C-j> <Esc>O
+inoremap <C-j> <C-G>u<Esc>O
 inoremap <C-k> <Del>
-inoremap <C-z> <esc>b1z=`]a
+inoremap <C-z> <C-G>u<esc>b1z=`]a
 inoremap <C-u> <esc>ugi
 " for accepting auto complete
 inoremap <C-f> <C-y>
@@ -453,7 +453,8 @@ endfunction
 command! DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis | wincmd p | diffthis
 command! Syn call Syn()
 command! Run call system("tmux-run ".&filetype)
-command! DiagToggle lua vim.g.diag_enabled = not vim.g.diag_enabled; vim.diagnostic.enable(vim.g.diag_enabled)
+command! DiagToggle lua DiagToggle()
+command! AutoCompleteToggle lua CmpAutoCompleteToggle()
 command! Lsp lua LspStartServer()
 command! -nargs=1 Grep silent grep! <f-args> | copen | wincmd p
 
