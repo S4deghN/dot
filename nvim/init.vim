@@ -57,10 +57,10 @@ if &laststatus
     set stl+=\ %f
     set stl+=%(%q%h%w%r%)
     " Middle
-    set stl+=%=
+    set stl+=\ %=
     set stl+=%S
     " Right
-    set stl+=%=
+    set stl+=\ %=
     set stl+=%([%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}]%)
     set stl+=\ \ \ \ %-8(%l,%c%)\ %P
 else
@@ -128,7 +128,7 @@ Plug 'hrsh7th/nvim-cmp'
 call plug#end()
 
 let g:rooter_silent_chdir = 1
-let g:rooter_patterns = ['.git', '_darcs', '.hg', '.bzr', '.svn', 'Makefile', 'package.json', '.gitignore']
+let g:rooter_patterns = ['.git', '_darcs', '.hg', '.bzr', '.svn', 'package.json', '.gitignore']
 
 let g:qf_max_height = 8
 
