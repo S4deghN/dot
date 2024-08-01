@@ -190,3 +190,6 @@ hi! link markdownH3 Statement
 
 hi! link markdownLinkText Statement
 call s:HL('markdownLinkText', s:keyword, s:back, s:underline)
+
+hi @variable guifg=fg
+hi Delimiter guifg=fg

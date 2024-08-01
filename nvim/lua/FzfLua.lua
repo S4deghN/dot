@@ -2,10 +2,11 @@ require('fzf-lua').setup {
     fzf_bin = 'fzf',
     fzf_colors = true,
     winopts = {
-        split = "botright new",
-        border = 'none',
+        backdrop = 100,
+        -- split = "botright new",
+        -- border = 'none',
         -- fullscreen = true,
-        height           = 0.5,            -- window height
+        height           = 0.6,            -- window height
         width            = 1,            -- window width
         row              = 1,            -- window row position (0=top, 1=bottom)
         -- col              = 1,            -- window col position (0=left, 1=right)
@@ -15,7 +16,7 @@ require('fzf-lua').setup {
             border = 'noborder',
             hidden = 'nohidden',
             layout = "horizontal",
-            horizontal = 'right:40%',
+            horizontal = 'right:45%',
             delay = 50,
             winopts = {
                 number = false
