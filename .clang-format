@@ -5,7 +5,7 @@ AccessModifierOffset: -4
 UseTab: Never
 ColumnLimit: 100
 
-IndentPPDirectives: BeforeHash
+# IndentPPDirectives: BeforeHash
 IndentCaseLabels: false
 
 BreakBeforeBraces: Custom
