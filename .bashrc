@@ -20,7 +20,7 @@ __ps1() {
     # method doesn't work and we use `\1 \2` instead according to its manual.
     errP='\[\e[1;31m\]$ExitCode\[\e[m\]'
     [[ -n $Branch ]] && branchP='\[\e[0;31m\] $Branch\[\e[m\]' || branchP=""
-    [[ -n $Root ]] && rootP='\[\e[0;35m\] $Root\[\e[m\]' || rootP=""
+    [[ -n $Root ]] && rootP='\[\e[0;35m\]($Root)\[\e[m\]' || rootP=""
 
     userP='\[\e[0;33m\]\u\[\e[m\]'
     hostP='\[\e[0;29m\]\h\[\e[m\]'
@@ -116,7 +116,7 @@ alias bf="WINEPREFIX=~/Games/skylords-reborn/ wine /home/s4/Games/skylords-rebor
 
 export FZF_DEFAULT_COMMAND="find . -type f -not -path '*/\.git/*' -not -path '*/\.cargo/*' -not -path '*/\.ccls-cache/*' -not -path '*/\.cache/*' ! -path '*/build/*'"
 export FZF_COLORS="fg:-1,fg+:-1,hl:yellow,hl+:yellow:reverse,border:gray,spinner:-1,header:blue,info:green,pointer:white,marker:blue,prompt:white:regular,gutter:-1"
-export FZF_DEFAULT_OPTS="--prompt '╰─> ' --pointer '>' --height 50% --reverse --info inline --color=$FZF_COLORS --bind alt-a:select-all --bind ctrl-l:toggle-preview"
+export FZF_DEFAULT_OPTS="--prompt '╰─> ' --pointer '>' --height 50% --reverse --info inline --color=$FZF_COLORS --preview-window hidden --bind alt-a:select-all --bind ctrl-l:toggle-preview"
 
 #---------------------------------------------------
 # completions

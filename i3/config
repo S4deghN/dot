@@ -162,6 +162,7 @@ bindsym --release $mod+Shift+d exec --no-startup-id xkill
 # start dmenu (a program launcher)
 bindsym $mod+a exec --no-startup-id rofi -show drun
 bindsym $mod+x exec --no-startup-id rofi -show run
+bindsym $mod+m exec --no-startup-id rofi -modi emoji -show emoji
 # A more modern dmenu replacement is rofi:
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
 # There also is i3-dmenu-desktop which only displays applications shipping a
@@ -232,7 +233,7 @@ for_window [class="Org.gnome.Dictionary"] move scratchpad, scratchpad show
 bindsym $mod+i [class="Org.gnome.Dictionary"] scratchpad show
 
 for_window [class="Spotify"] move scratchpad, scratchpad show
-bindsym $mod+m [class="Spotify"] scratchpad show
+bindsym $mod+u [class="Spotify"] scratchpad show
 
 # Mod1 = Alt
 bindsym Mod1+Tab fullscreen disable, focus right, fullscreen enable

@@ -245,7 +245,7 @@ vim.diagnostic.config({
     },
 })
 
-vim.g.diag_enabled = true;
+vim.g.diag_enabled = false;
 function DiagToggle()
     vim.g.diag_enabled = not vim.g.diag_enabled;
     vim.diagnostic.enable(vim.g.diag_enabled)

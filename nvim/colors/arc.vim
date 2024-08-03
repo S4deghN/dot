@@ -29,11 +29,13 @@ let s:subtle_black    = { "gui": "#303030", "cterm": "236" }
 let s:light_black     = { "gui": "#262626", "cterm": "235" }
 let s:lighter_black   = { "gui": "#4E4E4E", "cterm": "239" }
 let s:light_gray      = { "gui": "#A8A8A8", "cterm": "248" }
-" let s:lighter_gray    = { "gui": "#c5c5c5", "cterm": "251" }
-" let s:lighter_gray    = { "gui": "#aaaaaa", "cterm": "251" }
+ "let s:lighter_gray    = { "gui": "#c5c5c5", "cterm": "251" }
+ "let s:lighter_gray    = { "gui": "#aaaaaa", "cterm": "251" }
 "let s:lighter_gray    = { "gui": "#9aa9aa", "cterm": "251" }
 "let s:lighter_gray    = { "gui": "#9faeaf", "cterm": "251" }
 let s:lighter_gray    = { "gui": "#a2aaaa", "cterm": "251" }
+let s:lighter_gray    = { "gui": "#a7afaf", "cterm": "251" }
+"let s:lighter_gray    = { "gui": "#b2bbbb", "cterm": "251" }
 let s:lightest_gray   = { "gui": "#EEEEEE", "cterm": "255" }
 let s:pink            = { "gui": "#fb007a", "cterm": "9"   }
 let s:dark_red        = { "gui": "#C30771", "cterm": "1"   }
@@ -262,7 +264,6 @@ if has('nvim')
     hi @variable guifg=fg
     hi! link @type.builtin Type
     hi! link @keyword.modifier.cpp statement
-
 endif
 
 hi  Error           guibg=NONE          guifg=#af5f5f gui=underline cterm=underline

@@ -19,6 +19,7 @@ set signcolumn=yes:1
 set noshowmode
 "set guicursor=n-v-c-sm:block,i-ci-ve:hor24,r-cr-o:hor20
 set guicursor=r-cr-o:hor20
+set scrolloff=5
 set shortmess=aoFOtT
 set smartindent
 " when unset you can delete inserted tab with C-w without deleting the word before it
@@ -72,6 +73,7 @@ let mapleader = " "
 " -----------------------------------------------
 " --- coloring ---
 " -----------------------------------------------
+" mark trailing spaces as errors using highlight group CursorLine
 match CursorLine '\s\+$'
 filetype plugin indent on
 syntax on
@@ -80,18 +82,8 @@ let g:vimsyn_embed = 'l'
 let g:c_gnu = 1
 let g:c_functions = 1
 let g:c_function_pointers = 1
-" mark trailing spaces as errors using highlight group CursorLine
 set termguicolors
 color arc
-
-"hi Normal guibg=#303030 guifg=#dddddd
-"hi Statusline guibg=#a29f85 guifg=#000000
-"hi StatuslineNC guibg=#827f65 guifg=#000000
-"hi WinSeparator guibg=bg guifg=gray
-"
-"hi Type gui=NONE guifg=#69db78
-"hi Statement gui=NONE
-"hi Identifier guifg=fg
 
 " -----------------------------------------------
 " --- plugins ---
@@ -99,7 +91,6 @@ color arc
 "let loaded_matchparen = 0
 
 call plug#begin()
-Plug 'junegunn/vim-peekaboo'
 Plug 'junegunn/vim-easy-align'
 Plug 'airblade/vim-rooter'
 Plug 'chrisbra/Colorizer'
@@ -245,8 +236,8 @@ nnoremap * *N
 xnoremap * y/\V<C-R>"<cr>N
 nnoremap # #N
 xnoremap # y?\V<C-R>"<cr>N
-"noremap n nzz
-"noremap N Nzz
+noremap n nzz
+noremap N Nzz
 noremap <C-w>t :belowright term<cr>
 "map <Tab> %
 "map <S-Tab> [%
