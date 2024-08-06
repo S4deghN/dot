@@ -65,6 +65,9 @@ if &laststatus
     set stl+=\ \ \ \ %-8(%l,%c%)\ %P
 else
     set rulerformat=%60(%([%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}]%)%=\ \ \ \ %-8(%l,%c%)\ %P%)
+    augroup ruler
+        autocmd BufEnter * call feedkeys("\<C-g>")
+    augroup end
 endif
 
 let mapleader = " "
@@ -91,6 +94,7 @@ hi Normal guibg=NONE
 "let loaded_matchparen = 0
 
 call plug#begin()
+Plug 'dimercel/todo-vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'airblade/vim-rooter'
 Plug 'chrisbra/Colorizer'
