@@ -40,7 +40,6 @@ set fillchars=diff:╱
 
 " switch case indentation
 set cinoptions+=1l:N0
-set cinoptions=>s,e0,n0,f0,{0,}0,^0,L-1,:s,=s,l1,b0,gs,hs,N0,E0,ps,ts,is,+s,c3,C0,/0,(2s,us,U0,w0,W0,k0,m0,j0,J0,)20,*70,#0,P0
 
 if executable('rg')
     set grepprg=rg\ -H\ --no-heading\ --vimgrep
@@ -84,6 +83,7 @@ let g:c_functions = 1
 let g:c_function_pointers = 1
 set termguicolors
 color arc
+hi Normal guibg=NONE
 
 " -----------------------------------------------
 " --- plugins ---

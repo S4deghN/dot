@@ -17,10 +17,6 @@ set bg=dark
 
 let g:colors_name='green-arc'
 
-"let s:black           = { "gui": "#1C2024", "cterm": "232" }
-"let s:black           = { "gui": "#202424", "cterm": "232" }
-"let s:black           = { "gui": "#191d1d", "cterm": "232" }
-"let s:black           = { "gui": "#1d1d1d", "cterm": "232" }
 let s:black           = { "gui": "#242424", "cterm": "232" }
 let s:medium_gray     = { "gui": "#767676", "cterm": "243" }
 let s:white           = { "gui": "#F1F1F1", "cterm": "15"  }
@@ -29,13 +25,7 @@ let s:subtle_black    = { "gui": "#303030", "cterm": "236" }
 let s:light_black     = { "gui": "#262626", "cterm": "235" }
 let s:lighter_black   = { "gui": "#4E4E4E", "cterm": "239" }
 let s:light_gray      = { "gui": "#A8A8A8", "cterm": "248" }
- "let s:lighter_gray    = { "gui": "#c5c5c5", "cterm": "251" }
- "let s:lighter_gray    = { "gui": "#aaaaaa", "cterm": "251" }
-"let s:lighter_gray    = { "gui": "#9aa9aa", "cterm": "251" }
-"let s:lighter_gray    = { "gui": "#9faeaf", "cterm": "251" }
-let s:lighter_gray    = { "gui": "#a2aaaa", "cterm": "251" }
-let s:lighter_gray    = { "gui": "#a7afaf", "cterm": "251" }
-"let s:lighter_gray    = { "gui": "#b2bbbb", "cterm": "251" }
+let s:lighter_gray    = { "gui": "#b2bbbb", "cterm": "251" }
 let s:lightest_gray   = { "gui": "#EEEEEE", "cterm": "255" }
 let s:pink            = { "gui": "#fb007a", "cterm": "9"   }
 let s:dark_red        = { "gui": "#C30771", "cterm": "1"   }
@@ -71,27 +61,27 @@ let s:yellow          = s:light_yellow
 
 " https://github.com/noahfrederick/vim-hemisu/
 function! s:h(group, style)
-  execute "highlight" a:group
-    \ "guifg="   (has_key(a:style, "fg")    ? a:style.fg.gui   : "NONE")
-    \ "guibg="   (has_key(a:style, "bg")    ? a:style.bg.gui   : "NONE")
-    \ "guisp="   (has_key(a:style, "sp")    ? a:style.sp.gui   : "NONE")
-    \ "gui="     (has_key(a:style, "gui")   ? a:style.gui      : "NONE")
-    \ "ctermfg=" (has_key(a:style, "fg")    ? a:style.fg.cterm : "NONE")
-    \ "ctermbg=" (has_key(a:style, "bg")    ? a:style.bg.cterm : "NONE")
-    \ "cterm="   (has_key(a:style, "cterm") ? a:style.cterm    : "NONE")
+    execute "highlight" a:group
+                \ "guifg="   (has_key(a:style, "fg")    ? a:style.fg.gui   : "NONE")
+                \ "guibg="   (has_key(a:style, "bg")    ? a:style.bg.gui   : "NONE")
+                \ "guisp="   (has_key(a:style, "sp")    ? a:style.sp.gui   : "NONE")
+                \ "gui="     (has_key(a:style, "gui")   ? a:style.gui      : "NONE")
+                \ "ctermfg=" (has_key(a:style, "fg")    ? a:style.fg.cterm : "NONE")
+                \ "ctermbg=" (has_key(a:style, "bg")    ? a:style.bg.cterm : "NONE")
+                \ "cterm="   (has_key(a:style, "cterm") ? a:style.cterm    : "NONE")
 endfunction
 
 call s:h("Normal",        {"bg": s:bg, "fg": s:norm})
 
 " restore &background's value in case changing Normal changed &background (:help :hi-normal-cterm)
 if &background != s:background
-   execute "set background=" . s:background
+    execute "set background=" . s:background
 endif
 
-call s:h("Cursor",        {"bg": s:light_green, "fg": s:black })
+call s:h("Cursor",        {"bg": s:purple, "fg": s:norm })
 call s:h("Comment",       {"fg": s:bg_subtle, "gui": "italic"})
 
-call s:h("Constant",      {"fg": s:purple})
+call s:h("Constant",      {"fg": s:light_gray})
 hi! link Character        Constant
 hi! link Number           Constant
 hi! link Boolean          Constant
@@ -109,7 +99,7 @@ hi! link Label            Statement
 hi! link Keyword          Statement
 hi! link Exception        Statement
 
-call s:h("Operator",      {"fg": s:norm})
+call s:h("Operator",      {"fg": s:norm, "cterm": "bold", "gui": "bold"})
 
 call s:h("PreProc",     {"fg": s:norm_subtle})
 hi! link Include          PreProc
@@ -117,7 +107,7 @@ hi! link Define           PreProc
 hi! link Macro            PreProc
 hi! link PreCondit        PreProc
 
-call s:h("Type",          {"fg": s:light_green})
+call s:h("Type",          {"fg": s:norm})
 hi! link StorageClass     Type
 hi! link Structure        Type
 hi! link Typedef          Type
@@ -162,19 +152,19 @@ call s:h("SignColumn",    {"fg": s:light_green})
 
 
 if has("gui_running")
-  call s:h("SpellBad",    {"gui": "underline", "sp": s:red})
-  call s:h("SpellCap",    {"gui": "underline", "sp": s:light_green})
-  call s:h("SpellRare",   {"gui": "underline", "sp": s:pink})
-  call s:h("SpellLocal",  {"gui": "underline", "sp": s:dark_green})
+    call s:h("SpellBad",    {"gui": "underline", "sp": s:red})
+    call s:h("SpellCap",    {"gui": "underline", "sp": s:light_green})
+    call s:h("SpellRare",   {"gui": "underline", "sp": s:pink})
+    call s:h("SpellLocal",  {"gui": "underline", "sp": s:dark_green})
 else
-  call s:h("SpellBad",    {"cterm": "underline", "fg": s:red})
-  call s:h("SpellCap",    {"cterm": "underline", "fg": s:light_green})
-  call s:h("SpellRare",   {"cterm": "underline", "fg": s:pink})
-  call s:h("SpellLocal",  {"cterm": "underline", "fg": s:dark_green})
+    call s:h("SpellBad",    {"cterm": "underline", "fg": s:red})
+    call s:h("SpellCap",    {"cterm": "underline", "fg": s:light_green})
+    call s:h("SpellRare",   {"cterm": "underline", "fg": s:pink})
+    call s:h("SpellLocal",  {"cterm": "underline", "fg": s:dark_green})
 endif
 
 call s:h("Pmenu",         {"fg": s:norm, "bg": s:bg_subtle})
-call s:h("PmenuSel",      {"fg": s:purple, "bg": s:bg})
+call s:h("PmenuSel",      {"fg": s:norm, "bg": s:purple})
 call s:h("PmenuSbar",     {"fg": s:norm, "bg": s:bg_subtle})
 call s:h("PmenuThumb",    {"fg": s:norm, "bg": s:bg_subtle})
 call s:h("TabLine",       {"fg": s:norm, "bg": s:bg_very_subtle})
@@ -218,53 +208,35 @@ hi link GitGutterChange             LineNr
 hi link GitGutterChangeDelete       LineNr
 
 " Custom
-hi  NormalFloat     guibg=bg
-hi  FloatBorder     guibg=bg
+hi  Normal          guibg=NONE
+hi  NormalFloat     guibg=NONE
+hi  FloatBorder     guibg=NONE
+hi  WinSeparator    guibg=bg          guifg=#343434
+hi  Pmenu           guibg=#303030
+hi  PmenuThumb      guibg=fg
+hi! link CmpPmenuBorder VertSplit
+hi! link PmenuSel Visual
 
-hi  CursorLine      guibg=#303030
-"hi  CursorLine      guibg=#191960
-"hi  CursorLine      guibg=#101050
-"hi  CursorLine      guibg=#000030
-"hi  CursorLine      guibg=#181970
-hi  CursorColumn    guibg=#303030
-hi  Folded          guibg=#303030     guifg=#747C84
+hi  CursorLine      guibg=#23272E
+hi  Visual          guibg=#505050     guifg=NONE
+hi  CursorColumn    guibg=#23272E
+hi  Folded          guibg=#181D22     guifg=#747C84
 hi  VertSplit       guibg=NONE
 
-hi  Cursor guibg=#8ec07c
-
-" #CD5C5C
-" #D3869B
-" #EBC06D
-" #458588
-" #E19972
-hi  Constant        guifg=#cda869
-hi  Directory       guifg=#789AC0
-hi  Function        guifg=#789AC0
+"hi  Constant        guifg=#8F9D6A
+hi  Number          guifg=fg "guifg=#A790D5
+hi  Float           guifg=fg "guifg=#A790D5
+hi  Boolean         guifg=fg "guifg=#A790D5
 hi  String          guifg=#8F9D6A
-hi  Preproc         guifg=#458588
-" hi  Preproc         guifg=#559598
+hi  Preproc         guifg=#888888
+" hi  Special         guifg=#999999  gui=NONE
 hi! link            Special           Constant
-hi  Delimiter       guifg=fg
+hi  Delimiter       guifg=#999999
+hi  Type            guifg=#83a598
 hi  Type            guifg=#68BEA2
-hi  Statement       guifg=#CF6A4C
-" hi  Comment         guifg=#5D646A     gui=NONE cterm=NONE
-hi  Comment         guifg=#60676d gui=NONE cterm=NONE
-hi  Ignore          guibg=#1c2020 guifg=NONE   cterm=NONE
-if has('nvim')
-    hi! link @lsp.type.comment Ignore
-    hi! link @lsp.type.comment Ignore
-    hi! link @lsp.type.nameSpace Type
-    " hi @lsp.type.nameSpace guifg=#6B7278
-    hi! link @keyword.modifier.cpp Type
-    hi! link @keyword.modifier.cpp Type
-    "hi @markup.raw.markdown_inline guifg=fg
-    hi @markup.raw.block.markdown guifg=fg
-    hi! link @markup.link.vimdoc Type
-    hi! link @constant.macro Macro
-    hi @variable guifg=fg
-    hi! link @type.builtin Type
-    hi! link @keyword.modifier.cpp statement
-endif
+hi  Statement       guifg=#EBC06D
+hi  Comment         guifg=#789AC0     gui=NONE cterm=NONE
+hi  Ignore          guifg=#75886F     gui=NONE cterm=NONE
 
 hi  Error           guibg=NONE          guifg=#af5f5f gui=underline cterm=underline
 hi  ErrorMsg        guifg=#af5f5f
@@ -275,22 +247,17 @@ hi  DiagnosticWarn  guifg=#cda869
 hi  DiagnosticInfo  guifg=LightBlue
 hi  DiagnosticHint  guifg=#747C84
 
-hi! link            Directory         Constant
-hi! link            IncSearch         Visual
-hi  Search          guibg=#23272E     guifg=lightblue
-" hi  PmenuSel        guibg=bg          guifg=#a790d5
-
-
-hi  htmlH1          guibg=NONE          guifg=#cda869 gui=bold cterm=bold
-hi  htmlH2          guibg=NONE          guifg=#cda869 gui=bold cterm=bold
-hi  htmlH3          guibg=NONE          guifg=#cda869 gui=bold cterm=bold
-hi  htmlH4          guibg=NONE          guifg=#cda869 gui=bold cterm=bold
-hi  htmlH5          guibg=NONE          guifg=#cda869 gui=bold cterm=bold
-hi  htmlH6          guibg=NONE          guifg=#cda869 gui=bold cterm=bold
+hi  htmlH1          guibg=NONE          guifg=#EBC06D gui=bold cterm=bold
+hi  htmlH2          guibg=NONE          guifg=#EBC06D gui=bold cterm=bold
+hi  htmlH3          guibg=NONE          guifg=#EBC06D gui=bold cterm=bold
+hi  htmlH4          guibg=NONE          guifg=#EBC06D gui=bold cterm=bold
+hi  htmlH5          guibg=NONE          guifg=#EBC06D gui=bold cterm=bold
+hi  htmlH6          guibg=NONE          guifg=#EBC06D gui=bold cterm=bold
 hi! link            helpHyperTextJump Statement
-hi  markdownCode guifg=#458588
 
-hi  SpellBad guifg=fg gui=underline
+hi  DiffDelete      guifg=#af5f5f     guibg=NONE    gui=NONE cterm=NONE
+hi  DiffChange      guifg=#789AC0     guibg=NONE    gui=NONE cterm=NONE
+hi  DiffAdd         guifg=#8F9D6A     guibg=NONE    gui=NONE cterm=NONE
 
 hi  GitSignsAdd       guifg=#8F9D6A     guibg=NONE    gui=NONE cterm=NONE
 hi  GitSignsDelete    guifg=#af5f5f     guibg=NONE    gui=NONE cterm=NONE
@@ -306,42 +273,15 @@ hi Added   guifg=#8F9D6A
 hi Removed guifg=#CF6A4C
 hi Changed guifg=NONE guibg=#1F385B
 
-" Naysayer merge
-hi Normal guifg=fg guibg=bg gui=NONE
-"hi NormalFloat guibg=#303030
-hi floatBorder guifg=#343434 guibg=bg
-hi NormalFloat guibg=bg guifg=fg
-"hi Visual guifg=NONE guibg=#163339 gui=NONE
-"hi Visual guifg=NONE guibg=#08454D gui=NONE
-"hi Visual guifg=NONE guibg=#08373f gui=NONE
-"hi visual guifg=NONE guibg=#285577
-hi visual guifg=NONE guibg=#505050
-
-" hi Visual guibg=#232729
-
-" hi MsgArea guibg=#1c1c1c
-
-" hi VertSplit guifg=#000000       guibg=NONE         gui=NONE
-"hi VertSplit guifg=#232729 guibg=bg
-hi WinSeparator guibg=bg guifg=#343434
-hi! link VertSplit winSeperator
-"hi! link FloatBorder VertSplit
-hi! link CmpPmenuBorder VertSplit
-hi Pmenu guibg=#303030
-" hi! link Pmenu Visual
-hi! link PmenuSel Visual
-hi PmenuThumb guibg=fg
-
-hi Folded guifg=#878787 guibg=bg
-hi StatusLine   guibg=#343434
-hi StatusLineNC guibg=#303030
-hi! link QuickFixLine CursorLine
-hi! link QfFileName String
-hi! link QfLineNr Constant
-
 hi IncSearch     guibg=#ee799f guifg=black gui=NONE
 hi! link CurSearch Incsearch
 hi Search        guibg=#218058 guifg=black gui=NONE
+
+hi! link Directory comment
+hi! link Question Type
+hi! link QuickFixLine CursorLine
+hi! link QfFileName String
+hi! link QfLineNr Constant
 
 hi! link cppStructure statement
 hi! link cStructure statement
@@ -360,3 +300,19 @@ hi! link diffSubname Normal
 hi! link FzfLuaBufNr normal
 hi! link FzfLuaHeaderBind normal
 hi! link FzfLuaPathLineNr String
+
+if has('nvim')
+    hi! link @lsp.type.comment Ignore
+    hi! link @lsp.type.comment Ignore
+    hi! link @lsp.type.nameSpace Type
+    " hi @lsp.type.nameSpace guifg=#6B7278
+    hi! link @keyword.modifier.cpp Type
+    hi! link @keyword.modifier.cpp Type
+    "hi @markup.raw.markdown_inline guifg=fg
+    hi @markup.raw.block.markdown guifg=fg
+    hi! link @markup.link.vimdoc Type
+    hi! link @constant.macro Macro
+    hi @variable guifg=fg
+    hi! link @type.builtin Type
+    hi! link @keyword.modifier.cpp statement
+endif
