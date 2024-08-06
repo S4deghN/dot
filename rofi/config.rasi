@@ -145,8 +145,5 @@ kb-cancel: "Escape,Control+c,Control+bracketleft";
       sorting-method:    "name";
   }
 }
-//@theme        "gruvbox-dark-hard"
-//@theme "/usr/share/rofi/themes/android_notification.rasi"
-//@theme "/usr/share/rofi/themes/Arc-Dark.rasi"
-//@theme "/home/s4/.local/share/rofi/themes/rounded-gray-dark.rasi"
-@theme "~/.local/share/rofi/themes/rounded-gray-dark.rasi"
+
+@theme "~/.local/share/dot/rofi/themes/rounded-gray-dark.rasi"
