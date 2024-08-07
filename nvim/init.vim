@@ -34,6 +34,9 @@ set jumpoptions=view,stack
 " line wrap symbol
 set showbreak=\
 set fillchars=diff:╱
+set nolist
+set listchars=tab:>\ "
+"set listchars=tab
 "set diffopt=internal,filler,closeoff,indent-heuristic,algorithm:histogram
 " TODO: look this up for big word!
 "set iskeyword-=_
@@ -46,7 +49,8 @@ if executable('rg')
     set grepformat=%f:%l:%c:%m
 endif
 
-set path=.,**,/usr/include,/usr/src/*/include
+" put the more unlikey first so that when it is the case you search that first.
+set path=.,**,/usr/src/*/include,/usr/include
 
 set laststatus=2
 if &laststatus
