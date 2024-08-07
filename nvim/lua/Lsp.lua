@@ -104,7 +104,7 @@ cmp.setup {
         end,
     },
     completion = {
-        autocomplete = false,
+        -- autocomplete = false,
     },
     experimental = {
         ghost_text = { hl_group = "Comment" },
@@ -245,7 +245,7 @@ vim.diagnostic.config({
     },
 })
 
-vim.g.diag_enabled = false;
+vim.g.diag_enabled = true;
 function DiagToggle()
     vim.g.diag_enabled = not vim.g.diag_enabled;
     vim.diagnostic.enable(vim.g.diag_enabled)

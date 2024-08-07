@@ -173,6 +173,7 @@ hi Type        gui=NONE
 hi @variable guifg=fg
 hi! link @markup.link.vimdoc Type
 hi! link @constant.macro Macro
+hi  @lsp.type.comment guifg=NONE guibg=#2A3032
 hi! link Structure Statement
 
 hi WarningMsg gui=inverse guifg=bg

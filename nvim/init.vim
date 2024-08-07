@@ -1,4 +1,4 @@
-" TODO:
+" TODO:nvim/plugin/alter.vim
 " [ ] make `:chistory` work with fzf
 " [ ] make `:registers` work with fzf
 " [ ] in visual search (rg and such) search for literal string instead of regex.
@@ -46,7 +46,7 @@ if executable('rg')
     set grepformat=%f:%l:%c:%m
 endif
 
-set path=.,**,/usr/include
+set path=.,**,/usr/include,/usr/src/*/include
 
 set laststatus=2
 if &laststatus
@@ -508,6 +508,8 @@ augroup end
 " --- netrw ---
 " -----------------------------------------------
 " netrw sucks! but it works :)
+" TODO: maybe setting `nohiden` or a specific netrw variable can prevent the buffer form
+" disappearing after open a file from it and then trying to jump back with <C-^>
 let g:netrw_keepdir=0 " change dir as browsing dir changes
 
 function! NetrwDel()

@@ -3,8 +3,6 @@
 # List of mapping options
 # `/usr/share/X11/xkb/rules/xorg.lst`
 
-setxkbmap -layout us,ir
-
 #!
 #! caps as escape on release and ctrl while held down
 #!
@@ -33,3 +31,4 @@ else
     # xrandr --output eDP-1 --mode 1920x1080
 fi
 
+setxkbmap -layout us,ir
