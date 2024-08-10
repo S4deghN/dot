@@ -30,8 +30,8 @@ set show-mode-in-prompt on
 # sequence into the mode string."
 # `\e` or `\033` (the second is more portable) is a escape character and has to
 # be treated as non-printing string otherwise it bugs the input of the terminal
-set vi-ins-mode-string "\1\033[0;34m\2╰─[I]\1\033[0m\2"
-set vi-cmd-mode-string "\1\033[0;29m\2╰─[N]\1\033[0m\2"
+set vi-ins-mode-string "\1\033[0;34m\2[I]\1\033[0m\2"
+set vi-cmd-mode-string "\1\033[0;29m\2[N]\1\033[0m\2"
 
 # set colored-completion-prefix on
 # ?

@@ -9,7 +9,7 @@
 # prompt
 #---------------------------------------------------
 __ps1() {
-    ExitCode=$(Ex=$?; [[ $Ex -ne 0 ]] && echo [$Ex])
+    ExitCode=$(Ex=$?; [[ $Ex -ne 0 ]] && echo "[$Ex]")
     Branch=$(git branch --show-current 2>/dev/null)
     Root=$(git rev-parse --show-toplevel 2>/dev/null)
     Root=${Root##*/}
@@ -24,13 +24,13 @@ __ps1() {
 
     userP='\[\e[0;33m\]\u\[\e[m\]'
     hostP='\[\e[0;29m\]\h\[\e[m\]'
-    suffixP='\[\e[0;32m\]$\[\e[m\]'
+    suffixP='\[\e[0;32m\]\[\e[m\]'
     dircP='\[\e[0;32m\]\w\[\e[m\]'
 
 # -- ╭──────╮
 # -- │ test │
 # -- ╰──────╯
-    PS1="╭$userP@$hostP $dircP$branchP $errP\n$suffixP "
+    PS1="$userP@$hostP $dircP$branchP $errP\n$suffixP "
 }
 
 PROMPT_COMMAND="__ps1"

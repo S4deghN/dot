@@ -34,9 +34,7 @@ set jumpoptions=view,stack
 " line wrap symbol
 set showbreak=\
 set fillchars=diff:╱
-set nolist
-set listchars=tab:>\ "
-"set listchars=tab
+
 "set diffopt=internal,filler,closeoff,indent-heuristic,algorithm:histogram
 " TODO: look this up for big word!
 "set iskeyword-=_
@@ -57,16 +55,17 @@ if &laststatus
     set showcmdloc=statusline
     set statusline=
     " Left
-    set stl+=%(%m%)
-    set stl+=\ %f
-    set stl+=%(%q%h%w%r%)
+    set stl+=%t
+    set stl+=\ %(%m%)
+    set stl+=%(%q%h%w%r%)\ \ \ \ %-8(%P%)\ %-8(%l:%c%)
+    set stl+=\ \ \ \ %(Git:%{v:lua.GitSignsStatus()}%)
     " Middle
     set stl+=\ %=
     set stl+=%S
     " Right
     set stl+=\ %=
     set stl+=%([%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}]%)
-    set stl+=\ \ \ \ %-8(%l,%c%)\ %P
+    set stl+=
 else
     set rulerformat=%60(%([%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}]%)%=\ \ \ \ %-8(%l,%c%)\ %P%)
     augroup ruler
@@ -98,6 +97,8 @@ hi Normal guibg=NONE
 "let loaded_matchparen = 0
 
 call plug#begin()
+Plug 'tpope/vim-eunuch'
+Plug 'lifepillar/vim-solarized8'
 Plug 'dimercel/todo-vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'airblade/vim-rooter'
@@ -197,9 +198,12 @@ vmap <C-S-v> "+p
 nmap <C-S-v> "+p
 
 " indent
+nmap     +   mz[%=%g`z
+imap   <C-b> <Esc>+gi
 nnoremap =if mzggVG=g`z
 nnoremap =ap mz=apgg`z
 nnoremap =ip mz=ipgg`z
+nnoremap ==  mz=ipgg`z
 vnoremap =   mz=g`z
 
 " format
@@ -221,8 +225,8 @@ nnoremap j gj
 nnoremap k gk
 nnoremap gj j
 nnoremap gk k
-noremap <C-h> <cmd>tabp<cr>
-noremap <C-l> <cmd>tabn<cr>
+noremap <C-h> <cmd>bp<cr>
+noremap <C-l> <cmd>bn<cr>
 noremap <C-j> <cmd>cn<cr>
 noremap <C-k> <cmd>cp<cr>
 noremap <M-a> g`Ag`"
@@ -258,7 +262,7 @@ cmap <C-j> <Down>
 cmap <C-k> <Up>
 
 " fast access
-nnoremap <leader>d  :bp\|bd #<cr>
+nnoremap <leader>d  :bn\|bd #<cr>
 nmap     <leader>B  :b<space>
 nmap     <leader>e  :e<space><C-x>d
 nmap     <leader>E  :Exp<cr>
@@ -340,6 +344,9 @@ nnoremap <C-s>ap yiwvap<Esc>:'<,'>:s/<C-R>"//g<Left><Left>
 
 " Miscellaneous
 noremap <C-g>  1<C-g>
+
+" change hex to [s]ymbol
+nnoremap cs "sdiw:call HexToSymbol(expand(@s))<cr>
 
 imap <expr> <Tab>   vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<Tab>'
 smap <expr> <Tab>   vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<Tab>'
@@ -444,6 +451,10 @@ function! FzfChistory()
     let src = map(src, { _, v -> substitute(v, '^\(>*\s*\)[^0-9]*\|\sof\s[0-9]\|errors', '\1\ ', 'g')})
 
     return fzf#run(fzf#wrap('chistory', { 'source': src, 'sink': function({ num -> execute(num[3] .. "chistory") }) }))
+endfunction
+
+function! HexToSymbol(hex)
+    exec 'normal iU' .. a:hex .. ' '
 endfunction
 
 " -----------------------------------------------
