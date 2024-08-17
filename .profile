@@ -23,13 +23,14 @@ export QT_QPA_PLATFORMTHEME="qt5ct"
 export QT_AUTO_SCREEN_SCALE_FACTOR=1
 
 # Highlighting for 'less'
-export LESS_TERMCAP_mb=$'\e[1;32m'
-export LESS_TERMCAP_me=$'\e[0m'
-export LESS_TERMCAP_md=$'\e[1;32m'
-export LESS_TERMCAP_se=$'\e[0m'
-export LESS_TERMCAP_so=$'\e[1;33m\033[40m'
-export LESS_TERMCAP_us=$'\e[1;1;31m'
-export LESS_TERMCAP_ue=$'\e[0m'
+export MANROFFOPT="-c"
+# export LESS_TERMCAP_mb=$'\e[1;32m'
+# export LESS_TERMCAP_me=$'\e[0m'
+# export LESS_TERMCAP_md=$'\e[1;32m'
+# export LESS_TERMCAP_se=$'\e[0m'
+# export LESS_TERMCAP_so=$'\e[1;33m\033[40m'
+# export LESS_TERMCAP_us=$'\e[1;1;31m'
+# export LESS_TERMCAP_ue=$'\e[0m'
 
 # This makes symlinks work on windows with git-bash if developer mode is
 # enabled or the process is run as admin.
