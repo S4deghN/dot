@@ -97,6 +97,8 @@ hi Normal guibg=NONE
 "let loaded_matchparen = 0
 
 call plug#begin()
+Plug 'stevearc/oil.nvim'
+"Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-eunuch'
 Plug 'lifepillar/vim-solarized8'
 Plug 'dimercel/todo-vim'
@@ -159,9 +161,11 @@ let t:shout_cmd = ""
 
 lua require 'Lsp'
 lua require 'FzfLua'
+lua require 'Oil'
 lua require('gitsigns').setup()
 lua require('glance').setup()
 "lua require('lspfuzzy').setup { methods = 'all', jump_one = true, save_last = true, callback = nil, fzf_preview = { 'hidden,right,50%,+{2}-/2', 'ctrl-l' }, fzf_action = { ['ctrl-t'] = 'tab split', ['ctrl-v'] = 'vsplit', ['ctrl-x'] = 'split', }, fzf_modifier = ':~:.', fzf_trim = true }
+
 
 " -----------------------------------------------
 " --- keymaps ---
