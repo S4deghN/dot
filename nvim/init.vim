@@ -34,6 +34,7 @@ set jumpoptions=view,stack
 " line wrap symbol
 set showbreak=\
 set fillchars=diff:╱
+set diffopt=internal,filler,closeoff,indent-heuristic,algorithm:histogram,linematch:60
 
 "set diffopt=internal,filler,closeoff,indent-heuristic,algorithm:histogram
 " TODO: look this up for big word!
@@ -55,9 +56,9 @@ if &laststatus
     set showcmdloc=statusline
     set statusline=
     " Left
-    set stl+=%t
-    set stl+=\ %(%m%)
-    set stl+=%(%q%h%w%r%)\ \ \ \ %-8(%P%)\ %-8(%l:%c%)
+    set stl+=%.35f
+    set stl+=%(%m%)
+    set stl+=%(%q%h%w%r%)\ \ \ \ %P\ \ \ %-8(%l:%c%)
     set stl+=\ \ \ \ %(Git:%{v:lua.GitSignsStatus()}%)
     " Middle
     set stl+=\ %=
@@ -87,6 +88,7 @@ let g:vimsyn_embed = 'l'
 let g:c_gnu = 1
 let g:c_functions = 1
 let g:c_function_pointers = 1
+let g:python_highlight_all = 1
 set termguicolors
 color arc
 hi Normal guibg=NONE
@@ -238,11 +240,14 @@ noremap <M-s> g`Sg`"
 noremap <M-d> g`Dg`"
 noremap <M-f> g`Fg`"
 noremap <M-g> g`Gg`"
-noremap <M-q> g`Qg`"
-noremap <M-w> g`Wg`"
-noremap <M-e> g`Eg`"
-noremap <M-r> g`Rg`"
-noremap <M-t> g`Tg`"
+
+noremap <M-q> tabn 1
+noremap <M-w> tabn 2
+noremap <M-e> tabn 3
+noremap <M-r> tabn 4
+noremap <M-t> tabn 5
+noremap <M-y> tabn 6
+
 nnoremap <C-n> <C-e>
 nnoremap <C-p> <C-y>
 noremap gd [<C-I>
@@ -269,6 +274,7 @@ cmap <C-k> <Up>
 nnoremap <leader>d  :bn\|bd #<cr>
 nmap     <leader>B  :b<space>
 nmap     <leader>e  :e<space><C-x>d
+nmap     <leader>t  :tabnew<space><C-x>d
 nmap     <leader>E  :Exp<cr>
 nmap     <leader>h  :h<space>
 "noremap  <leader>f  :Files<cr>
@@ -560,3 +566,8 @@ function! NetrwConfig()
     " retrieve the last deleted file
     " nmap <buffer> u
 endfunction
+
+" Notes:
+"   Search a c file for all non static function
+"       assuming function modifiers are on the same line with the function defeniton
+"       `^\(static\|\s\+\|#\)\@!.*(`

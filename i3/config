@@ -76,8 +76,8 @@ default_floating_border normal 1
 smart_borders on
 #for_window [all] title_window_icon on
 
-gaps outer 7
-gaps inner 3
+# gaps outer 7
+# gaps inner 3
 
 # class                 border  backgr. text    indicator child_border
 client.focused          #4c7899 #285577 #ffffff #2e9ef4   #285577
@@ -139,8 +139,8 @@ bindsym XF86AudioPause exec --no-startup-id playerctl play-pause
 bindsym XF86AudioNext exec --no-startup-id playerctl next
 bindsym XF86AudioPrev exec --no-startup-id playerctl previous
 
-bindsym --release Print exec --no-startup-id import -window root "$HOME/Pictures/screenshot-$(date +%y-%m-%d-%H-%M).png" && notify-send "Screenshot taken!"
-bindsym --release $mod+Print exec --no-startup-id import "$HOME/Pictures/screenshot-$(date +%y-%m-%d-%H-%M).png"         &&  notify-send "Screenshot taken!"
+bindsym --release Print exec --no-startup-id import -window root "$HOME/Pictures/screenshot-$(date +%y-%m-%d-%H-%M-%S).png" && notify-send "Screenshot taken!"
+bindsym --release $mod+Print exec --no-startup-id import "$HOME/Pictures/screenshot-$(date +%y-%m-%d-%H-%M-%S).png"         && notify-send "Screenshot taken!"
 
 # toggle gaps
 bindsym $mod+Shift+g exec --no-startup-id "i3-toggle-gap $HOME/.config/i3/config && i3-msg reload"
