@@ -36,6 +36,9 @@ set showbreak=\
 set fillchars=diff:╱
 set diffopt=internal,filler,closeoff,indent-heuristic,algorithm:histogram,linematch:60
 
+" shows `listchars` (tab trailing whitespace ...)
+"set list
+
 "set diffopt=internal,filler,closeoff,indent-heuristic,algorithm:histogram
 " TODO: look this up for big word!
 "set iskeyword-=_
@@ -132,7 +135,7 @@ Plug 'hrsh7th/nvim-cmp'
 call plug#end()
 
 let g:rooter_silent_chdir = 1
-let g:rooter_patterns = ['.git', '_darcs', '.hg', '.bzr', '.svn', 'package.json', '.gitignore']
+let g:rooter_patterns = ['.git', '_darcs', '.hg', '.bzr', '.svn', 'package.json', '.gitignore', 'Makefile']
 
 let g:qf_max_height = 8
 
