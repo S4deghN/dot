@@ -1,0 +1,13 @@
+[user]
+keyComboActive=true
+pinned=/usr/share/applications/firefox.desktop;/home/s4/.local/share/applications/st.desktop;/usr/share/applications/thunar.desktop;
+noWindowsListIfSingle=true
+showPreviews=false
+showWindowCount=true
+indicatorStyle=0
+inactiveIndicatorStyle=2
+indicatorOrientation=3
+indicatorColorFromTheme=false
+forceIconSize=true
+iconSize=19
+middleButtonBehavior=1

@@ -25,7 +25,7 @@ let s:subtle_black    = { "gui": "#303030", "cterm": "236" }
 let s:light_black     = { "gui": "#262626", "cterm": "235" }
 let s:lighter_black   = { "gui": "#4E4E4E", "cterm": "239" }
 let s:light_gray      = { "gui": "#A8A8A8", "cterm": "248" }
-let s:lighter_gray    = { "gui": "#b2bbbb", "cterm": "251" }
+let s:lighter_gray    = { "gui": "#bbbbbb", "cterm": "251" }
 let s:lightest_gray   = { "gui": "#EEEEEE", "cterm": "255" }
 let s:pink            = { "gui": "#fb007a", "cterm": "9"   }
 let s:dark_red        = { "gui": "#C30771", "cterm": "1"   }
@@ -99,7 +99,7 @@ hi! link Label            Statement
 hi! link Keyword          Statement
 hi! link Exception        Statement
 
-call s:h("Operator",      {"fg": s:norm, "cterm": "bold", "gui": "bold"})
+call s:h("Operator",      {"fg": s:norm})
 
 call s:h("PreProc",     {"fg": s:norm_subtle})
 hi! link Include          PreProc
@@ -223,18 +223,28 @@ hi  CursorColumn    guibg=#23272E
 hi  Folded          guibg=#181D22     guifg=#747C84
 hi  VertSplit       guibg=NONE
 
-"hi  Constant        guifg=#8F9D6A
-hi  Number          guifg=fg "guifg=#A790D5
-hi  Float           guifg=fg "guifg=#A790D5
-hi  Boolean         guifg=fg "guifg=#A790D5
+hi  Constant        guifg=#AD7FA8
+"hi  Number          guifg=fg "guifg=#A790D5
+"hi  Float           guifg=fg "guifg=#A790D5
+"hi  Boolean         guifg=fg "guifg=#A790D5
 hi  String          guifg=#8F9D6A
 hi  Preproc         guifg=#888888
+hi  Preproc         guifg=#458588
+hi  Preproc         guifg=#95a99f
+hi  Preproc         guifg=#85998f
+"hi  Preproc         guifg=#85998f
+"hi  Preproc         guifg=#85998f
 " hi  Special         guifg=#999999  gui=NONE
+"hi Function guifg=#88aacc
+"hi Function guifg=#85998f
+"hi Function guifg=#85998f
 hi! link            Special           Constant
 hi  Delimiter       guifg=#999999
 hi  Type            guifg=#83a598
 hi  Type            guifg=#68BEA2
 hi  Statement       guifg=#EBC06D
+hi  Comment         guifg=#85998f     gui=NONE cterm=NONE
+hi  Comment         guifg=#cc8c3c     gui=NONE cterm=NONE
 hi  Comment         guifg=#789AC0     gui=NONE cterm=NONE
 hi  Ignore          guifg=#75886F     gui=NONE cterm=NONE
 
@@ -285,7 +295,7 @@ hi! link QfLineNr Constant
 
 hi! link cppStructure statement
 hi! link cStructure statement
-""hi! link cStorageClass statement
+hi! link cStorageClass statement
 hi! link cTypedef statement
 
 " Highlighting in git (diff) files

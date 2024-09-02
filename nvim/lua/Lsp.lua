@@ -253,8 +253,8 @@ end
 
 -- Mappings
 local opts = { noremap = true, silent = false }
-vim.keymap.set('n', 'gh', vim.diagnostic.open_float, opts)
-vim.keymap.set('n', 'gH', vim.diagnostic.setqflist, opts)
+vim.keymap.set('n', 'ge', vim.diagnostic.open_float, opts)
+vim.keymap.set('n', 'gE', vim.diagnostic.setqflist, opts)
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
 vim.keymap.set('n', '[e', function() vim.diagnostic.goto_prev({ severity = sev.e }) end, opts)
@@ -368,7 +368,8 @@ end
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
     -- We have to set these highlights only after they're set by vim
-    set_status_diag_highlight()
+    -- set_status_diag_highlight()
+
     -- Disable diagnostics by default
     vim.diagnostic.enable(vim.g.diag_enabled)
 

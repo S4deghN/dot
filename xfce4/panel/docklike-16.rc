@@ -1,0 +1,15 @@
+[user]
+pinned=firefox;st;thunar;
+keyComboActive=true
+forceIconSize=false
+inactiveColor=rgb(255,255,255)
+indicatorColorFromTheme=false
+indicatorStyle=0
+inactiveIndicatorStyle=1
+indicatorOrientation=3
+showPreviews=true
+showWindowCount=false
+noWindowsListIfSingle=false
+middleButtonBehavior=1
+keyAloneActive=false
+indicatorColor=rgb(31,158,222)

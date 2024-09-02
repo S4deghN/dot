@@ -41,6 +41,7 @@ set diffopt=internal,filler,closeoff,indent-heuristic,algorithm:histogram,linema
 
 "set diffopt=internal,filler,closeoff,indent-heuristic,algorithm:histogram
 " TODO: look this up for big word!
+
 "set iskeyword-=_
 
 " switch case indentation
@@ -94,7 +95,6 @@ let g:c_function_pointers = 1
 let g:python_highlight_all = 1
 set termguicolors
 color arc
-hi Normal guibg=NONE
 
 " -----------------------------------------------
 " --- plugins ---
@@ -102,6 +102,7 @@ hi Normal guibg=NONE
 "let loaded_matchparen = 0
 
 call plug#begin()
+Plug 'mstcl/ivory'
 Plug 'stevearc/oil.nvim'
 "Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-eunuch'
@@ -167,7 +168,8 @@ let t:shout_cmd = ""
 lua require 'Lsp'
 lua require 'FzfLua'
 lua require 'Oil'
-lua require('gitsigns').setup()
+lua require('gitsigns').setup{ signs = { add = { text = '|' }, change = { text = '|' }, delete = { text = '_' }, topdelete = { text = '‾' }, changedelete = { text = '~' }, untracked = { text = '┆' }}}
+
 lua require('glance').setup()
 "lua require('lspfuzzy').setup { methods = 'all', jump_one = true, save_last = true, callback = nil, fzf_preview = { 'hidden,right,50%,+{2}-/2', 'ctrl-l' }, fzf_action = { ['ctrl-t'] = 'tab split', ['ctrl-v'] = 'vsplit', ['ctrl-x'] = 'split', }, fzf_modifier = ':~:.', fzf_trim = true }
 
@@ -268,7 +270,8 @@ noremap <C-w>t :belowright term<cr>
 
 " cmd
 cmap <C-x>f <C-r>=expand('%:p')<cr>
-cmap <C-x>d <C-r>=expand('%:p:h').'/'<cr>
+"cmap <C-x>d <C-r>=expand('%:p:h').'/'<cr>
+cmap <C-x>d <C-r>=getcwd().'/'<cr>
 cmap <C-x>r redir<space>@l\|<space>\|redir<space>end<C-left><C-left>
 cmap <C-j> <Down>
 cmap <C-k> <Up>
@@ -321,10 +324,10 @@ noremap <leader>gd :Gitsigns diffthis<space>
 noremap <leader>gr <cmd>Gitsigns reset_hunk<cr>
 noremap <leader>gu <cmd>Gitsigns undo_stage_hunk<cr>
 noremap <leader>gb <cmd>Gitsigns blame_line<cr>
-noremap <leader>gp <cmd>Gitsigns preview_hunk<cr>
-noremap <leader>gh <cmd>Gitsigns preview_hunk_inline<cr>
-noremap ]g         <cmd>Gitsigns next_hunk<cr><cmd>Gitsigns preview_hunk<cr>
-noremap [g         <cmd>Gitsigns prev_hunk<cr><cmd>Gitsigns preview_hunk<cr>
+noremap gh <cmd>Gitsigns preview_hunk_inline<cr>
+noremap gH <cmd>Gitsigns preview_hunk<cr>
+noremap ]g <cmd>Gitsigns next_hunk<cr>
+noremap [g <cmd>Gitsigns prev_hunk<cr>
 
 nnoremap sn :Sh<space>
 nnoremap ss :Sh <C-r>=expand(t:shout_cmd)<cr>

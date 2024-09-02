@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<channel name="xfce4-panel" version="1.0">
+  <property name="configver" type="int" value="2"/>
+  <property name="panels" type="array">
+    <value type="int" value="1"/>
+    <property name="dark-mode" type="bool" value="true"/>
+    <property name="panel-1" type="empty">
+      <property name="position" type="string" value="p=8;x=960;y=1066"/>
+      <property name="length" type="double" value="100"/>
+      <property name="position-locked" type="bool" value="true"/>
+      <property name="icon-size" type="uint" value="16"/>
+      <property name="size" type="uint" value="25"/>
+      <property name="plugin-ids" type="array">
+        <value type="int" value="4"/>
+        <value type="int" value="22"/>
+        <value type="int" value="16"/>
+        <value type="int" value="31"/>
+        <value type="int" value="30"/>
+        <value type="int" value="32"/>
+        <value type="int" value="3"/>
+        <value type="int" value="7"/>
+        <value type="int" value="19"/>
+        <value type="int" value="17"/>
+        <value type="int" value="18"/>
+        <value type="int" value="9"/>
+        <value type="int" value="21"/>
+        <value type="int" value="2"/>
+        <value type="int" value="5"/>
+        <value type="int" value="8"/>
+        <value type="int" value="6"/>
+        <value type="int" value="10"/>
+        <value type="int" value="1"/>
+        <value type="int" value="11"/>
+        <value type="int" value="12"/>
+        <value type="int" value="13"/>
+        <value type="int" value="14"/>
+        <value type="int" value="20"/>
+      </property>
+      <property name="background-style" type="uint" value="0"/>
+      <property name="mode" type="uint" value="0"/>
+      <property name="enable-struts" type="bool" value="true"/>
+      <property name="length-adjust" type="bool" value="true"/>
+      <property name="background-rgba" type="array">
+        <value type="double" value="0.16862745098039217"/>
+        <value type="double" value="0.16862745098039217"/>
+        <value type="double" value="0.16862745098039217"/>
+        <value type="double" value="1"/>
+      </property>
+      <property name="background-image" type="string" value="file:///home/s4/Downloads/img/wallhaven-019jrv.jpg"/>
+    </property>
+  </property>
+  <property name="plugins" type="empty">
+    <property name="plugin-3" type="string" value="separator">
+      <property name="expand" type="bool" value="true"/>
+      <property name="style" type="uint" value="0"/>
+    </property>
+    <property name="plugin-5" type="string" value="separator">
+      <property name="style" type="uint" value="0"/>
+    </property>
+    <property name="plugin-6" type="string" value="systray">
+      <property name="square-icons" type="bool" value="true"/>
+      <property name="known-legacy-items" type="array">
+        <value type="string" value="wi-fi network connection “sina” active: sina (75%)"/>
+        <value type="string" value="wi-fi network connection “sina” active: sina (67%)"/>
+        <value type="string" value="notes"/>
+        <value type="string" value="wi-fi network connection “sina” active: sina (79%)"/>
+        <value type="string" value="clipman"/>
+        <value type="string" value="wi-fi network connection “sina” active: sina (42%)"/>
+        <value type="string" value="wi-fi network connection “sina” active: sina (70%)"/>
+        <value type="string" value="wi-fi network connection “sina” active: sina (64%)"/>
+        <value type="string" value="wi-fi network connection “sina” active: sina (69%)"/>
+        <value type="string" value="wi-fi network connection “sina” active: sina (72%)"/>
+        <value type="string" value="wi-fi network connection “sina” active: sina (74%)"/>
+        <value type="string" value="wi-fi network connection “sina” active: sina (58%)"/>
+        <value type="string" value="wi-fi network connection “sina” active: sina (54%)"/>
+        <value type="string" value="wi-fi network connection “sina” active: sina (45%)"/>
+        <value type="string" value="orage"/>
+        <value type="string" value="wi-fi network connection “sina” active: sina (65%)"/>
+        <value type="string" value="wi-fi network connection “sina” active: sina (48%)"/>
+        <value type="string" value="wi-fi network connection “sina” active: sina (57%)"/>
+        <value type="string" value="wi-fi network connection “sina” active: sina (50%)"/>
+        <value type="string" value="wi-fi network connection “sina” active: sina (55%)"/>
+        <value type="string" value="wi-fi network connection “sina” active: sina (56%)"/>
+        <value type="string" value="wi-fi network connection “sina” active: sina (60%)"/>
+        <value type="string" value="wi-fi network connection “sina” active: sina (52%)"/>
+        <value type="string" value="wi-fi network connection “sina” active: sina (59%)"/>
+        <value type="string" value="wi-fi network connection “sina” active: sina (62%)"/>
+        <value type="string" value="wi-fi network connection “sina” active: sina (44%)"/>
+        <value type="string" value="xfmpc"/>
+        <value type="string" value="gpick"/>
+        <value type="string" value="wi-fi network connection “sina” active: sina (49%)"/>
+        <value type="string" value="wi-fi network connection “sina” active: sina (61%)"/>
+        <value type="string" value="wi-fi network connection “sina” active: sina (51%)"/>
+        <value type="string" value="xfce4-power-manager"/>
+        <value type="string" value="networkmanager applet"/>
+        <value type="string" value="wi-fi network connection “sina” active: sina (47%)"/>
+        <value type="string" value="wi-fi network connection “sina” active: sina (63%)"/>
+      </property>
+      <property name="known-items" type="array">
+        <value type="string" value="Zeal"/>
+        <value type="string" value="nekoray"/>
+        <value type="string" value="blueman"/>
+        <value type="string" value="chrome_status_icon_1"/>
+        <value type="string" value="steam"/>
+        <value type="string" value="spotify-client"/>
+      </property>
+      <property name="icon-size" type="int" value="0"/>
+    </property>
+    <property name="plugin-10" type="string" value="notification-plugin"/>
+    <property name="plugin-11" type="string" value="separator">
+      <property name="style" type="uint" value="0"/>
+    </property>
+    <property name="plugin-12" type="string" value="clock">
+      <property name="digital-layout" type="uint" value="3"/>
+      <property name="mode" type="uint" value="2"/>
+      <property name="digital-date-format" type="string" value="%Y-%m-%d"/>
+      <property name="digital-date-font" type="string" value="Sans 8"/>
+      <property name="digital-time-font" type="string" value="Sans 11"/>
+      <property name="tooltip-format" type="string" value="%x"/>
+    </property>
+    <property name="plugin-13" type="string" value="separator">
+      <property name="style" type="uint" value="0"/>
+    </property>
+    <property name="plugin-14" type="string" value="actions"/>
+    <property name="plugin-8" type="string" value="xkb">
+      <property name="display-type" type="uint" value="2"/>
+      <property name="display-name" type="uint" value="1"/>
+      <property name="display-scale" type="uint" value="100"/>
+      <property name="show-notifications" type="bool" value="false"/>
+      <property name="group-policy" type="uint" value="0"/>
+    </property>
+    <property name="plugin-9" type="string" value="netload"/>
+    <property name="plugin-20" type="string" value="separator">
+      <property name="expand" type="bool" value="false"/>
+      <property name="style" type="uint" value="0"/>
+    </property>
+    <property name="plugin-21" type="string" value="separator">
+      <property name="style" type="uint" value="0"/>
+    </property>
+    <property name="plugin-22" type="string" value="separator">
+      <property name="style" type="uint" value="0"/>
+      <property name="expand" type="bool" value="false"/>
+    </property>
+    <property name="plugin-1" type="string" value="pulseaudio">
+      <property name="enable-keyboard-shortcuts" type="bool" value="true"/>
+      <property name="known-players" type="string" value="Chromium;com.github.geigi.cozy;firefox;spotify"/>
+      <property name="play-sound" type="bool" value="true"/>
+      <property name="rec-indicator-persistent" type="bool" value="false"/>
+      <property name="enable-wnck" type="bool" value="false"/>
+    </property>
+    <property name="plugin-2" type="string" value="genmon">
+      <property name="command" type="string" value="cpu-temp"/>
+      <property name="use-label" type="bool" value="false"/>
+      <property name="text" type="string" value="CPU Temperature"/>
+      <property name="update-period" type="int" value="1000"/>
+      <property name="enable-single-row" type="bool" value="true"/>
+      <property name="font" type="string" value="Sans 10"/>
+    </property>
+    <property name="plugin-7" type="string" value="xfce4-time-out-plugin"/>
+    <property name="plugin-17" type="string" value="separator">
+      <property name="expand" type="bool" value="false"/>
+      <property name="style" type="uint" value="1"/>
+    </property>
+    <property name="plugin-18" type="string" value="separator">
+      <property name="style" type="uint" value="0"/>
+    </property>
+    <property name="plugin-19" type="string" value="separator">
+      <property name="style" type="uint" value="0"/>
+    </property>
+    <property name="notes" type="empty">
+      <property name="global" type="empty">
+        <property name="version" type="string" value="1.11.0"/>
+        <property name="background-color" type="string" value="GTK+"/>
+        <property name="tabs-position" type="int" value="0"/>
+        <property name="skip-taskbar-hint" type="bool" value="true"/>
+      </property>
+    </property>
+    <property name="plugin-16" type="string" value="docklike"/>
+    <property name="plugin-4" type="string" value="whiskermenu">
+      <property name="view-mode" type="int" value="1"/>
+      <property name="recent" type="array">
+        <value type="string" value="xfce-settings-manager.desktop"/>
+        <value type="string" value="yazi.desktop"/>
+        <value type="string" value="firefox.desktop"/>
+        <value type="string" value="org.zealdocs.zeal.desktop"/>
+        <value type="string" value="xfce-mouse-settings.desktop"/>
+        <value type="string" value="xfce4-clipman.desktop"/>
+        <value type="string" value="xfce-wm-settings.desktop"/>
+        <value type="string" value="xfce-ui-settings.desktop"/>
+        <value type="string" value="fish.desktop"/>
+        <value type="string" value="org.xfce.mousepad-settings.desktop"/>
+      </property>
+      <property name="button-single-row" type="bool" value="false"/>
+      <property name="position-categories-alternate" type="bool" value="true"/>
+      <property name="position-commands-alternate" type="bool" value="false"/>
+      <property name="position-categories-horizontal" type="bool" value="false"/>
+      <property name="default-category" type="int" value="0"/>
+      <property name="hover-switch-category" type="bool" value="true"/>
+      <property name="stay-on-focus-out" type="bool" value="false"/>
+      <property name="menu-opacity" type="int" value="95"/>
+      <property name="menu-height" type="int" value="700"/>
+      <property name="category-icon-size" type="int" value="1"/>
+      <property name="launcher-icon-size" type="int" value="2"/>
+      <property name="launcher-show-name" type="bool" value="true"/>
+      <property name="launcher-show-description" type="bool" value="false"/>
+      <property name="profile-shape" type="int" value="0"/>
+    </property>
+    <property name="plugin-30" type="string" value="separator">
+      <property name="expand" type="bool" value="false"/>
+      <property name="style" type="uint" value="0"/>
+    </property>
+    <property name="plugin-31" type="string" value="separator">
+      <property name="style" type="uint" value="0"/>
+    </property>
+    <property name="plugin-32" type="string" value="separator">
+      <property name="style" type="uint" value="0"/>
+    </property>
+    <property name="clipman" type="empty">
+      <property name="tweaks" type="empty">
+        <property name="never-confirm-history-clear" type="bool" value="false"/>
+      </property>
+    </property>
+  </property>
+</channel>

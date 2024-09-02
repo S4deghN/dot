@@ -1,10 +1,7 @@
-" Name:       green-arc.vim
+" Name:       4coder.vim
 " Version:    0.1.0
 " Maintainer: github.com/S4deghN
 " License:    The MIT License (MIT)
-"
-" Based on :
-" https://github.com/owickstrom/vim-colors-paramount
 "
 "
 """
@@ -15,13 +12,9 @@ if exists('syntax on')
 endif
 set bg=dark
 
-let g:colors_name='green-arc'
+let g:colors_name='4coder'
 
-"let s:black           = { "gui": "#1C2024", "cterm": "232" }
-"let s:black           = { "gui": "#202424", "cterm": "232" }
-"let s:black           = { "gui": "#191d1d", "cterm": "232" }
-"let s:black           = { "gui": "#1d1d1d", "cterm": "232" }
-let s:black           = { "gui": "#202020", "cterm": "232" }
+let s:black           = { "gui": "#0C0C0C", "cterm": "232" }
 let s:medium_gray     = { "gui": "#767676", "cterm": "243" }
 let s:white           = { "gui": "#F1F1F1", "cterm": "15"  }
 let s:actual_white    = { "gui": "#FFFFFF", "cterm": "231" }
@@ -29,13 +22,14 @@ let s:subtle_black    = { "gui": "#303030", "cterm": "236" }
 let s:light_black     = { "gui": "#262626", "cterm": "235" }
 let s:lighter_black   = { "gui": "#4E4E4E", "cterm": "239" }
 let s:light_gray      = { "gui": "#A8A8A8", "cterm": "248" }
- "let s:lighter_gray    = { "gui": "#c5c5c5", "cterm": "251" }
- "let s:lighter_gray    = { "gui": "#aaaaaa", "cterm": "251" }
-"let s:lighter_gray    = { "gui": "#9aa9aa", "cterm": "251" }
-"let s:lighter_gray    = { "gui": "#9faeaf", "cterm": "251" }
-let s:lighter_gray    = { "gui": "#a2aaaa", "cterm": "251" }
-let s:lighter_gray    = { "gui": "#a7afaf", "cterm": "251" }
-"let s:lighter_gray    = { "gui": "#b2bbbb", "cterm": "251" }
+
+"let s:lighter_gray    = { "gui": "#90B080", "cterm": "251" }
+let s:lighter_gray    = { "gui": "#839496", "cterm": "251" } " Solarized fg
+"let s:lighter_gray    = { "gui": "#839696", "cterm": "251" } " Solarized fg
+"let s:lighter_gray    = { "gui": "#839f96", "cterm": "251" } " Solarized fg
+"let s:lighter_gray    = { "gui": "#839f90", "cterm": "251" }
+"let s:lighter_gray    = { "gui": "#95a99f", "cterm": "251" }
+
 let s:lightest_gray   = { "gui": "#EEEEEE", "cterm": "255" }
 let s:pink            = { "gui": "#fb007a", "cterm": "9"   }
 let s:dark_red        = { "gui": "#C30771", "cterm": "1"   }
@@ -71,21 +65,21 @@ let s:yellow          = s:light_yellow
 
 " https://github.com/noahfrederick/vim-hemisu/
 function! s:h(group, style)
-  execute "highlight" a:group
-    \ "guifg="   (has_key(a:style, "fg")    ? a:style.fg.gui   : "NONE")
-    \ "guibg="   (has_key(a:style, "bg")    ? a:style.bg.gui   : "NONE")
-    \ "guisp="   (has_key(a:style, "sp")    ? a:style.sp.gui   : "NONE")
-    \ "gui="     (has_key(a:style, "gui")   ? a:style.gui      : "NONE")
-    \ "ctermfg=" (has_key(a:style, "fg")    ? a:style.fg.cterm : "NONE")
-    \ "ctermbg=" (has_key(a:style, "bg")    ? a:style.bg.cterm : "NONE")
-    \ "cterm="   (has_key(a:style, "cterm") ? a:style.cterm    : "NONE")
+    execute "highlight" a:group
+                \ "guifg="   (has_key(a:style, "fg")    ? a:style.fg.gui   : "NONE")
+                \ "guibg="   (has_key(a:style, "bg")    ? a:style.bg.gui   : "NONE")
+                \ "guisp="   (has_key(a:style, "sp")    ? a:style.sp.gui   : "NONE")
+                \ "gui="     (has_key(a:style, "gui")   ? a:style.gui      : "NONE")
+                \ "ctermfg=" (has_key(a:style, "fg")    ? a:style.fg.cterm : "NONE")
+                \ "ctermbg=" (has_key(a:style, "bg")    ? a:style.bg.cterm : "NONE")
+                \ "cterm="   (has_key(a:style, "cterm") ? a:style.cterm    : "NONE")
 endfunction
 
 call s:h("Normal",        {"bg": s:bg, "fg": s:norm})
 
 " restore &background's value in case changing Normal changed &background (:help :hi-normal-cterm)
 if &background != s:background
-   execute "set background=" . s:background
+    execute "set background=" . s:background
 endif
 
 call s:h("Cursor",        {"bg": s:light_green, "fg": s:black })
@@ -162,15 +156,15 @@ call s:h("SignColumn",    {"fg": s:light_green})
 
 
 if has("gui_running")
-  call s:h("SpellBad",    {"gui": "underline", "sp": s:red})
-  call s:h("SpellCap",    {"gui": "underline", "sp": s:light_green})
-  call s:h("SpellRare",   {"gui": "underline", "sp": s:pink})
-  call s:h("SpellLocal",  {"gui": "underline", "sp": s:dark_green})
+    call s:h("SpellBad",    {"gui": "underline", "sp": s:red})
+    call s:h("SpellCap",    {"gui": "underline", "sp": s:light_green})
+    call s:h("SpellRare",   {"gui": "underline", "sp": s:pink})
+    call s:h("SpellLocal",  {"gui": "underline", "sp": s:dark_green})
 else
-  call s:h("SpellBad",    {"cterm": "underline", "fg": s:red})
-  call s:h("SpellCap",    {"cterm": "underline", "fg": s:light_green})
-  call s:h("SpellRare",   {"cterm": "underline", "fg": s:pink})
-  call s:h("SpellLocal",  {"cterm": "underline", "fg": s:dark_green})
+    call s:h("SpellBad",    {"cterm": "underline", "fg": s:red})
+    call s:h("SpellCap",    {"cterm": "underline", "fg": s:light_green})
+    call s:h("SpellRare",   {"cterm": "underline", "fg": s:pink})
+    call s:h("SpellLocal",  {"cterm": "underline", "fg": s:dark_green})
 endif
 
 call s:h("Pmenu",         {"fg": s:norm, "bg": s:bg_subtle})
@@ -187,12 +181,12 @@ call s:h("ColorColumn",   {"bg": s:bg_subtle})
 call s:h("MatchParen",    {"bg": s:bg_subtle, "fg": s:norm})
 call s:h("qfLineNr",      {"fg": s:medium_gray})
 
-call s:h("htmlH1",        {"bg": s:bg, "fg": s:norm})
-call s:h("htmlH2",        {"bg": s:bg, "fg": s:norm})
-call s:h("htmlH3",        {"bg": s:bg, "fg": s:norm})
-call s:h("htmlH4",        {"bg": s:bg, "fg": s:norm})
-call s:h("htmlH5",        {"bg": s:bg, "fg": s:norm})
-call s:h("htmlH6",        {"bg": s:bg, "fg": s:norm})
+call s:h("htmlH1",        {"gui": "bold", "bg": s:bg, "fg": s:norm})
+call s:h("htmlH2",        {"gui": "bold", "bg": s:bg, "fg": s:norm})
+call s:h("htmlH3",        {"gui": "bold", "bg": s:bg, "fg": s:norm})
+call s:h("htmlH4",        {"gui": "bold", "bg": s:bg, "fg": s:norm})
+call s:h("htmlH5",        {"gui": "bold", "bg": s:bg, "fg": s:norm})
+call s:h("htmlH6",        {"gui": "bold", "bg": s:bg, "fg": s:norm})
 
 " Synatastic
 call s:h("SyntasticWarningSign",    {"fg": s:yellow})
@@ -218,6 +212,7 @@ hi link GitGutterChange             LineNr
 hi link GitGutterChangeDelete       LineNr
 
 " Custom
+hi  Normal     guibg=NONE
 hi  NormalFloat     guibg=bg
 hi  FloatBorder     guibg=bg
 
@@ -237,22 +232,22 @@ hi  Cursor guibg=#8ec07c
 " #EBC06D
 " #458588
 " #E19972
-hi  Constant        guifg=#CDA869
+hi  Constant        guifg=#50ff30
+hi  Constant        guifg=#50cc30
+hi  Constant        guifg=#30bb30
+hi  Constant        guifg=#30bb30
+hi! link String constant
 hi  Directory       guifg=#789AC0
-hi  Function        guifg=#789AC0
-"hi  Function        guifg=fg
-hi  String          guifg=#8F9D6A
-hi  Preproc         guifg=#458588
-" hi  Preproc         guifg=#559598
+hi  Function        guifg=fg
 hi! link            Special           Constant
 hi  Delimiter       guifg=fg
-hi  Type            guifg=#68BEA2
-hi  Statement       guifg=#CF6A4C
-"hi  Statement       guifg=#DF6f4C
-" hi  Comment         guifg=#5D646A     gui=NONE cterm=NONE
-hi  Comment         guifg=#60676d gui=NONE cterm=NONE
-"hi  Comment         guifg=#789AC0 gui=NONE cterm=NONE
-hi  Ignore          guibg=#1c2020 guifg=NONE   cterm=NONE
+hi  Preproc         guifg=#A0B8A0
+hi  Type            guifg=#A0B8A0
+hi! link cType Statement
+hi  vimGroup        guifg=fg
+hi  Statement       guifg=#D08F20
+hi  Comment         guifg=#2090F0 gui=NONE cterm=NONE
+hi  Ignore          guibg=#1c2020 guifg=NONE cterm=NONE
 if has('nvim')
     hi! link @lsp.type.comment Ignore
     hi! link @lsp.type.comment Ignore
@@ -269,35 +264,36 @@ if has('nvim')
     hi! link @keyword.modifier.cpp statement
 endif
 
-hi  Error           guibg=NONE          guifg=#af5f5f gui=underline cterm=underline
-hi  ErrorMsg        guifg=#af5f5f
-hi  MatchParen      guifg=#E6D78E     gui=bold cterm=bold
+hi Error      guibg=NONE guifg=red1 gui=underline cterm=underline
+hi ErrorMsg   guifg=#af5f5f
+hi WarningMsg guifg=darkyellow
+hi MatchParen guifg=#E6D78E gui=bold cterm=bold
+hi Todo       guifg=red1 gui=none
 
-hi  DiagnosticError guifg=#af5f5f
-hi  DiagnosticWarn  guifg=#cda869
+hi  DiagnosticError guifg=red3
+hi  DiagnosticWarn  guifg=darkyellow
 hi  DiagnosticInfo  guifg=LightBlue
 hi  DiagnosticHint  guifg=#747C84
 
 hi! link            Directory         Constant
-hi! link            IncSearch         Visual
 hi  Search          guibg=#23272E     guifg=lightblue
 " hi  PmenuSel        guibg=bg          guifg=#a790d5
 
 
-hi  htmlH1          guibg=NONE          guifg=#cda869 gui=bold cterm=bold
-hi  htmlH2          guibg=NONE          guifg=#cda869 gui=bold cterm=bold
-hi  htmlH3          guibg=NONE          guifg=#cda869 gui=bold cterm=bold
-hi  htmlH4          guibg=NONE          guifg=#cda869 gui=bold cterm=bold
-hi  htmlH5          guibg=NONE          guifg=#cda869 gui=bold cterm=bold
-hi  htmlH6          guibg=NONE          guifg=#cda869 gui=bold cterm=bold
-hi! link            helpHyperTextJump Statement
+hi  htmlH1 guibg=NONE guifg=#A0B8A0
+hi  htmlH2 guibg=NONE guifg=#A0B8A0
+hi  htmlH3 guibg=NONE guifg=#A0B8A0
+hi  htmlH4 guibg=NONE guifg=#A0B8A0
+hi  htmlH5 guibg=NONE guifg=#A0B8A0
+hi  htmlH6 guibg=NONE guifg=#A0B8A0
+hi! link helpHyperTextJump Statement
 hi  markdownCode guifg=#458588
 
 hi  SpellBad guifg=fg gui=underline
 
 hi  GitSignsAdd       guifg=#8F9D6A     guibg=NONE    gui=NONE cterm=NONE
-hi  GitSignsDelete    guifg=#af5f5f     guibg=NONE    gui=NONE cterm=NONE
-hi  GitSignsChange    guifg=#789AC0     guibg=NONE    gui=NONE cterm=NONE
+hi  GitSignsDelete    guifg=red3     guibg=NONE    gui=NONE cterm=NONE
+hi  GitSignsChange    guifg=#2090F0     guibg=NONE    gui=NONE cterm=NONE
 
 hi  DiffAdd guifg=NONE guibg=#1D2B21
 " hi  DiffDelete guifg=NONE guibg=#722928
@@ -330,26 +326,25 @@ hi WinSeparator guibg=bg guifg=#343434
 hi! link VertSplit winSeperator
 "hi! link FloatBorder VertSplit
 hi! link CmpPmenuBorder VertSplit
-hi Pmenu guibg=#303030
+hi Pmenu guibg=#191919
 " hi! link Pmenu Visual
 hi! link PmenuSel Visual
 hi PmenuThumb guibg=fg
 
 hi Folded guifg=#878787 guibg=bg
-hi StatusLine   guibg=#343434
-"hi StatusLine   guibg=#285577 guifg=#bbbbbb
-hi StatusLineNC guibg=#303030
+hi StatusLine   guibg=#888888 guifg=black
+hi StatusLineNC guibg=#555555 guifg=black
 hi! link QuickFixLine CursorLine
 hi! link QfFileName String
 hi! link QfLineNr Constant
 
 hi IncSearch     guibg=#ee799f guifg=black gui=NONE
 hi! link CurSearch Incsearch
-hi Search        guibg=#218058 guifg=black gui=NONE
+hi Search        guibg=yellow3 guifg=black gui=NONE
 
 hi! link cppStructure statement
 hi! link cStructure statement
-""hi! link cStorageClass statement
+hi! link cStorageClass statement
 hi! link cTypedef statement
 
 " Highlighting in git (diff) files
