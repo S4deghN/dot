@@ -72,7 +72,7 @@ if &laststatus
     set stl+=%([%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}]%)
     set stl+=
 else
-    set rulerformat=%60(%([%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}]%)%=\ \ \ \ %-8(%l,%c%)\ %P%)
+    set rulerformat=%60(%([%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}]%)\ \ \ \ %(Git:%{v:lua.GitSignsStatus()}%)%=\ \ \ \ %-8(%l,%c%)\ %P%)
     augroup ruler
         autocmd BufEnter * call feedkeys("\<C-g>")
     augroup end

@@ -76,7 +76,7 @@ default_floating_border normal 1
 smart_borders on
 #for_window [all] title_window_icon on
 
-gaps outer 7
+gaps outer 11
 gaps inner 3
 
 # class                 border  backgr. text    indicator child_border
