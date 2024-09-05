@@ -15,7 +15,7 @@ set completeopt=menu,noinsert,popup
 set pumheight=6 previewheight=10
 set nowildmenu wildignorecase wildmode=longest,list,full
 set ignorecase smartcase
-set signcolumn=yes:1
+set signcolumn=no
 set noshowmode
 "set guicursor=n-v-c-sm:block,i-ci-ve:hor24,r-cr-o:hor20
 set guicursor=r-cr-o:hor20
@@ -44,8 +44,8 @@ set diffopt=internal,filler,closeoff,indent-heuristic,algorithm:histogram,linema
 
 "set iskeyword-=_
 
-" switch case indentation
-set cinoptions+=1l:N0
+" Sane indentation
+set cinoptions+=:0,ls,g0,N-s,E-s,(s,k0,j1,J1
 
 if executable('rg')
     set grepprg=rg\ -H\ --no-heading\ --vimgrep
@@ -61,8 +61,8 @@ if &laststatus
     set statusline=
     " Left
     set stl+=%.35f
-    set stl+=%(%m%)
-    set stl+=%(%q%h%w%r%)\ \ \ \ %P\ \ \ %-8(%l:%c%)
+    "set stl+=%(%m%)
+    set stl+=%(\ %m%q%h%w%r%)\ \ \ \ %P\ \ \ %-8(%l:%c%)
     set stl+=\ \ \ \ %(Git:%{v:lua.GitSignsStatus()}%)
     " Middle
     set stl+=\ %=
@@ -102,7 +102,7 @@ color arc
 "let loaded_matchparen = 0
 
 call plug#begin()
-Plug 'mstcl/ivory'
+Plug 'beyondmarc/hlsl.vim'
 Plug 'stevearc/oil.nvim'
 "Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-eunuch'

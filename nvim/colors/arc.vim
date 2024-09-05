@@ -246,11 +246,16 @@ hi  Preproc         guifg=#458588
 " hi  Preproc         guifg=#559598
 hi! link            Special           Constant
 hi  Delimiter       guifg=fg
-hi  Type            guifg=#68BEA2
+"hi  Type            guifg=#68BEA2
+hi  Type            guifg=#85998f
 hi  Statement       guifg=#CF6A4C
+"hi  Statement       guifg=#ebc06d
 "hi  Statement       guifg=#DF6f4C
-" hi  Comment         guifg=#5D646A     gui=NONE cterm=NONE
-hi  Comment         guifg=#60676d gui=NONE cterm=NONE
+"hi  Statement       guifg=#aa8888
+"hi  Statement       guifg=#c88888
+ "hi  Comment         guifg=#5D646A     gui=NONE cterm=NONE
+"hi  Comment         guifg=#60676d gui=NONE cterm=NONE
+hi  Comment         guifg=#70777d gui=NONE cterm=NONE
 "hi  Comment         guifg=#789AC0 gui=NONE cterm=NONE
 hi  Ignore          guibg=#1c2020 guifg=NONE   cterm=NONE
 if has('nvim')
