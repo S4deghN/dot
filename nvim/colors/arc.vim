@@ -255,9 +255,17 @@ hi  Statement       guifg=#CF6A4C
 "hi  Statement       guifg=#c88888
  "hi  Comment         guifg=#5D646A     gui=NONE cterm=NONE
 "hi  Comment         guifg=#60676d gui=NONE cterm=NONE
-hi  Comment         guifg=#70777d gui=NONE cterm=NONE
+"hi  Comment         guifg=#777c7e gui=NONE cterm=NONE
+hi  Comment         guifg=#676c6e gui=NONE cterm=NONE
+"hi  Comment         guifg=#70777d gui=NONE cterm=NONE
+"hi  Comment         guifg=#7d7070 gui=NONE cterm=NONE
+"hi Comment          guifg=#cf8c3c
 "hi  Comment         guifg=#789AC0 gui=NONE cterm=NONE
+"hi Comment guibg=#282828 guifg=#666666 gui=none
+
 hi  Ignore          guibg=#1c2020 guifg=NONE   cterm=NONE
+hi  Dimm guifg=#60676d gui=NONE cterm=NONE
+
 if has('nvim')
     hi! link @lsp.type.comment Ignore
     hi! link @lsp.type.comment Ignore

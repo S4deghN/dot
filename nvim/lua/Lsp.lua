@@ -601,7 +601,6 @@ require("clangd_extensions").setup({
             TemplateTemplateParm = "",
             TemplateParamObject = "",
         },
-
         highlights = {
             detail = "Comment",
         },
