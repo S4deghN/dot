@@ -107,7 +107,7 @@ cmp.setup {
         -- autocomplete = false,
     },
     experimental = {
-        ghost_text = { hl_group = "Comment" },
+        -- ghost_text = { hl_group = "Comment" },
         -- native_menu = false,
     },
     performance = {

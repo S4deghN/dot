@@ -268,10 +268,13 @@ noremap <C-w>t :belowright term<cr>
 "map <Tab> %
 "map <S-Tab> [%
 
+" Oil://other things
+
 " cmd
 cmap <C-x>f <C-r>=expand('%:p')<cr>
-"cmap <C-x>d <C-r>=expand('%:p:h').'/'<cr>
-cmap <C-x>d <C-r>=getcwd().'/'<cr>
+" :s means substitute, we are substituting <url>:// with nothing. for buffers like Oil and such.
+cmap <C-x>d <C-r>=expand('%:p:h:s?\S\+:\/\/??').'/'<cr>
+"cmap <C-x>d <C-r>=getcwd().'/'<cr>
 cmap <C-x>r redir<space>@l\|<space>\|redir<space>end<C-left><C-left>
 cmap <C-j> <Down>
 cmap <C-k> <Up>
