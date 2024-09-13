@@ -8,8 +8,8 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
-export VISUAL="vim"
-export EDITOR="vim"
+export VISUAL="nvim"
+export EDITOR="nvim"
 export TERMINAL=st
 
 export GITLAB_HOME=/srv/gitlab

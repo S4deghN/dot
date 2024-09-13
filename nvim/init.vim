@@ -256,6 +256,7 @@ noremap <M-y> tabn 6
 nnoremap <C-n> <C-e>
 nnoremap <C-p> <C-y>
 noremap gd [<C-I>
+" noremap gd :call JumpToDefinition()<cr>
 noremap gn ]<C-I>
 noremap gk K
 nnoremap * *N
@@ -375,6 +376,29 @@ smap <expr> <S-Tab> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<S-Tab>'
 " -----------------------------------------------
 " --- functions ---
 " -----------------------------------------------
+function! g:JumpToDefinition()
+    let fallbacks = [
+                \"lua vim.lsp.buf.definition()",
+                \"normal! \<C-]>",
+                \"normal! gd",
+                \"normal! [\<C-I>",
+                \]
+
+    for cmd in fallbacks
+        try
+            let s = execute(cmd)
+            " echomsg $'s: {s}'
+            if strlen(s) < 2 || s =~? '"\([\~\/]\|\S\+\/\)\S\+"\s.*'
+                 echomsg $'used {cmd}'
+                break
+            endif
+        catch
+            " echomsg $'we catched on: {cmd}: {v:exception}'
+            continue
+        endtry
+    endfor
+endfunction
+
 function! GetGitSignsStatus()
     if !exists('b:gitsigns_status_dict.root')
         return ''

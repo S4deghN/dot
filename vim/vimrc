@@ -25,7 +25,7 @@ set completeopt=menu,menuone,noinsert
 set pumheight=6 previewheight=10
 # behave like bash
 set nowildmenu wildignorecase wildmode=longest,list,full
-set noshowcmd
+set showcmd
 set signcolumn=no
 set ruler
 
@@ -43,32 +43,42 @@ set foldmethod=marker
 set textwidth=100
 set jumpoptions=stack
 set showbreak=\
-set fillchars+=diff:╱
+set fillchars+=diff:╱,vert:│
+
+# Sane indentation
+set cinoptions+=:0,ls,g0,N-s,E-s,(s,k0,j1,J1
+
 if executable('rg')
     set grepprg=rg\ -H\ --no-heading\ --vimgrep
     set grepformat=%f:%l:%c:%m
 endif
-# TODO: lookup `cpoptions`
-set path=.,**,/usr/include
+
+# put the more unlikey first so that when it is the case you search that first.
+set path=.,**,/usr/src/*/include,/usr/include
+
 # if match case is not set to `match` tag search becomes really slow!
 set tagcase=match
 
-set laststatus=0
+set laststatus=2
 if &laststatus > 0
     set showcmdloc=statusline
     set statusline=
     # Left
-    set stl+=%(\ %m%)
-    set stl+=%(%q%h%w%r%)
-    set stl+=\ %f
+    set stl+=%.35f
+    set stl+=%(\ %m%q%h%w%r%)\ \ \ \ %P\ \ \ %-8(%l:%c%)
+    # set stl+=\ \ \ \ %(Git:%{v:lua.GitSignsStatus()}%)
     # Middle
-    set stl+=%=
+    set stl+=\ %=
     set stl+=%S
     # Right
-    set stl+=%=
-    set stl+=\ \ \ \ %-8(%l,%c%)\ %P
+    set stl+=\ %=
+    # set stl+=%([%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}]%)
+    set stl+=
 else
-    set rulerformat=%40(%=[%l,%c\|%P]\ %m%q%w\ %y%)
+    set rulerformat=%60(%([%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}]%)\ \ \ \ %(Git:%{v:lua.GitSignsStatus()}%)%=\ \ \ \ %-8(%l,%c%)\ %P%)
+    augroup ruler
+        autocmd BufEnter * call feedkeys("\<C-g>")
+    augroup end
 endif
 
 
@@ -82,7 +92,8 @@ g:c_function_pointers = 1
 set termguicolors
 set background=dark
 color narc
-# hi Normal guifg=#cbbb92
+hi Statusline guibg=#335544
+hi VertSplit guifg=#333333
 
 g:mapleader = " "
 
@@ -100,19 +111,23 @@ Plug 'airblade/vim-rooter'
 Plug 'chrisbra/Colorizer'
 # Plug 'dense-analysis/ale'
 Plug 'junegunn/fzf.vim'
-Plug 'unsigned-enby/lsp'
 Plug 'yegappan/disassemble'
-Plug 'habamax/vim-dir'
 Plug '~/.vim/local/vim-cool'
 Plug '~/.vim/local/vim-shout'
+Plug '~/.vim/local/lsp'
 plug#end()
 
+# rooter
+# {{{
 g:rooter_silent_chdir = 1
-g:rooter_manual_only = 1
+g:rooter_manual_only = 0
 g:rooter_paterns = ['.git', '_darcs', '.hg', '.bzr', '.svn', 'Makefile', 'package.json', '.gitignore', 'Makefile' ]
+# }}}
 
+# fzf
+# {{{
 g:fzf_vim = {}
-g:fzf_vim.preview_window = ['hidden,right,50%,<70(up,40%)', 'ctrl-l']
+g:fzf_vim.preview_window = ['hidden,right,40%,<70(up,40%)', 'ctrl-l']
 
 def BuildQfList(lines: string)
     call setqflist(map(copy(lines), '{ "filename": v:val, "lnum": 1 }'))
@@ -126,9 +141,11 @@ g:fzf_action = {
             \ 'ctrl-x': 'split',
             \ 'ctrl-v': 'vsplit' }
 
-g:fzf_layout = { 'down': '50%' }
-
+# g:fzf_layout = { 'down': '50%' }
+# g:fzf_layout = { 'window': 'enew' }
+g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 # g:fzf_history_dir = '~/.local/share/fzf-history'
+# }}}
 
 # lsp
 # {{{
@@ -193,6 +210,17 @@ var lspServers = [
 ]
 # }}}
 
+
+export def g:JumpTag()
+    var start_bnr = bufnr()
+    var start_line = line('.')
+    execute("normal! \<C-]>")
+    # if we didn't jump anywhere. try jumping whith [count]=2
+    if bufnr() == start_bnr && line('.') == start_line
+        execute("normal! \<C-t>2\<C-]>")
+    endif
+enddef
+
 # "~/dev/handmade/src/main.h" 3L, 34B
 # "/usr/include/SDL2/SDL_video.h" [RO] 2184L, 81088B
 # "include/SDL2/SDL_video.h" [RO] 2184L, 81088B
@@ -200,7 +228,7 @@ var lspServers = [
 export def g:JumpToDefinition()
     var fallbacks = [
         "LspGotoDefinition",
-        "normal! \<C-]>",
+        "call JumpTag()",
         "normal! gd",
         "normal! [\<C-I>",
     ]
@@ -210,7 +238,7 @@ export def g:JumpToDefinition()
             var s = execute(cmd)
             # echomsg $'s: {s}'
             if strlen(s) < 2 || s =~? '"\([\~\/]\|\S\+\/\)\S\+"\s.*'
-                # echomsg $'used {cmd}'
+                echomsg $'used {cmd}'
                 break
             endif
         catch
@@ -326,18 +354,21 @@ cmap <C-k> <Up>
 nnoremap <leader>d :bp\|bd #<cr>
 nmap     <leader>b :b<space>
 nmap     <leader>e :e<space><C-x>d
+# nmap     <leader>e :Dir<space><C-x>d
 nmap     <leader>E :Exp<cr>
 nmap     <leader>h :vert h<space>
-nmap     <leader>q :vert h<space>
 noremap  <leader>f <cmd>Files<cr>
 nmap     <leader>F :Files<space><C-x>d
 noremap  <leader>r <cmd>Histor<cr>
 noremap  <leader>b <cmd>Buffers<cr>
 noremap  <leader>H <cmd>Helptags<cr>
+noremap  <leader>t :Tags <C-r><C-w><cr>
+noremap  <leader>T <cmd>Tags<space>
 # for now use grep!
-#nnoremap <leader>w        <cmd>FZF grep_cword<cr>
-#nnoremap <leader>s        <cmd>RG<cr>
-#xnoremap <leader>s        <cmd>FZF grep_visual<cr>
+nnoremap <leader>w :Rg <C-r><C-w><cr>
+nnoremap <leader>s <cmd>RG<cr>
+xnoremap <leader>s :<C-u>Rg <C-r>=escape(GetVisualSelection(), "()\+*.[]\|")<cr><cr>
+
 nnoremap cc :Sh <C-r>=expand(t:shout_cmd)<cr>
 nnoremap co :Sh<space>
 
@@ -376,8 +407,8 @@ augroup autoCommands
 
     autocmd CmdwinEnter * nmap <buffer> <Esc> :q<cr>
     autocmd CmdwinEnter * nmap <buffer> <C-c> :q<cr>
-    autocmd FileType fzf set laststatus=0 noshowmode noruler
-                \| autocmd BufLeave <buffer> set laststatus=0 showmode ruler
+    # autocmd FileType fzf set laststatus=0 noshowmode noruler
+    #             \| autocmd BufLeave <buffer> set laststatus=0 showmode ruler
 
     autocmd VimResume,BufEnter,WinEnter,VimEnter * call TmuxApplyTitle()
     autocmd VimLeave,VimSuspend * call TmuxResetTitle()
@@ -411,6 +442,37 @@ export def Syn()
     for id in synstack(line("."), col("."))
         echo synIDattr(id, "name")
     endfor
+enddef
+
+export def g:GetVisualSelection(): string
+    var mode = mode()
+    var start: list<number>
+    var end: list<number>
+
+    if mode == 'v' || mode == 'V' || mode == "\<C-V>"
+        # getpos() -> [bufnum, lnum, col, off]
+        start = getpos('.')
+        end = getpos('v')
+
+        if mode == 'V'
+            start[2] = 1
+            end[2] = 999
+        endif
+    else
+        start = getpos("'<")
+        end = getpos("'>")
+    endif
+
+    var lines = getline(start[1], end[1])
+    if len(lines) <= 0
+        return ''
+    endif
+
+    lines[-1] = strpart(lines[-1], 0, end[2])
+    lines[0] = strpart(lines[0], start[2] - 1)
+
+    var content = join(lines)
+    return content
 enddef
 
 # -----------------------------------------------

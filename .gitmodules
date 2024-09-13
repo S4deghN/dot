@@ -13,3 +13,6 @@
 [submodule "vim/local/vim-dir"]
 	path = vim/local/vim-dir
 	url = https://github.com/habamax/vim-dir
+[submodule "vim/local/lsp"]
+	path = vim/local/lsp
+	url = https://github.com/S4deghN/lsp.git

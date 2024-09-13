@@ -372,3 +372,22 @@ hi! link diffSubname Normal
 hi! link FzfLuaBufNr normal
 hi! link FzfLuaHeaderBind normal
 hi! link FzfLuaPathLineNr String
+
+let g:terminal_ansi_colors = [
+            \"#191919",
+            \"#CF6A4C",
+            \"#8F9D6A",
+            \"#CDA869",
+            \"#789AC0",
+            \"#b16286",
+            \"#85998f",
+            \"#6B7278",
+            \"#747C84",
+            \"#CF6A4C",
+            \"#87AF87",
+            \"#CDA869",
+            \"#789AC0",
+            \"#d3869b",
+            \"#5FAFAF",
+            \"#BCBCBC",
+            \]
