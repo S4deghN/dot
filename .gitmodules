@@ -4,3 +4,9 @@
 [submodule "nvim/local/vim8-shout"]
 	path = nvim/local/vim8-shout
 	url = https://github.com/s4deghn/vim8-shout.git
+[submodule "vim/local/vim-shout"]
+	path = vim/local/vim-shout
+	url = https://github.com/S4deghN/vim-shout.git
+[submodule "vim/local/vim-cool"]
+	path = vim/local/vim-cool
+	url = https://github.com/S4deghN/vim-cool.git
