@@ -8,8 +8,9 @@ ln -sfv "$PWD"/.profile      "$HOME"/
 ln -sfv "$PWD"/.bashrc       "$HOME"/
 ln -sfv "$PWD"/.clang-format "$HOME"/
 ln -sfv "$PWD"/.clang-tidy   "$HOME"/
+ln -sfv "$PWD"/vim           "$HOME"/.vim
 ln -sfv "$PWD"/bin           "$HOME"/.local/
-ln -sfv "$PWD"/tmux          "$HOME"/.config
+ln -sfv "$PWD"/tmux          "$HOME"/.config/
 ln -sfv "$PWD"/nvim          "$HOME"/.config/
 ln -sfv "$PWD"/fish          "$HOME"/.config/
 ln -sfv "$PWD"/ranger        "$HOME"/.config/

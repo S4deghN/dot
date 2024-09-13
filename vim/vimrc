@@ -1,7 +1,7 @@
 vim9script
 
 #unlet! skip_defaults_vim
-source $VIMRUNTIME/defaults.vim
+# source $VIMRUNTIME/defaults.vim
 
 # -----------------------------------------------
 # --- options ---
@@ -16,7 +16,8 @@ set hidden
 set notitle
 # mouse support
 set mouse=ar
-set ttymouse=xterm2
+# Essential for scroll to work properly
+set ttymouse=sgr
 # remedy flikering wiht termguicolors `https://github.com/vim/vim/issues/10574`. I'm not
 # sure how effective this one is, but settng Normal guibg=NONE definitly make vim flicker.
 # set t_ut=
@@ -49,7 +50,7 @@ if executable('rg')
 endif
 # TODO: lookup `cpoptions`
 set path=.,**,/usr/include
-# if match case is not set tag search becomes really slow!
+# if match case is not set to `match` tag search becomes really slow!
 set tagcase=match
 
 set laststatus=0
@@ -81,18 +82,7 @@ g:c_function_pointers = 1
 set termguicolors
 set background=dark
 color narc
-
-# hi String ctermfg=darkGreen
-# hi Statement ctermfg=red
-# hi Type ctermfg=cyan
-# hi Identifier ctermfg=cyan
-# hi Comment ctermfg=darkGray
-# hi Constatn ctermfg=yellow
-# hi number ctermfg=yellow
-# hi Search ctermfg=black
-# hi StatusLine cterm=NONE ctermbg=black ctermfg=white
-# hi StatusLineNC ctermfg=black ctermbg=white
-
+# hi Normal guifg=#cbbb92
 
 g:mapleader = " "
 
@@ -112,6 +102,7 @@ Plug 'chrisbra/Colorizer'
 Plug 'junegunn/fzf.vim'
 Plug 'unsigned-enby/lsp'
 Plug 'yegappan/disassemble'
+Plug 'habamax/vim-dir'
 Plug '~/.vim/local/vim-cool'
 Plug '~/.vim/local/vim-shout'
 plug#end()
@@ -206,7 +197,7 @@ var lspServers = [
 # "/usr/include/SDL2/SDL_video.h" [RO] 2184L, 81088B
 # "include/SDL2/SDL_video.h" [RO] 2184L, 81088B
 
-def g:JumpToDefinition()
+export def g:JumpToDefinition()
     var fallbacks = [
         "LspGotoDefinition",
         "normal! \<C-]>",
@@ -227,13 +218,6 @@ def g:JumpToDefinition()
             continue
         endtry
     endfor
-enddef
-
-def g:Test()
-    var s = '"/dev/handmade/src/main.h" 3L, 34B'
-    if s =~? '"\~\?\/\S\+"\s.*'
-        echo 'it works'
-    endif
 enddef
 
 def LspOnAttach()
@@ -285,9 +269,6 @@ noremap p p`[mzV`]=`z
 noremap P P`[mzV`]=`z
 map gp "+p
 map gP "+P
-inoremap <C-S-v> <C-r>+
-# vmap <C-S-v> "+p
-# nmap <C-S-v> "+p
 
 # indent
 nnoremap =if mzggVG=g`z

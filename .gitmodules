@@ -10,3 +10,6 @@
 [submodule "vim/local/vim-cool"]
 	path = vim/local/vim-cool
 	url = https://github.com/S4deghN/vim-cool.git
+[submodule "vim/local/vim-dir"]
+	path = vim/local/vim-dir
+	url = https://github.com/habamax/vim-dir

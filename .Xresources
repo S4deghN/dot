@@ -5,21 +5,21 @@ Xft.hinting:    0
 Xcursor.size: 16
 Xft.dpi: 96
 
-## https://unix.stackexchange.com/questions/194696/alt-and-alt-and-possibly-some-other-keys-not-working-in-elinks
-*metaSendsEscape: true
-*disallowedWindowOps: 20,21,SetXprop
-*selectToClipboard: true
-## https://wiki.archlinux.org/title/Xterm#Fix_the_backspace_key
-*backarrowKey: false
-*ttyModes: erase ^?
+! ## https://unix.stackexchange.com/questions/194696/alt-and-alt-and-possibly-some-other-keys-not-working-in-elinks
+! *metaSendsEscape: true
+! *disallowedWindowOps: 20,21,SetXprop
+! *selectToClipboard: true
+! ## https://wiki.archlinux.org/title/Xterm#Fix_the_backspace_key
+! *backarrowKey: false
+! *ttyModes: erase ^?
 
 *.cursorBlink: true
 /* *.cursorOffTime: 500 */
 /* *.cursorOnTime: 800 */
 
-*translations: #override \n\
-        Ctrl Shift <Key>C: copy-selection(CLIPBOARD) \n\
-        Ctrl Shift <Key>V: insert-selection(CLIPBOARD)
+/**translations: #override \n\*/
+/*        Ctrl Shift <Key>C: copy-selection(CLIPBOARD) \n\*/
+/*        Ctrl Shift <Key>V: insert-selection(CLIPBOARD)*/
 
 *faceName: Ubuntu Mono:size=14:antialias=true,Symbols Nerd Font Mono:size=14
 /* *faceNameDoublesize: Symbols Nerd Font Mono */
