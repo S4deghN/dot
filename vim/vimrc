@@ -1,0 +1,472 @@
+vim9script
+
+#unlet! skip_defaults_vim
+source $VIMRUNTIME/defaults.vim
+
+# -----------------------------------------------
+# --- options ---
+# -----------------------------------------------
+# timeout for key sequences of terminal like esc and such
+set nocompatible ttimeout ttimeoutlen=0
+set history=10000
+# Undo file shouldn't replace version control
+set noswapfile undofile undodir=/tmp/vim9
+# speed things up
+set hidden
+set notitle
+# mouse support
+set mouse=ar
+set ttymouse=xterm2
+# remedy flikering wiht termguicolors `https://github.com/vim/vim/issues/10574`. I'm not
+# sure how effective this one is, but settng Normal guibg=NONE definitly make vim flicker.
+# set t_ut=
+set completeopt=menu,menuone,noinsert
+set pumheight=6 previewheight=10
+# behave like bash
+set nowildmenu wildignorecase wildmode=longest,list,full
+set noshowcmd
+set signcolumn=no
+set ruler
+
+# set showcmd showcmdloc=statusline
+set shortmess=aoOFtT
+set splitbelow splitright
+set incsearch hlsearch
+set ignorecase
+set smartcase
+set smartindent
+set nosmarttab
+set expandtab shiftwidth=4 tabstop=4
+set backspace=indent,eol,start
+set foldmethod=marker
+set textwidth=100
+set jumpoptions=stack
+set showbreak=\
+set fillchars+=diff:╱
+if executable('rg')
+    set grepprg=rg\ -H\ --no-heading\ --vimgrep
+    set grepformat=%f:%l:%c:%m
+endif
+# TODO: lookup `cpoptions`
+set path=.,**,/usr/include
+# if match case is not set tag search becomes really slow!
+set tagcase=match
+
+set laststatus=0
+if &laststatus > 0
+    set showcmdloc=statusline
+    set statusline=
+    # Left
+    set stl+=%(\ %m%)
+    set stl+=%(%q%h%w%r%)
+    set stl+=\ %f
+    # Middle
+    set stl+=%=
+    set stl+=%S
+    # Right
+    set stl+=%=
+    set stl+=\ \ \ \ %-8(%l,%c%)\ %P
+else
+    set rulerformat=%40(%=[%l,%c\|%P]\ %m%q%w\ %y%)
+endif
+
+
+# mark trailing spaces as errors using highlight group CursorLine
+match CursorLine '\s\+$'
+filetype plugin indent on
+syntax on
+g:c_gnu = 1
+g:c_functions = 1
+g:c_function_pointers = 1
+set termguicolors
+set background=dark
+color narc
+
+# hi String ctermfg=darkGreen
+# hi Statement ctermfg=red
+# hi Type ctermfg=cyan
+# hi Identifier ctermfg=cyan
+# hi Comment ctermfg=darkGray
+# hi Constatn ctermfg=yellow
+# hi number ctermfg=yellow
+# hi Search ctermfg=black
+# hi StatusLine cterm=NONE ctermbg=black ctermfg=white
+# hi StatusLineNC ctermfg=black ctermbg=white
+
+
+g:mapleader = " "
+
+# -----------------------------------------------
+# --- plugins ---
+# -----------------------------------------------
+
+# uncomment to disable
+# g:loaded_matchparen = 1
+
+plug#begin()
+Plug 'junegunn/vim-easy-align'
+Plug 'tpope/vim-commentary'
+Plug 'airblade/vim-rooter'
+Plug 'chrisbra/Colorizer'
+# Plug 'dense-analysis/ale'
+Plug 'junegunn/fzf.vim'
+Plug 'unsigned-enby/lsp'
+Plug 'yegappan/disassemble'
+Plug '~/.vim/local/vim-cool'
+Plug '~/.vim/local/vim-shout'
+plug#end()
+
+g:rooter_silent_chdir = 1
+g:rooter_manual_only = 1
+g:rooter_paterns = ['.git', '_darcs', '.hg', '.bzr', '.svn', 'Makefile', 'package.json', '.gitignore', 'Makefile' ]
+
+g:fzf_vim = {}
+g:fzf_vim.preview_window = ['hidden,right,50%,<70(up,40%)', 'ctrl-l']
+
+def BuildQfList(lines: string)
+    call setqflist(map(copy(lines), '{ "filename": v:val, "lnum": 1 }'))
+    copen
+    cc
+enddef
+
+g:fzf_action = {
+            \ 'ctrl-q': function('BuildQfList'),
+            \ 'ctrl-t': 'tab split',
+            \ 'ctrl-x': 'split',
+            \ 'ctrl-v': 'vsplit' }
+
+g:fzf_layout = { 'down': '50%' }
+
+# g:fzf_history_dir = '~/.local/share/fzf-history'
+
+# lsp
+# {{{
+var lspOpts = {
+    semanticHighlight: false,
+    aleSupport: false,
+    autoComplete: true,
+    autoHighlight: false,
+    autoHighlightDiags: true,
+    autoPopulateDiags: false,
+    completionMatcher: 'icase',
+    completionMatcherValue: 1,
+    echoSignature: false,
+    hideDisabledCodeActions: false,
+    highlightDiagInline: false,
+    hoverInPreview: false,
+    ignoreMissingServer: true,
+    keepFocusInDiags: false,
+    keepFocusInReferences: true,
+    completionTextEdit: true,
+    diagVirtualTextAlign: 'above',
+    diagVirtualTextWrap: 'default',
+    noNewlineInCompletion: false,
+    omniComplete: false,
+    outlineOnRight: false,
+    outlineWinSize: 20,
+    showDiagInBalloon: true,
+    showDiagInPopup: true,
+    showDiagOnStatusLine: false,
+    showDiagWithSign: true,
+    showDiagWithVirtualText: false,
+    showInlayHints: false,
+    showSignature: true,
+    snippetSupport: false,
+    ultisnipsSupport: false,
+    useBufferCompletion: false,
+    usePopupInCodeAction: false,
+    useQuickfixForLocations: true,
+    vsnipSupport: false,
+    bufferCompletionTimeout: 0,
+    customCompletionKinds: false,
+    completionKinds: {},
+    filterCompletionDuplicates: false,
+}
+
+var lspServers = [
+    {
+        name: 'clangd',
+        filetype: ['c', 'cpp'],
+        path: 'clangd',
+        args: [
+        '--background-index',
+        "--malloc-trim",
+        "--enable-config",
+        "--all-scopes-completion=true",
+        "--completion-style=detailed",
+        "--function-arg-placeholders",
+        "--header-insertion=iwyu",
+        "--header-insertion-decorators",
+        ]
+    },
+]
+# }}}
+
+# "~/dev/handmade/src/main.h" 3L, 34B
+# "/usr/include/SDL2/SDL_video.h" [RO] 2184L, 81088B
+# "include/SDL2/SDL_video.h" [RO] 2184L, 81088B
+
+def g:JumpToDefinition()
+    var fallbacks = [
+        "LspGotoDefinition",
+        "normal! \<C-]>",
+        "normal! gd",
+        "normal! [\<C-I>",
+    ]
+
+    for cmd in fallbacks
+        try
+            var s = execute(cmd)
+            # echomsg $'s: {s}'
+            if strlen(s) < 2 || s =~? '"\([\~\/]\|\S\+\/\)\S\+"\s.*'
+                # echomsg $'used {cmd}'
+                break
+            endif
+        catch
+            # echomsg $'we catched on: {cmd}: {v:exception}'
+            continue
+        endtry
+    endfor
+enddef
+
+def g:Test()
+    var s = '"/dev/handmade/src/main.h" 3L, 34B'
+    if s =~? '"\~\?\/\S\+"\s.*'
+        echo 'it works'
+    endif
+enddef
+
+def LspOnAttach()
+    # setlocal cursorlineopt=line
+    # g:netrw_banner = 0
+    # nmap <buffer> gd  <cmd>LspGotoDefinition<cr>
+    nmap <buffer> K   :LspHover<cr>
+    nmap <buffer> ]d  :LspDiagNext<cr>
+    nmap <buffer> [d  :LspDiagPrev<cr>
+    nmap <buffer> gh  :LspDiagCurrent<cr>
+    nmap <buffer> gla :LspCodeAction<cr>
+enddef
+
+autocmd User LspSetup call LspOptionsSet(lspOpts)
+autocmd User LspSetup call LspAddServer(lspServers)
+autocmd User LspAttached call LspOnAttach()
+
+t:shout_cmd = "cc"
+command! -nargs=1 -bang -complete=file Sh shout#CaptureOutput(<q-args>, empty(<q-bang>) ? true : false)
+
+
+# -----------------------------------------------
+# --- keymaps ---
+# -----------------------------------------------
+map ' `
+
+inoremap <C-j> <C-j><Up>
+inoremap <C-k> <Del>
+inoremap <C-z> <esc>b1z=`]a
+# for accepting auto complete
+inoremap <C-f> <C-y>
+inoremap <C-^> <esc><C-^>
+
+tmap <C-]> <C-\><C-n>
+
+# yank
+nnoremap yif mzggVGyg`z
+nnoremap yap yap}
+nnoremap yip yip}
+nnoremap y} y}}
+nnoremap y{ y{
+map gy "+y
+map gY "+Y
+vnoremap y   mzyg`z
+vnoremap gy  mz"+yg`z
+# paste, goto pase start, mark it, select pasted lines, reindent, go back to
+# marked pase
+noremap p p`[mzV`]=`z
+noremap P P`[mzV`]=`z
+map gp "+p
+map gP "+P
+inoremap <C-S-v> <C-r>+
+# vmap <C-S-v> "+p
+# nmap <C-S-v> "+p
+
+# indent
+nnoremap =if mzggVG=g`z
+nnoremap =ap mz=apg`z
+nnoremap =ip mz=ipg`z
+vnoremap =   mz=g`z
+
+# format
+nnoremap gqif mzggVGgqg`z
+nnoremap gqap mzgqapg`z
+nnoremap gqip mzgqipg`z
+nnoremap gql  mzgqlg`z
+vnoremap gq   mzgqg`z
+noremap  gz 1z=
+noremap  zs :%s/\s\+$//e<cr>''
+nnoremap gF mz:%!clang-format<cr>g`z
+xnoremap ga <plug>(EasyAlign)
+nnoremap ga <plug>(EasyAlign)
+nmap gcA gcc^dWA <C-r>"
+nmap gcn yygccp
+
+# navigation
+noremap <C-h> <cmd>tabp<cr>
+noremap <C-l> <cmd>tabn<cr>
+noremap <C-j> <cmd>cn<cr>
+noremap <C-k> <cmd>cp<cr>
+noremap <M-a> 'A
+noremap <M-s> 'S
+noremap <M-d> 'D
+noremap <M-f> 'F
+noremap <M-g> 'G
+nnoremap <C-n> <C-e>
+nnoremap <C-p> <C-y>
+# noremap gd [<C-I>
+noremap <silent> gd :call JumpToDefinition()<cr>
+# nnoremap <C-W>gd <Cmd>:vert call JumpToDefinition()<CR>
+noremap gn ]<C-I>
+noremap gk K
+nnoremap * *N
+xnoremap * y/\V<C-R>"<cr>N
+nnoremap # #N
+xnoremap # y?\V<C-R>"<cr>N
+noremap n nzz
+noremap N Nzz
+noremap <C-w>t :belowright term<cr>
+
+# cmd
+cmap <C-x>f <C-r>=expand('%:p')<cr>
+cmap <C-x>d <C-r>=expand('%:p:h').'/'<cr>
+cmap <C-x>r redir<space>@l\|<space>\|redir<space>end<C-left><C-left>
+cmap <C-j> <Down>
+cmap <C-k> <Up>
+
+# fast access
+nnoremap <leader>d :bp\|bd #<cr>
+nmap     <leader>b :b<space>
+nmap     <leader>e :e<space><C-x>d
+nmap     <leader>E :Exp<cr>
+nmap     <leader>h :vert h<space>
+nmap     <leader>q :vert h<space>
+noremap  <leader>f <cmd>Files<cr>
+nmap     <leader>F :Files<space><C-x>d
+noremap  <leader>r <cmd>Histor<cr>
+noremap  <leader>b <cmd>Buffers<cr>
+noremap  <leader>H <cmd>Helptags<cr>
+# for now use grep!
+#nnoremap <leader>w        <cmd>FZF grep_cword<cr>
+#nnoremap <leader>s        <cmd>RG<cr>
+#xnoremap <leader>s        <cmd>FZF grep_visual<cr>
+nnoremap cc :Sh <C-r>=expand(t:shout_cmd)<cr>
+nnoremap co :Sh<space>
+
+
+# Miscellaneous
+noremap <C-g>  1<C-g>
+# CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
+# so that you can undo CTRL-U after inserting a line break.
+# Revert with ":iunmap <C-U>".
+inoremap <C-U> <C-G>u<C-U>
+
+# -----------------------------------------------
+# --- auto cmds ---
+# -----------------------------------------------
+augroup autoCommands
+    autocmd!
+    autocmd BufWritePost */.vim/**/*.vim,.vimrc,vimrc source %
+    # this option is set by ftplugin for each file type. I just want a consistant format option
+    # across all file types thus the autocmd.
+    # defaults: tcroql
+    autocmd BufEnter * set formatoptions=tcrqljn1p
+    # Mark `"` is the position when last exiting the current buffer.
+    autocmd BufReadPost *
+                \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+                \ |   exe "normal! g`\"zz"
+                \ | endif
+
+    autocmd Filetype tex,text,markdown,gitcommit setlocal spell
+    autocmd Filetype cpp,rust setlocal matchpairs+=<:>
+    autocmd Filetype netrw NetrwConfig()
+    autocmd Filetype qf nmap <buffer> <Esc> ZQ
+    autocmd BufAdd .clang* set filetype=yaml
+    # for the v command in bash vi mode
+    autocmd BufAdd /tmp/bash* set filetype=sh
+
+
+    autocmd CmdwinEnter * nmap <buffer> <Esc> :q<cr>
+    autocmd CmdwinEnter * nmap <buffer> <C-c> :q<cr>
+    autocmd FileType fzf set laststatus=0 noshowmode noruler
+                \| autocmd BufLeave <buffer> set laststatus=0 showmode ruler
+
+    autocmd VimResume,BufEnter,WinEnter,VimEnter * call TmuxApplyTitle()
+    autocmd VimLeave,VimSuspend * call TmuxResetTitle()
+augroup end
+
+# -----------------------------------------------
+# --- cmds ---
+# -----------------------------------------------
+# Convenient command to see the difference between the current buffer and the
+# file it was loaded from, thus the changes you made.
+command! DiffOrig vert new | set bt=nofile | r ++edit %% | 0d_ | diffthis | wincmd p | diffthis
+command! Syn call Syn()
+
+
+# -----------------------------------------------
+# --- functions ---
+# -----------------------------------------------
+def TmuxApplyTitle()
+    var filename = expand("%:t")
+    if strlen(filename) > 0
+        silent system("tmux rename-window \"[" .. filename .. "]\"")
+    endif
+enddef
+
+def TmuxResetTitle()
+     silent system("tmux set-window-option automatic-rename on")
+enddef
+
+# Get highlight groups of word under cursor in Vim
+export def Syn()
+    for id in synstack(line("."), col("."))
+        echo synIDattr(id, "name")
+    endfor
+enddef
+
+# -----------------------------------------------
+# --- netrw ---
+# -----------------------------------------------
+# netrw sucks!
+# change dir as browsing dir changes
+g:netrw_keepdir = 0
+
+def NetrwDel()
+    normal! 0y$
+    system("mv \"" .. getreg('@0') .. "\" /tmp/")
+enddef
+
+def NetrwConfig()
+    setlocal cursorlineopt=line
+
+    g:netrw_banner = 0
+    nmap <buffer> h -^
+    nmap <buffer> <Left> -^
+    nmap <buffer> l <cr>
+    nmap <buffer> <Right> <cr>
+    nmap <buffer> . gh
+    nmap <buffer> P <C-w>z
+
+    # TODO: changing permissions with `gp` doesn't work
+
+    # TODO: add and delete and undo function.
+    # the idea is to have a netrw undo file in /tmp and `mv` deleted
+    # file/directory to it with directory information so that we can move theme
+    # back to the correct place in system with undo function.
+    # g:netrw_keepdir has to be unset so we change directory as we borows.
+
+    # delete file/directory under cursor recursively
+    nmap <buffer> D :call NetrwDel()<cr><C-l>
+    # retrieve the last deleted file
+    # nmap <buffer> u
+enddef
+
+defcompile
