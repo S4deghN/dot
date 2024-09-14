@@ -38,6 +38,7 @@ set fillchars=diff:╱
 set diffopt=internal,filler,closeoff,indent-heuristic,algorithm:histogram,linematch:60
 
 " shows `listchars` (tab trailing whitespace ...)
+set listchars=tab:󰌒\ ,trail:-
 set list
 
 "set diffopt=internal,filler,closeoff,indent-heuristic,algorithm:histogram

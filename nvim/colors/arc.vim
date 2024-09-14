@@ -264,6 +264,7 @@ hi  Comment         guifg=#676c6e gui=NONE cterm=NONE
 "hi Comment guibg=#282828 guifg=#666666 gui=none
 
 hi  Ignore          guibg=#1c2020 guifg=NONE   cterm=NONE
+hi  NonText         guifg=#444444
 hi  Dimm guifg=#60676d gui=NONE cterm=NONE
 
 if has('nvim')
