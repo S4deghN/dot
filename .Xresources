@@ -1,6 +1,6 @@
 Xft.antialias:  1
 ## hinting ruins Ubuntu Font in Emacs
-Xft.hinting:    0
+Xft.hinting: full
 
 Xcursor.size: 16
 Xft.dpi: 96

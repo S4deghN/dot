@@ -152,7 +152,8 @@ bindsym $mod+Return exec --no-startup-id st -e fish
 bindsym $mod+t exec --no-startup-id st
 bindsym $mod+r exec --no-startup-id st -e ranger
 bindsym $mod+b exec --no-startup-id firefox
-bindsym $mod+Shift+b exec --no-startup-id nitrogen --random --set-zoom-fill --save
+bindsym $mod+Shift+b exec --no-startup-id nitrogen --random --set-zoom-fill
+bindsym $mod+Shift+p exec --no-startup-id source ~/.xprofile
 
 
 # kill focused window

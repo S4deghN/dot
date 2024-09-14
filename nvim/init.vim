@@ -15,7 +15,7 @@ set completeopt=menu,noinsert,popup
 set pumheight=6 previewheight=10
 set nowildmenu wildignorecase wildmode=longest,list,full
 set ignorecase smartcase
-set signcolumn=no
+set signcolumn=yes:1
 set noshowmode
 "set guicursor=n-v-c-sm:block,i-ci-ve:hor24,r-cr-o:hor20
 set guicursor=r-cr-o:hor20
@@ -24,7 +24,8 @@ set shortmess=aoFOtT
 set smartindent
 " when unset you can delete inserted tab with C-w without deleting the word before it
 set nosmarttab
-set expandtab shiftwidth=4 tabstop=4
+set expandtab
+set shiftwidth=4 tabstop=4
 set foldmethod=marker
 set textwidth=100
 "set cursorline
@@ -37,7 +38,7 @@ set fillchars=diff:╱
 set diffopt=internal,filler,closeoff,indent-heuristic,algorithm:histogram,linematch:60
 
 " shows `listchars` (tab trailing whitespace ...)
-"set list
+set list
 
 "set diffopt=internal,filler,closeoff,indent-heuristic,algorithm:histogram
 " TODO: look this up for big word!
@@ -45,7 +46,7 @@ set diffopt=internal,filler,closeoff,indent-heuristic,algorithm:histogram,linema
 "set iskeyword-=_
 
 " Sane indentation
-set cinoptions+=:0,ls,g0,N-s,E-s,(s,k0,j1,J1
+set cinoptions+=:0,ls,g0,N-s,E-s,(s,k0,j1,J1,L0
 
 if executable('rg')
     set grepprg=rg\ -H\ --no-heading\ --vimgrep
