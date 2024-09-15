@@ -56,6 +56,9 @@ endif
 
 " put the more unlikey first so that when it is the case you search that first.
 set path=.,**,/usr/src/*/include,/usr/include
+" if match case is not set to `match` tag search becomes really slow!
+set tagcase=match
+
 
 set laststatus=2
 if &laststatus
@@ -63,6 +66,7 @@ if &laststatus
     set statusline=
     " Left
     set stl+=%.35f
+    "set stl+=%t
     "set stl+=%(%m%)
     set stl+=%(\ %m%q%h%w%r%)\ \ \ \ %P\ \ \ %-8(%l:%c%)
     set stl+=\ \ \ \ %(Git:%{v:lua.GitSignsStatus()}%)
@@ -75,10 +79,10 @@ if &laststatus
     set stl+=
 else
     set rulerformat=%60(%([%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}]%)\ \ \ \ %(Git:%{v:lua.GitSignsStatus()}%)%=\ \ \ \ %-8(%l,%c%)\ %P%)
-    augroup ruler
-        autocmd BufEnter * call feedkeys("\<C-g>")
-    augroup end
 endif
+augroup ruler
+    autocmd BufEnter * call feedkeys("\<C-g>")
+augroup end
 
 let mapleader = " "
 
@@ -143,10 +147,10 @@ let g:rooter_patterns = ['.git', '_darcs', '.hg', '.bzr', '.svn', 'package.json'
 let g:qf_max_height = 8
 
 " ubuntu doesn't put the file in plugin folder of vim by default
-let distro = trim(system("sed -n 's/^ID=//p' /etc/os-release"))
-if distro == "ubuntu"
-    source /usr/share/doc/fzf/examples/fzf.vim
-endif
+"let distro = trim(system("sed -n 's/^ID=//p' /etc/os-release"))
+"if distro == "ubuntu"
+"    source /usr/share/doc/fzf/examples/fzf.vim
+"endif
 
 "let g:fzf_vim = {}
 "let g:fzf_vim.preview_window = ['hidden,right,50%', 'ctrl-l']

@@ -81,7 +81,6 @@ else
     augroup end
 endif
 
-
 # mark trailing spaces as errors using highlight group CursorLine
 match CursorLine '\s\+$'
 filetype plugin indent on
@@ -120,7 +119,7 @@ plug#end()
 # rooter
 # {{{
 g:rooter_silent_chdir = 1
-g:rooter_manual_only = 0
+g:rooter_manual_only = 1
 g:rooter_paterns = ['.git', '_darcs', '.hg', '.bzr', '.svn', 'Makefile', 'package.json', '.gitignore', 'Makefile' ]
 # }}}
 
@@ -227,10 +226,10 @@ enddef
 
 export def g:JumpToDefinition()
     var fallbacks = [
-        "LspGotoDefinition",
-        "call JumpTag()",
-        "normal! gd",
-        "normal! [\<C-I>",
+        'LspGotoDefinition',
+        'call JumpTag()',
+        'normal! gd',
+        'normal! [\<C-I>',
     ]
 
     for cmd in fallbacks

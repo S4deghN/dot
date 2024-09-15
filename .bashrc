@@ -111,8 +111,8 @@ alias bf="WINEPREFIX=~/Games/skylords-reborn/ wine /home/s4/Games/skylords-rebor
 [[ -f "/usr/share/fzf/key-bindings.bash" ]] && . "/usr/share/fzf/key-bindings.bash"
 # Debian
 [[ -f "/usr/share/doc/fzf/examples/key-bindings.bash" ]] && . "/usr/share/doc/fzf/examples/key-bindings.bash"
-# Windows
-# [[ -f "/usr/share/doc/fzf/examples/key-bindings.bash" ]] && . "/usr/share/doc/fzf/examples/key-bindings.bash"
+# Manual
+[[ -f "$HOME/.local/share/key-bindings.bash" ]] && . "$HOME/.local/share/key-bindings.bash"
 
 export FZF_DEFAULT_COMMAND="find . -type f -not -path '*/\.git/*' -not -path '*/\.cargo/*' -not -path '*/\.ccls-cache/*' -not -path '*/\.cache/*' ! -path '*/build/*'"
 export FZF_COLORS="fg:-1,fg+:-1,hl:yellow,hl+:yellow:reverse,border:gray,spinner:-1,header:blue,info:green,pointer:white,marker:blue,prompt:white:regular,gutter:-1"
