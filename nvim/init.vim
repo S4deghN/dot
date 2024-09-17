@@ -39,7 +39,7 @@ set diffopt=internal,filler,closeoff,indent-heuristic,algorithm:histogram,linema
 
 " shows `listchars` (tab trailing whitespace ...)
 set listchars=tab:󰌒\ ,trail:-
-set list
+set nolist
 
 "set diffopt=internal,filler,closeoff,indent-heuristic,algorithm:histogram
 " TODO: look this up for big word!
