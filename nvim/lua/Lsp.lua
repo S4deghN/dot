@@ -293,23 +293,23 @@ function GetDiag()
     end
 
     local str = ""
-    if vim.api.nvim_get_mode()["mode"] == 'n' then
+    if vim.api.nvim_get_mode()["mode"] ~= 'i' then
         local err  = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
         local warn = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
         local hint = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT })
         local info = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO })
 
         if err ~= 0 then
-            str = str .. "%#DiagnosticStatusError# " .. err .. "E%*"
+            str = str .. ":%#DiagnosticStatusError#" .. err .. "%#*#"
         end
         if warn ~= 0 then
-            str = str .. "%#DiagnosticStatusWarn# " .. warn .. "W%*"
+            str = str .. ":%#DiagnosticStatusWarn#" .. warn .. "%#*#"
         end
         if hint ~= 0 then
-            str = str .. "%#DiagnosticStatusHint# " .. hint .. "H%*"
+            str = str .. ":%#DiagnosticStatusHint#" .. hint .. "%#*#"
         end
         if info ~= 0 then
-            str = str .. "%#DiagnosticStatusInfo# " .. info .. "I%*"
+            str = str .. ":%#DiagnosticStatusInfo#" .. info .. "%#*#"
         end
     end
     return str
@@ -368,7 +368,7 @@ end
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
     -- We have to set these highlights only after they're set by vim
-    -- set_status_diag_highlight()
+    set_status_diag_highlight()
 
     -- Disable diagnostics by default
     vim.diagnostic.enable(vim.g.diag_enabled)

@@ -59,6 +59,9 @@ set path=.,**,/usr/src/*/include,/usr/include
 # if match case is not set to `match` tag search becomes really slow!
 set tagcase=match
 
+set listchars=tab:\ \ ,trail:-
+set list
+
 set laststatus=2
 if &laststatus > 0
     set showcmdloc=statusline
@@ -472,6 +475,22 @@ export def g:GetVisualSelection(): string
 
     var content = join(lines)
     return content
+enddef
+
+export def g:FzfChistory(): list<string>
+    var hlist = execute("chistory")
+    #echo hlist
+
+    var src = split(hlist, '\n')
+    src = map(src, (_, v): string => {
+        return substitute(v, '^\(>*\s*\)[^0-9]*\|\sof\s[0-9]\|errors', '\1\ ', 'g')
+    })
+
+    return fzf#run(fzf#wrap('chistory', { 'source': src, 'sink': (num) => execute(num[3] .. "chistory") } ))
+enddef
+
+export def! g:HexToSymbol(hex: string)
+    exec 'normal iU' .. hex .. ' '
 enddef
 
 # -----------------------------------------------

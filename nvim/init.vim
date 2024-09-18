@@ -68,14 +68,15 @@ if &laststatus
     set stl+=%.35f
     "set stl+=%t
     "set stl+=%(%m%)
-    set stl+=%(\ %m%q%h%w%r%)\ \ \ \ %P\ \ \ %-8(%l:%c%)
-    set stl+=\ \ \ \ %(Git:%{v:lua.GitSignsStatus()}%)
+    set stl+=%(\ %m%q%h%w%r%)
+    set stl+=\ \ \ \ %P\ %8(%l:%c%)
+    set stl+=%(\ \ \ \ Git:%{v:lua.GitSignsStatus()}%)
+    set stl+=%(\ \ \ \ LSP:%{v:lua.GetRunningLsp()}%{%v:lua.GetDiag()%}%)
     " Middle
     set stl+=\ %=
     set stl+=%S
     " Right
     set stl+=\ %=
-    set stl+=%([%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}]%)
     set stl+=
 else
     set rulerformat=%60(%([%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}]%)\ \ \ \ %(Git:%{v:lua.GitSignsStatus()}%)%=\ \ \ \ %-8(%l,%c%)\ %P%)

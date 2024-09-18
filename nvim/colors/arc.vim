@@ -378,3 +378,9 @@ hi! link diffSubname Normal
 hi! link FzfLuaBufNr normal
 hi! link FzfLuaHeaderBind normal
 hi! link FzfLuaPathLineNr String
+
+"hi DiagnosticStatusError guibg=#343434 guifg=#af5f5f
+"hi DiagnosticStatusWarn  guibg=#343434 guifg=#cda869
+"hi DiagnosticStatusHint  guibg=#343434 guifg=LightBlue
+"hi DiagnosticStatusInfo  guibg=#343434 guifg=#747C84
+
