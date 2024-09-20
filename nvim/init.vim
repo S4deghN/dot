@@ -19,7 +19,8 @@ set signcolumn=yes:1
 set noshowmode
 "set guicursor=n-v-c-sm:block,i-ci-ve:hor24,r-cr-o:hor20
 set guicursor=r-cr-o:hor20
-set scrolloff=5
+set scrolloff=0
+set scrolljump=0
 set shortmess=aoFOtT
 set smartindent
 " when unset you can delete inserted tab with C-w without deleting the word before it
@@ -109,6 +110,7 @@ color arc
 "let loaded_matchparen = 0
 
 call plug#begin()
+"Plug 'lifepillar/vim-gruvbox8', {'branch': 'neovim'}
 Plug 'beyondmarc/hlsl.vim'
 Plug 'stevearc/oil.nvim'
 "Plug 'tpope/vim-vinegar'
@@ -141,6 +143,8 @@ Plug 'hrsh7th/nvim-cmp'
     Plug 'hrsh7th/cmp-vsnip'
     Plug 'hrsh7th/vim-vsnip'
 call plug#end()
+
+color gruvbox
 
 let g:rooter_silent_chdir = 1
 let g:rooter_patterns = ['.git', '_darcs', '.hg', '.bzr', '.svn', 'package.json', '.gitignore', 'Makefile']
@@ -383,6 +387,19 @@ smap <expr> <S-Tab> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<S-Tab>'
 " -----------------------------------------------
 " --- functions ---
 " -----------------------------------------------
+function! AltFile()
+    "let oldpath=&path
+    "set path+=../**
+    if match(expand("%:t"),"\\.h") > 0
+        let s:flipname = substitute(expand("%:t"),'\.h','.c',"")
+        exe ":find " s:flipname
+    elseif match(expand("%:t"),"\\.c") > 0
+        let s:flipname = substitute(expand("%:t"),'\.c','.h',"")
+        exe ":find " s:flipname
+    endif
+    "let &path=oldpath
+endfun
+
 function! g:JumpToDefinition()
     let fallbacks = [
                 \"lua vim.lsp.buf.definition()",
@@ -423,7 +440,7 @@ endfunction
 function! s:tmux_apply_title(time)
     let filename = expand("%:t")
     if strlen(filename)
-        call system("tmux rename-window \"[".filename."]\"")
+        call system("tmux rename-window \"".filename."\"")
     endif
 endfunc
 
