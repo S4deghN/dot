@@ -23,8 +23,8 @@ let s:light_black     = { "gui": "#262626", "cterm": "235" }
 let s:lighter_black   = { "gui": "#4E4E4E", "cterm": "239" }
 let s:light_gray      = { "gui": "#A8A8A8", "cterm": "248" }
 
-"let s:lighter_gray    = { "gui": "#90B080", "cterm": "251" }
-let s:lighter_gray    = { "gui": "#839496", "cterm": "251" } " Solarized fg
+let s:lighter_gray    = { "gui": "#90B080", "cterm": "251" }
+"let s:lighter_gray    = { "gui": "#839496", "cterm": "251" } " Solarized fg
 "let s:lighter_gray    = { "gui": "#839696", "cterm": "251" } " Solarized fg
 "let s:lighter_gray    = { "gui": "#839f96", "cterm": "251" } " Solarized fg
 "let s:lighter_gray    = { "gui": "#839f90", "cterm": "251" }

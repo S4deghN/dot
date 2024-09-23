@@ -102,7 +102,9 @@ let g:c_functions = 1
 let g:c_function_pointers = 1
 let g:python_highlight_all = 1
 set termguicolors
-color arc
+let g:gruvbox_contrast = 'soft'
+let g:gruvbox_italicize_comments = 0
+color gruvbox
 
 " -----------------------------------------------
 " --- plugins ---
@@ -143,8 +145,6 @@ Plug 'hrsh7th/nvim-cmp'
     Plug 'hrsh7th/cmp-vsnip'
     Plug 'hrsh7th/vim-vsnip'
 call plug#end()
-
-color gruvbox
 
 let g:rooter_silent_chdir = 1
 let g:rooter_patterns = ['.git', '_darcs', '.hg', '.bzr', '.svn', 'package.json', '.gitignore', 'Makefile']

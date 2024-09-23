@@ -2,7 +2,8 @@
 
 rm -f /tmp/rg-fzf-{r,f}
 RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
-INITIAL_QUERY="${*:-}"
+# INITIAL_QUERY="${*:-}"
+INITIAL_QUERY=""
 
 fzf --color="$FZF_COLORS" --ansi --disabled --query "$INITIAL_QUERY" \
     --header 'CTRL-g: Switch between ripgrep/fzf' \
@@ -14,5 +15,6 @@ fzf --color="$FZF_COLORS" --ansi --disabled --query "$INITIAL_QUERY" \
     --prompt 'grep> ' \
     --delimiter : \
     --preview 'highlight -O ansi -l {1}' \
-    --preview-window '+{2}/2'
+    --preview-window '+{2}/2' \
+    "$@"
     # --bind 'enter:become(vim {1} +{2})'

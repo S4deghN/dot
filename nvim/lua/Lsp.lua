@@ -368,7 +368,7 @@ end
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
     -- We have to set these highlights only after they're set by vim
-    set_status_diag_highlight()
+    -- set_status_diag_highlight()
 
     -- Disable diagnostics by default
     vim.diagnostic.enable(vim.g.diag_enabled)

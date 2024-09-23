@@ -93,9 +93,13 @@ g:c_functions = 1
 g:c_function_pointers = 1
 set termguicolors
 set background=dark
-color narc
-hi Statusline guibg=#335544
-hi VertSplit guifg=#333333
+# color narc
+# hi Statusline guibg=#335544
+# hi VertSplit guifg=#333333
+
+g:gruvbox_contrast = 'soft'
+g:gruvbox_italicize_comments = 0
+color gruvbox
 
 g:mapleader = " "
 
@@ -129,7 +133,7 @@ g:rooter_paterns = ['.git', '_darcs', '.hg', '.bzr', '.svn', 'Makefile', 'packag
 # fzf
 # {{{
 g:fzf_vim = {}
-g:fzf_vim.preview_window = ['hidden,right,40%,<70(up,40%)', 'ctrl-l']
+# g:fzf_vim.preview_window = ['hidden,right,40%,<70(up,40%)', 'ctrl-l']
 
 def BuildQfList(lines: string)
     call setqflist(map(copy(lines), '{ "filename": v:val, "lnum": 1 }'))
@@ -488,6 +492,39 @@ export def g:FzfChistory(): list<string>
 
     return fzf#run(fzf#wrap('chistory', { 'source': src, 'sink': (num) => execute(num[3] .. "chistory") } ))
 enddef
+
+export def g:FzfRg()
+    var selection: string
+    var buf: number
+
+    buf = term_start('Rg --height 100%', { close_cb: (channel) => {
+        selection = term_getline(buf, 1)->substitute('^\(\S\{-}\):\(\d\+\):\(\d\+\).*', '+normal!\\ j\2l\3 \1', 'g')
+        execute('bwipeout ' .. buf)
+        :exe $'edit {selection}'
+    }})
+enddef
+
+command! -nargs=0 Rgg call FzfRg()
+
+export def g:RipgrepFzf(query: string, fullscreen: bool)
+    var command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
+    var prompt = ''
+    var initial_grep = printf(command_fmt, shellescape(query))
+    var reload_grep = printf(command_fmt, '{q}')
+    var options = {'options': [
+        '--prompt', '*Rg> ',
+        '--header', 'CTRL-g: Switch between ripgrep/fzf',
+        '--phony',
+        '--query', query,
+        '--bind', 'change:reload:sleep 0.1;' .. reload_grep,
+        '--bind', 'ctrl-g:transform:[[ ! {fzf:prompt} == "*Rg> " ]] &&' ..
+        'echo "rebind(change)+change-prompt(*Rg> )+disable-search+transform-query:echo \{q} > /tmp/rg-fzf-f; cat /tmp/rg-fzf-r" ||' ..
+        'echo "unbind(change)+change-prompt({q}> )+enable-search+transform-query:echo \{q} > /tmp/rg-fzf-r; cat /tmp/rg-fzf-f"'
+    ]}
+    call fzf#vim#grep(initial_grep, 1, fzf#vim#with_preview(options), fullscreen)
+enddef
+
+command! -nargs=* -bang RF call RipgrepFzf(<q-args>, <bang>0)
 
 export def! g:HexToSymbol(hex: string)
     exec 'normal iU' .. hex .. ' '

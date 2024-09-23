@@ -88,6 +88,8 @@ let s:gb.dark4  = ['7c6f64', 243]     " 124-111-100
 
 let s:gb.medium = ['928374', 245]     " 146-131-116
 
+"#c8b9a4
+"#928374
 let s:gb.light0 = ['fdf4c1', 229]     " 253-244-193
 "let s:gb.light1 = ['ebdbb2', 223]     " 235-219-178
 "let s:gb.light1 = ['d8c9b4', 223]     " 235-219-178
@@ -273,7 +275,7 @@ call s:HL('StatusLine',   'dark4', 'dark0', 'bold,inverse')
 call s:HL('StatusLineNC', 'dark2', 'light4', 'bold,inverse')
 
 " The column separating vertically split windows
-call s:HL('VertSplit', 'light4')
+call s:HL('VertSplit', 'dark2')
 
 " Current match in wildmenu completion
 call s:HL('WildMenu', 'blue', 'dark2', 'bold')
@@ -854,18 +856,44 @@ endfunction
 
 " }}}
 
+" Terminal  -------------------------------------------------------------------
+let g:terminal_ansi_colors = [
+			\"#202020",
+			\"#fb4f3a",
+			\"#b8bb26",
+			\"#fabd2f",
+			\"#83a598",
+			\"#d3869b",
+			\"#8ec07c",
+			\"#c8b9a4",
+			\"#6C6866",
+			\"#fb4f3a",
+			\"#b8bb26",
+			\"#fabd2f",
+			\"#83a598",
+			\"#d3869b",
+			\"#8ec07c",
+			\"#e1e0d9",
+			\]
+
 hi NormalFloat guibg=bg
-hi @Variable guifg=fg
-hi StatusLine gui=NONE guifg=#c8b9a4 guibg=#3C3836
-hi StatusLineNC gui=NONE guifg=#928374 guibg=#3C3836
+call s:HL('StatusLine', 'light1', 'dark2')
+call s:HL('StatusLineNC', 'light3', 'dark2')
+call s:HL('Macro', 'blue')
+call s:HL('Include', 'blue')
 hi! link WinSeparator VertSplit
 hi Delimiter guifg=fg
-"hi! link Function Identifier
-"hi Identifier guifg=#427b58
-hi Macro guifg=#83a598
-hi! link  @lsp.type.macro Macro
-hi! link  @lsp.type.property Normal
+hi Operator guifg=fg
 hi Signcolumn guibg=bg
+
+if has('nvim')
+	hi @Variable guifg=fg
+	hi @lsp.type.property guifg=fg
+	hi! link  @lsp.type.macro Macro
+	hi! link @markup.link.vimdoc Macro
+endif
+
+call s:HL('QuickFixLine', 'NONE', 'dark1')
 
 " Arguments: group, guifg, guibg, gui, guisp
 call s:HL('DiagnosticError', 'red')
@@ -879,8 +907,6 @@ hi GitGutterChange guibg=bg
 hi GitGutterDelete guibg=bg
 hi GitGutterChangeDelete guibg=bg
 
-hi! link @markup.link.vimdoc Macro
-
 hi ErrorMsg gui=inverse
 
 hi  DiffAdd guifg=NONE guibg=#283f2f
@@ -888,5 +914,15 @@ hi  DiffAdd guifg=NONE guibg=#283f2f
 hi  DiffDelete guifg=#504945 guibg=NONE
 hi  DiffChange guifg=NONE guibg=#1F385B
 hi  DiffText guifg=NONE guibg=#172A45
+
+" Highlighting in git (diff) files
+hi! link gitDiff comment
+hi! link diffBDiffer comment
+hi! link diffIndexLine comment
+hi! link diffFile comment
+hi! link diffOldFile Type
+hi! link diffNewFile Type
+"hi! link diffline function
+hi! link diffSubname Normal
 
 " vim: set sw=3 ts=3 sts=3 noet tw=80 ft=vim fdm=marker:

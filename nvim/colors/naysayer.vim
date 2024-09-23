@@ -18,6 +18,7 @@ let g:colors_name="naysayer88"
 "highlight! Normal guifg=#d1b897 guibg=#062326 gui=NONE
 highlight! Normal guifg=#d1b897 guibg=#062329 gui=NONE
 "highlight! Normal guifg=#d1b897 guibg=#062626 gui=NONE
+highlight! Normal guifg=#d1b897 guibg=#32302F gui=NONE
 
 highlight! Comment guifg=#44b340 guibg=NONE gui=NONE
 
@@ -33,6 +34,7 @@ highlight! link Identifier Normal
 highlight Function guifg=#cceeee
 " highlight Function guifg=fg
 
+"highlight! Statement guifg=#eeeeee guibg=NONE gui=NONE
 highlight! Statement guifg=#eeeeee guibg=NONE gui=NONE
 highlight! link Conditional Statement
 highlight! link Repeat Statement
@@ -41,14 +43,15 @@ highlight! link Operator Normal
 highlight! link Keyword Statement
 highlight! link Exception Statement
 
-" highlight! PreProc guifg=#8cde94 guibg=NONE gui=NONE
-highlight! PreProc guifg=#458588 guibg=NONE gui=NONE
+ highlight! PreProc guifg=#8cde94 guibg=NONE gui=NONE
+"highlight! PreProc guifg=#458588 guibg=NONE gui=NONE
 highlight link Include PreProc
 highlight link Define PreProc
 highlight link Macro PreProc
 highlight link PreCondit PreProc
 
-highlight! Type  guifg=#8cde94 guibg=NONE gui=NONE
+"highlight! Type  guifg=#8cde94 guibg=NONE gui=NONE
+highlight! Type  guifg=#a5b9af guibg=NONE gui=NONE
 highlight! link StorageClass Type
 highlight! link Structure Type
 highlight! link Typedef Type
