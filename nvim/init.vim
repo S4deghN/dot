@@ -19,7 +19,7 @@ set signcolumn=yes:1
 set noshowmode
 "set guicursor=n-v-c-sm:block,i-ci-ve:hor24,r-cr-o:hor20
 set guicursor=r-cr-o:hor20
-set scrolloff=0
+set scrolloff=3
 set scrolljump=0
 set shortmess=aoFOtT
 set smartindent
@@ -105,6 +105,8 @@ set termguicolors
 let g:gruvbox_contrast = 'soft'
 let g:gruvbox_italicize_comments = 0
 color gruvbox
+color gruber
+
 
 " -----------------------------------------------
 " --- plugins ---

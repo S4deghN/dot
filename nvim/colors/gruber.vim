@@ -7,7 +7,8 @@ endif
 set background=dark
 let g:colors_name = "gruber"
 
-let s:black  = ["#202020", "234"]
+"let s:black  = ["#202020", "234"]
+let s:black  = ["#32302F", "234"]
 "let s:blue   = ["#87afd7", "110"]
 let s:blue   = ["#88aacc", "110"]
 let s:brown  = ["#cc8c3c", "137"]
@@ -101,7 +102,7 @@ call s:hl("SpellCap",       { "fg": s:blue, "style": s:underline })
 call s:hl("SpellLocal",     { "fg": s:yellow, "style": s:underline })
 call s:hl("SpellRare",      { "style": s:underline })
 call s:hl("Statement",      { "fg": s:yellow })
-call s:hl("StatusLine",     { "fg": s:white, "bg": s:gray, "style": s:bold })
+call s:hl("StatusLine",     { "fg": s:white, "bg": s:gray})
 call s:hl("StatusLineNC",   { "fg": s:white, "bg": s:gray })
 call s:hl("String",         { "fg": s:green })
 call s:hl("Title",          { "fg": s:white })
@@ -142,7 +143,7 @@ hi Changed guifg=NONE guibg=#1F385B
 "hi! link diffSubname Normal
 
 
-if has('nvim') 
+if has('nvim')
     hi @variable guifg=fg
     hi! link @lsp.type.comment Ignore
     hi! link @lsp.type.comment Ignore

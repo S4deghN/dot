@@ -3,3 +3,4 @@ config
 swgp
 Skylords
 submodule's
+pthread
