@@ -14,10 +14,10 @@ let s:blue   = ["#88aacc", "110"]
 let s:brown  = ["#cc8c3c", "137"]
 let s:cyan   = ["#afd7af", "151"]
 let s:gray   = ["#242424", "235"]
-let s:green  = ["#87d75f", "113"]
+"let s:green  = ["#87d75f", "113"]
 "let s:green  = ["#77d74f", "113"]
 "let s:green  = ["#6F9D6A", "113"]
-"let s:green  = ["#73c936", "113"]
+let s:green  = ["#73c936", "113"]
 let s:red    = ["#ff5f5f", "203"]
 let s:white  = ["#cfcfcf", "254"]
 let s:yellow = ["#ffdd33", "220"]
@@ -134,6 +134,10 @@ hi Added   guifg=#8F9D6A
 hi Removed guifg=#CF6A4C
 hi Changed guifg=NONE guibg=#1F385B
 
+"hi  GitSignsAdd       guifg=#8F9D6A     guibg=NONE    gui=NONE cterm=NONE
+"hi  GitSignsDelete    guifg=#af5f5f     guibg=NONE    gui=NONE cterm=NONE
+hi  GitSignsChange guifg=#88aacc guibg=NONE
+
 "" Highlighting in git (diff) files
 "hi! link diffIndexLine comment
 "hi! link diffFile comment
@@ -143,7 +147,7 @@ hi Changed guifg=NONE guibg=#1F385B
 "hi! link diffSubname Normal
 
 
-if has('nvim')
+if has('nvim') 
     hi @variable guifg=fg
     hi! link @lsp.type.comment Ignore
     hi! link @lsp.type.comment Ignore

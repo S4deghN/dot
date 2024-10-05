@@ -39,7 +39,7 @@ set fillchars=diff:╱
 set diffopt=internal,filler,closeoff,indent-heuristic,algorithm:histogram,linematch:60
 
 " shows `listchars` (tab trailing whitespace ...)
-set listchars=tab:󰌒\ ,trail:-
+set listchars=tab:»\ ,trail:-
 set nolist
 
 "set diffopt=internal,filler,closeoff,indent-heuristic,algorithm:histogram
@@ -70,7 +70,7 @@ if &laststatus
     "set stl+=%t
     "set stl+=%(%m%)
     set stl+=%(\ %m%q%h%w%r%)
-    set stl+=\ \ \ \ %P\ %8(%l:%c%)
+    set stl+=\ \ \ \ %P\ %8(%l:%c\ \ %)
     set stl+=%(\ \ \ \ Git:%{v:lua.GitSignsStatus()}%)
     set stl+=%(\ \ \ \ LSP:%{v:lua.GetRunningLsp()}%{%v:lua.GetDiag()%}%)
     " Middle
