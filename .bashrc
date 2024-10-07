@@ -91,8 +91,10 @@ alias gitd="git diff"
 alias gita="git add"
 alias gitc="git commit"
 alias gitb="git branch"
-alias gitll="git log --graph --format=format:'%C(yellow)%h%C(reset) - %C(green)%ar%C(reset) %C(blue)%an%C(reset)%C(bold red)%d%C(reset) - %s'"
-alias gitl="git log --graph --oneline"
+# alias gitll="git log --graph --format=format:'%C(yellow)%h%C(reset) - %C(green)%ar%C(reset) %C(blue)%an%C(reset)%C(bold red)%d%C(reset) - %s'"
+alias gitll="git log --pretty=format:'%C(red)%h%C(reset) -%C(yellow)%d%C(reset) %s %C(bold blue) <%an>' --decorate --numstat --abbrev-commit"
+# alias gitl="git log --graph --oneline"
+alias gitl="git log --color --graph --pretty=format:'%C(auto)%h%d %s %C(black)%C(bold)%an, %ar' --abbrev-commit --decorate"
 alias giti="git describe --abbrev=4 --dirty --always --tags"
 
 #Pacman Shortcuts

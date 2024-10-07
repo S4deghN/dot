@@ -1,3 +1,82 @@
+" -----------------------------------------------
+" --- plugins ---
+" -----------------------------------------------
+"let loaded_matchparen = 0
+call plug#begin()
+"Plug 'lifepillar/vim-gruvbox8', {'branch': 'neovim'}
+Plug 'beyondmarc/hlsl.vim'
+Plug 'stevearc/oil.nvim'
+"Plug 'tpope/vim-vinegar'
+Plug 'tpope/vim-eunuch'
+Plug 'lifepillar/vim-solarized8'
+Plug 'dimercel/todo-vim'
+Plug 'junegunn/vim-easy-align'
+Plug 'airblade/vim-rooter'
+Plug 'chrisbra/Colorizer'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-capslock'
+"Plug 'junegunn/fzf.vim'
+Plug 'romainl/vim-qf'
+Plug 'lewis6991/gitsigns.nvim'
+Plug 'dnlhc/glance.nvim'
+"Plug 'ojroques/nvim-lspfuzzy'
+Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
+Plug '~/.config/nvim/local/vim8-shout'
+Plug '~/.config/nvim/local/vim-term'
+Plug '~/.config/nvim/local/vim-cool'
+" for now I just don't wanna deal with other plugins so I use the lua
+Plug 'neovim/nvim-lspconfig'
+Plug 'p00f/clangd_extensions.nvim'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
+Plug 'quangnguyen30192/cmp-nvim-tags'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/vim-vsnip'
+call plug#end()
+
+let g:rooter_silent_chdir = 1
+let g:rooter_patterns = ['.git', '_darcs', '.hg', '.bzr', '.svn', 'package.json', '.gitignore', 'Makefile']
+
+let g:qf_max_height = 8
+
+" ubuntu doesn't put the file in plugin folder of vim by default
+"let distro = trim(system("sed -n 's/^ID=//p' /etc/os-release"))
+"if distro == "ubuntu"
+"    source /usr/share/doc/fzf/examples/fzf.vim
+"endif
+
+"let g:fzf_vim = {}
+"let g:fzf_vim.preview_window = ['hidden,right,50%', 'ctrl-l']
+"function! s:build_quickfix_list(lines)
+"    call setqflist(map(copy(a:lines), '{ "filename": v:val, "lnum": 1 }'))
+"    copen
+"    wincmd p
+"endfunction
+"let g:fzf_action = {
+"            \ 'ctrl-q': function('s:build_quickfix_list'),
+"            \ 'ctrl-t': 'tab split',
+"            \ 'ctrl-x': 'split',
+"            \ 'ctrl-v': 'vsplit',
+"            \}
+"let g:fzf_layout = { 'down': '33%' }
+"let g:fzf_vim.buffers_jump = 1
+""let g:fzf_history_dir = '~/.local/share/fzf-history'
+
+let t:shout_cmd = ""
+
+lua require 'Lsp'
+lua require 'FzfLua'
+lua require 'Oil'
+lua require('gitsigns').setup{ signs = { add = { text = '|' }, change = { text = '|' }, delete = { text = '_' }, topdelete = { text = '‾' }, changedelete = { text = '~' }, untracked = { text = '┆' }}}
+
+lua require('glance').setup()
+"lua require('lspfuzzy').setup { methods = 'all', jump_one = true, save_last = true, callback = nil, fzf_preview = { 'hidden,right,50%,+{2}-/2', 'ctrl-l' }, fzf_action = { ['ctrl-t'] = 'tab split', ['ctrl-v'] = 'vsplit', ['ctrl-x'] = 'split', }, fzf_modifier = ':~:.', fzf_trim = true }
+
+
 " TODO:nvim/plugin/alter.vim
 " [ ] make `:chistory` work with fzf
 " [ ] make `:registers` work with fzf
@@ -102,89 +181,20 @@ let g:c_functions = 1
 let g:c_function_pointers = 1
 let g:python_highlight_all = 1
 set termguicolors
+
 let g:gruvbox_contrast = 'soft'
 let g:gruvbox_italicize_comments = 0
 color gruvbox
+
 color gruber
-
-
-" -----------------------------------------------
-" --- plugins ---
-" -----------------------------------------------
-"let loaded_matchparen = 0
-
-call plug#begin()
-"Plug 'lifepillar/vim-gruvbox8', {'branch': 'neovim'}
-Plug 'beyondmarc/hlsl.vim'
-Plug 'stevearc/oil.nvim'
-"Plug 'tpope/vim-vinegar'
-Plug 'tpope/vim-eunuch'
-Plug 'lifepillar/vim-solarized8'
-Plug 'dimercel/todo-vim'
-Plug 'junegunn/vim-easy-align'
-Plug 'airblade/vim-rooter'
-Plug 'chrisbra/Colorizer'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-endwise'
-Plug 'tpope/vim-capslock'
-"Plug 'junegunn/fzf.vim'
-Plug 'romainl/vim-qf'
-Plug 'lewis6991/gitsigns.nvim'
-Plug 'dnlhc/glance.nvim'
-"Plug 'ojroques/nvim-lspfuzzy'
-Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
-Plug '~/.config/nvim/local/vim8-shout'
-Plug '~/.config/nvim/local/vim-cool'
-" for now I just don't wanna deal with other plugins so I use the lua
-Plug 'neovim/nvim-lspconfig'
-Plug 'p00f/clangd_extensions.nvim'
-Plug 'hrsh7th/nvim-cmp'
-    Plug 'hrsh7th/cmp-nvim-lsp'
-    Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
-    Plug 'quangnguyen30192/cmp-nvim-tags'
-    Plug 'hrsh7th/cmp-buffer'
-    Plug 'hrsh7th/cmp-path'
-    Plug 'hrsh7th/cmp-vsnip'
-    Plug 'hrsh7th/vim-vsnip'
-call plug#end()
-
-let g:rooter_silent_chdir = 1
-let g:rooter_patterns = ['.git', '_darcs', '.hg', '.bzr', '.svn', 'package.json', '.gitignore', 'Makefile']
-
-let g:qf_max_height = 8
-
-" ubuntu doesn't put the file in plugin folder of vim by default
-"let distro = trim(system("sed -n 's/^ID=//p' /etc/os-release"))
-"if distro == "ubuntu"
-"    source /usr/share/doc/fzf/examples/fzf.vim
-"endif
-
-"let g:fzf_vim = {}
-"let g:fzf_vim.preview_window = ['hidden,right,50%', 'ctrl-l']
-"function! s:build_quickfix_list(lines)
-"    call setqflist(map(copy(a:lines), '{ "filename": v:val, "lnum": 1 }'))
-"    copen
-"    wincmd p
-"endfunction
-"let g:fzf_action = {
-"            \ 'ctrl-q': function('s:build_quickfix_list'),
-"            \ 'ctrl-t': 'tab split',
-"            \ 'ctrl-x': 'split',
-"            \ 'ctrl-v': 'vsplit',
-"            \}
-"let g:fzf_layout = { 'down': '33%' }
-"let g:fzf_vim.buffers_jump = 1
-""let g:fzf_history_dir = '~/.local/share/fzf-history'
-
-let t:shout_cmd = ""
-
-lua require 'Lsp'
-lua require 'FzfLua'
-lua require 'Oil'
-lua require('gitsigns').setup{ signs = { add = { text = '|' }, change = { text = '|' }, delete = { text = '_' }, topdelete = { text = '‾' }, changedelete = { text = '~' }, untracked = { text = '┆' }}}
-
-lua require('glance').setup()
-"lua require('lspfuzzy').setup { methods = 'all', jump_one = true, save_last = true, callback = nil, fzf_preview = { 'hidden,right,50%,+{2}-/2', 'ctrl-l' }, fzf_action = { ['ctrl-t'] = 'tab split', ['ctrl-v'] = 'vsplit', ['ctrl-x'] = 'split', }, fzf_modifier = ':~:.', fzf_trim = true }
+"hi Normal guibg=#312C2A
+"hi Normal guibg=#413C3A
+"hi Normal guibg=#3B3736
+"hi Normal guibg=#3B3736
+"hi Normal guibg=#2b2726
+"hi Normal guibg=#383838
+"hi Normal guibg=#3f3d3b
+hi Normal guibg=#363534
 
 
 " -----------------------------------------------
@@ -213,8 +223,8 @@ vnoremap y   mzyg`z
 vnoremap gy  mz"+yg`z
 " paste, goto pase start, mark it, select pasted lines, reindent, go back to
 " marked pase
-noremap p p`[mz=`]g`z
-noremap P P`[mz=`]g`z
+noremap p mzp`[=`]g`z
+noremap P mzP`[=`]g`z
 map gp "+p
 map gP "+P
 inoremap <C-S-v> <C-r>+
