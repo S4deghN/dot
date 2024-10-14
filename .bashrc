@@ -103,7 +103,8 @@ alias pac-rm-orphan="pacman -Qtdq | sudo pacman -Rns -"
 alias pac-unlock="sudo rm /var/lib/pacman/db.lck"
 alias pac-size="pacman -Qq | pacman -Qi - | egrep '(Size|Name[^s])' | sed -E 's/ ([KM])iB/\1/' | sed -z 's/\nInstalled/ /g' | perl -pe 's/(Name|Size) *: //g' | column -t | sort -hk2 -r | cat -n | tac"
 alias pac-view="pacman -Slq | fzf --preview 'pacman -Si {}' --layout=reverse"
-alias file-of="pacman -Qo"
+alias pac-file-of="pacman -Qo"
+alias pac-check-integ="pacman -Qikk"
 
 alias bf="WINEPREFIX=~/Games/skylords-reborn/ wine /home/s4/Games/skylords-reborn/drive_c/Program\ Files/BattleForge/BattleForge.exe"
 

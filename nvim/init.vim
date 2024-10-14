@@ -3,9 +3,7 @@
 " -----------------------------------------------
 "let loaded_matchparen = 0
 call plug#begin()
-"Plug 'lifepillar/vim-gruvbox8', {'branch': 'neovim'}
 Plug 'beyondmarc/hlsl.vim'
-Plug 'stevearc/oil.nvim'
 "Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-eunuch'
 Plug 'lifepillar/vim-solarized8'
@@ -18,14 +16,16 @@ Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-capslock'
 "Plug 'junegunn/fzf.vim'
 Plug 'romainl/vim-qf'
-Plug 'lewis6991/gitsigns.nvim'
-Plug 'dnlhc/glance.nvim'
 "Plug 'ojroques/nvim-lspfuzzy'
-Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
 Plug '~/.config/nvim/local/vim8-shout'
-Plug '~/.config/nvim/local/vim-term'
+"Plug '~/.config/nvim/local/vim-term'
 Plug '~/.config/nvim/local/vim-cool'
+
 " for now I just don't wanna deal with other plugins so I use the lua
+Plug 'stevearc/oil.nvim'
+Plug 'dnlhc/glance.nvim'
+Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
+Plug 'lewis6991/gitsigns.nvim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'p00f/clangd_extensions.nvim'
 Plug 'hrsh7th/nvim-cmp'
@@ -96,8 +96,8 @@ set nowildmenu wildignorecase wildmode=longest,list,full
 set ignorecase smartcase
 set signcolumn=yes:1
 set noshowmode
-"set guicursor=n-v-c-sm:block,i-ci-ve:hor24,r-cr-o:hor20
-set guicursor=r-cr-o:hor20
+set guicursor=n-v-c-sm:block,i-ci-ve:ver20,r-cr-o:hor20
+"set guicursor=r-cr-o:hor20
 set scrolloff=3
 set scrolljump=0
 set shortmess=aoFOtT
@@ -187,6 +187,8 @@ let g:gruvbox_italicize_comments = 0
 color gruvbox
 
 color gruber
+"hi Normal guibg=#363534
+
 "hi Normal guibg=#312C2A
 "hi Normal guibg=#413C3A
 "hi Normal guibg=#3B3736
@@ -194,7 +196,7 @@ color gruber
 "hi Normal guibg=#2b2726
 "hi Normal guibg=#383838
 "hi Normal guibg=#3f3d3b
-hi Normal guibg=#363534
+
 
 
 " -----------------------------------------------
@@ -202,6 +204,7 @@ hi Normal guibg=#363534
 " -----------------------------------------------
 map ' `
 
+inoremap <silent> <Esc> <Esc>g`^
 inoremap <C-j> <C-G>u<Esc>O
 inoremap <C-k> <Del>
 inoremap <C-z> <C-G>u<esc>b1z=`]a
@@ -225,8 +228,8 @@ vnoremap gy  mz"+yg`z
 " marked pase
 noremap p mzp`[=`]g`z
 noremap P mzP`[=`]g`z
-map gp "+p
-map gP "+P
+noremap gp mz"+p`[=`]g`z
+noremap gP mz"+P`[=`]g`z
 inoremap <C-S-v> <C-r>+
 vmap <C-S-v> "+p
 nmap <C-S-v> "+p
@@ -250,7 +253,7 @@ noremap  gz 1z=
 noremap  zs :%s/\s\+$//e<cr>''
 nnoremap gF mz:%!clang-format<cr>g`z
 nmap gcA gcc^dWA <C-r>"
-nmap gcd yygccp
+nmap gcd yygccpg`]
 nnoremap ga <plug>(EasyAlign)
 xnoremap ga <plug>(EasyAlign)
 
