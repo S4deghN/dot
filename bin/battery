@@ -1,0 +1,14 @@
+#!/bin/bash -e
+
+declare -A status_map=(
+    ["Not charging"]="🔋"
+    ["Discharging"]="🪫"
+    ["Charging"]="⚡"
+)
+
+bat_dir=/sys/class/power_supply/BAT0
+
+read -r capacity < $bat_dir/capacity
+read -r status   < $bat_dir/status
+
+printf '%s %s%%\n' "${status_map[$status]}" "$capacity"

@@ -249,6 +249,7 @@ hi  Delimiter       guifg=fg
 "hi  Type            guifg=#68BEA2
 hi  Type            guifg=#85998f
 hi  Statement       guifg=#CF6A4C
+"hi  Statement       guifg=#dd7755
 "hi  Statement       guifg=#ebc06d
 "hi  Statement       guifg=#DF6f4C
 "hi  Statement       guifg=#aa8888

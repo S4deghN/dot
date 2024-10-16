@@ -1,6 +1,12 @@
 " -----------------------------------------------
 " --- plugins ---
 " -----------------------------------------------
+if empty(glob('~/dot/nvim/autoload/plug.vim'))
+    silent !curl -fLo ~/dot/nvim/autoload/plug.vim --create-dirs
+                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    au VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
 "let loaded_matchparen = 0
 call plug#begin()
 Plug 'beyondmarc/hlsl.vim'
@@ -184,7 +190,7 @@ set termguicolors
 
 let g:gruvbox_contrast = 'soft'
 let g:gruvbox_italicize_comments = 0
-color gruvbox
+"color gruvbox
 
 color gruber
 "hi Normal guibg=#363534
