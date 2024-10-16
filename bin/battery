@@ -1,12 +1,15 @@
 #!/bin/bash -e
 
+bat_dir=/sys/class/power_supply/BAT0
+
+[[ ! -d bat_dir ]] && exit 0
+
 declare -A status_map=(
     ["Not charging"]="🔋"
     ["Discharging"]="🪫"
     ["Charging"]="⚡"
 )
 
-bat_dir=/sys/class/power_supply/BAT0
 
 read -r capacity < $bat_dir/capacity
 read -r status   < $bat_dir/status
