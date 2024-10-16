@@ -88,6 +88,7 @@ alias r="ranger"
 
 alias gits="git status"
 alias gitd="git diff"
+alias gitds="git diff --staged"
 alias gita="git add"
 alias gitc="git commit"
 alias gitb="git branch"
