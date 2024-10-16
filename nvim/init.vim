@@ -9,6 +9,7 @@ endif
 
 "let loaded_matchparen = 0
 call plug#begin()
+Plug 'tpope/vim-sleuth'
 Plug 'beyondmarc/hlsl.vim'
 "Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-eunuch'
