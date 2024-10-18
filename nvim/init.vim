@@ -214,7 +214,6 @@ hi Normal guibg=NONE
 color handy
 hi Normal guibg=NONE
 
-
 " -----------------------------------------------
 " --- keymaps ---
 " -----------------------------------------------
@@ -230,22 +229,28 @@ inoremap <C-f> <C-y>
 inoremap <C-^> <esc><C-^>
 inoremap <C-s> <Plug>CapsLockToggle
 
+
+" TODO: make this work with my own keymaps. maybe just move all copy-pasta maping to this plugin
+"call yankstack#setup()
+"nmap <C-p> <Plug>yankstack_substitute_older_paste
+"nmap <C-n> <Plug>yankstack_substitute_newer_paste
+
 " yank
-"nnoremap yif mzggVGyg`z
-"nnoremap yap yap}
-"nnoremap yip yip}
-"nnoremap y} y}}
-"nnoremap y{ y{
-"map gy "+y
-"map gY "+Y
-"vnoremap y   mzyg`z
-"vnoremap gy  mz"+yg`z
-"" paste, goto pase start, mark it, select pasted lines, reindent, go back to
-"" marked pase
-"noremap p mzp`[=`]g`z
-"noremap P mzP`[=`]g`z
-"noremap gp mz"+p`[=`]g`z
-"noremap gP mz"+P`[=`]g`z
+nnoremap yif mzggVGyg`z
+nnoremap yap yap}
+nnoremap yip yip}
+nnoremap y} y}}
+nnoremap y{ y{
+map gy "+y
+map gY "+Y
+vnoremap y   mzyg`z
+vnoremap gy  mz"+yg`z
+" paste, goto pase start, mark it, select pasted lines, reindent, go back to
+" marked pase
+noremap p mzp`[=`]g`z
+noremap P mzP`[=`]g`z
+noremap gp mz"+p`[=`]g`z
+noremap gP mz"+P`[=`]g`z
 inoremap <C-S-v> <C-r>+
 vmap <C-S-v> "+p
 nmap <C-S-v> "+p
