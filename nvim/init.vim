@@ -9,30 +9,26 @@ endif
 
 "let loaded_matchparen = 0
 call plug#begin()
-Plug 'tpope/vim-sleuth'
-Plug 'beyondmarc/hlsl.vim'
-"Plug 'tpope/vim-vinegar'
-Plug 'tpope/vim-eunuch'
-Plug 'lifepillar/vim-solarized8'
-Plug 'dimercel/todo-vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'airblade/vim-rooter'
-Plug 'chrisbra/Colorizer'
+Plug 'tpope/vim-sleuth'
+"Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-capslock'
-"Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-eunuch'
+Plug 'dimercel/todo-vim'
+Plug 'chrisbra/Colorizer'
 Plug 'romainl/vim-qf'
-"Plug 'ojroques/nvim-lspfuzzy'
 Plug '~/.config/nvim/local/vim8-shout'
 "Plug '~/.config/nvim/local/vim-term'
 Plug '~/.config/nvim/local/vim-cool'
 
 " for now I just don't wanna deal with other plugins so I use the lua
-Plug 'stevearc/oil.nvim'
-Plug 'dnlhc/glance.nvim'
 Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
 Plug 'lewis6991/gitsigns.nvim'
+Plug 'stevearc/oil.nvim'
+Plug 'dnlhc/glance.nvim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'p00f/clangd_extensions.nvim'
 Plug 'hrsh7th/nvim-cmp'
@@ -47,6 +43,10 @@ call plug#end()
 
 let g:rooter_silent_chdir = 1
 let g:rooter_patterns = ['.git', '_darcs', '.hg', '.bzr', '.svn', 'package.json', '.gitignore', 'Makefile']
+
+let g:easy_align_delimiters = {
+            \ '\': {'pattern': '\\$'},
+            \ }
 
 let g:qf_max_height = 8
 
@@ -156,7 +156,7 @@ if &laststatus
     "set stl+=%t
     "set stl+=%(%m%)
     set stl+=%(\ %m%q%h%w%r%)
-    set stl+=\ \ \ \ %P\ %8(%l:%c\ \ %)
+    set stl+=\ \ \ \ %P\ %10(%l:%c\ \ %)
     set stl+=%(\ \ \ \ Git:%{v:lua.GitSignsStatus()}%)
     set stl+=%(\ \ \ \ LSP:%{v:lua.GetRunningLsp()}%{%v:lua.GetDiag()%}%)
     " Middle
@@ -204,6 +204,15 @@ color gruber
 "hi Normal guibg=#383838
 "hi Normal guibg=#3f3d3b
 
+"color arc
+"hi normal guibg=#191919
+
+color off
+"hi Normal guibg=#2A2827
+hi Normal guibg=NONE
+
+color handy
+hi Normal guibg=NONE
 
 
 " -----------------------------------------------
@@ -222,21 +231,21 @@ inoremap <C-^> <esc><C-^>
 inoremap <C-s> <Plug>CapsLockToggle
 
 " yank
-nnoremap yif mzggVGyg`z
-nnoremap yap yap}
-nnoremap yip yip}
-nnoremap y} y}}
-nnoremap y{ y{
-map gy "+y
-map gY "+Y
-vnoremap y   mzyg`z
-vnoremap gy  mz"+yg`z
-" paste, goto pase start, mark it, select pasted lines, reindent, go back to
-" marked pase
-noremap p mzp`[=`]g`z
-noremap P mzP`[=`]g`z
-noremap gp mz"+p`[=`]g`z
-noremap gP mz"+P`[=`]g`z
+"nnoremap yif mzggVGyg`z
+"nnoremap yap yap}
+"nnoremap yip yip}
+"nnoremap y} y}}
+"nnoremap y{ y{
+"map gy "+y
+"map gY "+Y
+"vnoremap y   mzyg`z
+"vnoremap gy  mz"+yg`z
+"" paste, goto pase start, mark it, select pasted lines, reindent, go back to
+"" marked pase
+"noremap p mzp`[=`]g`z
+"noremap P mzP`[=`]g`z
+"noremap gp mz"+p`[=`]g`z
+"noremap gP mz"+P`[=`]g`z
 inoremap <C-S-v> <C-r>+
 vmap <C-S-v> "+p
 nmap <C-S-v> "+p
@@ -245,9 +254,9 @@ nmap <C-S-v> "+p
 nmap     +   mz[%=%g`z
 imap   <C-b> <Esc>+gi
 nnoremap =if mzggVG=g`z
-nnoremap =ap mz=apgg`z
-nnoremap =ip mz=ipgg`z
-nnoremap ==  mz=ipgg`z
+nnoremap =ap mz=apg`z
+nnoremap =ip mz=ipg`z
+nnoremap ==  mz=ipg`z
 vnoremap =   mz=g`z
 
 " format
@@ -261,8 +270,10 @@ noremap  zs :%s/\s\+$//e<cr>''
 nnoremap gF mz:%!clang-format<cr>g`z
 nmap gcA gcc^dWA <C-r>"
 nmap gcd yygccpg`]
+
 nnoremap ga <plug>(EasyAlign)
 xnoremap ga <plug>(EasyAlign)
+nnoremap ga\ mz<plug>(EasyAlign)ap\g`z
 
 " navigation
 nnoremap j gj
@@ -286,9 +297,16 @@ noremap <M-r> tabn 4
 noremap <M-t> tabn 5
 noremap <M-y> tabn 6
 
-nnoremap <C-n> <C-e>
-nnoremap <C-p> <C-y>
+"nnoremap <C-n> <C-e>
+"nnoremap <C-p> <C-y>
 noremap gd [<C-I>
+
+function! TagJumpSplit()
+    :exec "stag " .. expand('<cword>')
+    call MoveSplitToVertSplitAfterOpen()
+endfunction
+noremap <C-w>d     :call TagJumpSplit()<cr>
+noremap <C-w><C-d> :exec VertOrNot() .. " stag " .. expand('<cword>')<cr>
 " noremap gd :call JumpToDefinition()<cr>
 noremap gn ]<C-I>
 noremap gk K
@@ -312,9 +330,9 @@ cmap <C-x>d <C-r>=expand('%:p:h:s?\S\+:\/\/??').'/'<cr>
 cmap <C-x>r redir<space>@l\|<space>\|redir<space>end<C-left><C-left>
 cmap <C-j> <Down>
 cmap <C-k> <Up>
-
 " fast access
-nnoremap <leader>d  :bn\|bd #<cr>
+"nnoremap <leader>d  :bd<cr>
+nnoremap <leader>d  :Bdelete<cr>
 nmap     <leader>B  :b<space>
 nmap     <leader>e  :e<space><C-x>d
 nmap     <leader>t  :tabnew<space><C-x>d
@@ -409,6 +427,81 @@ smap <expr> <S-Tab> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<S-Tab>'
 " -----------------------------------------------
 " --- functions ---
 " -----------------------------------------------
+function! UseVertSplitOrCreate()
+    let current_win_pos = win_screenpos(0)
+    " numbers: [row, col].  The first window always has position
+    " [1, 1], unless there is a tabline, then it is [2, 1].
+    if current_win_pos[1] == 1 " this means we are on left split window
+        if current_win_pos[0] > 2 " this means we are on a botright split
+            :wincmd p
+            if winnr() == 1 " we are on a right side
+                let right_winnr = winnr('1l')
+                if right_winnr != winnr()
+                    :wincmd p
+                    return win_getid(right_winnr)
+                else
+                    :wincmd p
+                    :botright vsplit
+                    :wincmd p
+                    return win_getid(winnr('#'))
+                endif
+            else
+                let left_winnr = winnr('1h')
+                if left_winnr != winnr()
+                    :wincmd p
+                    return win_getid(left_winnr)
+                else
+                    :echomsg "we should not have reached here! win_pos[2] > 2"
+                    :wincmd p
+                    :botright vsplit
+                    :wincmd p
+                    return win_getid(winnr('#'))
+                endif
+            endif
+        endif
+
+        " check if a split on right already exists
+        let right_winnr = winnr('1l')
+        if right_winnr != winnr()
+            return win_getid(right_winnr)
+        else
+            :botright vsplit
+            :wincmd p
+            return win_getid(winnr('#'))
+        endif
+    else " this mean we on right split window
+        " check if a split on left already exists
+        let left_winnr = winnr('1h')
+        if left_winnr != winnr()
+            return win_getid(left_winnr)
+        else
+            :echomsg "we should not have reached here! else of all"
+            :botright vsplit
+            :wincmd p
+            return win_getid(winnr('#'))
+        endif
+    endif
+endfunction
+
+function! MoveSplitToVertSplitAfterOpen()
+    " ignore if this is already a vertical split
+    if winnr('#') == 0 || win_screenpos(0)[1] != win_screenpos(winnr('#'))[1]
+        return
+    endif
+
+    let bufnr = bufnr('%')
+
+    let old_win_id = win_getid()
+    let success = win_gotoid(UseVertSplitOrCreate())
+    if !success
+        echo "Invalid win ID!"
+        return
+    endif
+
+    exec "buffer " .. bufnr
+    call win_execute(old_win_id, 'close')
+endfunction
+
 function! AltFile()
     "let oldpath=&path
     "set path+=../**
@@ -589,9 +682,11 @@ augroup auto
     "autocmd BufEnter quickfix call QfResize()
     "autocmd BufEnter * if &l:buftype ==# 'quickfix' | call QfResize() | endif
 
-    autocmd Filetype man if strlen(VertOrNot()) > 0 | wincmd L | endif
+    autocmd BufWinEnter man://* call MoveSplitToVertSplitAfterOpen()
+    autocmd BufWinEnter fugitive://* call MoveSplitToVertSplitAfterOpen()
     "autocmd Filetype help
-    autocmd BufWinEnter */doc/*.txt if strlen(VertOrNot()) > 0 | wincmd L | endif
+    "autocmd BufWinEnter */doc/*.txt if strlen(VertOrNot()) > 0 | wincmd L | endif
+    autocmd BufWinEnter */doc/*.txt call MoveSplitToVertSplitAfterOpen()
 
     autocmd BufAdd .clang* set filetype=yaml
     " for visual mode in bash vi mode
