@@ -184,12 +184,13 @@ let g:c_functions = 1
 let g:c_function_pointers = 1
 let g:python_highlight_all = 1
 set termguicolors
+color arc
 
 let g:gruvbox_contrast = 'soft'
 let g:gruvbox_italicize_comments = 0
 "color gruvbox
 
-color gruber
+"color gruber
 "hi Normal guibg=#363534
 
 "hi Normal guibg=#312C2A
@@ -203,12 +204,12 @@ color gruber
 "color arc
 "hi normal guibg=#191919
 
-color off
+"color off
 "hi Normal guibg=#2A2827
-hi Normal guibg=NONE
+"hi Normal guibg=NONE
 
 color handy
-hi Normal guibg=NONE
+"hi Normal guibg=NONE
 
 " -----------------------------------------------
 " --- keymaps ---
@@ -304,7 +305,7 @@ noremap gd [<C-I>
 
 function! TagJumpSplit()
     :exec "stag " .. expand('<cword>')
-    call MoveSplitToVertSplitAfterOpen()
+    call MoveOpenedWinodwToSaneSplit()
 endfunction
 noremap <C-w>d     :exec VertOrNot() .. " stag " .. expand('<cword>')<cr>
 noremap <C-w><C-d> :call TagJumpSplit()<cr>
@@ -451,87 +452,48 @@ endfunction
 " -----------------------------------------------
 " --- functions ---
 " -----------------------------------------------
-function! UseVertSplitOrCreate()
+function! UseSplitOrCreate()
     let current_win_pos = win_screenpos(0)
-    " numbers: [row, col].  The first window always has position
-    " [1, 1], unless there is a tabline, then it is [2, 1].
-    if current_win_pos[1] == 1 " this means we are on left split window
-        if current_win_pos[0] > 2 " this means we are on a botright split
-            :wincmd p
-            if winnr() == 1 " we are on a right side
-                let right_winnr = winnr('1l')
-                if right_winnr != winnr()
-                    :wincmd p
-                    return win_getid(right_winnr)
-                else
-                    :wincmd p
-                    :botright vsplit
-                    :wincmd p
-                    return win_getid(winnr('#'))
-                endif
-            else
-                let left_winnr = winnr('1h')
-                if left_winnr != winnr()
-                    :wincmd p
-                    return win_getid(left_winnr)
-                else
-                    :echomsg "we should not have reached here! win_pos[2] > 2"
-                    :wincmd p
-                    :botright vsplit
-                    :wincmd p
-                    return win_getid(winnr('#'))
-                endif
-            endif
-        endif
+    let winnr = winnr()
 
-        " check if a split on right already exists
-        let right_winnr = winnr('1l')
-        if right_winnr != winnr()
-            return win_getid(right_winnr)
+    if &columns > 160
+        if winnr != winnr('1l')
+            return win_getid(winnr('1l'))
+        elseif winnr != winnr('1h')
+            return win_getid(winnr('1h'))
         else
             :botright vsplit
             :wincmd p
             return win_getid(winnr('#'))
         endif
-    else " this mean we on right split window
-        " check if a split on left already exists
-        let left_winnr = winnr('1h')
-        if left_winnr != winnr()
-            return win_getid(left_winnr)
+    else
+        if winnr != winnr('1j')
+            return win_getid(winnr('1j'))
+        elseif winnr != winnr('1k')
+            return win_getid(winnr('1k'))
         else
-            :echomsg "we should not have reached here! else of all"
-            :botright vsplit
+            :botright split
             :wincmd p
             return win_getid(winnr('#'))
         endif
     endif
 endfunction
 
-function! MoveSplitToVertSplitAfterOpen()
-    " ignore if this is already a vertical split
-    if winnr('#') == 0 || win_screenpos(0)[1] != win_screenpos(winnr('#'))[1]
-        return
-    endif
+function! MoveOpenedWinodwToSaneSplit()
+    let prev_winnr = winnr('#')
+    if prev_winnr == 0 | return | endif
+
+    let split_to_use = UseSplitOrCreate()
+    if win_getid(prev_winnr) == split_to_use | return | endif
 
     let bufnr = bufnr('%')
-
-    "exec "normal! mz"
-    " or
     let view = winsaveview()
-
     let old_win_id = win_getid()
-    let success = win_gotoid(UseVertSplitOrCreate())
-    if !success
-        echo "Invalid win ID!"
-        return
-    endif
+
+    call win_gotoid(split_to_use)
 
     exec "buffer " .. bufnr
-
-    "exec "normal! g`z"
-    " or
     call winrestview(view)
-
     call win_execute(old_win_id, 'close')
 endfunction
 
@@ -737,11 +699,13 @@ augroup auto
     "autocmd BufEnter quickfix call QfResize()
     "autocmd BufEnter * if &l:buftype ==# 'quickfix' | call QfResize() | endif
 
-    autocmd BufWinEnter man://* call MoveSplitToVertSplitAfterOpen()
-    "autocmd BufWinEnter fugitive://* call MoveSplitToVertSplitAfterOpen()
+    " TODO: for now we just ignore if columns are too small but we need our horizontal splits to
+    " also use existing horizontal splits.
+    autocmd BufWinEnter man://* call MoveOpenedWinodwToSaneSplit()
+    autocmd Filetype fugitive call MoveOpenedWinodwToSaneSplit()
     "autocmd Filetype help
     "autocmd BufWinEnter */doc/*.txt if strlen(VertOrNot()) > 0 | wincmd L | endif
-    autocmd BufWinEnter */doc/*.txt call MoveSplitToVertSplitAfterOpen()
+    autocmd BufWinEnter */doc/*.txt call MoveOpenedWinodwToSaneSplit()
 
     autocmd BufAdd .clang* set filetype=yaml
     " for visual mode in bash vi mode
