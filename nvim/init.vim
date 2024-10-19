@@ -28,7 +28,7 @@ Plug '~/.config/nvim/local/vim-cool'
 Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'stevearc/oil.nvim'
-Plug 'dnlhc/glance.nvim'
+" Lsp
 Plug 'neovim/nvim-lspconfig'
 Plug 'p00f/clangd_extensions.nvim'
 Plug 'hrsh7th/nvim-cmp'
@@ -79,10 +79,6 @@ lua require 'Lsp'
 lua require 'FzfLua'
 lua require 'Oil'
 lua require('gitsigns').setup{ signs = { add = { text = '|' }, change = { text = '|' }, delete = { text = '_' }, topdelete = { text = '‾' }, changedelete = { text = '~' }, untracked = { text = '┆' }}}
-
-lua require('glance').setup()
-"lua require('lspfuzzy').setup { methods = 'all', jump_one = true, save_last = true, callback = nil, fzf_preview = { 'hidden,right,50%,+{2}-/2', 'ctrl-l' }, fzf_action = { ['ctrl-t'] = 'tab split', ['ctrl-v'] = 'vsplit', ['ctrl-x'] = 'split', }, fzf_modifier = ':~:.', fzf_trim = true }
-
 
 " TODO:nvim/plugin/alter.vim
 " [ ] make `:chistory` work with fzf
@@ -310,8 +306,8 @@ function! TagJumpSplit()
     :exec "stag " .. expand('<cword>')
     call MoveSplitToVertSplitAfterOpen()
 endfunction
-noremap <C-w>d     :call TagJumpSplit()<cr>
-noremap <C-w><C-d> :exec VertOrNot() .. " stag " .. expand('<cword>')<cr>
+noremap <C-w>d     :exec VertOrNot() .. " stag " .. expand('<cword>')<cr>
+noremap <C-w><C-d> :call TagJumpSplit()<cr>
 " noremap gd :call JumpToDefinition()<cr>
 noremap gn ]<C-I>
 noremap gk K
@@ -429,6 +425,29 @@ smap <expr> <Tab>   vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<Tab>'
 imap <expr> <S-Tab> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<S-Tab>'
 smap <expr> <S-Tab> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<S-Tab>'
 
+nnoremap <leader>a :set operatorfunc=GrepOperator<cr>g@
+vnoremap <leader>a :<c-u>call GrepOperator(visualmode())<cr>
+
+function! GrepOperator(type)
+    let saved_unnamed_register = @@
+
+    if a:type ==# 'v'
+        normal! `<v`>y
+    elseif a:type ==# 'V'
+        normal! `<v`>y
+    elseif a:type ==# 'char'
+        normal! `[y`]
+    else
+        return
+    endif
+
+    echo @@
+    "silent execute "grep! -R " . shellescape(@@) . " ."
+    "copen
+
+    let @@ = saved_unnamed_register
+endfunction
+
 " -----------------------------------------------
 " --- functions ---
 " -----------------------------------------------
@@ -496,6 +515,10 @@ function! MoveSplitToVertSplitAfterOpen()
 
     let bufnr = bufnr('%')
 
+    "exec "normal! mz"
+    " or
+    let view = winsaveview()
+
     let old_win_id = win_getid()
     let success = win_gotoid(UseVertSplitOrCreate())
     if !success
@@ -504,6 +527,11 @@ function! MoveSplitToVertSplitAfterOpen()
     endif
 
     exec "buffer " .. bufnr
+
+    "exec "normal! g`z"
+    " or
+    call winrestview(view)
+
     call win_execute(old_win_id, 'close')
 endfunction
 
@@ -644,6 +672,28 @@ function! HexToSymbol(hex)
     exec 'normal iU' .. a:hex .. ' '
 endfunction
 
+command! -nargs=* -count Time :call Time(<count>,<q-args>)
+
+function! Time(count, args)
+    let repeat = (a:count <= 0 ? 1 : a:count)
+    let k = 0
+    let start = reltime()
+    while k < repeat
+        exe a:args
+        let k = k + 1
+    endwh
+    let time = reltimestr(reltime(start))
+
+    redraw
+
+    if repeat == 1
+       echomsg "Execution took " . time ." sec."
+    else
+       echomsg repeat . " repetitions took ". time ." sec."
+    endif
+endfu
+
+
 " -----------------------------------------------
 " --- commands ---
 " -----------------------------------------------
@@ -688,7 +738,7 @@ augroup auto
     "autocmd BufEnter * if &l:buftype ==# 'quickfix' | call QfResize() | endif
 
     autocmd BufWinEnter man://* call MoveSplitToVertSplitAfterOpen()
-    autocmd BufWinEnter fugitive://* call MoveSplitToVertSplitAfterOpen()
+    "autocmd BufWinEnter fugitive://* call MoveSplitToVertSplitAfterOpen()
     "autocmd Filetype help
     "autocmd BufWinEnter */doc/*.txt if strlen(VertOrNot()) > 0 | wincmd L | endif
     autocmd BufWinEnter */doc/*.txt call MoveSplitToVertSplitAfterOpen()
@@ -698,7 +748,7 @@ augroup auto
     autocmd BufAdd /tmp/bash* set filetype=sh
     autocmd BufReadPost *.lub set filetype=lua
 
-    autocmd CmdwinEnter * nmap <buffer> <Esc> :q<cr>
+    autocmd CmdwinEnter * nmap <buffer> q :q<cr>
     autocmd CmdwinEnter * nmap <buffer> <C-c> :q<cr>
     autocmd  FileType fzf set laststatus=0 noshowmode noruler
                 \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler

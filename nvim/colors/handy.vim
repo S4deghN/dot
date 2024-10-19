@@ -8,8 +8,8 @@ set background=dark
 let g:colors_name = "gruber"
 
 "let s:black  = ["#202020", "234"]
-"let s:black  = ["#32302F", "234"]
-let s:black  = ["#2b2b2b", "234"]
+let s:black  = ["#32302F", "234"]
+"let s:black  = ["#2b2b2b", "234"]
 "let s:blue   = ["#87afd7", "110"]
 let s:blue   = ["#88aacc", "110"]
 let s:brown  = ["#cc8c3c", "137"]
@@ -115,7 +115,7 @@ hi Function   guifg=fg
 hi Statement  guifg=goldenrod gui=NONE
 hi Operator   guifg=fg
 hi String     guifg=#6b9e23
-hi Comment    guifg=ivory4
+hi Comment    guifg=azure4
 hi Special    guifg=fg
 hi PreProc    guifg=fg
 hi Number     guifg=ivory3
