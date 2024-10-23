@@ -97,7 +97,7 @@ set completeopt=menu,noinsert,popup
 set pumheight=6 previewheight=10
 set nowildmenu wildignorecase wildmode=longest,list,full
 set ignorecase smartcase
-set signcolumn=yes:1
+set signcolumn=no
 set noshowmode
 set guicursor=n-v-c-sm:block,i-ci-ve:ver20,r-cr-o:hor20
 "set guicursor=r-cr-o:hor20
@@ -108,7 +108,7 @@ set smartindent
 " when unset you can delete inserted tab with C-w without deleting the word before it
 set nosmarttab
 set expandtab
-set shiftwidth=4 tabstop=4
+set shiftwidth=2 tabstop=2
 set foldmethod=marker
 set textwidth=100
 "set cursorline
@@ -131,6 +131,8 @@ set nolist
 
 " Sane indentation
 set cinoptions+=:0,ls,g0,N-s,E-s,(s,k0,j1,J1,L0
+" TODO: in case of problems enable this based on filetype.
+set tagcase=match
 
 if executable('rg')
     set grepprg=rg\ -H\ --no-heading\ --vimgrep
@@ -164,9 +166,10 @@ if &laststatus
 else
     set rulerformat=%60(%([%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}]%)\ \ \ \ %(Git:%{v:lua.GitSignsStatus()}%)%=\ \ \ \ %-8(%l,%c%)\ %P%)
 endif
-augroup ruler
-    autocmd BufEnter * call feedkeys("\<C-g>")
-augroup end
+
+"augroup ruler
+"    autocmd BufEnter * call feedkeys("\<C-g>")
+"augroup end
 
 let mapleader = " "
 
@@ -190,6 +193,16 @@ let g:gruvbox_contrast = 'soft'
 let g:gruvbox_italicize_comments = 0
 "color gruvbox
 
+"hi normal gui
+
+"hi Type guifg=goldenrod2
+"hi! link Statement Type
+"hi! link Conditional Type
+"hi! link Repeat Type
+"hi! link Label Type
+"hi Macro guifg=fg
+"hi Function guifg=fg gui=NONE
+
 "color gruber
 "hi Normal guibg=#363534
 
@@ -209,7 +222,9 @@ let g:gruvbox_italicize_comments = 0
 "hi Normal guibg=NONE
 
 color handy
-"hi Normal guibg=NONE
+"hi Normal guibg=#2e2c2a
+"hi Normal guibg=#2c2c2c
+hi Normal guibg=NONE
 
 " -----------------------------------------------
 " --- keymaps ---
@@ -301,15 +316,15 @@ noremap <M-y> tabn 6
 
 "nnoremap <C-n> <C-e>
 "nnoremap <C-p> <C-y>
-noremap gd [<C-I>
+"noremap gd [<C-I>
 
 function! TagJumpSplit()
     :exec "stag " .. expand('<cword>')
     call MoveOpenedWinodwToSaneSplit()
 endfunction
-noremap <C-w>d     :exec VertOrNot() .. " stag " .. expand('<cword>')<cr>
-noremap <C-w><C-d> :call TagJumpSplit()<cr>
-" noremap gd :call JumpToDefinition()<cr>
+noremap <C-w>d     :call TagJumpSplit()<cr>
+noremap <C-w><C-d> :exec VertOrNot() .. " stag " .. expand('<cword>')<cr>
+"noremap gd         :exec "tag " .. expand('<cword>')<cr>
 noremap gn ]<C-I>
 noremap gk K
 nnoremap * *N

@@ -7,8 +7,11 @@ endif
 set background=dark
 let g:colors_name = "gruber"
 
+" #C2B6A5
+
 "let s:black  = ["#202020", "234"]
-let s:black  = ["#32302F", "234"]
+"let s:black  = ["#32302F", "234"]
+let s:black  = ["#2f2d2b", "234"]
 "let s:black  = ["#2b2b2b", "234"]
 "let s:blue   = ["#87afd7", "110"]
 let s:blue   = ["#88aacc", "110"]
@@ -21,7 +24,12 @@ let s:gray   = ["#242424", "235"]
 let s:green  = ["#73c936", "113"]
 let s:red    = ["#ff5f5f", "203"]
 "let s:white  = ["#cfcfcf", "254"]
-let s:white  = ["#d1b897", "254"]
+"let s:white  = ["#d1b897", "254"]
+"let s:white  = ["#c8ae9d", "254"]
+"let s:white  = ["#b8ae9d", "254"]
+let s:white  = ["#b7bab8", "254"]
+"let s:white  = ["#bbbbbb", "254"]
+"let s:white  = ["#bfbbb7", "254"]
 "let s:white  = ["#CDB088", "254"]
 let s:yellow = ["#ffdd33", "220"]
 
@@ -77,15 +85,15 @@ call s:hl("DiffChange",     { "fg": s:blue })
 call s:hl("DiffDelete",     { "fg": s:red })
 call s:hl("DiffText",       { "fg": s:blue })
 call s:hl("Directory",      { "fg": s:blue })
-call s:hl("EndOfBuffer",    { "fg": s:black })
+call s:hl("EndOfBuffer",    { "fg": s:lightest_gray })
 call s:hl("Error",          { "fg": s:red })
 call s:hl("ErrorMsg",       { "fg": s:red })
 call s:hl("FoldColumn",     { "fg": s:brown, "bg": s:gray })
 call s:hl("Folded",         { "fg": s:brown, "bg": s:gray, "style": s:italic })
 call s:hl("Ignore",         { "bg": s:gray })
-call s:hl("MatchParen",     { "fg": s:yellow, "bg": s:lightest_gray })
+call s:hl("MatchParen",     { "fg": s:yellow, "bg": s:lightest_gray, "style": s:bold })
 call s:hl("MoreMsg",        { "fg": s:green })
-call s:hl("NonText",        { "fg": s:blue })
+call s:hl("NonText",        { "fg": s:lightest_gray })
 call s:hl("Normal",         { "fg": s:white, "bg": s:black })
 call s:hl("Pmenu",          { "bg": s:gray })
 call s:hl("PmenuSbar",      { "bg": s:light_gray })
@@ -115,10 +123,12 @@ hi Function   guifg=fg
 hi Statement  guifg=goldenrod gui=NONE
 hi Operator   guifg=fg
 hi String     guifg=#6b9e23
-hi Comment    guifg=azure4
+"hi Comment    guifg=azure4
+hi Comment    guifg=seashell4
 hi Special    guifg=fg
 hi PreProc    guifg=fg
 hi Number     guifg=ivory3
+"hi Number     guifg=#dddddd
 
 hi! link Type Statement
 
@@ -158,16 +168,30 @@ hi  GitSignsChange guifg=#88aacc guibg=NONE
 "hi! link diffline function
 "hi! link diffSubname Normal
 
+hi  DiagnosticError guifg=#ff5f5f
+hi  DiagnosticWarn  guifg=lightgoldenrod
+hi  DiagnosticInfo  guifg=LightBlue
+hi  DiagnosticHint  guifg=#747C84
+
+hi IncSearch     guibg=#ee799f guifg=black gui=NONE
+hi! link CurSearch Incsearch
+hi Search        guibg=#218058 guifg=black gui=NONE
+"hi Search        guibg=#CD9AAA guifg=black gui=NONE
+"hi Search        guibg=#87AF87 guifg=black gui=NONE
+
+hi markdowncode guifg=fg guibg=#383838
+hi markdowncodeblock guifg=ivory4
+
 if has('nvim')
     hi @variable guifg=fg
+    hi @lsp.type.namespace guifg=fg
+    hi @lsp.mod.constructorOrDestructor.cpp gui=bold
     hi! link @lsp.type.comment Ignore
     hi! link @lsp.type.comment Ignore
-    "hi! link @lsp.type.nameSpace Type
-    "hi @lsp.type.nameSpace guifg=#96a6c8
     hi! link @keyword.modifier.cpp Type
     hi! link @keyword.modifier.cpp Type
     "hi @markup.raw.markdown_inline guifg=fg
-    hi @markup.raw.block.markdown guifg=fg
+    "hi @markup.raw.block.markdown guifg=fg
     hi! link @markup.link.vimdoc Type
     hi! link @constant.macro Macro
     hi! link @type.builtin Type
