@@ -9,9 +9,11 @@ let g:colors_name = "gruber"
 
 " #C2B6A5
 
-"let s:black  = ["#202020", "234"]
+"let s:black  = ["#242424", "234"]
+let s:black  = ["#282828", "234"]
+"let s:black  = ["#222426", "234"]
 "let s:black  = ["#32302F", "234"]
-let s:black  = ["#2f2d2b", "234"]
+"let s:black  = ["#2f2d2b", "234"]
 "let s:black  = ["#2b2b2b", "234"]
 "let s:blue   = ["#87afd7", "110"]
 let s:blue   = ["#88aacc", "110"]
@@ -22,15 +24,18 @@ let s:gray   = ["#242424", "235"]
 "let s:green  = ["#77d74f", "113"]
 "let s:green  = ["#6F9D6A", "113"]
 let s:green  = ["#73c936", "113"]
-let s:red    = ["#ff5f5f", "203"]
+"let s:red    = ["#ff5f5f", "204"]
+let s:red    = ["#ff4444", "204"]
 "let s:white  = ["#cfcfcf", "254"]
-"let s:white  = ["#d1b897", "254"]
+let s:white  = ["#d1b897", "254"]
 "let s:white  = ["#c8ae9d", "254"]
 "let s:white  = ["#b8ae9d", "254"]
-let s:white  = ["#b7bab8", "254"]
+"let s:white  = ["#b7bab8", "254"]
+"let s:white  = ["#cccccc", "254"]
 "let s:white  = ["#bbbbbb", "254"]
 "let s:white  = ["#bfbbb7", "254"]
 "let s:white  = ["#CDB088", "254"]
+let s:white  = ["#cccdce", "254"]
 let s:yellow = ["#ffdd33", "220"]
 
 let s:light_gray     = ["#343434", "232"]
@@ -104,8 +109,6 @@ call s:hl("SpellBad",       { "fg": s:red, "style": s:underline })
 call s:hl("SpellCap",       { "fg": s:blue, "style": s:underline })
 call s:hl("SpellLocal",     { "fg": s:yellow, "style": s:underline })
 call s:hl("SpellRare",      { "style": s:underline })
-call s:hl("StatusLine",     { "fg": s:white, "bg": s:gray})
-call s:hl("StatusLineNC",   { "fg": s:white, "bg": s:gray })
 call s:hl("String",         { "fg": s:green })
 call s:hl("Title",          { "fg": s:white })
 call s:hl("Underlined",     { "style": s:underline })
@@ -124,7 +127,8 @@ hi Statement  guifg=goldenrod gui=NONE
 hi Operator   guifg=fg
 hi String     guifg=#6b9e23
 "hi Comment    guifg=azure4
-hi Comment    guifg=seashell4
+"hi Comment    guifg=seashell4
+hi Comment    guifg=#777879
 hi Special    guifg=fg
 hi PreProc    guifg=fg
 hi Number     guifg=ivory3
@@ -132,7 +136,12 @@ hi Number     guifg=ivory3
 
 hi! link Type Statement
 
-hi! link NormalFloat Normal
+hi MatchParen guifg=skyblue
+
+"hi! link NormalFloat Normal
+hi Statusline   guibg=#444444 guifg=#bbbbbb
+hi StatuslineNC guibg=#444444 guifg=#aaaaaa
+hi WinSeparator guibg=#444444 guifg=#444444
 
 hi! link SpecialChar      Special
 hi! link Tag              Special
@@ -169,6 +178,7 @@ hi  GitSignsChange guifg=#88aacc guibg=NONE
 "hi! link diffSubname Normal
 
 hi  DiagnosticError guifg=#ff5f5f
+"call s:hl("DiagnosticError", { "fg": s:red })
 hi  DiagnosticWarn  guifg=lightgoldenrod
 hi  DiagnosticInfo  guifg=LightBlue
 hi  DiagnosticHint  guifg=#747C84

@@ -222,9 +222,31 @@ let g:gruvbox_italicize_comments = 0
 "hi Normal guibg=NONE
 
 color handy
+hi Normal guibg=NONE
 "hi Normal guibg=#2e2c2a
 "hi Normal guibg=#2c2c2c
-hi Normal guibg=NONE
+"hi Normal guibg=#242424
+
+"color desert
+"hi Normal guifg=#eeeeee guibg=NONE
+"hi Statement gui=NONE
+"hi! link Type Statement
+"hi Identifier guifg=fg
+"hi Macro guifg=fg
+"hi Operator guifg=fg
+"hi String guifg=#ffa0a0
+"hi Number guifg=#ffa0a0
+"hi Constant guifg=fg
+"hi Statusline   guibg=#444444 guifg=#dddddd
+"hi StatuslineNC guibg=#444444 guifg=#bbbbbb
+"hi! link StatusLineTerm StatusLine
+"hi! link StatusLineTermNC StatusLineNC
+"hi WinSeparator guibg=#444444 guifg=#444444
+"hi NormalFloat guibg=#444444
+"hi NonText guibg=bg guifg=gray
+"hi Todo guibg=bg guifg=#cd5c5c
+"hi @lsp.type.comment guifg=NONE guibg=#282828
+"hi @lsp.type.namespace guifg=fg
 
 " -----------------------------------------------
 " --- keymaps ---
@@ -685,6 +707,9 @@ command! -nargs=1 Grep silent grep! <f-args> | copen | wincmd p
 command! -nargs=1 -complete=option Set call SetOption(<f-args>)
 command! SetGrep call SetOption("grepprg")
 command! SetMake call SetOption("makrprg")
+
+command! -nargs=1 -complete=file Dump call CaptureOutput("objdump -C -l -S -d " .. <f-args>, "[dump]", "asm")
+command! -nargs=1 -complete=file Asm call CaptureOutput(<f-args>  .. " -o- -S -fverbose-asm", "[asm]", "asm")
 
 " -----------------------------------------------
 " --- auto commands ---

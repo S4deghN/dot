@@ -93,109 +93,109 @@ end
 
 vim.keymap.set('n', '<leader>lla', CmpAutoCompleteToggle, opts)
 
--- cmp.setup {
---     snippet = {
---         -- REQUIRED - you must specify a snippet engine
---         expand = function(args)
---             vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
---             -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
---             -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
---             -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
---         end,
---     },
---     completion = {
---         autocomplete = false,
---     },
---     experimental = {
---         -- ghost_text = { hl_group = "Comment" },
---         -- native_menu = false,
---     },
---     performance = {
---         throttle = 0,
---         debounce = 0,
---     },
---     view = {
---         docs = {
---             auto_open = true,
---         },
---     },
---     window = {
---         -- completion = cmp.config.window.bordered(),
---         -- documentation = cmp.config.window.bordered(),
---         completion = {
---             -- border = border,
---             -- winhighlight = 'Normal:NormalFloat,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Type',
---             zindex = 100,
---         },
---         documentation = {
---             border = border,
---             -- winhighlight = 'Normal:NormalFloat,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Type',
---             zindex = 50,
---         },
---     },
---     mapping = cmp.mapping.preset.insert({
---         ['<C-n>'] = cmp.mapping(function(fallback)
---             if cmp.visible() then
---                 cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
---             else
---                 cmp.complete()
---             end
---         end),
---         ['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
---         ['<C-l>'] = cmp.mapping(function(fallback)
---             if cmp.visible_docs() then
---                 cmp.close_docs()
---             else
---                 cmp.open_docs()
---             end
---         end),
---         ['<C-f>'] = cmp.mapping(function(fallback)
---             if cmp.visible() then
---                 cmp.confirm({ select = true })
---             else
---                 cmp.complete()
---             end
---         end),
---         ['<C-j>'] = cmp.mapping.select_next_item(),
---         ['<C-k>'] = cmp.mapping.select_prev_item(),
---         ['<C-d>'] = cmp.mapping.scroll_docs(4),
---         ['<C-u>'] = cmp.mapping.scroll_docs(-4),
---         -- ['<C-f>'] = cmp.mapping.confirm({ select = true }),
---         ['<C-y>'] = cmp.mapping.confirm({ select = true }),
---         ['<C-e>'] = cmp.mapping.abort(),
---     }),
---     formatting = {
---         -- fields = { "kind", "abbr", "menu" },
---         fields = { "abbr", "menu", "kind" },
---         format = function(entry, item)
---             -- Kind icons
---             -- item.kind = string.format("%s", kind_icons[item.kind])
---             item.menu = ({
---                 nvim_lsp = "[LSP]",
---                 nvim_lsp_signature_help = "[Sig]",
---                 tags = "[Tag]",
---                 luasnip = "[Snip]",
---                 buffer = "[Buf]",
---                 path = "[Path]",
---             })[entry.source.name]
---
---             -- if #item.abbr > 37 then
---             --     item.abbr = string.sub(item.abbr, 0, 37)
---             -- else
---             --     item.abbr = item.abbr .. (" "):rep(37 - #item.abbr)
---             -- end
---
---             return item
---         end,
---     },
---     sources = {
---         { name = 'nvim_lsp' },
---         { name = 'nvim_lsp_signature_help' },
---         { name = 'tags' },
---         { name = "path" },
---         { name = 'buffer' },
---     },
--- }
+cmp.setup {
+    snippet = {
+        -- REQUIRED - you must specify a snippet engine
+        expand = function(args)
+            vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+            -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+            -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
+            -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+        end,
+    },
+    completion = {
+        autocomplete = false,
+    },
+    experimental = {
+        -- ghost_text = { hl_group = "Comment" },
+        -- native_menu = false,
+    },
+    performance = {
+        throttle = 0,
+        debounce = 0,
+    },
+    view = {
+        docs = {
+            auto_open = true,
+        },
+    },
+    window = {
+        -- completion = cmp.config.window.bordered(),
+        -- documentation = cmp.config.window.bordered(),
+        completion = {
+            -- border = border,
+            -- winhighlight = 'Normal:NormalFloat,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Type',
+            zindex = 100,
+        },
+        documentation = {
+            border = border,
+            -- winhighlight = 'Normal:NormalFloat,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Type',
+            zindex = 50,
+        },
+    },
+    mapping = cmp.mapping.preset.insert({
+        ['<C-n>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+            else
+                cmp.complete()
+            end
+        end),
+        ['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+        ['<C-l>'] = cmp.mapping(function(fallback)
+            if cmp.visible_docs() then
+                cmp.close_docs()
+            else
+                cmp.open_docs()
+            end
+        end),
+        ['<C-f>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.confirm({ select = true })
+            else
+                cmp.complete()
+            end
+        end),
+        ['<C-j>'] = cmp.mapping.select_next_item(),
+        ['<C-k>'] = cmp.mapping.select_prev_item(),
+        ['<C-d>'] = cmp.mapping.scroll_docs(4),
+        ['<C-u>'] = cmp.mapping.scroll_docs(-4),
+        -- ['<C-f>'] = cmp.mapping.confirm({ select = true }),
+        ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+        ['<C-e>'] = cmp.mapping.abort(),
+    }),
+    formatting = {
+        -- fields = { "kind", "abbr", "menu" },
+        fields = { "abbr", "menu", "kind" },
+        format = function(entry, item)
+            -- Kind icons
+            -- item.kind = string.format("%s", kind_icons[item.kind])
+            item.menu = ({
+                nvim_lsp = "[LSP]",
+                nvim_lsp_signature_help = "[Sig]",
+                tags = "[Tag]",
+                luasnip = "[Snip]",
+                buffer = "[Buf]",
+                path = "[Path]",
+            })[entry.source.name]
+
+            -- if #item.abbr > 37 then
+            --     item.abbr = string.sub(item.abbr, 0, 37)
+            -- else
+            --     item.abbr = item.abbr .. (" "):rep(37 - #item.abbr)
+            -- end
+
+            return item
+        end,
+    },
+    sources = {
+        { name = 'nvim_lsp' },
+        { name = 'nvim_lsp_signature_help' },
+        { name = 'tags' },
+        { name = "path" },
+        { name = 'buffer' },
+    },
+}
 
 -- Setup lspconfig.
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
@@ -345,15 +345,13 @@ end
 ------------------------------------------------------------
 -- lsp
 ------------------------------------------------------------
--- TODO: change this, will be depricated soon!
 function GetRunningLsp()
     local str = ""
-    vim.lsp.for_each_buffer_client(0, function(client, client_id, bufnr)
-        if #str > 1 then
-            str = str .. " "
-        end
+    local clients = vim.lsp.get_clients({bufnr = 0})
+    for _, client in ipairs(clients) do
         str = str .. client.name
-    end)
+    end
+
     return str
 end
 
@@ -433,7 +431,7 @@ require("lspconfig").bashls.setup {
 --     flags        = lsp_flags,
 -- }
 
-require('lspconfig').tsserver.setup {
+require('lspconfig').ts_ls.setup {
     on_attach    = on_attach,
     capabilities = capabilities,
     flags        = lsp_flags,

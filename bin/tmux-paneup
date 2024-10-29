@@ -2,7 +2,7 @@
 
 for ((i=0;i<$1;i++)); do
     if [[ $? -ne 0 ]]; then
-        tmux next-layout
+        tmux select-layout tiled
         ((i--))
     fi
     tmux split-window

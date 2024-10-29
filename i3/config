@@ -63,6 +63,7 @@ for_window [class="Gpick"] floating enable
 for_window [class="Gnome-calculator"] floating enable
 for_window [class="VirtualBox"] floating enable
 
+for_window [class="LibreWolf"] border pixel 2
 for_window [class="firefox"] border pixel 2
 for_window [class="St"] border pixel 2
 for_window [class="XTerm"] border pixel 2
@@ -76,8 +77,8 @@ default_floating_border normal 1
 smart_borders on
 #for_window [all] title_window_icon on
 
-gaps outer 31
-gaps inner 5
+# gaps outer 26
+# gaps inner 10
 
 # class                 border  backgr. text    indicator child_border
 client.focused          #4c7899 #285577 #ffffff #2e9ef4   #285577
@@ -151,7 +152,8 @@ bindsym $mod+Return exec --no-startup-id st -e fish
 # bindsym $mod+t exec alacritty -e bash -c "tmux attach -t $(tmux-session-namer $(i3WorkspaceName)) || tmux new -s $(tmux-session-namer $(i3WorkspaceName))"
 bindsym $mod+t exec --no-startup-id st
 bindsym $mod+r exec --no-startup-id st -e ranger
-bindsym $mod+b exec --no-startup-id firefox
+# bindsym $mod+b exec --no-startup-id firefox
+bindsym $mod+b exec --no-startup-id librewolf
 bindsym $mod+Shift+b exec --no-startup-id nitrogen --random --set-zoom-fill --save
 bindsym $mod+Shift+p exec --no-startup-id bash -c "source ~/.xprofile"
 
