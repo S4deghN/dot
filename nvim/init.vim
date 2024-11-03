@@ -235,7 +235,7 @@ hi Normal guibg=NONE
 "hi Macro guifg=fg
 "hi Operator guifg=fg
 "hi String guifg=#ffa0a0
-"hi Number guifg=#ffa0a0
+"hi Number guifg=fg
 "hi Constant guifg=fg
 "hi Statusline   guibg=#444444 guifg=#dddddd
 "hi StatuslineNC guibg=#444444 guifg=#bbbbbb
@@ -305,7 +305,7 @@ nnoremap gqip mzgqipg`z
 nnoremap gql  mzgqlg`z
 vnoremap gq   mzgqg`z
 noremap  gz 1z=
-noremap  zs :%s/\s\+$//e<cr>''
+noremap  zs mz:%s/\s\+$//e<cr>''g`z
 nnoremap gF mz:%!clang-format<cr>g`z
 nmap gcA gcc^dWA <C-r>"
 nmap gcd yygccpg`]
