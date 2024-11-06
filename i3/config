@@ -154,7 +154,6 @@ bindsym $mod+Return exec --no-startup-id st -e fish
 bindsym $mod+t exec --no-startup-id st
 bindsym $mod+r exec --no-startup-id st -e ranger
 # bindsym $mod+b exec --no-startup-id firefox
-bindsym $mod+b exec --no-startup-id librewolf
 bindsym $mod+Shift+b exec --no-startup-id nitrogen --random --set-zoom-fill --save
 bindsym $mod+Shift+p exec --no-startup-id bash -c "source ~/.xprofile"
 
@@ -234,14 +233,34 @@ bindsym $mod+n focus child
 bindsym $mod+s scratchpad show
 bindsym $mod+Shift+s move scratchpad
 
-for_window [title="Genius|Qalculate"] move scratchpad, scratchpad show
-bindsym $mod+c [title="Genius|Qalculate"] scratchpad show
+set $calc "qalculate-gtk"
+for_window [instance=$calc] move scratchpad, scratchpad show
+bindsym $mod+c exec --no-startup-id \
+            pgrep -x $calc > /dev/null && \
+            i3-msg "[instance=$calc] scratchpad show" || \
+            (i3-msg exec $calc || notify-send "exit $?:" $calc)
 
-for_window [class="Org.gnome.Dictionary"] move scratchpad, scratchpad show
-bindsym $mod+i [class="Org.gnome.Dictionary"] scratchpad show
+set $color_picker "gpick"
+for_window [instance=$color_picker] move scratchpad, scratchpad show
+bindsym $mod+i exec --no-startup-id \
+            pgrep -x $color_picker > /dev/null && \
+            i3-msg "[instance=$color_picker] scratchpad show" || \
+            (i3-msg exec $color_picker || notify-send "exit $?:" $color_picker)
 
-for_window [class="Spotify"] move scratchpad, scratchpad show
-bindsym $mod+u [class="Spotify"] scratchpad show
+set $discord "discord --proxy-server=socks5://192.168.1.100:9909"
+for_window [instance="discord"] move scratchpad, scratchpad show
+bindsym $mod+semicolon exec --no-startup-id \
+            pgrep -x "Discord" > /dev/null && \
+            i3-msg [instance="discord"] scratchpad show || \
+            (i3-msg exec $discord || notify-send "exit $?:" $discord)
+
+
+set $todo_window "st -n todo -e nvim /home/s4/note/todo.vorg"
+for_window [instance="todo"] move scratchpad, scratchpad show
+bindsym $mod+g exec --no-startup-id \
+            pgrep -x -f $todo_window > /dev/null && \
+            i3-msg [instance="todo"] scratchpad show || \
+            i3-msg exec $todo_window || notify-send "exit $?:" $todo_window
 
 # Mod1 = Alt
 bindsym Mod1+Tab fullscreen disable, focus right, fullscreen enable

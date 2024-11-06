@@ -27,9 +27,9 @@ __ps1() {
     suffixP='\[\e[0;32m\]\[\e[m\]'
     dircP='\[\e[0;32m\]\w\[\e[m\]'
 
-# -- ╭──────╮
-# -- │ test │
-# -- ╰──────╯
+#   ╭─────╮
+#   │ box │
+#   ╰─────╯
     PS1="$userP@$hostP $dircP$branchP $errP\n$suffixP "
 }
 

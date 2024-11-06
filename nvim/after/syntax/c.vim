@@ -1,1 +1,1 @@
-syn keyword	cTodo contained NOTE FIX WARN
+syn keyword cTodo contained NOTE FIX WARN

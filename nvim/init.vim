@@ -24,6 +24,8 @@ Plug '~/.config/nvim/local/vim8-shout'
 "Plug '~/.config/nvim/local/vim-term'
 Plug '~/.config/nvim/local/vim-cool'
 
+Plug 'rlofc/vorg'
+
 " for now I just don't wanna deal with other plugins so I use the lua
 Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
 Plug 'lewis6991/gitsigns.nvim'
@@ -180,12 +182,6 @@ let mapleader = " "
 match CursorLine '\s\+$'
 filetype plugin indent on
 syntax on
-" TODO: look this up!
-let g:vimsyn_embed = 'l'
-let g:c_gnu = 1
-let g:c_functions = 1
-let g:c_function_pointers = 1
-let g:python_highlight_all = 1
 set termguicolors
 color arc
 
@@ -281,8 +277,10 @@ vnoremap y   mzyg`z
 vnoremap gy  mz"+yg`z
 " paste, goto pase start, mark it, select pasted lines, reindent, go back to
 " marked pase
-noremap p mzp`[=`]g`z
-noremap P mzP`[=`]g`z
+" having mz...g`z block ruins key combinations like "0p
+noremap p p`[=`]
+noremap P P`[=`]
+
 noremap gp mz"+p`[=`]g`z
 noremap gP mz"+P`[=`]g`z
 inoremap <C-S-v> <C-r>+
@@ -710,6 +708,7 @@ command! SetMake call SetOption("makrprg")
 
 command! -nargs=1 -complete=file Dump call CaptureOutput("objdump -C -l -S -d " .. <f-args>, "[dump]", "asm")
 command! -nargs=1 -complete=file Asm call CaptureOutput(<f-args>  .. " -o- -S -fverbose-asm", "[asm]", "asm")
+command! -nargs=1 -complete=file PreProc call CaptureOutput(<f-args>  .. " -o- -E", "[PreProc]", "c")
 
 " -----------------------------------------------
 " --- auto commands ---
