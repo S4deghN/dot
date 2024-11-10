@@ -6,9 +6,5 @@
 
 config_version: 2
 settings:
-  content.autoplay:
-    global: false
-  content.private_browsing:
-    global: false
   content.proxy:
-    global: http://192.168.1.100:8080
+    global: none

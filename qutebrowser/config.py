@@ -14,6 +14,8 @@
 ## Remove it to not load settings done via the GUI.
 config.load_autoconfig(True)
 
+config.set("colors.webpage.darkmode.enabled", True)
+
 ## Aliases for commands. The keys of the given dictionary are the
 ## aliases, while the values are the commands they map to.
 ## Type: Dict
@@ -28,6 +30,7 @@ c.aliases = {
     'geph': 'set content.proxy socks5://192.168.1.100:9909',
     'noproxy': 'set content.proxy none',
 }
+
 
 ## Time interval (in milliseconds) between auto-saves of
 ## config/cookies/etc.
@@ -95,7 +98,7 @@ c.auto_save.session = True
 
 # tabs_selected_color = '#285577'
 tabs_selected_color = '#204E8A'
-tabs_background = '#383838'
+default_bg = '#383838'
 
 ## Bottom border color of the completion widget category headers.
 ## Type: QssColor
@@ -231,6 +234,7 @@ tabs_background = '#383838'
 # c.colors.downloads.system.fg = 'rgb'
 
 ## Background color for hints. Note that you can use a `rgba(...)` value
+## example: 'rgba(0, 0, 0, 80%)'
 ## for transparency.
 ## Type: QssColor
 c.colors.hints.bg = '#204E8A'
@@ -245,7 +249,7 @@ c.colors.hints.match.fg = 'black'
 
 ## Background color of the keyhint widget.
 ## Type: QssColor
-# c.colors.keyhint.bg = 'rgba(0, 0, 0, 80%)'
+c.colors.keyhint.bg = default_bg
 
 ## Text color for the keyhint widget.
 ## Type: QssColor
@@ -257,7 +261,7 @@ c.colors.hints.match.fg = 'black'
 
 ## Background color of an error message.
 ## Type: QssColor
-# c.colors.messages.error.bg = 'red'
+c.colors.messages.error.bg = "#dd3333"
 
 ## Border color of an error message.
 ## Type: QssColor
@@ -269,7 +273,7 @@ c.colors.hints.match.fg = 'black'
 
 ## Background color of an info message.
 ## Type: QssColor
-# c.colors.messages.info.bg = 'black'
+c.colors.messages.info.bg = default_bg
 
 ## Border color of an info message.
 ## Type: QssColor
@@ -329,7 +333,7 @@ c.colors.hints.match.fg = 'black'
 
 ## Background color of the statusbar in command mode.
 ## Type: QssColor
-c.colors.statusbar.command.bg = tabs_background
+c.colors.statusbar.command.bg = default_bg
 
 ## Foreground color of the statusbar in command mode.
 ## Type: QssColor
@@ -353,7 +357,7 @@ c.colors.statusbar.command.bg = tabs_background
 
 ## Background color of the statusbar.
 ## Type: QssColor
-c.colors.statusbar.normal.bg = tabs_background
+c.colors.statusbar.normal.bg = default_bg
 
 ## Foreground color of the statusbar.
 ## Type: QssColor
@@ -420,7 +424,7 @@ c.colors.tabs.indicator.system = 'rgb'
 
 ## Background color of unselected even tabs.
 ## Type: QtColor
-c.colors.tabs.even.bg = tabs_background
+c.colors.tabs.even.bg = default_bg
 
 ## Foreground color of unselected even tabs.
 ## Type: QtColor
@@ -440,7 +444,7 @@ c.colors.tabs.even.bg = tabs_background
 
 ## Background color of unselected odd tabs.
 ## Type: QtColor
-c.colors.tabs.odd.bg = tabs_background
+c.colors.tabs.odd.bg = default_bg
 
 ## Foreground color of unselected odd tabs.
 ## Type: QtColor
@@ -448,7 +452,7 @@ c.colors.tabs.odd.bg = tabs_background
 
 ## Background color of pinned unselected even tabs.
 ## Type: QtColor
-c.colors.tabs.pinned.even.bg = tabs_background
+c.colors.tabs.pinned.even.bg = default_bg
 
 ## Foreground color of pinned unselected even tabs.
 ## Type: QtColor
@@ -456,7 +460,7 @@ c.colors.tabs.pinned.even.bg = tabs_background
 
 ## Background color of pinned unselected odd tabs.
 ## Type: QtColor
-c.colors.tabs.pinned.odd.bg = tabs_background
+c.colors.tabs.pinned.odd.bg = default_bg
 
 ## Foreground color of pinned unselected odd tabs.
 ## Type: QtColor
@@ -515,13 +519,13 @@ c.colors.tabs.selected.odd.bg = tabs_selected_color
 ##   - lightness-cielab: Modify colors by converting them to CIELAB color space and inverting the L value. Not available with Qt < 5.14.
 ##   - lightness-hsl: Modify colors by converting them to the HSL color space and inverting the lightness (i.e. the "L" in HSL).
 ##   - brightness-rgb: Modify colors by subtracting each of r, g, and b from their maximum value.
-# c.colors.webpage.darkmode.algorithm = 'lightness-cielab'
+c.colors.webpage.darkmode.algorithm = 'lightness-hsl'
 
 ## Contrast for dark mode. This only has an effect when
 ## `colors.webpage.darkmode.algorithm` is set to `lightness-hsl` or
 ## `brightness-rgb`.
 ## Type: Float
-# c.colors.webpage.darkmode.contrast = 0.0
+c.colors.webpage.darkmode.contrast = -1
 
 ## Render all web contents using a dark theme. On QtWebEngine < 6.7, this
 ## setting requires a restart and does not support URL patterns, only the
@@ -531,7 +535,7 @@ c.colors.tabs.selected.odd.bg = tabs_selected_color
 ## `colors.webpage.darkmode.policy.images` to `never`.  - "With selective
 ## image inversion": qutebrowser default settings.
 ## Type: Bool
-# c.colors.webpage.darkmode.enabled = False
+c.colors.webpage.darkmode.enabled = False
 
 ## Which images to apply dark mode to.
 ## Type: String
@@ -540,7 +544,7 @@ c.colors.tabs.selected.odd.bg = tabs_selected_color
 ##   - never: Never apply dark mode filter to any images.
 ##   - smart: Apply dark mode based on image content. Not available with Qt 5.15.0.
 ##   - smart-simple: On QtWebEngine 6.6, use a simpler algorithm for smart mode (based on numbers of colors and transparency), rather than an ML-based model. Same as 'smart' on older QtWebEnigne versions.
-# c.colors.webpage.darkmode.policy.images = 'smart'
+c.colors.webpage.darkmode.policy.images = 'never'
 
 ## Which pages to apply dark mode to. The underlying Chromium setting has
 ## been removed in QtWebEngine 5.15.3, thus this setting is ignored
@@ -549,7 +553,7 @@ c.colors.tabs.selected.odd.bg = tabs_selected_color
 ## Valid values:
 ##   - always: Apply dark mode filter to all frames, regardless of content.
 ##   - smart: Apply dark mode filter to frames based on background color.
-# c.colors.webpage.darkmode.policy.page = 'smart'
+c.colors.webpage.darkmode.policy.page = 'smart'
 
 ## Threshold for inverting background elements with dark mode. Background
 ## elements with brightness above this threshold will be inverted, and
@@ -558,14 +562,14 @@ c.colors.tabs.selected.odd.bg = tabs_selected_color
 ## behavior is the opposite of
 ## `colors.webpage.darkmode.threshold.foreground`!
 ## Type: Int
-# c.colors.webpage.darkmode.threshold.background = 0
+c.colors.webpage.darkmode.threshold.background = 0
 
 ## Threshold for inverting text with dark mode. Text colors with
 ## brightness below this threshold will be inverted, and above it will be
 ## left as in the original, non-dark-mode page. Set to 256 to always
 ## invert text color or to 0 to never invert text color.
 ## Type: Int
-# c.colors.webpage.darkmode.threshold.foreground = 256
+c.colors.webpage.darkmode.threshold.foreground = 256
 
 ## Value to use for `prefers-color-scheme:` for websites. The "light"
 ## value is only available with QtWebEngine 5.15.2+. On older versions,
@@ -577,7 +581,7 @@ c.colors.tabs.selected.odd.bg = tabs_selected_color
 ##   - auto: Use the system-wide color scheme setting.
 ##   - light: Force a light theme.
 ##   - dark: Force a dark theme.
-# c.colors.webpage.preferred_color_scheme = 'auto'
+c.colors.webpage.preferred_color_scheme = 'dark'
 
 ## Number of commands to save in the command history. 0: no history / -1:
 ## unlimited
@@ -587,7 +591,7 @@ c.colors.tabs.selected.odd.bg = tabs_selected_color
 ## Delay (in milliseconds) before updating completions after typing a
 ## character.
 ## Type: Int
-# c.completion.delay = 0
+c.completion.delay = 0
 
 ## Default filesystem autocomplete suggestions for :open. The elements of
 ## this list show up in the completion window under the Filesystem
@@ -785,11 +789,11 @@ c.content.blocking.method = 'both'
 ##   - no-3rdparty: Accept cookies from the same origin only. This is known to break some sites, such as GMail.
 ##   - no-unknown-3rdparty: Accept cookies from the same origin only, unless a cookie is already set for the domain. On QtWebEngine, this is the same as no-3rdparty.
 ##   - never: Don't accept cookies at all.
-# c.content.cookies.accept = 'all'
+c.content.cookies.accept = 'all'
 
 ## Store cookies.
 ## Type: Bool
-# c.content.cookies.store = True
+c.content.cookies.store = True
 
 ## Default encoding to use for websites. The encoding must be a string
 ## describing an encoding such as _utf-8_, _iso-8859-1_, etc.
@@ -1290,14 +1294,16 @@ c.fileselect.single_file.command = ['st', '-e', 'ranger', '--choosefile={}']
 ## font setting, it's replaced with the fonts listed here. If set to an
 ## empty value, a system-specific monospace default is used.
 ## Type: List of Font, or Font
-c.fonts.default_family = ["inconsolata"]
+c.fonts.default_family = ["inconsolata", "Ubuntu"]
+non_mono_font = "Ubuntu"
+non_mono_font_size = "10"
 
 ## Default font size to use. Whenever "default_size" is used in a font
 ## setting, it's replaced with the size listed here. Valid values are
 ## either a float value with a "pt" suffix, or an integer value with a
 ## "px" suffix.
 ## Type: String
-c.fonts.default_size = '11pt'
+c.fonts.default_size = '12pt'
 
 ## Font used for the downloadbar.
 ## Type: Font
@@ -1333,11 +1339,12 @@ c.fonts.hints = 'default_size default_family'
 
 ## Font used for selected tabs.
 ## Type: Font
-# c.fonts.tabs.selected = 'default_size default_family'
+# c.fonts.tabs.selected = '14px BigBlueTermPlus Nerd Font'
+c.fonts.tabs.selected = 'default_size default_family'
 
 ## Font used for unselected tabs.
 ## Type: Font
-# c.fonts.tabs.unselected = 'default_size default_family'
+c.fonts.tabs.unselected = c.fonts.tabs.selected
 
 ## Font used for tooltips. If set to null, the Qt default is used.
 ## Type: Font
@@ -1957,7 +1964,7 @@ c.tabs.indicator.width = 5
 ##   - startpage: Load the start page.
 ##   - default-page: Load the default page.
 ##   - close: Close the window.
-c.tabs.last_close = 'ignore'
+c.tabs.last_close = 'blank'
 
 ## Maximum width (in pixels) of tabs (-1 for no maximum). This setting
 ## only applies when tabs are horizontal. This setting does not apply to
@@ -1972,7 +1979,7 @@ c.tabs.last_close = 'ignore'
 ## setting does not apply to pinned tabs, unless `tabs.pinned.shrink` is
 ## False.
 ## Type: Int
-# c.tabs.min_width = -1
+c.tabs.min_width = -1
 
 ## When switching tabs, what input mode is applied.
 ## Type: String
@@ -2031,7 +2038,7 @@ c.tabs.padding = {'top': 0, 'bottom': 0, 'left': 0, 'right': 0}
 ##   - bottom
 ##   - left
 ##   - right
-# c.tabs.position = 'top'
+c.tabs.position = 'top'
 
 ## Which tab to select when the focused tab is removed.
 ## Type: SelectOnRemove
@@ -2196,7 +2203,7 @@ c.window.transparent = True
 
 ## Default zoom level.
 ## Type: Perc
-c.zoom.default = '120%'
+c.zoom.default = '110%'
 
 ## Available zoom levels.
 ## Type: List of Perc
@@ -2204,13 +2211,13 @@ c.zoom.levels = ['25%', '33%', '50%', '67%', '75%', '90%', '100%', '110%', '120%
 
 ## Number of zoom increments to divide the mouse wheel movements to.
 ## Type: Int
-# c.zoom.mouse_divider = 512
+c.zoom.mouse_divider = 1024
 
 ## Apply the zoom factor on a frame only to the text or to all content.
 ## Type: Bool
 # c.zoom.text_only = False
 
-## Bindings for normal mode
+## Normal-keybinds
 # config.bind("'", 'mode-enter jump_mark')
 config.bind('=', 'zoom-in')
 config.bind('-', 'zoom-out')
@@ -2294,7 +2301,7 @@ config.bind('l', 'tab-next')
 config.bind('O', 'cmd-set-text -s :open -t -s')
 # config.bind('PP', 'open -t -- {primary}')
 # config.bind('Pp', 'open -t -- {clipboard}')
-# config.bind('R', 'reload -f')
+config.bind('R', 'reload -f ;; message-info reloading...')
 # config.bind('Sb', 'bookmark-list --jump')
 # config.bind('Sh', 'history')
 # config.bind('Sq', 'bookmark-list')
@@ -2332,7 +2339,7 @@ config.bind('O', 'cmd-set-text -s :open -t -s')
 # config.bind('gm', 'tab-move')
 # config.bind('go', 'cmd-set-text :open {url:pretty}')
 # config.bind('gt', 'cmd-set-text -s :tab-select')
-# config.bind('gu', 'navigate up')
+config.bind('gu', 'navigate up')
 # config.bind('i', 'mode-enter insert')
 # config.bind('m', 'quickmark-save')
 # config.bind('n', 'search-next')
@@ -2340,7 +2347,7 @@ config.bind('o', 'cmd-set-text -s :open -s')
 # config.bind('pP', 'open -- {primary}')
 # config.bind('pp', 'open -- {clipboard}')
 # config.bind('q', 'macro-record')
-# config.bind('r', 'reload')
+config.bind('r', 'reload ;; message-info reloading...')
 # config.bind('sf', 'save')
 # config.bind('sk', 'cmd-set-text -s :bind')
 # config.bind('sl', 'cmd-set-text -s :set -t')
@@ -2348,6 +2355,8 @@ config.bind('o', 'cmd-set-text -s :open -s')
 # config.bind('tCH', 'config-cycle -p -u *://*.{url:host}/* content.cookies.accept all no-3rdparty never ;; reload')
 # config.bind('tCh', 'config-cycle -p -u *://{url:host}/* content.cookies.accept all no-3rdparty never ;; reload')
 # config.bind('tCu', 'config-cycle -p -u {url} content.cookies.accept all no-3rdparty never ;; reload')
+config.bind('td', 'config-cycle -p -t -u *://*.{url:host}/* colors.webpage.darkmode.enabled true false ;; reload')
+config.bind('tD', 'config-cycle -p    -u *://*.{url:host}/* colors.webpage.darkmode.enabled true false ;; reload')
 # config.bind('tIH', 'config-cycle -p -u *://*.{url:host}/* content.images ;; reload')
 # config.bind('tIh', 'config-cycle -p -u *://{url:host}/* content.images ;; reload')
 # config.bind('tIu', 'config-cycle -p -u {url} content.images ;; reload')
@@ -2458,6 +2467,7 @@ config.bind('xo', 'cmd-set-text -s :open -b -s')
 # config.bind('<Ctrl-Tab>', 'completion-item-focus next-category', mode='command')
 # config.bind('<Ctrl-U>', 'rl-unix-line-discard', mode='command')
 # config.bind('<Ctrl-W>', 'rl-rubout " "', mode='command')
+config.bind('<Ctrl-W>', 'rl-backward-kill-word', mode='command')
 # config.bind('<Ctrl-Y>', 'rl-yank', mode='command')
 # config.bind('<Down>', 'completion-item-focus --history next', mode='command')
 # config.bind('<Escape>', 'mode-leave', mode='command')
@@ -2478,7 +2488,7 @@ config.bind('xo', 'cmd-set-text -s :open -b -s')
 
 ## Bindings for insert mode
 # config.bind('<Ctrl-E>', 'edit-text', mode='insert')
-# config.bind('<Escape>', 'mode-leave', mode='insert')
+config.bind('<Escape>', 'mode-leave ;; fake-key <Esc>', mode='insert')
 # config.bind('<Shift-Escape>', 'fake-key <Escape>', mode='insert')
 # config.bind('<Shift-Ins>', 'insert-text -- {primary}', mode='insert')
 
@@ -2504,6 +2514,7 @@ config.bind('xo', 'cmd-set-text -s :open -b -s')
 # config.bind('<Ctrl-Shift-W>', 'rl-filename-rubout', mode='prompt')
 # config.bind('<Ctrl-U>', 'rl-unix-line-discard', mode='prompt')
 # config.bind('<Ctrl-W>', 'rl-rubout " "', mode='prompt')
+config.bind('<Ctrl-W>', 'rl-backward-kill-word', mode='prompt')
 # config.bind('<Ctrl-X>', 'prompt-open-download', mode='prompt')
 # config.bind('<Ctrl-Y>', 'rl-yank', mode='prompt')
 # config.bind('<Down>', 'prompt-item-focus next', mode='prompt')
