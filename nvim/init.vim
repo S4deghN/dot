@@ -23,8 +23,7 @@ Plug 'romainl/vim-qf'
 Plug '~/.config/nvim/local/vim8-shout'
 "Plug '~/.config/nvim/local/vim-term'
 Plug '~/.config/nvim/local/vim-cool'
-
-Plug 'rlofc/vorg'
+Plug '~/.config/nvim/local/vorg'
 
 " for now I just don't wanna deal with other plugins so I use the lua
 Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
