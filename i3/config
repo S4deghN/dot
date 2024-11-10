@@ -68,6 +68,8 @@ for_window [class="firefox"] border pixel 2
 for_window [class="St"] border pixel 2
 for_window [class="XTerm"] border pixel 2
 for_window [class="Emacs"] border pixel 2
+for_window [class="qutebrowser"] border pixel 2
+for_window [class="Pale moon"] border pixel 2
 
 # You can also use any non-zero value if you'd like to have a border
 # for_window [class=".*"] border pixel 1
@@ -233,34 +235,22 @@ bindsym $mod+n focus child
 bindsym $mod+s scratchpad show
 bindsym $mod+Shift+s move scratchpad
 
-set $calc "qalculate-gtk"
-for_window [instance=$calc] move scratchpad, scratchpad show
-bindsym $mod+c exec --no-startup-id \
-            pgrep -x $calc > /dev/null && \
-            i3-msg "[instance=$calc] scratchpad show" || \
-            (i3-msg exec $calc || notify-send "exit $?:" $calc)
+for_window [instance="qalculate-gtk"] move scratchpad, scratchpad show
+bindsym $mod+c exec --no-startup-id i3-scratchpad-or-launch "qalculate-gtk"
 
-set $color_picker "gpick"
-for_window [instance=$color_picker] move scratchpad, scratchpad show
-bindsym $mod+i exec --no-startup-id \
-            pgrep -x $color_picker > /dev/null && \
-            i3-msg "[instance=$color_picker] scratchpad show" || \
-            (i3-msg exec $color_picker || notify-send "exit $?:" $color_picker)
+for_window [instance="gpick"] move scratchpad, scratchpad show
+bindsym $mod+i exec --no-startup-id i3-scratchpad-or-launch "gpick"
 
-set $discord "discord --proxy-server=socks5://192.168.1.100:9909"
-for_window [instance="discord"] move scratchpad, scratchpad show
-bindsym $mod+semicolon exec --no-startup-id \
-            pgrep -x "Discord" > /dev/null && \
-            i3-msg [instance="discord"] scratchpad show || \
-            (i3-msg exec $discord || notify-send "exit $?:" $discord)
-
-
-set $todo_window "st -n todo -e nvim /home/s4/note/todo.vorg"
 for_window [instance="todo"] move scratchpad, scratchpad show
-bindsym $mod+g exec --no-startup-id \
-            pgrep -x -f $todo_window > /dev/null && \
-            i3-msg [instance="todo"] scratchpad show || \
-            i3-msg exec $todo_window || notify-send "exit $?:" $todo_window
+bindsym $mod+g exec --no-startup-id i3-scratchpad-or-launch \
+                    "st -n todo -e nvim /home/s4/note/todo.vorg" \
+                    "todo"
+
+for_window [instance="discord"] move scratchpad, scratchpad show
+bindsym $mod+semicolon exec --no-startup-id i3-scratchpad-or-launch \
+                    "discord --proxy-server=socks5://192.168.1.100:9909" \
+                    "discord" \
+                    "/opt/discord/Discord --proxy-server=socks5://192.168.1.100:9909"
 
 # Mod1 = Alt
 bindsym Mod1+Tab fullscreen disable, focus right, fullscreen enable
