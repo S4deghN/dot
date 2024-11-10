@@ -13,7 +13,10 @@ autocmd DocStart cheri-compiler-explorer.cl mode ignore
 " set newtab about:blank
 
 " Use vim in tmux for editor.
-set editorcmd alacritty
+set editorcmd st -e nvim
+
+" Make Tridactyl work on more sites at the expense of some security
+set csp clobber
 
 " Ctrl-F should use the browser's native 'find' functionality.
 unbind <C-f>
