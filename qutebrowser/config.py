@@ -906,7 +906,7 @@ c.content.headers.do_not_track = True
 ##   - none: Disable access to clipboard.
 ##   - access: Allow reading from and writing to the clipboard.
 ##   - access-paste: Allow accessing the clipboard and pasting clipboard content.
-# c.content.javascript.clipboard = 'none'
+c.content.javascript.clipboard = 'access'
 
 ## Enable JavaScript.
 ## Type: Bool
@@ -1340,7 +1340,7 @@ c.fonts.hints = 'default_size default_family'
 ## Font used for selected tabs.
 ## Type: Font
 # c.fonts.tabs.selected = '14px BigBlueTermPlus Nerd Font'
-c.fonts.tabs.selected = 'default_size default_family'
+c.fonts.tabs.selected = '12pt Noto Sans'
 
 ## Font used for unselected tabs.
 ## Type: Font
@@ -1403,7 +1403,7 @@ c.fonts.tabs.unselected = c.fonts.tabs.selected
 ## Duration (in milliseconds) to ignore normal-mode key bindings after a
 ## successful auto-follow.
 ## Type: Int
-# c.hints.auto_follow_timeout = 0
+c.hints.auto_follow_timeout = 0
 
 ## CSS border value for hints.
 ## Type: String
@@ -1468,7 +1468,78 @@ c.hints.scatter = True
 ## CSS selectors used to determine which elements on a page should have
 ## hints.
 ## Type: Dict
-# c.hints.selectors = {'all': ['a', 'area', 'textarea', 'select', 'input:not([type="hidden"])', 'button', 'frame', 'iframe', 'img', 'link', 'summary', '[contenteditable]:not([contenteditable="false"])', '[onclick]', '[onmousedown]', '[role="link"]', '[role="option"]', '[role="button"]', '[role="tab"]', '[role="checkbox"]', '[role="switch"]', '[role="menuitem"]', '[role="menuitemcheckbox"]', '[role="menuitemradio"]', '[role="treeitem"]', '[aria-haspopup]', '[ng-click]', '[ngClick]', '[data-ng-click]', '[x-ng-click]', '[tabindex]:not([tabindex="-1"])'], 'links': ['a[href]', 'area[href]', 'link[href]', '[role="link"][href]'], 'images': ['img'], 'media': ['audio', 'img', 'video'], 'url': ['[src]', '[href]'], 'inputs': ['input[type="text"]', 'input[type="date"]', 'input[type="datetime-local"]', 'input[type="email"]', 'input[type="month"]', 'input[type="number"]', 'input[type="password"]', 'input[type="search"]', 'input[type="tel"]', 'input[type="time"]', 'input[type="url"]', 'input[type="week"]', 'input:not([type])', '[contenteditable]:not([contenteditable="false"])', 'textarea']}
+c.hints.selectors = {
+    'all': [
+        'a',
+        'area',
+        'textarea',
+        'select',
+        'input:not([type="hidden"])',
+        'button',
+        'frame',
+        'iframe',
+        'img',
+        'link',
+        'summary',
+        '[contenteditable]:not([contenteditable="false"])',
+        '[onclick]',
+        '[onmousedown]',
+        '[role="link"]',
+        '[role="option"]',
+        '[role="button"]',
+        '[role="tab"]',
+        '[role="checkbox"]',
+        '[role="switch"]',
+        '[role="menuitem"]',
+        '[role="menuitemcheckbox"]',
+        '[role="menuitemradio"]',
+        '[role="treeitem"]',
+        '[aria-haspopup]',
+        '[ng-click]',
+        '[ngClick]',
+        '[data-ng-click]',
+        '[x-ng-click]',
+        '[tabindex]:not([tabindex="-1"])',
+    ],
+    'text': [
+        'code',
+        'p',
+        'div',
+        'pre',
+    ],
+    'links': [
+        'a[href]',
+        'area[href]',
+        'link[href]',
+        '[role="link"][href]'
+    ],
+    'images': ['img'],
+    'media': [
+        'audio', 'img',
+        'video'
+    ],
+    'url': [
+        '[src]',
+        '[href]'
+    ],
+    'inputs': [
+        'input[type="text"]',
+        'input[type="date"]',
+        'input[type="datetime-local"]',
+        'input[type="email"]',
+        'input[type="month"]',
+        'input[type="number"]',
+        'input[type="password"]',
+        'input[type="search"]',
+        'input[type="tel"]',
+        'input[type="time"]',
+        'input[type="url"]',
+        'input[type="week"]',
+        'input:not([type])',
+        '[contenteditable]:not([contenteditable="false"])',
+        'textarea'
+    ]
+}
 
 ## Make characters in hint strings uppercase.
 ## Type: Bool
@@ -1979,7 +2050,7 @@ c.tabs.last_close = 'blank'
 ## setting does not apply to pinned tabs, unless `tabs.pinned.shrink` is
 ## False.
 ## Type: Int
-c.tabs.min_width = -1
+c.tabs.min_width = 150
 
 ## When switching tabs, what input mode is applied.
 ## Type: String
@@ -2203,7 +2274,7 @@ c.window.transparent = True
 
 ## Default zoom level.
 ## Type: Perc
-c.zoom.default = '110%'
+c.zoom.default = '120%'
 
 ## Available zoom levels.
 ## Type: List of Perc
@@ -2238,7 +2309,8 @@ config.bind('<Ctrl-0>', 'zoom')
 # config.bind(';r', 'hint --rapid links tab-bg')
 # config.bind(';t', 'hint inputs')
 # config.bind(';y', 'hint links yank')
-config.bind(';;', 'hint all right-click')
+config.bind(';k', 'hint text delete')
+config.bind(';;', 'hint text normal')
 # config.bind('<Alt-1>', 'tab-focus 1')
 # config.bind('<Alt-2>', 'tab-focus 2')
 # config.bind('<Alt-3>', 'tab-focus 3')
@@ -2286,14 +2358,15 @@ config.bind('<Ctrl-T>', 'open -t ;; cmd-set-text -s :open -s')
 # config.bind('D', 'tab-close -o')
 # config.bind('F', 'hint all tab')
 # config.bind('G', 'scroll-to-perc')
+
 config.bind('H', 'scroll left')
 config.bind('L', 'scroll right')
 config.bind('K', 'back')
 config.bind('J', 'forward')
-# config.bind('j', 'cmd-run-with-count 5 scroll down')
-# config.bind('k', 'cmd-run-with-count 5 scroll up')
-config.bind('j', 'scroll-px 0 200')
-config.bind('k', 'scroll-px 0 -200')
+config.bind('j', 'cmd-run-with-count 6 scroll down')
+config.bind('k', 'cmd-run-with-count 6 scroll up')
+# config.bind('j', 'scroll-px 0 200')
+# config.bind('k', 'scroll-px 0 -200')
 config.bind('h', 'tab-prev')
 config.bind('l', 'tab-next')
 # config.bind('M', 'bookmark-add')
@@ -2382,6 +2455,7 @@ config.bind('tD', 'config-cycle -p    -u *://*.{url:host}/* colors.webpage.darkm
 # config.bind('tsu', 'config-cycle -p -t -u {url} content.javascript.enabled ;; reload')
 # config.bind('u', 'undo')
 # config.bind('v', 'mode-enter caret')
+# config.bind('v', 'hint all normal ;; mode-enter caret ;; selection-toggle')
 # config.bind('wB', 'cmd-set-text -s :bookmark-load -w')
 # config.bind('wIf', 'devtools-focus')
 # config.bind('wIh', 'devtools left')
@@ -2491,6 +2565,13 @@ config.bind('<Ctrl-W>', 'rl-backward-kill-word', mode='command')
 config.bind('<Escape>', 'mode-leave ;; fake-key <Esc>', mode='insert')
 # config.bind('<Shift-Escape>', 'fake-key <Escape>', mode='insert')
 # config.bind('<Shift-Ins>', 'insert-text -- {primary}', mode='insert')
+config.bind('<Ctrl-W>', 'fake-key <Ctrl-Backspace>', mode='insert')
+config.bind('<Ctrl-b>', 'fake-key <Left>', mode='insert')
+config.bind('<Ctrl-f>', 'fake-key <Right>', mode='insert')
+config.bind('<Ctrl-a>', 'fake-key <Home>', mode='insert')
+config.bind('<Ctrl-e>', 'fake-key <End>', mode='insert')
+config.bind('<Alt-b>', 'fake-key <Ctrl-Left>', mode='insert')
+config.bind('<Alt-f>', 'fake-key <Ctrl-Right>', mode='insert')
 
 ## Bindings for passthrough mode
 # config.bind('<Shift-Escape>', 'mode-leave', mode='passthrough')
