@@ -1340,7 +1340,7 @@ c.fonts.hints = 'default_size default_family'
 ## Font used for selected tabs.
 ## Type: Font
 # c.fonts.tabs.selected = '14px BigBlueTermPlus Nerd Font'
-c.fonts.tabs.selected = '12pt Noto Sans'
+c.fonts.tabs.selected = '12pt Sans Regular'
 
 ## Font used for unselected tabs.
 ## Type: Font

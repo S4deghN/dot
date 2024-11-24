@@ -5,7 +5,6 @@
 // u/author jso8910
 // u/match *://*.youtube.com/*
 // u/exclude *://*.youtube.com/subscribe_embed?*
-
 // ==/UserScript==
 setInterval(() => {
   const btn = document.querySelector('.videoAdUiSkipButton,.ytp-ad-skip-button')
