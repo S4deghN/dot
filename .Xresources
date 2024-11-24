@@ -17,9 +17,9 @@ Xft.dpi: 96
 /* *.cursorOffTime: 500 */
 /* *.cursorOnTime: 800 */
 
-*translations: #override \n\
-        Ctrl Shift <Key>C: copy-selection(CLIPBOARD) \n\
-        Ctrl Shift <Key>V: insert-selection(CLIPBOARD)
+! *translations: #override \n\
+!         Ctrl Shift <Key>C: copy-selection(CLIPBOARD) \n\
+!         Ctrl Shift <Key>V: insert-selection(CLIPBOARD)
 
 *faceName: Ubuntu Mono:size=14:antialias=true,Symbols Nerd Font Mono:size=14
 /* *faceNameDoublesize: Symbols Nerd Font Mono */
