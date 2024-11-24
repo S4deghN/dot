@@ -40,6 +40,10 @@ Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
+
+Plug 'fcpg/vim-orbital'
+Plug 'sstallion/vim-wtf'
+Plug 'fcpg/vim-complimentary'
 call plug#end()
 
 let g:rooter_silent_chdir = 1
@@ -109,7 +113,7 @@ set smartindent
 " when unset you can delete inserted tab with C-w without deleting the word before it
 set nosmarttab
 set expandtab
-set shiftwidth=2 tabstop=2
+set shiftwidth=4 tabstop=4
 set foldmethod=marker
 set textwidth=100
 "set cursorline
@@ -182,7 +186,6 @@ match CursorLine '\s\+$'
 filetype plugin indent on
 syntax on
 set termguicolors
-color arc
 
 let g:gruvbox_contrast = 'soft'
 let g:gruvbox_italicize_comments = 0
@@ -217,10 +220,11 @@ let g:gruvbox_italicize_comments = 0
 "hi Normal guibg=NONE
 
 color handy
-hi Normal guibg=NONE
-"hi Normal guibg=#2e2c2a
-"hi Normal guibg=#2c2c2c
-"hi Normal guibg=#242424
+"hi Normal guibg=#000000
+"hi NormalFloat guibg=#282828
+""hi Normal guibg=#2e2c2a
+""hi Normal guibg=#2c2c2c
+""hi Normal guibg=#242424
 
 "color desert
 "hi Normal guifg=#eeeeee guibg=NONE
@@ -242,6 +246,24 @@ hi Normal guibg=NONE
 "hi Todo guibg=bg guifg=#cd5c5c
 "hi @lsp.type.comment guifg=NONE guibg=#282828
 "hi @lsp.type.namespace guifg=fg
+
+"color imgui
+"hi normal guifg=#cccccc guibg=#000000
+"hi Statement guifg=#569ce6
+""hi Type guifg=yellow3
+"hi PreProc guifg=#509090
+"hi Comment guifg=#307030
+"hi Number guifg=#00cc00
+"
+"hi! link Directory Special
+"
+"hi WinSeparator guifg=#202020 guibg=#202020
+"hi StatuslineNC guibg=#202020
+"hi StatuslineNC guibg=#202020
+
+"color orbital
+"hi Normal guifg=#dddddd
+"hi PreProc guifg=#5fafff
 
 " -----------------------------------------------
 " --- keymaps ---
@@ -320,18 +342,13 @@ noremap <C-h> <cmd>bp<cr>
 noremap <C-l> <cmd>bn<cr>
 noremap <C-j> <cmd>cn<cr>
 noremap <C-k> <cmd>cp<cr>
-noremap <M-a> g`Ag`"
-noremap <M-s> g`Sg`"
-noremap <M-d> g`Dg`"
-noremap <M-f> g`Fg`"
-noremap <M-g> g`Gg`"
+noremap <M-q> g`Qg`"
+noremap <M-w> g`Wg`"
+noremap <M-e> g`Eg`"
+noremap <M-r> g`Rg`"
+noremap <M-t> g`Tg`"
 
-noremap <M-q> tabn 1
-noremap <M-w> tabn 2
-noremap <M-e> tabn 3
-noremap <M-r> tabn 4
-noremap <M-t> tabn 5
-noremap <M-y> tabn 6
+noremap <M-d> dw
 
 "nnoremap <C-n> <C-e>
 "nnoremap <C-p> <C-y>

@@ -17,3 +17,4 @@ Prolog
 Printf
 Keymap
 Keybind
+modprobe

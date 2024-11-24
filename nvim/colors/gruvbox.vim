@@ -881,6 +881,8 @@ call s:HL('StatusLine', 'light1', 'dark2')
 call s:HL('StatusLineNC', 'light3', 'dark2')
 call s:HL('Macro', 'blue')
 call s:HL('Include', 'blue')
+call s:HL('VertSplit ', 'dark2', 'dark2')
+
 hi! link WinSeparator VertSplit
 hi Delimiter guifg=fg
 hi Operator guifg=fg
