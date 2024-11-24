@@ -1,136 +1,17 @@
 vim9script
 
-#unlet! skip_defaults_vim
-# source $VIMRUNTIME/defaults.vim
-
-# -----------------------------------------------
-# --- options ---
-# -----------------------------------------------
-# timeout for key sequences of terminal like esc and such
-set nocompatible ttimeout ttimeoutlen=0
-set history=10000
-# Undo file shouldn't replace version control
-set noswapfile undofile undodir=/tmp/vim9
-# speed things up
-set hidden
-set notitle
-# mouse support
-set mouse=ar
-# Essential for scroll to work properly
-set ttymouse=sgr
-# remedy flikering wiht termguicolors `https://github.com/vim/vim/issues/10574`. I'm not
-# sure how effective this one is, but settng Normal guibg=NONE definitly make vim flicker.
-# set t_ut=
-set completeopt=menu,menuone,noinsert
-set pumheight=6 previewheight=10
-# behave like bash
-set nowildmenu wildignorecase wildmode=longest,list,full
-set showcmd
-set signcolumn=no
-set ruler
-
-# set showcmd showcmdloc=statusline
-set shortmess=aoOFtT
-set splitbelow splitright
-set incsearch hlsearch
-set ignorecase
-set smartcase
-set smartindent
-set nosmarttab
-set expandtab shiftwidth=4 tabstop=4
-set backspace=indent,eol,start
-set foldmethod=marker
-set textwidth=100
-set jumpoptions=stack
-set showbreak=\
-set fillchars+=diff:╱,vert:│
-
-# Sane indentation
-set cinoptions+=:0,ls,g0,N-s,E-s,(s,k0,j1,J1
-
-if executable('rg')
-    set grepprg=rg\ -H\ --no-heading\ --vimgrep
-    set grepformat=%f:%l:%c:%m
-endif
-
-# put the more unlikey first so that when it is the case you search that first.
-set path=.,**,/usr/src/*/include,/usr/include
-
-# if match case is not set to `match` tag search becomes really slow!
-set tagcase=match
-
-set listchars=tab:\ \ ,trail:-
-set list
-
-set laststatus=2
-if &laststatus > 0
-    set showcmdloc=statusline
-    set statusline=
-    # Left
-    set stl+=%.35f
-    set stl+=%(\ %m%q%h%w%r%)\ \ \ \ %P\ \ \ %-8(%l:%c%)
-    # set stl+=\ \ \ \ %(Git:%{v:lua.GitSignsStatus()}%)
-    # Middle
-    set stl+=\ %=
-    set stl+=%S
-    # Right
-    set stl+=\ %=
-    # set stl+=%([%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}]%)
-    set stl+=
-else
-    set rulerformat=%60(%([%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}]%)\ \ \ \ %(Git:%{v:lua.GitSignsStatus()}%)%=\ \ \ \ %-8(%l,%c%)\ %P%)
-    augroup ruler
-        autocmd BufEnter * call feedkeys("\<C-g>")
-    augroup end
-endif
-
-# mark trailing spaces as errors using highlight group CursorLine
-match CursorLine '\s\+$'
-filetype plugin indent on
-syntax on
-g:c_gnu = 1
-g:c_functions = 1
-g:c_function_pointers = 1
-set termguicolors
-set background=dark
-# color narc
-# hi Statusline guibg=#335544
-# hi VertSplit guifg=#333333
-
-g:gruvbox_contrast = 'soft'
-g:gruvbox_italicize_comments = 0
-color gruvbox
-
-g:mapleader = " "
-
 # -----------------------------------------------
 # --- plugins ---
 # -----------------------------------------------
-
-# uncomment to disable
-# g:loaded_matchparen = 1
+if empty(glob('~/dot/nvim/autoload/plug.vim'))
+    silent !curl -fLo ~/dot/nvim/autoload/plug.vim --create-dirs
+                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    au VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
 plug#begin()
 Plug 'junegunn/vim-easy-align'
-Plug 'tpope/vim-commentary'
-Plug 'airblade/vim-rooter'
-Plug 'chrisbra/Colorizer'
-# Plug 'dense-analysis/ale'
 Plug 'junegunn/fzf.vim'
-Plug 'yegappan/disassemble'
-Plug '~/.vim/local/vim-cool'
-Plug '~/.vim/local/vim-shout'
-Plug '~/.vim/local/lsp'
-plug#end()
-
-# rooter
-# {{{
-g:rooter_silent_chdir = 1
-g:rooter_manual_only = 1
-g:rooter_paterns = ['.git', '_darcs', '.hg', '.bzr', '.svn', 'Makefile', 'package.json', '.gitignore', 'Makefile' ]
-# }}}
-
-# fzf
 # {{{
 g:fzf_vim = {}
 # g:fzf_vim.preview_window = ['hidden,right,40%,<70(up,40%)', 'ctrl-l']
@@ -142,18 +23,47 @@ def BuildQfList(lines: string)
 enddef
 
 g:fzf_action = {
-            \ 'ctrl-q': function('BuildQfList'),
-            \ 'ctrl-t': 'tab split',
-            \ 'ctrl-x': 'split',
-            \ 'ctrl-v': 'vsplit' }
+    'ctrl-q': function('BuildQfList'),
+    'ctrl-t': 'tab split',
+    'ctrl-x': 'split',
+    'ctrl-v': 'vsplit'
+}
 
-# g:fzf_layout = { 'down': '50%' }
-# g:fzf_layout = { 'window': 'enew' }
 g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
-# g:fzf_history_dir = '~/.local/share/fzf-history'
 # }}}
-
-# lsp
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-sleuth' # Buffer options
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-capslock'
+Plug 'tpope/vim-eunuch' # UNIX helper
+Plug 'airblade/vim-rooter'
+# {{{
+g:rooter_silent_chdir = 1
+g:rooter_paterns = [
+    '.git',
+    '_darcs',
+    '.hg',
+    '.bzr',
+    '.svn',
+    'Makefile',
+    'package.json',
+    '.gitignore',
+    'Makefile'
+]
+# }}}
+Plug 'chrisbra/Colorizer'
+Plug 'fcpg/vim-complimentary'
+Plug 'lacygoill/vim9asm'
+# Plug '~/.vim/local/vim-cool'
+Plug '~/.vim/local/vim-shout'
+# {{{
+t:shout_cmd = ""
+# TODO: fix this. this should not exist!
+command! -nargs=1 -bang -complete=file Sh
+            \ shout#CaptureOutput(<q-args>, empty(<q-bang>) ? true : false)
+# }}}
+Plug '~/.vim/local/lsp'
 # {{{
 var lspOpts = {
     semanticHighlight: false,
@@ -197,6 +107,24 @@ var lspOpts = {
     filterCompletionDuplicates: false,
 }
 
+def LspOnAttach()
+    # so we can use :stag
+    setlocal tagfunc=lsp#lsp#TagFunc
+    # setlocal cursorlineopt=line
+    # g:netrw_banner = 0
+    # nmap <buffer> gd  <cmd>LspGotoDefinition<cr>
+    nmap <buffer> K   :LspHover<cr>
+    nmap <buffer> ]d  :LspDiagNext<cr>
+    nmap <buffer> [d  :LspDiagPrev<cr>
+    nmap <buffer> gh  :LspDiagCurrent<cr>
+    nmap <buffer> gla :LspCodeAction<cr>
+enddef
+
+autocmd User LspSetup call LspOptionsSet(lspOpts)
+autocmd User LspSetup call LspAddServer(lspServers)
+autocmd User LspAttached call LspOnAttach()
+# }}}
+# {{{
 var lspServers = [
     {
         name: 'clangd',
@@ -215,9 +143,135 @@ var lspServers = [
     },
 ]
 # }}}
+Plug 'mg979/vim-visual-multi'
+# {{{
+g:VM_maps = {
+    'Find Under': '<C-q>',
+    'Find Subword Under': '<C-q>'
+}
+# }}}
+plug#end()
+
+runtime ftplugin/man.vim
+# disable matchparent and use plugin/parenmatch.vim
+g:loaded_matchparen = 1
+g:loaded_matchparen9 = 1
+
+# -----------------------------------------------
+# --- options ---
+# -----------------------------------------------
+# experimental
+# set regexpengine=1
+# set lazyredraw
+
+# timeout for key sequences of terminal like esc and such
+set nocompatible ttimeout ttimeoutlen=0
+set history=10000
+# Undo file shouldn't replace version control
+set noswapfile
+
+set undofile
+silent system("mkdir -p /tmp/$USER.vim9undo")
+set undodir=/tmp/$USER.vim9undo
+# speed things up
+set hidden
+set notitle
+# mouse support
+set mouse=ar
+# Essential for scroll to work properly
+set ttymouse=sgr
+# remedy flikering wiht termguicolors `https://github.com/vim/vim/issues/10574`. I'm not
+# sure how effective this one is, but settng Normal guibg=NONE definitly make vim flicker.
+set t_ut=
+set completeopt=menu,menuone,noinsert,popup
+set pumheight=6 previewheight=10
+# behave like bash
+set nowildmenu wildignorecase wildmode=longest,list,full
+set showcmd
+set signcolumn=no
+set ruler
+
+# set showcmd showcmdloc=statusline
+set shortmess=aoOFtT
+set splitbelow splitright
+set incsearch hlsearch
+set ignorecase
+set smartcase
+set smartindent
+# when unset you can delete inserted tab with C-w without deleting the word before it
+set nosmarttab
+set expandtab shiftwidth=4 tabstop=4
+set backspace=indent,eol,start
+set foldmethod=marker
+set textwidth=100
+set jumpoptions=stack
+set showbreak=↷
+set fillchars+=diff:╱,vert:│
+set listchars=tab:»\ ,trail:-
+set nolist
+
+# Sane indentation
+set cinoptions+=:0,ls,g0,N-s,E-s,(s,k0,j1,J1
+
+# put the more unlikey first so that when it is the case you search that first.
+set path=.,**,/usr/src/*/include,/usr/include
+
+# if match case is not set to `match` tag search becomes really slow!
+set tagcase=match
+
+if executable('rg')
+    set grepprg=rg\ -H\ --no-heading\ --vimgrep
+    set grepformat=%f:%l:%c:%m
+endif
+
+set laststatus=2
+if &laststatus > 0
+    set showcmdloc=statusline
+    set statusline=
+    # Left
+    set stl+=%f
+    set stl+=%(\ %m%q%h%w%r%)
+    set stl+=\ \ \ \ %P\ %10(%l:%c\ \ %)
+    # set stl+=%(\ \ \ \ Git:%{v:lua.GitSignsStatus()}%)
+    # set stl+=%(\ \ \ \ LSP:%{v:lua.GetRunningLsp()}%{%v:lua.GetDiag()%}%)
+    # Middle
+    set stl+=\ %=
+    set stl+=%S
+    # Right
+    set stl+=\ %=
+    set stl+=
+else
+    set rulerformat=%60(%([%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}]%)\ \ \ \ %(Git:%{v:lua.GitSignsStatus()}%)%=\ \ \ \ %-8(%l,%c%)\ %P%)
+    augroup ruler
+        autocmd BufEnter * call feedkeys("\<C-g>")
+    augroup end
+endif
+
+g:mapleader = " "
 
 
-export def g:JumpTag()
+# -----------------------------------------------
+# --- coloring ---
+# -----------------------------------------------
+# mark trailing spaces as errors using highlight group CursorLine
+match CursorLine '\s\+$'
+filetype plugin indent on
+syntax on
+# TODO: Move these to ftplugin
+g:c_gnu = 1
+g:c_functions = 1
+g:c_function_pointers = 1
+set termguicolors
+set background=dark
+g:gruvbox_contrast = 'soft'
+g:gruvbox_italicize_comments = 0
+g:gruvbox_invert_selection = 0
+color gruvbox
+hi Normal guibg=#2f2e2d
+
+# Scratch
+# {{{
+def g:JumpTag()
     var start_bnr = bufnr()
     var start_line = line('.')
     execute("normal! \<C-]>")
@@ -231,7 +285,7 @@ enddef
 # "/usr/include/SDL2/SDL_video.h" [RO] 2184L, 81088B
 # "include/SDL2/SDL_video.h" [RO] 2184L, 81088B
 
-export def g:JumpToDefinition()
+def g:JumpToDefinition()
     var fallbacks = [
         'LspGotoDefinition',
         'call JumpTag()',
@@ -254,36 +308,26 @@ export def g:JumpToDefinition()
     endfor
 enddef
 
-def LspOnAttach()
-    # setlocal cursorlineopt=line
-    # g:netrw_banner = 0
-    # nmap <buffer> gd  <cmd>LspGotoDefinition<cr>
-    nmap <buffer> K   :LspHover<cr>
-    nmap <buffer> ]d  :LspDiagNext<cr>
-    nmap <buffer> [d  :LspDiagPrev<cr>
-    nmap <buffer> gh  :LspDiagCurrent<cr>
-    nmap <buffer> gla :LspCodeAction<cr>
+def g:SplitJumpToDefinition()
+    execute 'split g:JumpToDefinition()'
+    g:MoveOpenedWinodwToSaneSplit()
 enddef
-
-autocmd User LspSetup call LspOptionsSet(lspOpts)
-autocmd User LspSetup call LspAddServer(lspServers)
-autocmd User LspAttached call LspOnAttach()
-
-t:shout_cmd = "cc"
-command! -nargs=1 -bang -complete=file Sh shout#CaptureOutput(<q-args>, empty(<q-bang>) ? true : false)
-
+# }}}
 
 # -----------------------------------------------
 # --- keymaps ---
 # -----------------------------------------------
 map ' `
 
-inoremap <C-j> <C-j><Up>
-inoremap <C-k> <Del>
+inoremap <silent> <Esc> <Esc>g`^
 inoremap <C-z> <esc>b1z=`]a
+# :help map-special-keys
+inoremap <C-_> <esc>ugi
 # for accepting auto complete
 inoremap <C-f> <C-y>
 inoremap <C-^> <esc><C-^>
+inoremap <C-s> <Plug>CapsLockToggle
+inoremap <C-x>d <esc>:r!date "+\%Y/\%m/\%d \%H:\%M:\%S"<cr>kJg`]a
 
 tmap <C-]> <C-\><C-n>
 
@@ -303,41 +347,49 @@ noremap p p`[mzV`]=`z
 noremap P P`[mzV`]=`z
 map gp "+p
 map gP "+P
+nnoremap yo :let @+=@"<cr>
 
 # indent
+nmap     +   mz[%=%g`z
+imap   <C-b> <Esc>+gi
 nnoremap =if mzggVG=g`z
 nnoremap =ap mz=apg`z
 nnoremap =ip mz=ipg`z
+nnoremap ==  mz=ipg`z
 vnoremap =   mz=g`z
 
 # format
-nnoremap gqif mzggVGgqg`z
+nnoremap gqif mzggVGgqgg`z
 nnoremap gqap mzgqapg`z
 nnoremap gqip mzgqipg`z
 nnoremap gql  mzgqlg`z
 vnoremap gq   mzgqg`z
-noremap  gz 1z=
-noremap  zs :%s/\s\+$//e<cr>''
-nnoremap gF mz:%!clang-format<cr>g`z
-xnoremap ga <plug>(EasyAlign)
+noremap  gz   1z=
+noremap  zs   mz:%s/\s\+$//e<cr>''g`z
+nnoremap gF   mz:%!clang-format<cr>g`z
+nmap gcA      gcc^dWA <C-r>"
+nmap gcd      yygccpg`]
+
 nnoremap ga <plug>(EasyAlign)
-nmap gcA gcc^dWA <C-r>"
-nmap gcn yygccp
+xnoremap ga <plug>(EasyAlign)
+nnoremap ga\ mz<plug>(EasyAlign)ap\g`z
 
 # navigation
+noremap j gj
+noremap k gk
 noremap <C-h> <cmd>tabp<cr>
 noremap <C-l> <cmd>tabn<cr>
 noremap <C-j> <cmd>cn<cr>
 noremap <C-k> <cmd>cp<cr>
-noremap <M-a> 'A
-noremap <M-s> 'S
-noremap <M-d> 'D
-noremap <M-f> 'F
-noremap <M-g> 'G
-nnoremap <C-n> <C-e>
-nnoremap <C-p> <C-y>
+noremap <M-q> g`Qg`"
+noremap <M-w> g`Wg`"
+noremap <M-e> g`Eg`"
+noremap <M-r> g`Rg`"
+noremap <M-t> g`Tg`"
+
 # noremap gd [<C-I>
-noremap <silent> gd :call JumpToDefinition()<cr>
+noremap <silent> gd <cmd>call JumpToDefinition()<cr>
+noremap <C-w>d      <cmd>call SplitJumpToDefinition()<cr>
 # nnoremap <C-W>gd <Cmd>:vert call JumpToDefinition()<CR>
 noremap gn ]<C-I>
 noremap gk K
@@ -351,33 +403,57 @@ noremap <C-w>t :belowright term<cr>
 
 # cmd
 cmap <C-x>f <C-r>=expand('%:p')<cr>
-cmap <C-x>d <C-r>=expand('%:p:h').'/'<cr>
+# cmap <C-x>d <C-r>=expand('%:p:h').'/'<cr>
+cmap <C-x>d <C-r>=expand('%:p:h:s?\S\+:\/\/??').'/'<cr>
 cmap <C-x>r redir<space>@l\|<space>\|redir<space>end<C-left><C-left>
 cmap <C-j> <Down>
 cmap <C-k> <Up>
 
 # fast access
-nnoremap <leader>d :bp\|bd #<cr>
+nnoremap <leader>d :Bdelete<cr>
 nmap     <leader>b :b<space>
 nmap     <leader>e :e<space><C-x>d
 # nmap     <leader>e :Dir<space><C-x>d
 nmap     <leader>E :Exp<cr>
-nmap     <leader>h :vert h<space>
+nmap     <leader>h :h<space>
 noremap  <leader>f <cmd>Files<cr>
 nmap     <leader>F :Files<space><C-x>d
 noremap  <leader>r <cmd>Histor<cr>
-noremap  <leader>b <cmd>Buffers<cr>
+noremap  <leader>B <cmd>Buffers<cr>
 noremap  <leader>H <cmd>Helptags<cr>
 noremap  <leader>t :Tags <C-r><C-w><cr>
 noremap  <leader>T <cmd>Tags<space>
 # for now use grep!
-nnoremap <leader>w :Rg <C-r><C-w><cr>
-nnoremap <leader>s <cmd>RG<cr>
-xnoremap <leader>s :<C-u>Rg <C-r>=escape(GetVisualSelection(), "()\+*.[]\|")<cr><cr>
+# TODO: implement <C-g> functionality in search.
+nnoremap <leader>g :RF <C-r><C-w><cr>
+xnoremap <leader>g :<C-u>RF <C-r>=escape(GetVisualSelection(), "()\+*.[]\|")<cr><cr>
+# nnoremap <leader>G <cmd>RG<cr>
+nnoremap <leader>G <cmd>RF<cr>
+
+nnoremap <leader>vv :Git<cr>
 
 nnoremap cc :Sh <C-r>=expand(t:shout_cmd)<cr>
 nnoremap co :Sh<space>
+# TODO: implement!
+nnoremap sn :Sh<space>
+nnoremap ss :Sh <C-r>=expand(t:shout_cmd)<cr>
+nnoremap sq :ShoutToQf<cr>
+nnoremap sc :Shut<cr>
+nnoremap so :NotShut<cr>
+nnoremap sx :Kill<cr>
+nnoremap sj :NextErrorJump<cr>
+nnoremap sk :PrevErrorJump<cr>
+nnoremap s0 :FirstErrorJump<cr>
+nnoremap s$ :LastErrorJump<cr>
 
+# substitute
+nnoremap <C-s>s  :s/<C-R>=expand('<cword>')<cr>//g<Left><Left>
+xnoremap <C-s>s  :s//g<Left><Left>
+nnoremap <C-s>f  :%s/<C-R>=expand('<cword>')<cr>//g<Left><Left>
+xnoremap <C-s>f  y:<C-w>%s/<C-r>"//g<Left><Left>
+nnoremap <C-s>h  :'<,'>:s/<C-R>=expand('<cword>')<CR>//g<Left><Left>
+nnoremap <C-s>ip yiwvip<Esc>:'<,'>:s/<C-R>"//g<Left><Left>
+nnoremap <C-s>ap yiwvap<Esc>:'<,'>:s/<C-R>"//g<Left><Left>
 
 # Miscellaneous
 noremap <C-g>  1<C-g>
@@ -385,6 +461,25 @@ noremap <C-g>  1<C-g>
 # so that you can undo CTRL-U after inserting a line break.
 # Revert with ":iunmap <C-U>".
 inoremap <C-U> <C-G>u<C-U>
+# nohighlight
+noremap <leader>/ <cmd>noh<cr>
+
+# change hex to [s]ymbol
+nnoremap cs "sdiw:call HexToSymbol(expand(@s))<cr>
+
+# Visual
+def ForceBlockwise(next_key: string): string
+    const setup_keyseq_table = {
+        'I':  {'v': "\<C-v>I",  'V': "\<C-v>^o^I", "\<C-v>": 'I'},
+        'A':  {'v': "\<C-v>A",  'V': "\<C-v>0o$A", "\<C-v>": 'A'},
+        'gI': {'v': "\<C-v>0I", 'V': "\<C-v>0o$I", "\<C-v>": '0I'},
+    }
+    return setup_keyseq_table[next_key][mode()]
+enddef
+
+xmap <expr> I  ForceBlockwise('I')
+xmap <expr> gI ForceBlockwise('gI')
+xmap <expr> A  ForceBlockwise('A')
 
 # -----------------------------------------------
 # --- auto cmds ---
@@ -410,11 +505,13 @@ augroup autoCommands
     # for the v command in bash vi mode
     autocmd BufAdd /tmp/bash* set filetype=sh
 
+    autocmd BufWinEnter man://* call MoveOpenedWinodwToSaneSplit()
+    autocmd Filetype fugitive call MoveOpenedWinodwToSaneSplit()
+    autocmd BufWinEnter */doc/*.txt call MoveOpenedWinodwToSaneSplit()
 
-    autocmd CmdwinEnter * nmap <buffer> <Esc> :q<cr>
+
+    autocmd CmdwinEnter * nmap <buffer> q     :q<cr>
     autocmd CmdwinEnter * nmap <buffer> <C-c> :q<cr>
-    # autocmd FileType fzf set laststatus=0 noshowmode noruler
-    #             \| autocmd BufLeave <buffer> set laststatus=0 showmode ruler
 
     autocmd VimResume,BufEnter,WinEnter,VimEnter * call TmuxApplyTitle()
     autocmd VimLeave,VimSuspend * call TmuxResetTitle()
@@ -432,25 +529,72 @@ command! Syn call Syn()
 # -----------------------------------------------
 # --- functions ---
 # -----------------------------------------------
-def TmuxApplyTitle()
-    var filename = expand("%:t")
-    if strlen(filename) > 0
-        silent system("tmux rename-window \"[" .. filename .. "]\"")
+def g:UseSplitOrCreate(): number
+    var current_win_pos = win_screenpos(0)
+    var winnr = winnr()
+
+    if &columns > 160
+        if winnr != winnr('1l')
+            return win_getid(winnr('1l'))
+        elseif winnr != winnr('1h')
+            return win_getid(winnr('1h'))
+        else
+            :botright vsplit
+            :wincmd p
+            return win_getid(winnr('#'))
+        endif
+    else
+        if winnr != winnr('1j')
+            return win_getid(winnr('1j'))
+        elseif winnr != winnr('1k')
+            return win_getid(winnr('1k'))
+        else
+            :botright split
+            :wincmd p
+            return win_getid(winnr('#'))
+        endif
     endif
 enddef
 
-def TmuxResetTitle()
+def g:MoveOpenedWinodwToSaneSplit()
+    var prev_winnr = winnr('#')
+    if prev_winnr == 0 | return | endif
+
+    var split_to_use = g:UseSplitOrCreate()
+    if win_getid(prev_winnr) == split_to_use | return | endif
+
+    var bufnr = bufnr('%')
+    var view = winsaveview()
+    var old_win_id = win_getid()
+
+    win_gotoid(split_to_use)
+
+    exec "buffer " .. bufnr
+    winrestview(view)
+    win_execute(old_win_id, 'close')
+enddef
+
+var tmuxapplytimer = 0
+def g:TmuxApplyTitle()
+    if !!tmuxapplytimer | return | endif
+    tmuxapplytimer = timer_start(200, (_) => {
+        silent system("tmux rename-window \"[" .. expand("%:t") .. "]\"")
+        tmuxapplytimer = 0
+    })
+enddef
+
+def g:TmuxResetTitle()
      silent system("tmux set-window-option automatic-rename on")
 enddef
 
 # Get highlight groups of word under cursor in Vim
-export def Syn()
+def g:Syn()
     for id in synstack(line("."), col("."))
         echo synIDattr(id, "name")
     endfor
 enddef
 
-export def g:GetVisualSelection(): string
+def g:GetVisualSelection(): string
     var mode = mode()
     var start: list<number>
     var end: list<number>
@@ -481,7 +625,7 @@ export def g:GetVisualSelection(): string
     return content
 enddef
 
-export def g:FzfChistory(): list<string>
+def g:FzfChistory(): list<string>
     var hlist = execute("chistory")
     #echo hlist
 
@@ -493,7 +637,7 @@ export def g:FzfChistory(): list<string>
     return fzf#run(fzf#wrap('chistory', { 'source': src, 'sink': (num) => execute(num[3] .. "chistory") } ))
 enddef
 
-export def g:FzfRg()
+def g:FzfRg()
     var selection: string
     var buf: number
 
@@ -506,14 +650,15 @@ enddef
 
 command! -nargs=0 Rgg call FzfRg()
 
-export def g:RipgrepFzf(query: string, fullscreen: bool)
+def g:RipgrepFzf(query: string, fullscreen: bool)
     var command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
     var prompt = ''
     var initial_grep = printf(command_fmt, shellescape(query))
     var reload_grep = printf(command_fmt, '{q}')
     var options = {'options': [
         '--prompt', '*Rg> ',
-        '--header', 'CTRL-g: Switch between ripgrep/fzf',
+        '--header', getcwd(),
+        '--header-first',
         '--phony',
         '--query', query,
         '--bind', 'change:reload:sleep 0.1;' .. reload_grep,
@@ -526,7 +671,7 @@ enddef
 
 command! -nargs=* -bang RF call RipgrepFzf(<q-args>, <bang>0)
 
-export def! g:HexToSymbol(hex: string)
+def! g:HexToSymbol(hex: string)
     exec 'normal iU' .. hex .. ' '
 enddef
 
@@ -537,12 +682,12 @@ enddef
 # change dir as browsing dir changes
 g:netrw_keepdir = 0
 
-def NetrwDel()
+def g:NetrwDel()
     normal! 0y$
-    system("mv \"" .. getreg('@0') .. "\" /tmp/")
+    system("mv \"" .. getreg('0') .. "\" /tmp/")
 enddef
 
-def NetrwConfig()
+def g:NetrwConfig()
     setlocal cursorlineopt=line
 
     g:netrw_banner = 0
@@ -568,3 +713,9 @@ def NetrwConfig()
 enddef
 
 defcompile
+
+def OpenCommandPalette()
+    var windowId = popup_create(term_start([&shell], {hidden: 1, term_finish: 'close'}), { border: [1, 1, 1, 1], minwidth: winwidth(0) / 2, minheight: &lines / 2 })
+enddef
+
+command CommandPalette call OpenCommandPalette()
