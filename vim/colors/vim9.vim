@@ -1,0 +1,124 @@
+vim9script
+
+highlight clear
+
+if exists("syntax_on")
+    syntax reset
+endif
+
+set background=dark
+g:colors_name = "vim9"
+
+var black        = '#282828'
+var blue         = '#88aacc'
+var brown        = '#cc8c3c'
+var cyan         = '#afd7af'
+var dim          = '#242424'
+var green        = '#6b9e23'
+var red          = '#ff4444'
+var white        = '#cccdce'
+var yellow       = '#ffdd33'
+var dark_gray    = '#343434'
+var gray         = '#444444'
+var light_gray   = '#505050'
+var quartz       = '#95a99f'
+var redish_brown = '#aa8888'
+var goldenrod    = '#D9A420'
+var oldivory     = '#ccccbc'
+
+g:terminal_ansi_colors = [
+    "#202020", #black
+    "#ff5f5f", #red
+    "#6B9D23", #green
+    goldenrod, #yellow
+    blue,      #blue
+    "#d3869b", #magenta
+    quartz,    #cyan
+    "#8A8581", #white
+    "#777777", #brblack
+    "#ff5f5f", #brred
+    "#6B9D23", #brgreen
+    goldenrod, #bryellow
+    blue,      #brblue
+    "#d3869b", #brmagenta
+    quartz,    #brcyan
+    white,     #brwhite
+]
+
+hlset([
+    {name: 'ColorColumn',       guibg: dim},
+    {name: 'Constant',          guifg: white},
+    {name: 'CursorLine',        guibg: dim, cterm: {}},
+    {name: 'Directory',         guifg: blue},
+    {name: 'EndOfBuffer',       guifg: light_gray},
+    {name: 'Error',             guifg: red, guibg: 'bg'},
+    {name: 'ErrorMsg',          guifg: red, guibg: 'bg'},
+    {name: 'FoldColumn',        guifg: '#777879', guibg: dim},
+    {name: 'Folded',            guifg: '#777879', guibg: dim},
+    {name: 'Ignore',            guibg: dim},
+    {name: 'MatchParen',        guifg: yellow, guibg: light_gray, gui: {bold: 1}},
+    {name: 'MoreMsg',           guifg: green},
+    {name: 'NonText',           guifg: light_gray},
+    {name: 'Normal',            guifg: white, guibg: black},
+    {name: 'Pmenu',             guibg: dim},
+    {name: 'PmenuSbar',         guibg: dark_gray},
+    {name: 'PmenuSel',          guibg: dark_gray},
+    {name: 'PmenuThumb',        guibg: white},
+    {name: 'Question',          guifg: blue},
+    {name: 'SpellBad',          guifg: red},
+    {name: 'SpellCap',          guifg: blue},
+    {name: 'SpellLocal',        guifg: yellow},
+    {name: 'SpellRare',         gui:   {underline: 1}},
+    {name: 'String',            guifg: green},
+    {name: 'Title',             guifg: white},
+    {name: 'Underlined',        gui:   {underline: 1}},
+    {name: 'WarningMsg',        guifg: yellow},
+    {name: 'WildMenu',          guifg: black, guibg: yellow, gui: {bold: 1}},
+    {name: 'diffAdded',         guifg: green},
+    {name: 'diffRemoved',       guifg: red},
+    {name: 'diffSubname',       guifg: blue},
+    {name: 'Identifier',        guifg: 'fg', cterm: {}},
+    {name: 'Function',          guifg: 'fg', cterm: {}},
+    {name: 'Operator',          guifg: 'fg', cterm: {}},
+    {name: 'PreProc',           guifg: 'fg', cterm: {}},
+    {name: 'delimiter',         guifg: 'fg'},
+    {name: 'Special',           guifg: oldivory, cterm: {}},
+    {name: 'Statement',         guifg: 'goldenrod', cterm: {}},
+    {name: 'Number',            guifg: oldivory, cterm: {}},
+    {name: 'MatchParen',        guifg: 'skyblue', cterm: {}},
+    {name: 'Comment',           guifg: '#777879'},
+    {name: 'VertSplit',         guifg: gray, guibg: gray},
+    {name: 'Statusline',        guifg: '#bbbbbb', guibg: gray, cterm: {}},
+    {name: 'StatuslineNC',      guifg: '#aaaaaa', guibg: gray, cterm: {}},
+    {name: 'DiffAdd',           guifg: 'NONE', guibg: '#1D2B21'},
+    {name: 'DiffDelete',        guifg: '#484E52', guibg: 'NONE'},
+    {name: 'DiffChange',        guifg: 'NONE', guibg: '#1F385B'},
+    {name: 'DiffText',          guifg: 'NONE', guibg: '#172A45'},
+    {name: 'Added',             guifg: '#8F9D6A'},
+    {name: 'Removed',           guifg: '#CF6A4C'},
+    {name: 'Changed',           guifg: 'NONE', guibg: '#1F385B'},
+    {name: 'DiagnosticError',   guifg: '#ff5f5f'},
+    {name: 'DiagnosticWarn',    guifg: 'lightgoldenrod'},
+    {name: 'DiagnosticInfo',    guifg: 'LightBlue'},
+    {name: 'DiagnosticHint',    guifg: '#747C84'},
+    {name: 'IncSearch',         guifg: 'black', guibg: '#ee799f', cterm: {}},
+    {name: 'Search',            guifg: 'black', guibg: '#218058', cterm: {}},
+    {name: 'markdowncode',      guifg: 'fg', guibg: '#383838'},
+    {name: 'markdowncodeblock', guifg: 'ivory4'},
+    {name: 'Todo',              guifg: 'white', guibg: 'bg', cterm: {bold: 1}},
+])
+
+hi! link Type              Statement
+hi! link cStructure        statement
+hi! link cppStructure      statement
+hi! link cTypedef          statement
+hi! link cStorageClass     statement
+hi! link HelpHyperTextJump Statement
+hi! link SpecialChar       Special
+hi! link Tag               Special
+hi! link SpecialComment    Special
+hi! link Debug             Special
+hi! link cConstant         Type
+hi! link Character         String
+hi! link CurSearch         Incsearch
+hi! link WinSeparator	   VertSplit
