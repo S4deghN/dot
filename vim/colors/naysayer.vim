@@ -13,6 +13,7 @@ let g:colors_name="naysayer88"
 highlight! Normal guifg=#d1b897 guibg=#042327 gui=NONE
 
 highlight! Comment guifg=#44b340 guibg=NONE gui=NONE
+highlight! NonText guifg=darkgray
 
 highlight! link Constant Statement
 highlight! String guifg=#2ec09c guibg=NONE gui=NONE
@@ -23,6 +24,7 @@ highlight! link Float Number
 
 highlight! link Identifier Normal
 highlight! link Function Normal
+highlight Function guifg=#cceeee
 
 highlight! Statement guifg=#eeeeee guibg=NONE gui=NONE
 highlight! link Conditional Statement
@@ -77,14 +79,15 @@ highlight Question                   guifg=#875f5f       guibg=NONE         gui=
 highlight Search                     guifg=#dfdfaf       guibg=#878787      gui=NONE
 highlight PmenuSel                   guifg=#dfdfaf       guibg=#875f5f      gui=NONE
 highlight MatchParen                 guifg=#dfdfaf       guibg=#875f5f      gui=NONE
-highlight VertSplit                  guifg=#000000       guibg=NONE         gui=NONE
 highlight! EndOfBuffer               guifg=#042327       guibg=#042327      gui=NONE
 
 " Addons
 hi NormalFloat guibg=bg
 hi CmpPmenuBorder guifg=#000000
 hi SignColumn guibg=bg
-hi StatusLine gui=NONE guibg=#08454D
+hi VertSplit    guifg=#282828 guibg=#282828 cterm=NONE
+hi StatusLine   guibg=#282828 cterm=NONE
+hi StatusLineNC guibg=#282828 cterm=NONE
 hi LineNr guifg=#18555D
 hi ErrorMsg guifg=red guibg=bg
 hi Folded guifg=#878787 guibg=bg
@@ -95,8 +98,9 @@ hi! link PmenuSel Pmenu
 hi PmenuThumb guibg=fg
 hi FloatTitle guifg=#2ec09c
 hi Title guifg=#2ec09c
-hi IncSearch     guibg=#ee799f guifg=#cfcfc2 gui=NONE
-hi Search        guibg=#218058 guifg=#cfcfc2 gui=NONE
+hi IncSearch     guibg=#ee799f guifg=black cterm=NONE
+hi! link CurSearch IncSearch
+hi Search        guibg=#218058 guifg=white gui=NONE
 
 hi DiffAdd       guibg=#123723 guifg=NONE    gui=NONE
 hi DiffChange    guibg=#424218 guifg=NONE    gui=NONE

@@ -53,39 +53,34 @@ g:rooter_paterns = [
 ]
 # }}}
 Plug 'chrisbra/Colorizer'
-Plug 'fcpg/vim-complimentary'
+# Plug 'fcpg/vim-complimentary'
 Plug 'lacygoill/vim9asm'
 # Plug '~/.vim/local/vim-cool'
+Plug '~/.config/nvim/local/vorg'
 Plug '~/.vim/local/vim-shout'
-# {{{
-t:shout_cmd = ""
-# TODO: fix this. this should not exist!
-command! -nargs=1 -bang -complete=file Sh
-            \ shout#CaptureOutput(<q-args>, empty(<q-bang>) ? true : false)
-# }}}
 Plug '~/.vim/local/lsp'
 # {{{
 var lspOpts = {
     semanticHighlight: false,
     aleSupport: false,
-    autoComplete: true,
     autoHighlight: false,
     autoHighlightDiags: true,
     autoPopulateDiags: false,
     completionMatcher: 'icase',
     completionMatcherValue: 1,
-    echoSignature: false,
+    echoSignature: true,
     hideDisabledCodeActions: false,
     highlightDiagInline: false,
     hoverInPreview: false,
     ignoreMissingServer: true,
     keepFocusInDiags: false,
     keepFocusInReferences: true,
-    completionTextEdit: true,
+    completionTextEdit: false,
     diagVirtualTextAlign: 'above',
     diagVirtualTextWrap: 'default',
     noNewlineInCompletion: false,
-    omniComplete: false,
+    autoComplete: false,
+    omniComplete: true,
     outlineOnRight: false,
     outlineWinSize: 20,
     showDiagInBalloon: true,
@@ -110,8 +105,7 @@ var lspOpts = {
 def LspOnAttach()
     # so we can use :stag
     setlocal tagfunc=lsp#lsp#TagFunc
-    # setlocal cursorlineopt=line
-    # g:netrw_banner = 0
+
     # nmap <buffer> gd  <cmd>LspGotoDefinition<cr>
     nmap <buffer> K   :LspHover<cr>
     nmap <buffer> ]d  :LspDiagNext<cr>
@@ -150,19 +144,37 @@ g:VM_maps = {
     'Find Subword Under': '<C-q>'
 }
 # }}}
+Plug 'girishji/vimcomplete'
+# {{{
+g:vimcomplete_tab_enable = 1
+var comp_options = {
+    completor: { alwaysOn: false,  shuffleEqualPriority: false, postfixHighlight: true },
+    buffer: { enable: true, priority: 8, urlComplete: true, envComplete: true },
+    abbrev: { enable: true, priority: 9 },
+    lsp: { enable: true, priority: 10, maxCount: 5 },
+    # omnifunc: { enable: false, priority: 8, filetypes: ['python', 'javascript'] },
+    # vsnip: { enable: true, priority: 11 },
+    vimscript: { enable: true, priority: 11 },
+}
+autocmd VimEnter * g:VimCompleteOptionsSet(comp_options)
+# }}}
+# Plug 'lifepillar/vim-mucomplete'
+Plug 'romainl/Apprentice'
+Plug 'lifepillar/vim-gruvbox8'
 plug#end()
 
 runtime ftplugin/man.vim
 # disable matchparent and use plugin/parenmatch.vim
 g:loaded_matchparen = 1
 g:loaded_matchparen9 = 1
+# g:loaded_parenmatch = 1
 
 # -----------------------------------------------
 # --- options ---
 # -----------------------------------------------
 # experimental
 # set regexpengine=1
-# set lazyredraw
+set lazyredraw
 
 # timeout for key sequences of terminal like esc and such
 set nocompatible ttimeout ttimeoutlen=0
@@ -181,13 +193,14 @@ set mouse=ar
 # Essential for scroll to work properly
 set ttymouse=sgr
 # remedy flikering wiht termguicolors `https://github.com/vim/vim/issues/10574`. I'm not
-# sure how effective this one is, but settng Normal guibg=NONE definitly make vim flicker.
+# sure how effective this one is, but setting Normal guibg=NONE definitly make vim flicker.
 set t_ut=
-set completeopt=menu,menuone,noinsert,popup
+set completeopt=menu,popuphidden,noinsert
 set pumheight=6 previewheight=10
 # behave like bash
 set nowildmenu wildignorecase wildmode=longest,list,full
 set showcmd
+set noshowmode
 set signcolumn=no
 set ruler
 
@@ -247,8 +260,22 @@ else
     augroup end
 endif
 
-g:mapleader = " "
+if has('gui')
+    set guifont=Inconsolata\ 15
 
+    # gui keympas
+    noremap <M-1> <cmd>tabn1<cr>
+    noremap <M-2> <cmd>tabn2<cr>
+    noremap <M-3> <cmd>tabn3<cr>
+    noremap <M-4> <cmd>tabn4<cr>
+    noremap <M-5> <cmd>tabn5<cr>
+    noremap <M-6> <cmd>tabn6<cr>
+    noremap <M-7> <cmd>tabn7<cr>
+    noremap <M-8> <cmd>tabn8<cr>
+    noremap <M-9> <cmd>tabn9<cr>
+endif
+
+g:mapleader = " "
 
 # -----------------------------------------------
 # --- coloring ---
@@ -266,8 +293,9 @@ set background=dark
 g:gruvbox_contrast = 'soft'
 g:gruvbox_italicize_comments = 0
 g:gruvbox_invert_selection = 0
-color gruvbox
-hi Normal guibg=#2f2e2d
+color lightgruv
+
+# color apprentice
 
 # Scratch
 # {{{
@@ -320,14 +348,27 @@ enddef
 map ' `
 
 inoremap <silent> <Esc> <Esc>g`^
-inoremap <C-z> <esc>b1z=`]a
+inoremap <C-z> <C-x>s
 # :help map-special-keys
 inoremap <C-_> <esc>ugi
 # for accepting auto complete
-inoremap <C-f> <C-y>
 inoremap <C-^> <esc><C-^>
 inoremap <C-s> <Plug>CapsLockToggle
 inoremap <C-x>d <esc>:r!date "+\%Y/\%m/\%d \%H:\%M:\%S"<cr>kJg`]a
+
+inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
+inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
+
+def g:Comp()
+    if pumvisible()
+        feedkeys("\<C-y>")
+    else
+        feedkeys("\<C-space>")
+        timer_start(50, (_) => feedkeys("\<C-n>"))
+    endif
+enddef
+
+inoremap <C-f> <scriptcmd>g:Comp()<cr>
 
 tmap <C-]> <C-\><C-n>
 
@@ -394,9 +435,9 @@ noremap <C-w>d      <cmd>call SplitJumpToDefinition()<cr>
 noremap gn ]<C-I>
 noremap gk K
 nnoremap * *N
-xnoremap * y/\V<C-R>"<cr>N
+xnoremap * y/\M<C-R>"<cr>N
 nnoremap # #N
-xnoremap # y?\V<C-R>"<cr>N
+xnoremap # y?\M<C-R>"<cr>N
 noremap n nzz
 noremap N Nzz
 noremap <C-w>t :belowright term<cr>
@@ -432,19 +473,17 @@ nnoremap <leader>G <cmd>RF<cr>
 
 nnoremap <leader>vv :Git<cr>
 
-nnoremap cc :Sh <C-r>=expand(t:shout_cmd)<cr>
-nnoremap co :Sh<space>
+nnoremap cc :wa<cr>:Sh <C-r>=get(t:, 'shout_cmd', '')<cr>
 # TODO: implement!
 nnoremap sn :Sh<space>
-nnoremap ss :Sh <C-r>=expand(t:shout_cmd)<cr>
-nnoremap sq :ShoutToQf<cr>
-nnoremap sc :Shut<cr>
-nnoremap so :NotShut<cr>
-nnoremap sx :Kill<cr>
-nnoremap sj :NextErrorJump<cr>
-nnoremap sk :PrevErrorJump<cr>
-nnoremap s0 :FirstErrorJump<cr>
-nnoremap s$ :LastErrorJump<cr>
+nnoremap ss <cmd>ShoutToggle<cr>
+nnoremap sq <cmd>ShoutToQf<cr>
+nnoremap sx <cmd>Kill<cr>
+nnoremap sj <cmd>NextErrorJump<cr>
+nnoremap sk <cmd>PrevErrorJump<cr>
+nnoremap sJ <cmd>LastErrorJump<cr>
+nnoremap sK <cmd>FirstErrorJump<cr>
+nnoremap s<Enter> <cmd>ThisErrorJump<cr>
 
 # substitute
 nnoremap <C-s>s  :s/<C-R>=expand('<cword>')<cr>//g<Left><Left>
@@ -462,7 +501,8 @@ noremap <C-g>  1<C-g>
 # Revert with ":iunmap <C-U>".
 inoremap <C-U> <C-G>u<C-U>
 # nohighlight
-noremap <leader>/ <cmd>noh<cr>
+nnoremap <Esc> <cmd>noh<cr>
+nnoremap c; :<C-p>
 
 # change hex to [s]ymbol
 nnoremap cs "sdiw:call HexToSymbol(expand(@s))<cr>
@@ -486,7 +526,7 @@ xmap <expr> A  ForceBlockwise('A')
 # -----------------------------------------------
 augroup autoCommands
     autocmd!
-    autocmd BufWritePost */.vim/**/*.vim,.vimrc,vimrc source %
+    autocmd BufWritePost */.vim/**/*.vim,.vimrc,vimrc,*/vim/**/*.vim source %
     # this option is set by ftplugin for each file type. I just want a consistant format option
     # across all file types thus the autocmd.
     # defaults: tcroql
@@ -499,7 +539,7 @@ augroup autoCommands
 
     autocmd Filetype tex,text,markdown,gitcommit setlocal spell
     autocmd Filetype cpp,rust setlocal matchpairs+=<:>
-    autocmd Filetype netrw NetrwConfig()
+    autocmd Filetype netrw call g:NetrwConfig()
     autocmd Filetype qf nmap <buffer> <Esc> ZQ
     autocmd BufAdd .clang* set filetype=yaml
     # for the v command in bash vi mode
@@ -509,12 +549,13 @@ augroup autoCommands
     autocmd Filetype fugitive call MoveOpenedWinodwToSaneSplit()
     autocmd BufWinEnter */doc/*.txt call MoveOpenedWinodwToSaneSplit()
 
+    # autocmd WinEnter,WinLeave,WinNew * redrawstatus!
 
     autocmd CmdwinEnter * nmap <buffer> q     :q<cr>
     autocmd CmdwinEnter * nmap <buffer> <C-c> :q<cr>
 
-    autocmd VimResume,BufEnter,WinEnter,VimEnter * call TmuxApplyTitle()
-    autocmd VimLeave,VimSuspend * call TmuxResetTitle()
+    autocmd VimResume,BufEnter,WinEnter,VimEnter * call g:TmuxApplyTitle()
+    autocmd VimLeave,VimSuspend * call g:TmuxResetTitle()
 augroup end
 
 # -----------------------------------------------
@@ -523,7 +564,9 @@ augroup end
 # Convenient command to see the difference between the current buffer and the
 # file it was loaded from, thus the changes you made.
 command! DiffOrig vert new | set bt=nofile | r ++edit %% | 0d_ | diffthis | wincmd p | diffthis
-command! Syn call Syn()
+command! -nargs=1 -complete=file Dump call shout#CaptureOutput("objdump -C -l -S -d --disassembler-color=off" .. <f-args>, "[dump]", "asm")
+command! -nargs=1 -complete=file Asm call shout#CaptureOutput(<f-args>  .. " -o- -S -fverbose-asm", "[asm]", "asm")
+command! -nargs=1 -complete=file PreProc call shout#CaptureOutput(<f-args>  .. " -o- -E", "[PreProc]", "c")
 
 
 # -----------------------------------------------
@@ -593,6 +636,7 @@ def g:Syn()
         echo synIDattr(id, "name")
     endfor
 enddef
+command! Syn call Syn()
 
 def g:GetVisualSelection(): string
     var mode = mode()
@@ -647,7 +691,6 @@ def g:FzfRg()
         :exe $'edit {selection}'
     }})
 enddef
-
 command! -nargs=0 Rgg call FzfRg()
 
 def g:RipgrepFzf(query: string, fullscreen: bool)
@@ -668,12 +711,32 @@ def g:RipgrepFzf(query: string, fullscreen: bool)
     ]}
     call fzf#vim#grep(initial_grep, 1, fzf#vim#with_preview(options), fullscreen)
 enddef
-
 command! -nargs=* -bang RF call RipgrepFzf(<q-args>, <bang>0)
 
 def! g:HexToSymbol(hex: string)
     exec 'normal iU' .. hex .. ' '
 enddef
+
+def g:Time(count: number, ...args: list<string>)
+    echom args
+    var repeat = (count <= 0 ? 1 : count)
+    var k = 0
+    var start = reltime()
+    while k < repeat
+        exe join(args)
+        k += 1
+    endwhile
+    var time = reltimestr(reltime(start))
+
+    redraw
+
+    if repeat == 1
+        echomsg "Execution took " .. time .. " sec."
+    else
+        echomsg repeat .. " repetitions took " .. time .. " sec."
+    endif
+enddef
+command! -nargs=* -count -complete=expression Time :call Time(<count>, <q-args>)
 
 # -----------------------------------------------
 # --- netrw ---
@@ -712,10 +775,31 @@ def g:NetrwConfig()
     # nmap <buffer> u
 enddef
 
-defcompile
-
 def OpenCommandPalette()
     var windowId = popup_create(term_start([&shell], {hidden: 1, term_finish: 'close'}), { border: [1, 1, 1, 1], minwidth: winwidth(0) / 2, minheight: &lines / 2 })
 enddef
 
 command CommandPalette call OpenCommandPalette()
+
+def g:IsSearchedWord(): bool
+    return expand('<cword>') =~ @/
+enddef
+
+# Very interesting! any way to do this for forexample =
+# def g:OpFuncSteady()
+#     if !empty(&operatorfunc)
+#         if !!get(b:, 'opfuncview')
+#             winrestview(b:opfuncview)
+#         endif
+#         b:opfuncview = {}
+#         noautocmd set operatorfunc
+#     endif
+# enddef
+
+# augroup opfunc
+#     autocmd!
+#     autocmd OptionSet operatorfunc b:opfuncview = winsaveview()
+#     autocmd CursorMoved * g:OpFuncSteady()
+# augroup END
+
+defcompile

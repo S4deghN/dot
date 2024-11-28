@@ -36,6 +36,20 @@ export LESS_TERMCAP_se=$'\e[0m'
 # enabled or the process is run as admin.
 export MSYS=winsymlinks:nativestrict
 
+export FZF_DEFAULT_COMMAND="find . -type f -not -path '*/\.git/*' -not -path '*/\.cargo/*' -not -path '*/\.ccls-cache/*' -not -path '*/\.cache/*' ! -path '*/build/*'"
+export FZF_COLORS="fg:-1,fg+:-1,hl:yellow,hl+:yellow:reverse,border:gray,spinner:-1,header:blue,info:green,pointer:white,marker:blue,prompt:white:regular,gutter:-1"
+export FZF_DEFAULT_OPTS="\
+    --prompt '' \
+    --pointer '>' \
+    --height 50% \
+    --reverse \
+    --info inline \
+    --color=$FZF_COLORS \
+    --bind alt-a:select-all \
+    --bind ctrl-l:toggle-preview \
+    --preview-window hidden \
+    "
+
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists

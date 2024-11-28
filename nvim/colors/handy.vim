@@ -121,7 +121,7 @@ call s:hl("diffSubname",    { "fg": s:blue })
 
 " goldenrod -> #D9A420
 
-hi Identifier guifg=fg
+hi Identifier guifg=fg gui=NONE
 hi Function   guifg=fg
 hi Statement  guifg=goldenrod gui=NONE
 hi Operator   guifg=fg
@@ -139,8 +139,8 @@ hi! link Type Statement
 hi MatchParen guifg=skyblue
 
 "hi! link NormalFloat Normal
-hi Statusline   guibg=#444444 guifg=#bbbbbb
-hi StatuslineNC guibg=#444444 guifg=#aaaaaa
+hi Statusline   guibg=#444444 guifg=#bbbbbb gui=NONE
+hi StatuslineNC guibg=#444444 guifg=#aaaaaa gui=NONE
 hi WinSeparator guibg=#444444 guifg=#444444
 
 hi! link SpecialChar      Special

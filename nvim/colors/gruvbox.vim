@@ -91,9 +91,11 @@ let s:gb.medium = ['928374', 245]     " 146-131-116
 "#c8b9a4
 "#928374
 let s:gb.light0 = ['fdf4c1', 229]     " 253-244-193
-"let s:gb.light1 = ['ebdbb2', 223]     " 235-219-178
-"let s:gb.light1 = ['d8c9b4', 223]     " 235-219-178
-let s:gb.light1 = ['d8cfba', 223]     " 235-219-178
+" let s:gb.light1 = ['ebdbb2', 223]     " 235-219-178
+" let s:gb.light1 = ['d8c9b4', 223]     " 235-219-178
+" let s:gb.light1 = ['d8cfba', 223]     " 235-219-178
+" let s:gb.light1 = ['dad1bc', 223]     " 235-219-178
+let s:gb.light1 = ['dad1bf', 223]     " 235-219-178
 let s:gb.light2 = ['d5c4a1', 250]     " 213-196-161
 "let s:gb.light3 = ['bdae93', 248]     " 189-174-147
 let s:gb.light3 = ['c8b9a4', 248]     " 189-174-147
@@ -255,8 +257,8 @@ if version >= 703
 	call s:HL('CursorLineNr', 'yellow', 'dark1')
 endif
 
-call s:HL('NonText',    'dark2')
-call s:HL('SpecialKey', 'dark2')
+call s:HL('NonText',    'dark3')
+call s:HL('SpecialKey', 'dark3')
 
 if g:gruvbox_invert_selection == 0
 	call s:HL('Visual',    'none',  'dark2')
@@ -287,7 +289,7 @@ call s:HL('Directory', 'green', 'none', 'bold')
 call s:HL('Title', 'green', 'none', 'bold')
 
 " Error messages on the command line
-call s:HL('ErrorMsg',   'bg', 'red', 'bold')
+call s:HL('ErrorMsg',   'red', 'none', 'bold')
 " More prompt: -- More --
 call s:HL('MoreMsg',    'yellow', 'none', 'bold')
 " Current mode message: -- INSERT --
@@ -909,8 +911,6 @@ hi GitGutterChange guibg=bg
 hi GitGutterDelete guibg=bg
 hi GitGutterChangeDelete guibg=bg
 
-hi ErrorMsg gui=inverse
-
 hi  DiffAdd guifg=NONE guibg=#283f2f
 " hi  DiffDelete guifg=NONE guibg=#722928
 hi  DiffDelete guifg=#504945 guibg=NONE
@@ -926,5 +926,11 @@ hi! link diffOldFile Type
 hi! link diffNewFile Type
 "hi! link diffline function
 hi! link diffSubname Normal
+
+hi NonText guifg=#888899
+hi SpecialKey guifg=#888899
+
+hi Normal guibg=#2d2c2b
+hi! link CurSearch Incsearch
 
 " vim: set sw=3 ts=3 sts=3 noet tw=80 ft=vim fdm=marker:

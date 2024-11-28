@@ -31,8 +31,8 @@ hi def link vorgComment       Comment
 hi def link vorgDone	         Comment
 hi def link vorgDoneAlt	      Comment
 hi def link vorgTitle         Function
-hi def link vorgTaskAlt       Keyword
-hi def link vorgTask          Keyword
+hi def link vorgTaskAlt       PreCondit
+hi def link vorgTask          PreCondit
 hi def link vorgTag           Comment
 hi def link vorgDeadline      String
 hi def link vorgLogdate       Constant

@@ -67,6 +67,7 @@ for_window [class="LibreWolf"] border pixel 1
 for_window [class="firefox"] border pixel 1
 for_window [class="St"] border pixel 1
 for_window [class="XTerm"] border pixel 1
+for_window [class="Gvim"] border pixel 1
 for_window [class="Emacs"] border pixel 1
 for_window [class="qutebrowser"] border pixel 1
 for_window [class="Pale moon"] border pixel 1
