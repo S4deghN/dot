@@ -221,6 +221,14 @@ hlset([
     {name: 'DiffChange', guifg: 'NONE', guibg: '#1F385B', cterm: {}},
     {name: 'DiffText',   guifg: 'NONE', guibg: '#172A45', cterm: {}},
 
+    {name: 'diffAdded',   guifg: green,  cterm: {}},
+    {name: 'diffRemoved', guifg: red,    cterm: {}},
+    {name: 'diffChanged', guifg: aqua,   cterm: {}},
+    {name: 'diffFile',    guifg: orange, cterm: {}},
+    {name: 'diffNewFile', guifg: yellow, cterm: {}},
+    {name: 'diffLine',    guifg: blue,   cterm: {}},
+
+
     # }}},
     # Spelling And Diag: {{{
 
