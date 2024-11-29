@@ -52,199 +52,199 @@ g:terminal_ansi_colors = [
 # Arguments: group, guifg, guibg, gui, guisp
 
 hlset([
-    {name: 'Normal', guifg: light1, guibg: dark0, cterm: {}},
+    {name: 'Normal', guifg: light1, guibg: dark0, cterm: {}, gui: {}},
     # Screen line that the cursor is
-    {name: 'CursorLine',   guifg: 'NONE', guibg: dark1, cterm: {}},
+    {name: 'CursorLine',   guifg: 'NONE', guibg: dark1, cterm: {}, gui: {}},
     # Screen column that the cursor is
-    {name: 'CursorColumn', guifg: 'NONE', guibg: dark1, cterm: {}},
+    {name: 'CursorColumn', guifg: 'NONE', guibg: dark1, cterm: {}, gui: {}},
 
     # Tab pages line filler
-    {name: 'TabLineFill', guifg: dark4, guibg: 'bg', cterm: {}},
+    {name: 'TabLineFill', guifg: dark4, guibg: 'bg', cterm: {}, gui: {}},
     # Active tab page label
-    {name: 'TabLineSel', guifg: 'bg', guibg: dark4, cterm: {bold: 1}},
+    {name: 'TabLineSel', guifg: 'bg', guibg: dark4, cterm: {bold: 1}, gui: {bold: 1}},
     # Not active tab page label
-    {name: 'TabLine', guifg: dark4, guibg: 'bg', cterm: {}},
+    {name: 'TabLine', guifg: dark4, guibg: 'bg', cterm: {}, gui: {}},
 
     # Match paired bracket under the cursor
-    {name: 'MatchParen', guifg: 'NONE', guibg: dark3, cterm: {bold: 1}},
+    {name: 'MatchParen', guifg: 'NONE', guibg: dark3, cterm: {bold: 1}, gui: {bold: 1}},
 
     # Highlighted screen columns
-    {name: 'ColorColumn',  guifg: 'NONE', guibg: dark1, cterm: {}},
+    {name: 'ColorColumn',  guifg: 'NONE', guibg: dark1, cterm: {}, gui: {}},
 
     # Concealed element: \lambda → λ
-    {name: 'Conceal', guifg: blue, guibg: 'NONE', cterm: {}},
+    {name: 'Conceal', guifg: blue, guibg: 'NONE', cterm: {}, gui: {}},
 
     # Line number of CursorLine
-    {name: 'CursorLineNr', guifg: yellow, guibg: dark1, cterm: {}},
+    {name: 'CursorLineNr', guifg: yellow, guibg: dark1, cterm: {}, gui: {}},
 
-    {name: 'NonText',    guifg: dark3, cterm: {}},
-    {name: 'SpecialKey', guifg: dark3, cterm: {}},
+    {name: 'NonText',    guifg: dark3, cterm: {}, gui: {}},
+    {name: 'SpecialKey', guifg: dark3, cterm: {}, gui: {}},
 
-    {name: 'Visual',    guifg: 'NONE',  guibg: dark3, cterm: {}},
-    {name: 'VisualNOS', guifg: 'NONE',  guibg: dark3, cterm: {}},
+    {name: 'Visual',    guifg: 'NONE',  guibg: dark3, cterm: {}, gui: {}},
+    {name: 'VisualNOS', guifg: 'NONE',  guibg: dark3, cterm: {}, gui: {}},
 
-    {name: 'Search',    guifg: dark0, guibg: yellow, cterm: {}},
-    {name: 'IncSearch', guifg: dark0, guibg: orange, cterm: {}},
+    {name: 'Search',    guifg: dark0, guibg: yellow, cterm: {}, gui: {}},
+    {name: 'IncSearch', guifg: dark0, guibg: orange, cterm: {}, gui: {}},
 
-    {name: 'Underlined', guifg: blue, guibg: 'NONE', cterm: {underline: 1}},
+    {name: 'Underlined', guifg: blue, guibg: 'NONE', cterm: {underline: 1}, gui: {underline: 1}},
 
-    {name: 'StatusLine',   guifg: light1, guibg: dark2, cterm: {}},
-    {name: 'StatusLineNC', guifg: light3, guibg: dark2, cterm: {}},
+    {name: 'StatusLine',   guifg: light1, guibg: dark2, cterm: {}, gui: {}},
+    {name: 'StatusLineNC', guifg: light3, guibg: dark2, cterm: {}, gui: {}},
 
     # The column separating vertically split windows
-    {name: 'VertSplit', guifg: dark2, guibg: dark2, cterm: {}},
+    {name: 'VertSplit', guifg: dark2, guibg: dark2, cterm: {}, gui: {}},
 
     # Current match in wildmenu completion
-    {name: 'WildMenu', guifg: blue, guibg: dark2, cterm: {bold: 1}},
+    {name: 'WildMenu', guifg: blue, guibg: dark2, cterm: {bold: 1}, gui: {bold: 1}},
 
     # Directory names, special names in listing
-    {name: 'Directory', guifg: green, guibg: 'NONE', cterm: {bold: 1}},
+    {name: 'Directory', guifg: green, guibg: 'NONE', cterm: {bold: 1}, gui: {bold: 1}},
 
     # Titles for output from :set all, :autocmd, etc.
-    {name: 'Title', guifg: green, guibg: 'NONE', cterm: {bold: 1}},
+    {name: 'Title', guifg: green, guibg: 'NONE', cterm: {bold: 1}, gui: {bold: 1}},
 
     # Error messages on the command line
-    {name: 'ErrorMsg',   guifg: red, guibg: 'NONE', cterm: {bold: 1}},
+    {name: 'ErrorMsg',   guifg: red, guibg: 'NONE', cterm: {bold: 1}, gui: {bold: 1}},
     # More prompt: -- More --
-    {name: 'MoreMsg',    guifg: yellow, guibg: 'NONE', cterm: {bold: 1}},
+    {name: 'MoreMsg',    guifg: yellow, guibg: 'NONE', cterm: {bold: 1}, gui: {bold: 1}},
     # Current mode message: -- INSERT --
-    {name: 'ModeMsg',    guifg: yellow, guibg: 'NONE', cterm: {bold: 1}},
+    {name: 'ModeMsg',    guifg: yellow, guibg: 'NONE', cterm: {bold: 1}, gui: {bold: 1}},
     # 'Press enter' prompt and yes/no questions
-    {name: 'Question',   guifg: orange, guibg: 'NONE', cterm: {bold: 1}},
+    {name: 'Question',   guifg: orange, guibg: 'NONE', cterm: {bold: 1}, gui: {bold: 1}},
     # Warning messages
-    {name: 'WarningMsg', guifg: red, guibg: 'NONE', cterm: {bold: 1}},
+    {name: 'WarningMsg', guifg: red, guibg: 'NONE', cterm: {bold: 1}, gui: {bold: 1}},
 
-    {name: 'QuickFixLine', guifg: 'NONE', guibg: dark1, cterm: {}},
+    {name: 'QuickFixLine', guifg: 'NONE', guibg: dark1, cterm: {}, gui: {}},
     # }}},
     # Gutter: {{{
 
     # Line number for :number and :# commands
-    {name: 'LineNr', guifg: dark4, cterm: {}},
+    {name: 'LineNr', guifg: dark4, cterm: {}, gui: {}},
 
     # Column where signs are displayed
-    {name: 'SignColumn', guifg: 'NONE', guibg: dark1, cterm: {}},
+    {name: 'SignColumn', guifg: 'NONE', guibg: dark1, cterm: {}, gui: {}},
 
     # Line used for closed folds
-    {name: 'Folded', guifg: medium, guibg: dark1, cterm: {italic: 1}},
+    {name: 'Folded', guifg: medium, guibg: dark1, cterm: {italic: 1}, gui: {italic: 1}},
     # Column where folds are displayed
-    {name: 'FoldColumn', guifg: medium, guibg: dark1, cterm: {}},
+    {name: 'FoldColumn', guifg: medium, guibg: dark1, cterm: {}, gui: {}},
     # }}},
     # Cursor: {{{
 
     # Character under cursor
-    {name: 'Cursor', guifg: 'NONE', guibg: 'NONE', cterm: {inverse: 1}},
+    {name: 'Cursor', guifg: 'NONE', guibg: 'NONE', cterm: {inverse: 1}, gui: {inverse: 1}},
     # Visual mode cursor, selection
-    {name: 'vCursor', guifg: 'NONE', guibg: 'NONE', cterm: {inverse: 1}},
+    {name: 'vCursor', guifg: 'NONE', guibg: 'NONE', cterm: {inverse: 1}, gui: {inverse: 1}},
     # Input moder cursor
-    {name: 'iCursor', guifg: 'NONE', guibg: 'NONE', cterm: {inverse: 1}},
+    {name: 'iCursor', guifg: 'NONE', guibg: 'NONE', cterm: {inverse: 1}, gui: {inverse: 1}},
     # Language mapping cursor
-    {name: 'lCursor', guifg: 'NONE', guibg: 'NONE', cterm: {inverse: 1}},
+    {name: 'lCursor', guifg: 'NONE', guibg: 'NONE', cterm: {inverse: 1}, gui: {inverse: 1}},
 
     # }}},
     # Syntax Highlighting: {{{
 
-    {name: 'Special', guifg: orange, cterm: {}},
-    {name: 'Comment', guifg: medium, guibg: 'NONE', cterm: {}},
-    {name: 'Todo', guifg: 'fg', guibg: 'bg', cterm: {bold: 1}},
-    {name: 'Error', guifg: 'bg', guibg: red, cterm: {bold: 1}},
+    {name: 'Special', guifg: orange, cterm: {}, gui: {}},
+    {name: 'Comment', guifg: medium, guibg: 'NONE', cterm: {}, gui: {}},
+    {name: 'Todo', guifg: 'fg', guibg: 'bg', cterm: {bold: 1}, gui: {bold: 1}},
+    {name: 'Error', guifg: 'bg', guibg: red, cterm: {bold: 1}, gui: {bold: 1}},
 
     # Generic statement
-    {name: 'Statement',   guifg: red, cterm: {}},
+    {name: 'Statement',   guifg: red, cterm: {}, gui: {}},
     # if, then, else, endif, swicth, etc.
-    {name: 'Conditional', guifg: red, cterm: {}},
+    {name: 'Conditional', guifg: red, cterm: {}, gui: {}},
     # for, do, while, etc.
-    {name: 'Repeat',      guifg: red, cterm: {}},
+    {name: 'Repeat',      guifg: red, cterm: {}, gui: {}},
     # case, default, etc.
-    {name: 'Label',       guifg: red, cterm: {}},
+    {name: 'Label',       guifg: red, cterm: {}, gui: {}},
     # try, catch, throw
-    {name: 'Exception',   guifg: red, cterm: {}},
+    {name: 'Exception',   guifg: red, cterm: {}, gui: {}},
     # Any other keyword
-    {name: 'Keyword',     guifg: red, cterm: {}},
+    {name: 'Keyword',     guifg: red, cterm: {}, gui: {}},
 
     # Variable name
-    {name: 'Identifier', guifg: blue, cterm: {}},
+    {name: 'Identifier', guifg: blue, cterm: {}, gui: {}},
     # Function name
-    {name: 'Function',   guifg: green, guibg: 'NONE', cterm: {bold: 1}},
+    {name: 'Function',   guifg: green, guibg: 'NONE', cterm: {bold: 1}, gui: {bold: 1}},
 
     # Generic preprocessor
-    {name: 'PreProc',   guifg: aqua, cterm: {}},
+    {name: 'PreProc',   guifg: aqua, cterm: {}, gui: {}},
     # Preprocessor #include
-    {name: 'Include',   guifg: blue, cterm: {}},
+    {name: 'Include',   guifg: blue, cterm: {}, gui: {}},
     # Preprocessor #define
-    {name: 'Define',    guifg: aqua, cterm: {}},
+    {name: 'Define',    guifg: aqua, cterm: {}, gui: {}},
     # Same as Define
-    {name: 'Macro',     guifg: blue, cterm: {}},
+    {name: 'Macro',     guifg: blue, cterm: {}, gui: {}},
     # Preprocessor #if, #else, #endif, etc.
-    {name: 'PreCondit', guifg: aqua, cterm: {}},
+    {name: 'PreCondit', guifg: aqua, cterm: {}, gui: {}},
 
     # Generic constant
-    {name: 'Constant',  guifg: purple, cterm: {}},
+    {name: 'Constant',  guifg: purple, cterm: {}, gui: {}},
     # Character constant: 'c', '/n'
-    {name: 'Character', guifg: purple, cterm: {}},
+    {name: 'Character', guifg: purple, cterm: {}, gui: {}},
     # String constant: "this is a string"
-    {name: 'String',  guifg: green, guibg: 'NONE', cterm: {}},
+    {name: 'String',  guifg: green, guibg: 'NONE', cterm: {}, gui: {}},
     # Boolean constant: TRUE, false
-    {name: 'Boolean',   guifg: purple, cterm: {}},
+    {name: 'Boolean',   guifg: purple, cterm: {}, gui: {}},
     # Number constant: 234, 0xff
-    {name: 'Number',    guifg: purple, cterm: {}},
+    {name: 'Number',    guifg: purple, cterm: {}, gui: {}},
     # Floating point constant: 2.3e10
-    {name: 'Float',     guifg: purple, cterm: {}},
+    {name: 'Float',     guifg: purple, cterm: {}, gui: {}},
 
     # Generic type
-    {name: 'Type', guifg: yellow, cterm: {}},
+    {name: 'Type', guifg: yellow, cterm: {}, gui: {}},
     # static, register, volatile, etc
-    {name: 'StorageClass', guifg: orange, cterm: {}},
+    {name: 'StorageClass', guifg: orange, cterm: {}, gui: {}},
     # struct, union, enum, etc.
-    {name: 'Structure', guifg: aqua, cterm: {}},
+    {name: 'Structure', guifg: aqua, cterm: {}, gui: {}},
     # typedef
-    {name: 'Typedef', guifg: yellow, cterm: {}},
+    {name: 'Typedef', guifg: yellow, cterm: {}, gui: {}},
 
     # }}},
     # Completion Menu: {{{
 
     # Popup menu: normal item
-    {name: 'Pmenu', guifg: light1, guibg: dark2, cterm: {}},
+    {name: 'Pmenu', guifg: light1, guibg: dark2, cterm: {}, gui: {}},
     # Popup menu: selected item
-    {name: 'PmenuSel', guifg: dark2, guibg: blue, cterm: {bold: 1}},
+    {name: 'PmenuSel', guifg: dark2, guibg: blue, cterm: {bold: 1}, gui: {bold: 1}},
     # Popup menu: scrollbar
-    {name: 'PmenuSbar', guifg: 'NONE', guibg: dark2, cterm: {}},
+    {name: 'PmenuSbar', guifg: 'NONE', guibg: dark2, cterm: {}, gui: {}},
     # Popup menu: scrollbar thumb
-    {name: 'PmenuThumb', guifg: 'NONE', guibg: dark4, cterm: {}},
+    {name: 'PmenuThumb', guifg: 'NONE', guibg: dark4, cterm: {}, gui: {}},
 
     # }}},
     # Diffs: {{{
 
-    {name: 'DiffDelete', guifg: '#504945', guibg: 'NONE', cterm: {}},
-    {name: 'DiffAdd',    guifg: 'NONE', guibg: '#283f2f', cterm: {}},
+    {name: 'DiffDelete', guifg: '#504945', guibg: 'NONE', cterm: {}, gui: {}},
+    {name: 'DiffAdd',    guifg: 'NONE', guibg: '#283f2f', cterm: {}, gui: {}},
 
     # Alternative setting
-    {name: 'DiffChange', guifg: 'NONE', guibg: '#1F385B', cterm: {}},
-    {name: 'DiffText',   guifg: 'NONE', guibg: '#172A45', cterm: {}},
+    {name: 'DiffChange', guifg: 'NONE', guibg: '#1F385B', cterm: {}, gui: {}},
+    {name: 'DiffText',   guifg: 'NONE', guibg: '#172A45', cterm: {}, gui: {}},
 
-    {name: 'diffAdded',   guifg: green,  cterm: {}},
-    {name: 'diffRemoved', guifg: red,    cterm: {}},
-    {name: 'diffChanged', guifg: aqua,   cterm: {}},
-    {name: 'diffFile',    guifg: orange, cterm: {}},
-    {name: 'diffNewFile', guifg: yellow, cterm: {}},
-    {name: 'diffLine',    guifg: blue,   cterm: {}},
+    {name: 'diffAdded',   guifg: green,  cterm: {}, gui: {}},
+    {name: 'diffRemoved', guifg: red,    cterm: {}, gui: {}},
+    {name: 'diffChanged', guifg: aqua,   cterm: {}, gui: {}},
+    {name: 'diffFile',    guifg: orange, cterm: {}, gui: {}},
+    {name: 'diffNewFile', guifg: yellow, cterm: {}, gui: {}},
+    {name: 'diffLine',    guifg: blue,   cterm: {}, gui: {}},
 
 
     # }}},
     # Spelling And Diag: {{{
 
     # Not capitalised word
-    {name: 'SpellCap',   guifg: 'NONE', guibg: 'NONE', cterm: {undercurl: 1}},
+    {name: 'SpellCap',   guifg: 'NONE', guibg: 'NONE', cterm: {undercurl: 1}, gui: {undercurl: 1}},
     # Not recognized word
-    {name: 'SpellBad',   guifg: 'NONE', guibg: 'NONE', cterm: {undercurl: 1}},
+    {name: 'SpellBad',   guifg: 'NONE', guibg: 'NONE', cterm: {undercurl: 1}, gui: {undercurl: 1}},
     # Wrong spelling for selected region
-    {name: 'SpellLocal', guifg: 'NONE', guibg: 'NONE', cterm: {undercurl: 1}},
+    {name: 'SpellLocal', guifg: 'NONE', guibg: 'NONE', cterm: {undercurl: 1}, gui: {undercurl: 1}},
     # Rare word
-    {name: 'SpellRare',  guifg: 'NONE', guibg: 'NONE', cterm: {undercurl: 1}},
-    {name: 'DiagnosticError', guifg: red, cterm: {}},
-    {name: 'DiagnosticWarn', guifg: yellow, cterm: {}},
-    {name: 'DiagnosticInfo', guifg: 'fg', cterm: {}},
-    {name: 'DiagnosticHint', guifg: blue, cterm: {}},
-    {name: 'DiagnosticOk', guifg: green, cterm: {}},
+    {name: 'SpellRare',  guifg: 'NONE', guibg: 'NONE', cterm: {undercurl: 1}, gui: {undercurl: 1}},
+    {name: 'DiagnosticError', guifg: red, cterm: {}, gui: {}},
+    {name: 'DiagnosticWarn', guifg: yellow, cterm: {}, gui: {}},
+    {name: 'DiagnosticInfo', guifg: 'fg', cterm: {}, gui: {}},
+    {name: 'DiagnosticHint', guifg: blue, cterm: {}, gui: {}},
+    {name: 'DiagnosticOk', guifg: green, cterm: {}, gui: {}},
 ])
 # }}}
 

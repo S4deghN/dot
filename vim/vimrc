@@ -31,7 +31,6 @@ g:fzf_action = {
 
 g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 # }}}
-Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-sleuth' # Buffer options
 Plug 'tpope/vim-endwise'
@@ -55,8 +54,6 @@ g:rooter_paterns = [
 Plug 'chrisbra/Colorizer'
 # Plug 'fcpg/vim-complimentary'
 Plug 'lacygoill/vim9asm'
-# Plug '~/.vim/local/vim-cool'
-Plug '~/.config/nvim/local/vorg'
 Plug '~/.vim/local/vim-shout'
 Plug '~/.vim/local/lsp'
 # {{{
@@ -158,10 +155,9 @@ var comp_options = {
 }
 autocmd VimEnter * g:VimCompleteOptionsSet(comp_options)
 # }}}
-# Plug 'lifepillar/vim-mucomplete'
-Plug 'romainl/Apprentice'
-Plug 'lifepillar/vim-gruvbox8'
 plug#end()
+
+packadd comment
 
 runtime ftplugin/man.vim
 # disable matchparent and use plugin/parenmatch.vim
