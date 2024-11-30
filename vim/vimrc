@@ -33,7 +33,7 @@ g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 # }}}
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-sleuth' # Buffer options
-Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-endwise' # Insert endif
 Plug 'tpope/vim-capslock'
 Plug 'tpope/vim-eunuch' # UNIX helper
 Plug 'airblade/vim-rooter'
@@ -52,8 +52,28 @@ g:rooter_paterns = [
 ]
 # }}}
 Plug 'chrisbra/Colorizer'
-# Plug 'fcpg/vim-complimentary'
+Plug 'mg979/vim-visual-multi'
+# {{{
+g:VM_maps = {
+    'Find Under': '<C-q>',
+    'Find Subword Under': '<C-q>'
+}
+# }}}
 Plug 'lacygoill/vim9asm'
+Plug 'girishji/vimcomplete'
+# {{{
+g:vimcomplete_tab_enable = 1
+var comp_options = {
+    completor: { alwaysOn: false,  shuffleEqualPriority: false, postfixHighlight: true },
+    buffer: { enable: true, priority: 8, urlComplete: true, envComplete: true },
+    abbrev: { enable: true, priority: 9 },
+    lsp: { enable: true, priority: 10, maxCount: 5 },
+    # omnifunc: { enable: false, priority: 8, filetypes: ['python', 'javascript'] },
+    # vsnip: { enable: true, priority: 11 },
+    vimscript: { enable: true, priority: 11 },
+}
+autocmd VimEnter * g:VimCompleteOptionsSet(comp_options)
+# }}}
 Plug '~/.vim/local/vim-shout'
 Plug '~/.vim/local/lsp'
 # {{{
@@ -134,30 +154,10 @@ var lspServers = [
     },
 ]
 # }}}
-Plug 'mg979/vim-visual-multi'
-# {{{
-g:VM_maps = {
-    'Find Under': '<C-q>',
-    'Find Subword Under': '<C-q>'
-}
-# }}}
-Plug 'girishji/vimcomplete'
-# {{{
-g:vimcomplete_tab_enable = 1
-var comp_options = {
-    completor: { alwaysOn: false,  shuffleEqualPriority: false, postfixHighlight: true },
-    buffer: { enable: true, priority: 8, urlComplete: true, envComplete: true },
-    abbrev: { enable: true, priority: 9 },
-    lsp: { enable: true, priority: 10, maxCount: 5 },
-    # omnifunc: { enable: false, priority: 8, filetypes: ['python', 'javascript'] },
-    # vsnip: { enable: true, priority: 11 },
-    vimscript: { enable: true, priority: 11 },
-}
-autocmd VimEnter * g:VimCompleteOptionsSet(comp_options)
-# }}}
 plug#end()
 
 packadd comment
+packadd! termdebug
 
 runtime ftplugin/man.vim
 # disable matchparent and use plugin/parenmatch.vim
@@ -561,7 +561,7 @@ augroup end
 # file it was loaded from, thus the changes you made.
 command! DiffOrig vert new | set bt=nofile | r ++edit %% | 0d_ | diffthis | wincmd p | diffthis
 command! -nargs=1 -complete=file Dump call shout#CaptureOutput("objdump -C -l -S -d --disassembler-color=off" .. <f-args>, "[dump]", "asm")
-command! -nargs=1 -complete=file Asm call shout#CaptureOutput(<f-args>  .. " -o- -S -fverbose-asm", "[asm]", "asm")
+command! -nargs=1 -complete=file Assembly call shout#CaptureOutput(<f-args>  .. " -o- -S -fverbose-asm", "[asm]", "asm")
 command! -nargs=1 -complete=file PreProc call shout#CaptureOutput(<f-args>  .. " -o- -E", "[PreProc]", "c")
 
 
