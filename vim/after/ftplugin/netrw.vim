@@ -7,7 +7,7 @@ setlocal cursorlineopt=line
 " TODO: Uset getline and regext for file name
 func s:netrw_delete()
     normal! 0y$
-    system("mv \"" .. getreg('0') .. "\" /tmp/")
+    call system("mv \"" .. getreg('@@') .. "\" /tmp/")
 endfunc
 
 nmap <buffer> h -^
