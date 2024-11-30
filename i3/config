@@ -80,8 +80,8 @@ default_floating_border normal 1
 smart_borders on
 #for_window [all] title_window_icon on
 
-gaps outer 25
-gaps inner 10
+# gaps outer 25
+# gaps inner 10
 
 # class                 border  backgr. text    indicator child_border
 client.focused          #4c7899 #285577 #ffffff #2e9ef4   #285577
@@ -166,7 +166,7 @@ bindsym $mod+d kill
 # why is --release needed for this to work?
 bindsym --release $mod+Shift+d exec --no-startup-id xkill
 
-bindsym $mod+a exec --no-startup-id rofi -show drun
+bindsym $mod+s exec --no-startup-id rofi -show drun
 bindsym $mod+x exec --no-startup-id rofi -show run
 
 bindsym $mod+m       exec --no-startup-id dmenu-emoji !
@@ -217,7 +217,7 @@ bindsym $mod+v split v
 bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
-bindsym $mod+q layout stacking
+bindsym $mod+Tab layout stacking
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
@@ -233,8 +233,12 @@ bindsym $mod+p focus parent
 # focus the child container
 bindsym $mod+n focus child
 
-bindsym $mod+s scratchpad show
-bindsym $mod+Shift+s move scratchpad
+# Mod1 = Alt
+bindsym Mod1+Tab fullscreen disable, focus right, fullscreen enable
+bindsym Mod1+Shift+Tab fullscreen disable, focus left, fullscreen enable
+
+bindsym $mod+q scratchpad show
+bindsym $mod+Shift+q move scratchpad
 
 for_window [instance="qalculate-gtk"] move scratchpad, scratchpad show
 bindsym $mod+c exec --no-startup-id i3-scratchpad-or-launch "qalculate-gtk"
@@ -243,19 +247,26 @@ for_window [instance="gpick"] move scratchpad, scratchpad show
 bindsym $mod+i exec --no-startup-id i3-scratchpad-or-launch "gpick"
 
 for_window [instance="todo"] move scratchpad, scratchpad show
-bindsym $mod+g exec --no-startup-id i3-scratchpad-or-launch \
-                    "st -n todo -e $EDITOR /home/s4/note/todo.vorg" \
-                    "todo"
+bindsym $mod+g exec --no-startup-id i3-scratchpad-or-launch "st -n todo -e $EDITOR ~/note/todo.vorg" "todo"
 
+set $proxyflag=--proxy-server=socks5://192.168.1.100:9909
 for_window [instance="discord"] move scratchpad, scratchpad show
-bindsym $mod+semicolon exec --no-startup-id i3-scratchpad-or-launch \
-                    "discord --proxy-server=socks5://192.168.1.100:9909" \
-                    "discord" \
-                    "/opt/discord/Discord --proxy-server=socks5://192.168.1.100:9909"
+bindsym $mod+semicolon exec --no-startup-id i3-scratchpad-or-launch "discord $proxyflag" "discord" "/opt/discord/Discord $proxyflag"
 
-# Mod1 = Alt
-bindsym Mod1+Tab fullscreen disable, focus right, fullscreen enable
-bindsym Mod1+Shift+Tab fullscreen disable, focus left, fullscreen enable
+
+bindsym $mod+a mode "Apps"
+mode "Apps" {
+        bindsym n exec --no-startup-id nitrogen, mode "default"
+        bindsym f exec --no-startup-id firefox, mode "default"
+        bindsym q exec --no-startup-id qutebrowser, mode "default"
+        bindsym r exec --no-startup-id thunar, mode "default"
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym Ctrl+c mode "default"
+}
+
 
 # switch to workspace
 bindsym $mod+1 workspace number $ws1

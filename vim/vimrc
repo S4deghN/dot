@@ -293,51 +293,6 @@ color lightgruv
 
 # color apprentice
 
-# Scratch
-# {{{
-def g:JumpTag()
-    var start_bnr = bufnr()
-    var start_line = line('.')
-    execute("normal! \<C-]>")
-    # if we didn't jump anywhere. try jumping whith [count]=2
-    if bufnr() == start_bnr && line('.') == start_line
-        execute("normal! \<C-t>2\<C-]>")
-    endif
-enddef
-
-# "~/dev/handmade/src/main.h" 3L, 34B
-# "/usr/include/SDL2/SDL_video.h" [RO] 2184L, 81088B
-# "include/SDL2/SDL_video.h" [RO] 2184L, 81088B
-
-def g:JumpToDefinition()
-    var fallbacks = [
-        'LspGotoDefinition',
-        'call JumpTag()',
-        'normal! gd',
-        'normal! [\<C-I>',
-    ]
-
-    for cmd in fallbacks
-        try
-            var s = execute(cmd)
-            # echomsg $'s: {s}'
-            if strlen(s) < 2 || s =~? '"\([\~\/]\|\S\+\/\)\S\+"\s.*'
-                echomsg $'used {cmd}'
-                break
-            endif
-        catch
-            # echomsg $'we catched on: {cmd}: {v:exception}'
-            continue
-        endtry
-    endfor
-enddef
-
-def g:SplitJumpToDefinition()
-    execute 'split g:JumpToDefinition()'
-    g:MoveOpenedWinodwToSaneSplit()
-enddef
-# }}}
-
 # -----------------------------------------------
 # --- keymaps ---
 # -----------------------------------------------
@@ -501,7 +456,10 @@ nnoremap <Esc> <cmd>noh<cr>
 nnoremap c; :<C-p>
 
 # change hex to [s]ymbol
-nnoremap cs "sdiw:call HexToSymbol(expand(@s))<cr>
+def! g:HexToSymbol(hex: string)
+    exec 'normal iU' .. hex .. ' '
+enddef
+nnoremap cs diw:call HexToSymbol(expand(@@))<cr>
 
 # Visual
 def ForceBlockwise(next_key: string): string
@@ -534,8 +492,6 @@ augroup autoCommands
                 \ | endif
 
     autocmd Filetype tex,text,markdown,gitcommit setlocal spell
-    autocmd Filetype cpp,rust setlocal matchpairs+=<:>
-    autocmd Filetype netrw call g:NetrwConfig()
     autocmd Filetype qf nmap <buffer> <Esc> ZQ
     autocmd BufAdd .clang* set filetype=yaml
     # for the v command in bash vi mode
@@ -709,10 +665,6 @@ def g:RipgrepFzf(query: string, fullscreen: bool)
 enddef
 command! -nargs=* -bang RF call RipgrepFzf(<q-args>, <bang>0)
 
-def! g:HexToSymbol(hex: string)
-    exec 'normal iU' .. hex .. ' '
-enddef
-
 def g:Time(count: number, ...args: list<string>)
     echom args
     var repeat = (count <= 0 ? 1 : count)
@@ -734,41 +686,48 @@ def g:Time(count: number, ...args: list<string>)
 enddef
 command! -nargs=* -count -complete=expression Time :call Time(<count>, <q-args>)
 
-# -----------------------------------------------
-# --- netrw ---
-# -----------------------------------------------
-# netrw sucks!
-# change dir as browsing dir changes
-g:netrw_keepdir = 0
-
-def g:NetrwDel()
-    normal! 0y$
-    system("mv \"" .. getreg('0') .. "\" /tmp/")
+# Scratch
+# {{{
+def g:JumpTag()
+    var start_bnr = bufnr()
+    var start_line = line('.')
+    execute("normal! \<C-]>")
+    # if we didn't jump anywhere. try jumping whith [count]=2
+    if bufnr() == start_bnr && line('.') == start_line
+        execute("normal! \<C-t>2\<C-]>")
+    endif
 enddef
 
-def g:NetrwConfig()
-    setlocal cursorlineopt=line
+# "~/dev/handmade/src/main.h" 3L, 34B
+# "/usr/include/SDL2/SDL_video.h" [RO] 2184L, 81088B
+# "include/SDL2/SDL_video.h" [RO] 2184L, 81088B
 
-    g:netrw_banner = 0
-    nmap <buffer> h -^
-    nmap <buffer> <Left> -^
-    nmap <buffer> l <cr>
-    nmap <buffer> <Right> <cr>
-    nmap <buffer> . gh
-    nmap <buffer> P <C-w>z
+def g:JumpToDefinition()
+    var fallbacks = [
+        'LspGotoDefinition',
+        'call JumpTag()',
+        'normal! gd',
+        'normal! [\<C-I>',
+    ]
 
-    # TODO: changing permissions with `gp` doesn't work
+    for cmd in fallbacks
+        try
+            var s = execute(cmd)
+            # echomsg $'s: {s}'
+            if strlen(s) < 2 || s =~? '"\([\~\/]\|\S\+\/\)\S\+"\s.*'
+                echomsg $'used {cmd}'
+                break
+            endif
+        catch
+            # echomsg $'we catched on: {cmd}: {v:exception}'
+            continue
+        endtry
+    endfor
+enddef
 
-    # TODO: add and delete and undo function.
-    # the idea is to have a netrw undo file in /tmp and `mv` deleted
-    # file/directory to it with directory information so that we can move theme
-    # back to the correct place in system with undo function.
-    # g:netrw_keepdir has to be unset so we change directory as we borows.
-
-    # delete file/directory under cursor recursively
-    nmap <buffer> D :call NetrwDel()<cr><C-l>
-    # retrieve the last deleted file
-    # nmap <buffer> u
+def g:SplitJumpToDefinition()
+    execute 'split g:JumpToDefinition()'
+    g:MoveOpenedWinodwToSaneSplit()
 enddef
 
 def OpenCommandPalette()
@@ -797,5 +756,7 @@ enddef
 #     autocmd OptionSet operatorfunc b:opfuncview = winsaveview()
 #     autocmd CursorMoved * g:OpFuncSteady()
 # augroup END
+
+# }}}
 
 defcompile

@@ -1,5 +1,6 @@
 " setlocal makeprg=make\ -C\ build
 setlocal commentstring=//\ %s
+setlocal matchpairs+=<:>
 
 hi! link Delimiter  Normal
 hi! link Identifier Normal
@@ -25,6 +26,6 @@ imap <expr> <C-x>gg <SID>insert_guards()
 augroup CFile
     au!
     au BufWritePre *.h if line('$') == 1 && empty(getline(1))
-                \| exec "normal i\<C-x>gg\<esc>{"
+                \| exec "norm i\<C-x>gg\<esc>{"
                 \| endif
 augroup END
