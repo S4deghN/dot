@@ -516,6 +516,12 @@ augroup end
 # Convenient command to see the difference between the current buffer and the
 # file it was loaded from, thus the changes you made.
 command! DiffOrig vert new | set bt=nofile | r ++edit %% | 0d_ | diffthis | wincmd p | diffthis
+
+def ListBufWords(A: string, L: string, P: number): string
+    return join(uniq(sort(split(join(getline(1, '$'), "\n")))), "\n")
+enddef
+
+command! -nargs=1 -complete=custom,ListBufWords Grep call shout#CaptureOutput("rg -S --vimgrep " .. <f-args>)
 command! -nargs=1 -complete=file Dump call shout#CaptureOutput("objdump -C -l -S -d --disassembler-color=off" .. <f-args>, "[dump]", "asm")
 command! -nargs=1 -complete=file Assembly call shout#CaptureOutput(<f-args>  .. " -o- -S -fverbose-asm", "[asm]", "asm")
 command! -nargs=1 -complete=file PreProc call shout#CaptureOutput(<f-args>  .. " -o- -E", "[PreProc]", "c")

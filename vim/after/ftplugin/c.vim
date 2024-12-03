@@ -20,8 +20,8 @@ func! s:insert_guards()
     return join(list, "\n")
 endfunc
 
-imap <expr> <C-x>gn <SID>guard_name()
-imap <expr> <C-x>gg <SID>insert_guards()
+imap <buffer> <expr> <C-x>gn <SID>guard_name()
+imap <buffer> <expr> <C-x>gg <SID>insert_guards()
 
 augroup CFile
     au!

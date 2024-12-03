@@ -5,6 +5,10 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+# if [ -f "$HOME/.profile" ]; then
+#     . "$HOME/.profile"
+# fi
+
 #--------------------------------------------------
 # prompt
 #---------------------------------------------------
@@ -70,8 +74,6 @@ fi
 #---------------------------------------------------
 #if [[ "$OSTYPE" == "msys" ]]; then
 #fi
-
-alias ta="~/Downloads/textadept/textadept-gtk"
 
 alias ls='ls --color=auto --classify'
 alias la="ls -alh"
@@ -192,3 +194,4 @@ bind -m vi-insert '"\ef":  "\ex2\e@"'
 bind -m vi-insert '"\C-e": "\ex3\e@"'
 bind -m vi-insert '"\C-n": "\ex4\e@"'
 bind -m vi-insert '"\C-g": "\ex5\e@"'
+# TODO: Add a selector for all available executables

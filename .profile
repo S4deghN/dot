@@ -8,8 +8,8 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
-export VISUAL="vim"
-export EDITOR="vim"
+export VISUAL=vim
+export EDITOR=vim
 export TERMINAL=st
 
 export GITLAB_HOME=/srv/gitlab
@@ -21,6 +21,8 @@ export NO_AT_BRIDGE=1
 export QT_QPA_PLATFORMTHEME="qt5ct"
 # export QT_SCALE_FACTOR=1
 export QT_AUTO_SCREEN_SCALE_FACTOR=1
+
+export GOPATH="$HOME/.local/go"
 
 # Highlighting for 'less'
 export MANROFFOPT="-c"
@@ -50,47 +52,26 @@ export FZF_DEFAULT_OPTS="\
     --preview-window hidden \
     "
 
-# if running bash
-if [ -n "$BASH_VERSION" ]; then
-    # include .bashrc if it exists
-    if [ -f "$HOME/.bashrc" ]; then
-	. "$HOME/.bashrc"
-    fi
+if [ -d "$HOME/.cargo/bin" ] ; then
+    PATH="$HOME/.cargo/bin:$PATH"
 fi
 
-if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
-fi
-
-if [ -d "$HOME/.local/bin" ] ; then
-    PATH="$HOME/.local/bin:$PATH"
+if [ -d "$HOME/.local/go/bin" ] ; then
+    PATH="$HOME/.local/go/bin:$PATH"
 fi
 
 if [ -d "$HOME/.local/wine_bin" ] ; then
     PATH="$HOME/.local/wine_bin:$PATH"
 fi
 
-if [ -d "$HOME/.cargo/env" ] ; then
-    PATH="$HOME/.cargo/env:$PATH"
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
 fi
 
-if [ -d "$HOME/.cargo/bin" ] ; then
-    PATH="$HOME/.cargo/bin:$PATH"
-fi
-
-if [ -d "$HOME/go/bin" ] ; then
-    PATH="$HOME/go/bin:$PATH"
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
 fi
 
 # if [[ "$(tty)" = "/dev/tty1" ]]; then
 #     pgrep Xorg || startx
 # fi
-
-if [ $HOSTNAME = "naad" ]; then
-    export PYENV_ROOT="$HOME/.pyenv"
-    if [ -d $PYENV_ROOT/bin ]; then
-        export PATH="$PYENV_ROOT/bin:$PATH"
-        eval "$(pyenv init -)"
-        eval "$(pyenv virtualenv-init -)"
-    fi
-fi
