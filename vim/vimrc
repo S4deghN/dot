@@ -48,7 +48,7 @@ g:rooter_paterns = [
     'Makefile',
     'package.json',
     '.gitignore',
-    'Makefile'
+    'Makefile',
 ]
 # }}}
 Plug 'chrisbra/Colorizer'
@@ -424,17 +424,17 @@ nnoremap <leader>G <cmd>RF<cr>
 
 nnoremap <leader>vv :Git<cr>
 
-nnoremap cc :wa<cr>:Sh <C-r>=get(t:, 'shout_cmd', '')<cr>
+nnoremap cc :wa<cr>:Term <C-r>=get(t:, 'term_cmd', '')<cr>
 # TODO: implement!
-nnoremap sn :Sh<space>
-nnoremap ss <cmd>ShoutToggle<cr>
-nnoremap sq <cmd>ShoutToQf<cr>
-nnoremap sx <cmd>Kill<cr>
-nnoremap sj <cmd>NextErrorJump<cr>
-nnoremap sk <cmd>PrevErrorJump<cr>
-nnoremap sJ <cmd>LastErrorJump<cr>
-nnoremap sK <cmd>FirstErrorJump<cr>
-nnoremap s<Enter> <cmd>ThisErrorJump<cr>
+nnoremap sn :Term<space>
+nnoremap ss <cmd>TermToggleWin<cr>
+nnoremap sq <cmd>TermToQf<cr>
+nnoremap sx <cmd>TermKill<cr>
+nnoremap sj <cmd>TermNextErrorJump<cr>
+nnoremap sk <cmd>TermPrevErrorJump<cr>
+nnoremap sJ <cmd>TermLastErrorJump<cr>
+nnoremap sK <cmd>TermFirstErrorJump<cr>
+nnoremap s<cr> <cmd>TermThisErrorJump<cr>
 
 # substitute
 nnoremap <C-s>s  :s/<C-R>=expand('<cword>')<cr>//g<Left><Left>
@@ -517,11 +517,11 @@ augroup end
 # file it was loaded from, thus the changes you made.
 command! DiffOrig vert new | set bt=nofile | r ++edit %% | 0d_ | diffthis | wincmd p | diffthis
 
-def ListBufWords(A: string, L: string, P: number): string
+def BufWordsComplete(A: string, L: string, P: number): string
     return join(uniq(sort(split(join(getline(1, '$'), "\n")))), "\n")
 enddef
 
-command! -nargs=1 -complete=custom,ListBufWords Grep call shout#CaptureOutput("rg -S --vimgrep " .. <f-args>)
+command! -nargs=1 -complete=custom,BufWordsComplete Grep call shout#CaptureOutput("rg -S --vimgrep " .. <f-args>)
 command! -nargs=1 -complete=file Dump call shout#CaptureOutput("objdump -C -l -S -d --disassembler-color=off" .. <f-args>, "[dump]", "asm")
 command! -nargs=1 -complete=file Assembly call shout#CaptureOutput(<f-args>  .. " -o- -S -fverbose-asm", "[asm]", "asm")
 command! -nargs=1 -complete=file PreProc call shout#CaptureOutput(<f-args>  .. " -o- -E", "[PreProc]", "c")

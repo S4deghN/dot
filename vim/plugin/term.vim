@@ -25,14 +25,11 @@ enddef
 
 export def Term(cmd: string, bang: string, ...args: list<string>): number
     t:term_cmd = cmd
-    if has('win32')
-        cmd = [&shell, &shellcmdflag, escape(cmd, '\')]
-    endif
 
     S_bufname = get(args, 0, '')
     S_filetype = get(args, 1, '')
 
-    var bufnr = g:GetTermBufnr()
+    var bufnr = GetTermBufnr()
     if term_getstatus(bufnr) == "running"
         job_stop(term_getjob(bufnr))
     endif
@@ -50,7 +47,8 @@ export def Term(cmd: string, bang: string, ...args: list<string>): number
     var old_bufnr = bufnr > 0 ? bufnr : 0
     var initila_winid = win_getid()
     win_gotoid(win_to_use)
-    bufnr = term_start(cmd, {
+    var escaped_cmd = has('win32') ? cmd : [&shell, &shellcmdflag, escape(cmd, '\')]
+    bufnr = term_start(escaped_cmd, {
         cwd: cwd,
         curwin: 1,
         term_name: '[term]',
@@ -67,7 +65,7 @@ export def Term(cmd: string, bang: string, ...args: list<string>): number
     return win_to_use
 enddef
 
-def g:GetTermBufnr(): number
+def GetTermBufnr(): number
     var buffers = term_list()
     if len(buffers) > 0
         return buffers[0]
@@ -76,6 +74,7 @@ def g:GetTermBufnr(): number
     endif
 enddef
 
+var was_a_win_there: bool = false
 def CreateWindow(force_split: bool = 0): number
     var current_win_pos = win_screenpos(0)
     var winnr = winnr()
@@ -91,27 +90,34 @@ def CreateWindow(force_split: bool = 0): number
     var hk = &columns > 160 ? '1h' : '1k'
     var v  = &columns > 160 ? 'v' : ''
     if winnr != winnr(lj)
+        was_a_win_there = true
         return win_getid(winnr(lj))
     elseif winnr != winnr(hk)
+        was_a_win_there = true
         return win_getid(winnr(hk))
     else
+        was_a_win_there = false
         exe 'botright' v .. 'split'
         wincmd p
         return win_getid(winnr('#'))
     endif
 enddef
 
-export def ToggleWindow()
-    var winnr = bufwinnr(g:GetTermBufnr())
+def ToggleWindow()
+    var winnr = bufwinnr(GetTermBufnr())
     if winnr == -1
         OpenTermWindow()
     else
-        exe $":{winnr}close"
+        if was_a_win_there
+            win_execute(win_getid(winnr), "norm! \<C-^>")
+        else
+            exe $":{winnr}close"
+        endif
     endif
 enddef
 
 def OpenTermWindow(): number
-    var bufnr = g:GetTermBufnr()
+    var bufnr = GetTermBufnr()
     if bufnr < 0
         return Term("echo Hello!", "")
     endif
@@ -125,7 +131,7 @@ def OpenTermWindow(): number
     return winid
 enddef
 
-export def OpenFile()
+def OpenFile()
     const file_patterns = [
         '^\s\+File "\(.\{-}\)", line \(\d\+\)',
         '^\s\+in function\s\+.\{-}(\(.\{-}\), line \(\d\+\))',
@@ -186,51 +192,52 @@ export def OpenFile()
 enddef
 
 def TermToQf()
-    var bufnr = g:GetTermBufnr()
+    var bufnr = GetTermBufnr()
     if bufnr > 0
         cgetexpr getbufline(bufnr, 1, "$")
     endif
 enddef
 
 const ErrJumpPattern =
+    '\(^\(\)\(\d\+:\)\(\d\+:\)\?\)\|' ..
     '\(^.\{-}:\d\+\(:\d\+:\?\)\?\)\|' ..
     '\(^\s*File ".\{-}", line \d\+,\)\|' ..
     '\(^\s\+in function\s\+.\{-}(.\{-}, line \d\+)\)'
-export def NextError()
+def NextError()
     search(ErrJumpPattern, 'W')
 enddef
 
-export def PrevError(accept_current: bool = false)
+def PrevError(accept_current: bool = false)
     search(ErrJumpPattern, 'bW' .. (accept_current ? 'c' : ''))
 enddef
 
-export def FirstError()
+def FirstError()
     :0 | NextError()
 enddef
 
-export def LastError()
+def LastError()
     :$ | PrevError(true)
 enddef
 
-export def TermNextErrorJump()
+def TermNextErrorJump()
     win_gotoid(OpenTermWindow())
     NextError()
     OpenFile()
 enddef
 
-export def TermPrevErrorJump()
+def TermPrevErrorJump()
     win_gotoid(OpenTermWindow())
     PrevError()
     OpenFile()
 enddef
 
-export def TermFirstErrorJump()
+def TermFirstErrorJump()
     win_gotoid(OpenTermWindow())
     FirstError()
     OpenFile()
 enddef
 
-export def TermLastErrorJump()
+def TermLastErrorJump()
     win_gotoid(OpenTermWindow())
     LastError()
     OpenFile()
@@ -242,7 +249,7 @@ def TermThisErrorJump()
 enddef
 
 def TermKill()
-    job_stop(term_getjob(g:GetTermBufnr()), "kill")
+    job_stop(term_getjob(GetTermBufnr()), "kill")
 enddef
 
 defcom
