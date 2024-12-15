@@ -80,8 +80,8 @@ default_floating_border normal 1
 smart_borders on
 #for_window [all] title_window_icon on
 
-# gaps outer 25
-# gaps inner 10
+gaps outer 25
+gaps inner 10
 
 # class                 border  backgr. text    indicator child_border
 client.focused          #4c7899 #285577 #ffffff #2e9ef4   #285577
@@ -254,12 +254,13 @@ for_window [instance="discord"] move scratchpad, scratchpad show
 bindsym $mod+semicolon exec --no-startup-id i3-scratchpad-or-launch "discord $proxyflag" "discord" "/opt/discord/Discord $proxyflag"
 
 
-bindsym $mod+a mode "Apps"
-mode "Apps" {
-        bindsym n exec --no-startup-id nitrogen, mode "default"
+set $apps Apps: [f]irefox, [q]utebrowser, thuna[r], [n]itrogen
+bindsym $mod+a mode "$apps"
+mode "$apps" {
         bindsym f exec --no-startup-id firefox, mode "default"
         bindsym q exec --no-startup-id qutebrowser, mode "default"
         bindsym r exec --no-startup-id thunar, mode "default"
+        bindsym n exec --no-startup-id nitrogen, mode "default"
 
         # back to normal: Enter or Escape
         bindsym Return mode "default"
@@ -336,15 +337,16 @@ mode "$mode_system" {
 
 bindsym $mod+y mode "$mode_system"
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
+# # Start i3bar to display a workspace bar (plus the system information i3status
+# # finds out, if available)
 # bar {
 #     # status_command SCRIPT_DIR=~/.config/i3blocks/ i3blocks
-#     status_command SCRIPT_DIR=~/.config/i3blocks/ i3status
-#     font pango:BigBlueTermPlus Nerd Font 9
-#
+#     status_command i3status
+#     # font pango:BigBlueTermPlus Nerd Font 9
+#     font pango:Ubuntu 10
+
 #     colors {
-#         background #000000
+#         background #282828
 #         statusline #C5C8C6
 #     }
 # }

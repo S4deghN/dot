@@ -11,6 +11,9 @@ def OnTermWinOpen()
     setl foldmethod=expr foldexpr=0
     setl stl-=%f
     setl stl^=%f\ %([%{%get(t:,'term_cmd')%}]%)%(\ [exit:%{%get(b:,'term_ec','')%}]%)
+
+    if !!get(b:, 'match') | silent! matchdelete(b:match) | endif
+
     hi! link StatuslineTerm Statusline
     hi! link StatuslineTermNC StatuslineNC
 

@@ -28,7 +28,7 @@ __ps1() {
 
     userP='\[\e[0;33m\]\u\[\e[m\]'
     hostP='\[\e[0;29m\]\h\[\e[m\]'
-    suffixP='\[\e[0;32m\]\[\e[m\]'
+    suffixP='\[\e[1;32m\]$\[\e[m\]'
     dircP='\[\e[0;32m\]\w\[\e[m\]'
 
 #   ╭─────╮
@@ -51,7 +51,8 @@ shopt -s autocd
 # expands '**' to recursive subdirectories
 shopt -s globstar
 # ignoreboth is shorthand for ignorespace and ignoredups
-export HISTCONTROL=ignoreboth:erasedups
+export HISTCONTROL=ignoredups:erasedups
+PROMPT_COMMAND="history -n && history -a; $PROMPT_COMMAND"
 # If  set,  the  history list is appended to the file named by the value of the
 # HISTFILE variable when the shell exits, rather than overwriting the file. (in
 # order to prevent the issue of lossig bash session history when multiple

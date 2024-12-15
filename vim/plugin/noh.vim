@@ -5,6 +5,10 @@ def AutoHL()
         var c = col('.') - 1
         if match(getline('.'), @/, c) != c
             feedkeys("\<cmd>noh\<cr>")
+        else
+            # {'exact_match': 0, 'current': 0, 'incomplete': 0, 'maxcount': 99, 'total': 0}
+            var s = searchcount()
+            echo '[' .. s.current .. '/' .. s.total .. ']'
         endif
     endif
 enddef
@@ -17,12 +21,12 @@ enddef
 
 var hl_timer = 0
 def UpdateHL()
-    if !hl_timer
-        hl_timer = timer_start(1000, (_) => {
+    # if !hl_timer
+    #     hl_timer = timer_start(100, (_) => {
             AutoHL()
-            hl_timer = 0
-        })
-    endif
+    #         hl_timer = 0
+    #     })
+    # endif
 enddef
 
 augroup Noh

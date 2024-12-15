@@ -195,7 +195,7 @@ hlset([
     # static, register, volatile, etc
     {name: 'StorageClass', guifg: orange, cterm: {}, gui: {}},
     # struct, union, enum, etc.
-    {name: 'Structure', guifg: aqua, cterm: {}, gui: {}},
+    {name: 'Structure', guifg: orange, cterm: {}, gui: {}},
     # typedef
     {name: 'Typedef', guifg: yellow, cterm: {}, gui: {}},
 
@@ -233,13 +233,13 @@ hlset([
     # Spelling And Diag: {{{
 
     # Not capitalised word
-    {name: 'SpellCap',   guifg: 'NONE', guibg: 'NONE', cterm: {undercurl: 1}, gui: {undercurl: 1}},
+    {name: 'SpellCap',   guifg: 'NONE', guibg: 'bg', cterm: {undercurl: 1}, gui: {undercurl: 1}},
     # Not recognized word
-    {name: 'SpellBad',   guifg: 'NONE', guibg: 'NONE', cterm: {undercurl: 1}, gui: {undercurl: 1}},
+    {name: 'SpellBad',   guifg: 'NONE', guibg: 'bg', cterm: {undercurl: 1}, gui: {undercurl: 1}},
     # Wrong spelling for selected region
-    {name: 'SpellLocal', guifg: 'NONE', guibg: 'NONE', cterm: {undercurl: 1}, gui: {undercurl: 1}},
+    {name: 'SpellLocal', guifg: 'NONE', guibg: 'bg', cterm: {undercurl: 1}, gui: {undercurl: 1}},
     # Rare word
-    {name: 'SpellRare',  guifg: 'NONE', guibg: 'NONE', cterm: {undercurl: 1}, gui: {undercurl: 1}},
+    {name: 'SpellRare',  guifg: 'NONE', guibg: 'bg', cterm: {undercurl: 1}, gui: {undercurl: 1}},
     {name: 'DiagnosticError', guifg: red, cterm: {}, gui: {}},
     {name: 'DiagnosticWarn', guifg: yellow, cterm: {}, gui: {}},
     {name: 'DiagnosticInfo', guifg: 'fg', cterm: {}, gui: {}},
@@ -259,7 +259,7 @@ hi! link diffNewFile Type
 hi! link diffSubname Normal
 
 # sizeof, "+", "*", etc.
-hi Delimiter guifg=fg
+# hi Delimiter guifg=fg
 hi Operator guifg=fg
 hi Signcolumn guibg=bg
 

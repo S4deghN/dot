@@ -76,6 +76,7 @@ autocmd VimEnter * g:VimCompleteOptionsSet(comp_options)
 # }}}
 Plug '~/.vim/local/vim-shout'
 Plug '~/.vim/local/lsp'
+Plug '~/.vim/local/taghighlight'
 # {{{
 var lspOpts = {
     semanticHighlight: false,
@@ -154,10 +155,13 @@ var lspServers = [
     },
 ]
 # }}}
+# TODO: Check out:
+Plug 'J-Merle/vim-todo'
 plug#end()
 
-packadd comment
+packadd! comment
 packadd! termdebug
+# packadd! matchit
 
 runtime ftplugin/man.vim
 # disable matchparent and use plugin/parenmatch.vim
@@ -196,12 +200,15 @@ set pumheight=6 previewheight=10
 # behave like bash
 set nowildmenu wildignorecase wildmode=longest,list,full
 set showcmd
-set noshowmode
+set showmode
 set signcolumn=no
 set ruler
+set nocursorline
+set scrolloff=3
 
 # set showcmd showcmdloc=statusline
 set shortmess=aoOFtT
+set shortmess-=S
 set splitbelow splitright
 set incsearch hlsearch
 set ignorecase
@@ -286,10 +293,8 @@ g:c_functions = 1
 g:c_function_pointers = 1
 set termguicolors
 set background=dark
-g:gruvbox_contrast = 'soft'
-g:gruvbox_italicize_comments = 0
-g:gruvbox_invert_selection = 0
 color lightgruv
+# hi Normal guibg=NONE
 
 # color apprentice
 
@@ -324,26 +329,32 @@ inoremap <C-f> <scriptcmd>g:Comp()<cr>
 tmap <C-]> <C-\><C-n>
 
 # yank
-nnoremap yif mzggVGyg`z
-nnoremap yap yap}
-nnoremap yip yip}
-nnoremap y} y}}
-nnoremap y{ y{
+map Y yg_
+
+# nnoremap yif mzggVGyg`z
+# nnoremap yap yap}
+# nnoremap yip yip}
+# nnoremap y} y}}
+# nnoremap y{ y{
+
 map gy "+y
 map gY "+Y
-vnoremap y   mzyg`z
-vnoremap gy  mz"+yg`z
+
+nnoremap p :let @c=col('.')<cr>]p:call cursor(0, <C-r>c)<cr>
+nnoremap P :let @c=col('.')<cr>]P:call cursor(0, <C-r>c)<cr>
+# vnoremap y   mzyg`z
+# vnoremap gy  mz"+yg`z
 # paste, goto pase start, mark it, select pasted lines, reindent, go back to
 # marked pase
-noremap p p`[mzV`]=`z
-noremap P P`[mzV`]=`z
-map gp "+p
-map gP "+P
+# noremap p p`[mzV`]=`z
+# noremap P P`[mzV`]=`z
+noremap gp "+p
+noremap gP "+P
 nnoremap yo :let @+=@"<cr>
 
 # indent
 nmap     +   mz[%=%g`z
-imap   <C-b> <Esc>+gi
+imap   <C-b> <C-o>+gi
 nnoremap =if mzggVG=g`z
 nnoremap =ap mz=apg`z
 nnoremap =ip mz=ipg`z
@@ -360,7 +371,7 @@ noremap  gz   1z=
 noremap  zs   mz:%s/\s\+$//e<cr>''g`z
 nnoremap gF   mz:%!clang-format<cr>g`z
 nmap gcA      gcc^dWA <C-r>"
-nmap gcd      yygccpg`]
+nmap gcd      :let @c=col('.')<cr>yygccp:call cursor(0, <C-r>c)<cr>
 
 nnoremap ga <plug>(EasyAlign)
 xnoremap ga <plug>(EasyAlign)
@@ -516,6 +527,7 @@ augroup end
 # Convenient command to see the difference between the current buffer and the
 # file it was loaded from, thus the changes you made.
 command! DiffOrig vert new | set bt=nofile | r ++edit %% | 0d_ | diffthis | wincmd p | diffthis
+command! RT RooterToggle | exec "norm :\<C-u>cd \<C-x>d\<cr>"
 
 def BufWordsComplete(A: string, L: string, P: number): string
     return join(uniq(sort(split(join(getline(1, '$'), "\n")))), "\n")

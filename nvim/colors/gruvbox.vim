@@ -6,6 +6,10 @@
 " Last Modified: 11 Mar 2014
 " -----------------------------------------------------------------------------
 
+g:gruvbox_contrast = 'soft'
+g:gruvbox_italicize_comments = 0
+g:gruvbox_invert_selection = 0
+
 " Supporting code -------------------------------------------------------------
 " Initialisation: {{{
 

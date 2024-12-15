@@ -5,9 +5,11 @@ bat_dir=/sys/class/power_supply/BAT0
 [[ ! -d $bat_dir ]] && exit 0
 
 declare -A status_map=(
-    ["Not charging"]="🔋"
-    ["Discharging"]="🪫"
+    ["Unknown"]="❗"
     ["Charging"]="⚡"
+    ["Discharging"]="🪫"
+    ["Not charging"]="🔌"
+    ["Full"]="🔋"
 )
 
 
