@@ -6,7 +6,6 @@ def AutoHL()
         if match(getline('.'), @/, c) != c
             feedkeys("\<cmd>noh\<cr>")
         else
-            # {'exact_match': 0, 'current': 0, 'incomplete': 0, 'maxcount': 99, 'total': 0}
             var s = searchcount()
             echo '[' .. s.current .. '/' .. s.total .. ']'
         endif
@@ -19,19 +18,9 @@ def StopHL()
     endif
 enddef
 
-var hl_timer = 0
-def UpdateHL()
-    # if !hl_timer
-    #     hl_timer = timer_start(100, (_) => {
-            AutoHL()
-    #         hl_timer = 0
-    #     })
-    # endif
-enddef
-
 augroup Noh
     au!
-    au CursorMoved * UpdateHL()
+    au CursorMoved * AutoHL()
     au InsertEnter * StopHL()
 augroup end
 

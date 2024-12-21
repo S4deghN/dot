@@ -13,4 +13,3 @@ if [[ -x "/bin/gnome-terminal" ]]; then
 else
     st "$@"
 fi
-
