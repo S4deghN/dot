@@ -354,7 +354,7 @@ nnoremap yo :let @+=@"<cr>
 
 # indent
 nmap     +   mz[%=%g`z
-imap   <C-b> <C-o>+gi
+imap   <C-b> <esc>+gi
 nnoremap =if mzggVG=g`z
 nnoremap =ap mz=apg`z
 nnoremap =ip mz=ipg`z
