@@ -155,7 +155,6 @@ var lspServers = [
     },
 ]
 # }}}
-# TODO: Check out:
 Plug 'J-Merle/vim-todo'
 plug#end()
 
@@ -287,16 +286,9 @@ g:mapleader = " "
 match CursorLine '\s\+$'
 filetype plugin indent on
 syntax on
-# TODO: Move these to ftplugin
-g:c_gnu = 1
-g:c_functions = 1
-g:c_function_pointers = 1
 set termguicolors
 set background=dark
 color lightgruv
-# hi Normal guibg=NONE
-
-# color apprentice
 
 # -----------------------------------------------
 # --- keymaps ---
@@ -427,7 +419,6 @@ noremap  <leader>H <cmd>Helptags<cr>
 noremap  <leader>t :Tags <C-r><C-w><cr>
 noremap  <leader>T <cmd>Tags<space>
 # for now use grep!
-# TODO: implement <C-g> functionality in search.
 nnoremap <leader>g :RF <C-r><C-w><cr>
 xnoremap <leader>g :<C-u>RF <C-r>=escape(GetVisualSelection(), "()\+*.[]\|")<cr><cr>
 # nnoremap <leader>G <cmd>RG<cr>
@@ -436,7 +427,6 @@ nnoremap <leader>G <cmd>RF<cr>
 nnoremap <leader>vv :Git<cr>
 
 nnoremap cc :wa<cr>:Term <C-r>=get(t:, 'term_cmd', '')<cr>
-# TODO: implement!
 nnoremap sn :Term<space>
 nnoremap ss <cmd>TermToggleWin<cr>
 nnoremap sq <cmd>TermToQf<cr>

@@ -112,6 +112,10 @@ alias pac-check-integ="pacman -Qikk"
 
 alias bf="WINEPREFIX=~/Games/skylords-reborn/ wine /home/s4/Games/skylords-reborn/drive_c/Program\ Files/BattleForge/BattleForge.exe"
 
+alias yt-dlp-video='yt-dlp --cookies-from-browser firefox --proxy socks5://192.168.1.100:9909 -S "height:1080,aext"'
+alias yt-dlp-audio='yt-dlp --cookies-from-browser firefox --proxy socks5://192.168.1.100:9909 -f "ba"'
+alias ffmpeg-combine='ffmpeg -i "" -i "" out.mp4'
+
 #---------------------------------------------------
 # env
 #---------------------------------------------------
