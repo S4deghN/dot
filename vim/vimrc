@@ -130,6 +130,7 @@ def LspOnAttach()
     nmap <buffer> [d  :LspDiagPrev<cr>
     nmap <buffer> gh  :LspDiagCurrent<cr>
     nmap <buffer> gla :LspCodeAction<cr>
+    nmap <buffer> gls :LspSwitchSourceHeader<cr>
 enddef
 
 autocmd User LspSetup call LspOptionsSet(lspOpts)
@@ -156,6 +157,7 @@ var lspServers = [
 ]
 # }}}
 Plug 'J-Merle/vim-todo'
+Plug 'habamax/vim-dir'
 plug#end()
 
 packadd! comment
@@ -204,6 +206,7 @@ set signcolumn=no
 set ruler
 set nocursorline
 set scrolloff=3
+set scrolljump=0
 
 # set showcmd showcmdloc=statusline
 set shortmess=aoOFtT
@@ -289,6 +292,7 @@ syntax on
 set termguicolors
 set background=dark
 color lightgruv
+# hi normal guibg=black
 
 # -----------------------------------------------
 # --- keymaps ---
@@ -387,7 +391,7 @@ noremap <silent> gd <cmd>call JumpToDefinition()<cr>
 noremap <C-w>d      <cmd>call SplitJumpToDefinition()<cr>
 # nnoremap <C-W>gd <Cmd>:vert call JumpToDefinition()<CR>
 noremap gn ]<C-I>
-noremap gk K
+noremap <expr> gk exists(":Man") > 0 ? ":vert Man <cword><CR>" : "K"
 nnoremap * *N
 xnoremap * y/\M<C-R>"<cr>N
 nnoremap # #N

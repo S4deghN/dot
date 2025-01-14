@@ -52,12 +52,12 @@ shopt -s autocd
 shopt -s globstar
 # ignoreboth is shorthand for ignorespace and ignoredups
 export HISTCONTROL=ignoredups:erasedups
-PROMPT_COMMAND="history -n && history -a; $PROMPT_COMMAND"
+PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 # If  set,  the  history list is appended to the file named by the value of the
 # HISTFILE variable when the shell exits, rather than overwriting the file. (in
 # order to prevent the issue of lossig bash session history when multiple
 # instances are running)
-# shopt -s histappend
+shopt -s histappend
 export HISTSIZE=-1
 
 # Stupid!!!!
@@ -193,6 +193,8 @@ bind -x '"\ex2": vi-find ""     .git'
 bind -x '"\ex3": vi-find ~/dot  .git'
 bind -x '"\ex4": vi-find ~/note .git'
 bind -x '"\ex5": vi-grep'
+# take in history from other shells
+bind -x '"\C-h": history -n'
 
 bind -m vi-insert '"\C-f": "\ex1\e@"'
 bind -m vi-insert '"\ef":  "\ex2\e@"'
