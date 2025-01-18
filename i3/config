@@ -247,7 +247,7 @@ for_window [instance="gpick"] move scratchpad, scratchpad show
 bindsym $mod+i exec --no-startup-id i3-scratchpad-or-launch "gpick"
 
 for_window [instance="todo"] move scratchpad, scratchpad show
-bindsym $mod+g exec --no-startup-id i3-scratchpad-or-launch "st -n todo -e $EDITOR ~/note/todo.vorg" "todo"
+bindsym $mod+g exec --no-startup-id i3-scratchpad-or-launch "st -n todo -e $EDITOR $HOME/note/todo.vorg" "todo"
 
 set $proxyflag=--proxy-server=socks5://192.168.1.100:9909
 for_window [instance="discord"] move scratchpad, scratchpad show
