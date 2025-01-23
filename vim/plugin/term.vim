@@ -12,7 +12,9 @@ def OnTermWinOpen()
     setl stl-=%f
     setl stl^=%f\ %([%{%get(t:,'term_cmd')%}]%)%(\ [exit:%{%get(b:,'term_ec','')%}]%)
 
-    if !!get(b:, 'match') | silent! matchdelete(b:match) | endif
+    # if !!get(b:, 'match') | silent! matchdelete(b:match) | endif
+    # silent! matchdelete(b:match)
+    clearmatches()
 
     hi! link StatuslineTerm Statusline
     hi! link StatuslineTermNC StatuslineNC
@@ -26,7 +28,7 @@ def OnTermWinOpen()
     nnoremap <buffer> [{ <scriptcmd>FirstError()<CR>
 enddef
 
-export def Term(cmd: string, bang: string, ...args: list<string>): number
+export def g:Term(cmd: string, bang: string, ...args: list<string>): number
     t:term_cmd = cmd
 
     S_bufname = get(args, 0, '')
@@ -122,7 +124,7 @@ enddef
 def OpenTermWindow(): number
     var bufnr = GetTermBufnr()
     if bufnr < 0
-        return Term("echo Hello!", "")
+        return g:Term("echo Hello!", "")
     endif
 
     var winid = bufwinid(bufnr)
@@ -257,7 +259,7 @@ enddef
 
 defcom
 
-command! -nargs=1 -bang -complete=shellcmdline Term Term(<q-args>, <q-bang>)
+command! -nargs=1 -bang -complete=shellcmdline Term g:Term(<q-args>, <q-bang>)
 command! -nargs=0 -bar TermToggleWin      ToggleWindow()
 command! -nargs=0 -bar TermToQf           TermToQf()
 command! -nargs=0 -bar TermKill           TermKill()

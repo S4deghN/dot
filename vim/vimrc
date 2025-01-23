@@ -15,7 +15,6 @@ Plug 'junegunn/fzf.vim'
 # {{{
 g:fzf_vim = {}
 # g:fzf_vim.preview_window = ['hidden,right,40%,<70(up,40%)', 'ctrl-l']
-
 def BuildQfList(lines: string)
     call setqflist(map(copy(lines), '{ "filename": v:val, "lnum": 1 }'))
     copen
@@ -76,7 +75,6 @@ autocmd VimEnter * g:VimCompleteOptionsSet(comp_options)
 # }}}
 Plug '~/.vim/local/vim-shout'
 Plug '~/.vim/local/lsp'
-Plug '~/.vim/local/taghighlight'
 # {{{
 var lspOpts = {
     semanticHighlight: false,
@@ -128,6 +126,7 @@ def LspOnAttach()
     nmap <buffer> K   :LspHover<cr>
     nmap <buffer> ]d  :LspDiagNext<cr>
     nmap <buffer> [d  :LspDiagPrev<cr>
+    nmap <buffer> gr  :LspRename<cr>
     nmap <buffer> gh  :LspDiagCurrent<cr>
     nmap <buffer> gla :LspCodeAction<cr>
     nmap <buffer> gls :LspSwitchSourceHeader<cr>
@@ -157,13 +156,15 @@ var lspServers = [
 ]
 # }}}
 Plug 'J-Merle/vim-todo'
-Plug 'habamax/vim-dir'
+# Plug 'habamax/vim-dir'
+# Plug 'vim-scripts/TagHighlight'
 plug#end()
 
 packadd! comment
 packadd! termdebug
-# packadd! matchit
+packadd! matchit
 
+g:ft_man_open_mode = 'vert'
 runtime ftplugin/man.vim
 # disable matchparent and use plugin/parenmatch.vim
 g:loaded_matchparen = 1
@@ -204,7 +205,7 @@ set showcmd
 set showmode
 set signcolumn=no
 set ruler
-set nocursorline
+set cursorline
 set scrolloff=3
 set scrolljump=0
 
@@ -221,7 +222,7 @@ set nosmarttab
 set expandtab shiftwidth=4 tabstop=4
 set backspace=indent,eol,start
 set foldmethod=marker
-set textwidth=100
+set textwidth=95
 set jumpoptions=stack
 set showbreak=↷
 set fillchars+=diff:╱,vert:│
@@ -229,7 +230,7 @@ set listchars=tab:»\ ,trail:-
 set nolist
 
 # Sane indentation
-set cinoptions+=:0,ls,g0,N-s,E-s,(s,k0,j1,J1
+set cinoptions+=:0,ls,g0,N-s,E-s,(s,k0,j1,J1,t0
 
 # put the more unlikey first so that when it is the case you search that first.
 set path=.,**,/usr/src/*/include,/usr/include
@@ -292,7 +293,13 @@ syntax on
 set termguicolors
 set background=dark
 color lightgruv
-# hi normal guibg=black
+
+# taghighlight plugin
+hi Member guifg=fg
+# hi GlobalConstant guifg=fg
+hi GlobalVariable guifg=fg
+hi LocalVariable guifg=fg
+hi! link DefinedName Macro
 
 # -----------------------------------------------
 # --- keymaps ---
@@ -308,10 +315,7 @@ inoremap <C-^> <esc><C-^>
 inoremap <C-s> <Plug>CapsLockToggle
 inoremap <C-x>d <esc>:r!date "+\%Y/\%m/\%d \%H:\%M:\%S"<cr>kJg`]a
 
-inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
-inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
-
-def g:Comp()
+def Comp()
     if pumvisible()
         feedkeys("\<C-y>")
     else
@@ -319,61 +323,124 @@ def g:Comp()
         timer_start(50, (_) => feedkeys("\<C-n>"))
     endif
 enddef
-
-inoremap <C-f> <scriptcmd>g:Comp()<cr>
+inoremap        <C-f> <scriptcmd>Comp()<cr>
+inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
+inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
 
 tmap <C-]> <C-\><C-n>
 
 # yank
 map Y yg_
-
-# nnoremap yif mzggVGyg`z
-# nnoremap yap yap}
-# nnoremap yip yip}
-# nnoremap y} y}}
-# nnoremap y{ y{
-
 map gy "+y
 map gY "+Y
 
-nnoremap p :let @c=col('.')<cr>]p:call cursor(0, <C-r>c)<cr>
-nnoremap P :let @c=col('.')<cr>]P:call cursor(0, <C-r>c)<cr>
-# vnoremap y   mzyg`z
-# vnoremap gy  mz"+yg`z
-# paste, goto pase start, mark it, select pasted lines, reindent, go back to
-# marked pase
-# noremap p p`[mzV`]=`z
-# noremap P P`[mzV`]=`z
-noremap gp "+p
-noremap gP "+P
+def Delete(type: string, op: string = 'd')
+    if type ==# 'count'
+        exe 'norm!' v:count1 .. '"' .. v:register .. op
+    elseif type ==# 'v'
+        exec 'norm!' .. '"' .. v:register .. op
+    else # it's a motion
+        var vselect = type ==# "line" ? "'[V']" : "`[v`]"
+        var vstart = getpos("'<")
+        var vend = getpos("'>")
+        exe 'keepj norm!' vselect .. '"' .. v:register .. op
+        setpos("'<", vstart)
+        setpos("'>", vend)
+    endif
+
+    if reltime(get(g:, 'last_del_time', [0, 0]))[0] < 3 # less than 3 sec
+        setreg("D", getreg('@'))
+    else
+        setreg("d", getreg('@'))
+    endif
+    g:last_del_time = reltime()
+enddef
+
+def DeleteOperator(): string
+    &opfunc = 'Delete'
+    return '"' .. v:register .. 'g@'
+enddef
+
+# TODO: I couldn't pass on the v:register when using motions! so it's saved in a buffer
+# variable
+nnoremap <expr> d DeleteOperator()
+
+# nnoremap dd <scriptcmd>Delete('count', 'dd')<cr>
+nnoremap dd <scriptcmd>Delete('count', 'dd')<cr>
+nnoremap D  <scriptcmd>Delete('count', 'D')<cr>
+nnoremap x  <scriptcmd>Delete('count', 'x')<cr>
+nnoremap X  <scriptcmd>Delete('count', 'X')<cr>
+
+vnoremap d <scriptcmd>Delete('v', 'd')<cr>
+vnoremap x <scriptcmd>Delete('v', 'x')<cr>
+vnoremap D <scriptcmd>Delete('v', 'D')<cr>
+vnoremap X <scriptcmd>Delete('v', 'X')<cr>
+
+
+# nnoremap p :let @c=col('.')<cr>p=`]:if @c > col('.') \| call cursor(0, @c) \| endif<cr>
+def Paste(p: string)
+    var c = col('.')
+    exe 'keepj norm!' v:count1 .. '"'  .. v:register  .. p .. '=`]'
+    if c > col('.') | cursor(0, c) | endif
+enddef
+noremap p <scriptcmd>Paste('p')<cr>
+noremap P <scriptcmd>Paste('P')<cr>
+map <leader>p "dp
+map <leader>P "dP
+map gp "+p
+map gP "+P
+
 nnoremap yo :let @+=@"<cr>
 
-# indent
-nmap     +   mz[%=%g`z
-imap   <C-b> <esc>+gi
-nnoremap =if mzggVG=g`z
-nnoremap =ap mz=apg`z
-nnoremap =ip mz=ipg`z
-nnoremap ==  mz=ipg`z
-vnoremap =   mz=g`z
+def KeepView(op: string, type = '', view = winsaveview())
+    if type ==# 'count'
+        exe 'norm!' v:count1 .. op
+    elseif type ==# 'cmd'
+        execute(op)
+    else
+        exe 'norm!' (v:register !=# '"' ? '"' .. v:register : '') .. op
+    endif
+    winrestview(view)
+enddef
+
+def KeepViewOperator(op: string, view: dict<number>, reg: string, type: string)
+    var vselect = type ==# "line" ? "'[V']" : "`[v`]"
+    var vstart = getpos("'<")
+    var vend = getpos("'>")
+    exe 'keepj norm!' vselect .. (len(reg) ? '"' .. reg : '') .. op
+    setpos("'<", vstart)
+    setpos("'>", vend)
+    winrestview(view)
+enddef
+
+# nnoremap y  <scriptcmd>&opfunc = function('KeepViewOperator', ['y', winsaveview(), v:register])<cr>g@
+# nnoremap yy yy
+
+nnoremap =  <scriptcmd>&opfunc = function('KeepViewOperator', ['=', winsaveview(), ''])<cr>g@
+nnoremap == <scriptcmd>KeepView('==', 'count')<cr>
+vnoremap =  <scriptcmd>KeepView('=')<cr>
+
+onoremap if <cmd>norm! ggVG<cr>
+
+nmap ==    =ip
+nmap +     =i{
+imap <C-b> <esc>+gi
+
+nnoremap zs <scriptcmd>KeepView(':%s/\s\+$//e', 'cmd')<cr>
+nnoremap gF <scriptcmd>KeepView(':%!clang-format', 'cmd')<cr>
+nmap     gcd yy<scriptcmd>KeepView('gcc', 'count')<cr>p
 
 # format
-nnoremap gqif mzggVGgqgg`z
-nnoremap gqap mzgqapg`z
-nnoremap gqip mzgqipg`z
-nnoremap gql  mzgqlg`z
-vnoremap gq   mzgqg`z
 noremap  gz   1z=
-noremap  zs   mz:%s/\s\+$//e<cr>''g`z
-nnoremap gF   mz:%!clang-format<cr>g`z
-nmap gcA      gcc^dWA <C-r>"
-nmap gcd      :let @c=col('.')<cr>yygccp:call cursor(0, <C-r>c)<cr>
+nmap     gcA  gcc^dWA <C-r>"
 
-nnoremap ga <plug>(EasyAlign)
-xnoremap ga <plug>(EasyAlign)
+nnoremap ga  <plug>(EasyAlign)
+xnoremap ga  <plug>(EasyAlign)
 nnoremap ga\ mz<plug>(EasyAlign)ap\g`z
 
 # navigation
+noremap } <cmd>keepj norm! }<cr>
+noremap { <cmd>keepj norm! {<cr>
 noremap j gj
 noremap k gk
 noremap <C-h> <cmd>tabp<cr>
@@ -386,27 +453,66 @@ noremap <M-e> g`Eg`"
 noremap <M-r> g`Rg`"
 noremap <M-t> g`Tg`"
 
-# noremap gd [<C-I>
-noremap <silent> gd <cmd>call JumpToDefinition()<cr>
-noremap <C-w>d      <cmd>call SplitJumpToDefinition()<cr>
-# nnoremap <C-W>gd <Cmd>:vert call JumpToDefinition()<CR>
-noremap gn ]<C-I>
-noremap <expr> gk exists(":Man") > 0 ? ":vert Man <cword><CR>" : "K"
-nnoremap * *N
-xnoremap * y/\M<C-R>"<cr>N
-nnoremap # #N
-xnoremap # y?\M<C-R>"<cr>N
-noremap n nzz
-noremap N Nzz
-noremap <C-w>t :belowright term<cr>
+def g:JumpTag() # {{{
+    var start_bnr = bufnr()
+    var start_line = line('.')
+    execute("normal! \<C-]>")
+    # if we didn't jump anywhere. try jumping whith [count]=2
+    if bufnr() == start_bnr && line('.') == start_line
+        execute("normal! \<C-t>2\<C-]>")
+    endif
+enddef
+
+# "~/dev/handmade/src/main.h" 3L, 34B
+# "/usr/include/SDL2/SDL_video.h" [RO] 2184L, 81088B
+# "include/SDL2/SDL_video.h" [RO] 2184L, 81088B
+
+def g:JumpToDefinition()
+    var fallbacks = [
+        'LspGotoDefinition',
+        'call JumpTag()',
+        'normal! gd',
+        'normal! [\<C-I>',
+    ]
+
+    for cmd in fallbacks
+        try
+            var s = execute(cmd)
+            # echomsg $'s: {s}'
+            if strlen(s) < 2 || s =~? '"\([\~\/]\|\S\+\/\)\S\+"\s.*'
+                echomsg $'used {cmd}'
+                break
+            endif
+        catch
+            # echomsg $'we catched on: {cmd}: {v:exception}'
+            continue
+        endtry
+    endfor
+enddef
+
+def g:SplitJumpToDefinition()
+    execute 'split g:JumpToDefinition()'
+    g:MoveOpenedWinodwToSaneSplit()
+enddef # }}}
+noremap  <silent> gd <cmd>call JumpToDefinition()<cr>
+noremap  <C-w>d      <cmd>call SplitJumpToDefinition()<cr>
+noremap  gn          ]<C-I>
+noremap  <expr> gk   exists(":Man") > 0 ? ":call dist#man#PreGetPage(0)<CR>" : "K"
+nnoremap *           *<cmd>keepj norm! N<cr>
+xnoremap *           y/\M<C-R>"<cr><cmd>keepj norm! N<cr>
+nnoremap #           #<cmd>keepj norm! N<cr>
+xnoremap #           y?\M<C-R>"<cr><cmd>keepj norm! N<cr>
+noremap  n           <cmd>keepj norm! nzz<cr>
+noremap  N           <cmd>keepj norm! Nzz<cr>
+noremap  <C-w>t      :belowright term<cr>
 
 # cmd
 cmap <C-x>f <C-r>=expand('%:p')<cr>
 # cmap <C-x>d <C-r>=expand('%:p:h').'/'<cr>
 cmap <C-x>d <C-r>=expand('%:p:h:s?\S\+:\/\/??').'/'<cr>
 cmap <C-x>r redir<space>@l\|<space>\|redir<space>end<C-left><C-left>
-cmap <C-j> <Down>
-cmap <C-k> <Up>
+cmap <C-j>  <Down>
+cmap <C-k>  <Up>
 
 # fast access
 nnoremap <leader>d :Bdelete<cr>
@@ -424,7 +530,7 @@ noremap  <leader>t :Tags <C-r><C-w><cr>
 noremap  <leader>T <cmd>Tags<space>
 # for now use grep!
 nnoremap <leader>g :RF <C-r><C-w><cr>
-xnoremap <leader>g :<C-u>RF <C-r>=escape(GetVisualSelection(), "()\+*.[]\|")<cr><cr>
+vnoremap <leader>g :<C-u>RF <C-r>=escape(GetVisualSelection(), "()\+*.[]\|")<cr><cr>
 # nnoremap <leader>G <cmd>RG<cr>
 nnoremap <leader>G <cmd>RF<cr>
 
@@ -437,15 +543,17 @@ nnoremap sq <cmd>TermToQf<cr>
 nnoremap sx <cmd>TermKill<cr>
 nnoremap sj <cmd>TermNextErrorJump<cr>
 nnoremap sk <cmd>TermPrevErrorJump<cr>
-nnoremap sJ <cmd>TermLastErrorJump<cr>
-nnoremap sK <cmd>TermFirstErrorJump<cr>
+nnoremap s$ <cmd>TermLastErrorJump<cr>
+nnoremap s0 <cmd>TermFirstErrorJump<cr>
 nnoremap s<cr> <cmd>TermThisErrorJump<cr>
 
 # substitute
 nnoremap <C-s>s  :s/<C-R>=expand('<cword>')<cr>//g<Left><Left>
-xnoremap <C-s>s  :s//g<Left><Left>
+vnoremap <C-s>s  :s//g<Left><Left>
+
 nnoremap <C-s>f  :%s/<C-R>=expand('<cword>')<cr>//g<Left><Left>
-xnoremap <C-s>f  y:<C-w>%s/<C-r>"//g<Left><Left>
+vnoremap <C-s>f  y:<C-w>%s/<C-r>"//g<Left><Left>
+
 nnoremap <C-s>h  :'<,'>:s/<C-R>=expand('<cword>')<CR>//g<Left><Left>
 nnoremap <C-s>ip yiwvip<Esc>:'<,'>:s/<C-R>"//g<Left><Left>
 nnoremap <C-s>ap yiwvap<Esc>:'<,'>:s/<C-R>"//g<Left><Left>
@@ -460,12 +568,6 @@ inoremap <C-U> <C-G>u<C-U>
 nnoremap <Esc> <cmd>noh<cr>
 nnoremap c; :<C-p>
 
-# change hex to [s]ymbol
-def! g:HexToSymbol(hex: string)
-    exec 'normal iU' .. hex .. ' '
-enddef
-nnoremap cs diw:call HexToSymbol(expand(@@))<cr>
-
 # Visual
 def ForceBlockwise(next_key: string): string
     const setup_keyseq_table = {
@@ -475,10 +577,15 @@ def ForceBlockwise(next_key: string): string
     }
     return setup_keyseq_table[next_key][mode()]
 enddef
-
 xmap <expr> I  ForceBlockwise('I')
 xmap <expr> gI ForceBlockwise('gI')
 xmap <expr> A  ForceBlockwise('A')
+
+# change hex to [s]ymbol
+def! g:HexToSymbol(hex: string)
+    exec 'normal iU' .. hex .. ' '
+enddef
+nnoremap cs diw:call HexToSymbol(expand(@@))<cr>
 
 # -----------------------------------------------
 # --- auto cmds ---
@@ -527,10 +634,13 @@ def BufWordsComplete(A: string, L: string, P: number): string
     return join(uniq(sort(split(join(getline(1, '$'), "\n")))), "\n")
 enddef
 
-command! -nargs=1 -complete=custom,BufWordsComplete Grep call shout#CaptureOutput("rg -S --vimgrep " .. <f-args>)
-command! -nargs=1 -complete=file Dump call shout#CaptureOutput("objdump -C -l -S -d --disassembler-color=off" .. <f-args>, "[dump]", "asm")
-command! -nargs=1 -complete=file Assembly call shout#CaptureOutput(<f-args>  .. " -o- -S -fverbose-asm", "[asm]", "asm")
-command! -nargs=1 -complete=file PreProc call shout#CaptureOutput(<f-args>  .. " -o- -E", "[PreProc]", "c")
+command! -nargs=1 -bang -complete=custom,BufWordsComplete Grep call Term("rg -S --vimgrep " .. <f-args>, <q-bang>)
+# Dump {binfile}
+command! -nargs=1 -bang -complete=file Dump     call Term("objdump -C -l -S -d --disassembler-color=on " .. <f-args>, <q-bang>, "[dump]", "asm")
+# Assembly {compiler} {sourcefile}
+command! -nargs=1 -bang -complete=file Assembly call Term(<f-args>  .. " -o- -S -fverbose-asm", <q-bang>, "[asm]", "asm")
+# PreProc {compiler} {sourcefile}
+command! -nargs=1 -bang -complete=file PreProc  call Term(<f-args>  .. " -o- -E", <q-bang>, "[PreProc]", "c")
 
 
 # -----------------------------------------------
@@ -698,50 +808,6 @@ def g:Time(count: number, ...args: list<string>)
 enddef
 command! -nargs=* -count -complete=expression Time :call Time(<count>, <q-args>)
 
-# Scratch
-# {{{
-def g:JumpTag()
-    var start_bnr = bufnr()
-    var start_line = line('.')
-    execute("normal! \<C-]>")
-    # if we didn't jump anywhere. try jumping whith [count]=2
-    if bufnr() == start_bnr && line('.') == start_line
-        execute("normal! \<C-t>2\<C-]>")
-    endif
-enddef
-
-# "~/dev/handmade/src/main.h" 3L, 34B
-# "/usr/include/SDL2/SDL_video.h" [RO] 2184L, 81088B
-# "include/SDL2/SDL_video.h" [RO] 2184L, 81088B
-
-def g:JumpToDefinition()
-    var fallbacks = [
-        'LspGotoDefinition',
-        'call JumpTag()',
-        'normal! gd',
-        'normal! [\<C-I>',
-    ]
-
-    for cmd in fallbacks
-        try
-            var s = execute(cmd)
-            # echomsg $'s: {s}'
-            if strlen(s) < 2 || s =~? '"\([\~\/]\|\S\+\/\)\S\+"\s.*'
-                echomsg $'used {cmd}'
-                break
-            endif
-        catch
-            # echomsg $'we catched on: {cmd}: {v:exception}'
-            continue
-        endtry
-    endfor
-enddef
-
-def g:SplitJumpToDefinition()
-    execute 'split g:JumpToDefinition()'
-    g:MoveOpenedWinodwToSaneSplit()
-enddef
-
 def OpenCommandPalette()
     var windowId = popup_create(term_start([&shell], {hidden: 1, term_finish: 'close'}), { border: [1, 1, 1, 1], minwidth: winwidth(0) / 2, minheight: &lines / 2 })
 enddef
@@ -768,7 +834,4 @@ enddef
 #     autocmd OptionSet operatorfunc b:opfuncview = winsaveview()
 #     autocmd CursorMoved * g:OpFuncSteady()
 # augroup END
-
-# }}}
-
 defcompile

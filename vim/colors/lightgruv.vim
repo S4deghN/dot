@@ -10,7 +10,7 @@ g:colors_name = "lightgruv"
 
 # var dark0  = '#2d2c2b'
 # var dark0  = '#202020'
-var dark0  = '#282828'
+var dark0  = '#242424'
 var dark1  = '#3c3836'
 var dark2  = '#504945'
 var dark3  = '#665c54'
@@ -56,7 +56,8 @@ g:terminal_ansi_colors = [
 hlset([
     {name: 'Normal', guifg: light1, guibg: dark0, cterm: {}, gui: {}},
     # Screen line that the cursor is
-    {name: 'CursorLine',   guifg: 'NONE', guibg: dark1, cterm: {}, gui: {}},
+    # {name: 'CursorLine',   guifg: 'NONE', guibg: dark1, cterm: {}, gui: {}},
+    {name: 'CursorLine',   guifg: 'NONE', guibg: '#2b2b2b', cterm: {}, gui: {}},
     # Screen column that the cursor is
     {name: 'CursorColumn', guifg: 'NONE', guibg: dark1, cterm: {}, gui: {}},
 
@@ -148,7 +149,7 @@ hlset([
     {name: 'Special', guifg: orange, cterm: {}, gui: {}},
     {name: 'Comment', guifg: medium, guibg: 'NONE', cterm: {}, gui: {}},
     {name: 'Todo', guifg: 'fg', guibg: 'bg', cterm: {bold: 1}, gui: {bold: 1}},
-    {name: 'Error', guifg: 'bg', guibg: red, cterm: {bold: 1}, gui: {bold: 1}},
+    {name: 'Error', guifg: red, guibg: 'bg', cterm: {bold: 1}, gui: {bold: 1}},
 
     # Generic statement
     {name: 'Statement',   guifg: red, cterm: {}, gui: {}},

@@ -7,6 +7,7 @@ sanitize tridactyllocal tridactylsync
 
 " Ignore on these domains
 autocmd DocStart cheri-compiler-explorer.cl mode ignore
+autocmd DocStart guide.handmadehero.org mode ignore
 
 " Just use a blank page for new tab. It would be nicer to use the standard
 " Firefox homepage, but Tridactyl doesn't support this yet.

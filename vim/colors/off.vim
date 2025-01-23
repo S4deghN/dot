@@ -29,7 +29,9 @@ let s:lighter_black   = { "gui": "#545454", "cterm": "240" }
 let s:subtle_black    = { "gui": "#444240", "cterm": "236" }
 let s:light_gray      = { "gui": "#B2B2B2", "cterm": "249" }
 "let s:lighter_gray    = { "gui": "#C6C6C6", "cterm": "251" }
-let s:lighter_gray    = { "gui": "#d1b897", "cterm": "251" }
+" let s:lighter_gray    = { "gui": "#d1b897", "cterm": "251" }
+" let s:lighter_gray    = { "gui": "#AC9F8E", "cterm": "251" }
+let s:lighter_gray    = { "gui": "#b9b09B", "cterm": "251" }
 "let s:lighter_gray    = { "gui": "#d8cfba", "cterm": "251" }
 let s:subtle_gray     = { "gui": "#696969", "cterm": "250" }
 let s:pink            = { "gui": "#fb007a", "cterm": "9"   }
@@ -213,9 +215,10 @@ else
     highlight TelescopeSelection     guifg=NONE gui=bold guibg=#303030
 endif
 
-hi Function guifg=ivory2
-hi Statement guifg=goldenrod1
-hi Type guifg=#95a99f
+hi Function guifg=ivory3
+hi Statement guifg=goldenrod
+hi Type guifg=goldenrod
+" hi Type guifg=#95a99f
 hi Number guifg=ivory
 hi String guifg=#6b9e23
 hi IncSearch guifg=black guibg=#ee799f
