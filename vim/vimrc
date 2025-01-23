@@ -166,6 +166,7 @@ packadd! matchit
 
 g:ft_man_open_mode = 'vert'
 runtime ftplugin/man.vim
+
 # disable matchparent and use plugin/parenmatch.vim
 g:loaded_matchparen = 1
 g:loaded_matchparen9 = 1
@@ -287,7 +288,7 @@ g:mapleader = " "
 # --- coloring ---
 # -----------------------------------------------
 # mark trailing spaces as errors using highlight group CursorLine
-match CursorLine '\s\+$'
+match CursorColumn '\s\+$'
 filetype plugin indent on
 syntax on
 set termguicolors
@@ -306,6 +307,8 @@ hi! link DefinedName Macro
 # -----------------------------------------------
 map ' `
 
+onoremap if <cmd>norm! ggVG<cr>
+
 inoremap <silent> <Esc> <Esc>g`^
 inoremap <C-z> <C-x>s
 # :help map-special-keys
@@ -313,7 +316,7 @@ inoremap <C-_> <esc>ugi
 # for accepting auto complete
 inoremap <C-^> <esc><C-^>
 inoremap <C-s> <Plug>CapsLockToggle
-inoremap <C-x>d <esc>:r!date "+\%Y/\%m/\%d \%H:\%M:\%S"<cr>kJg`]a
+inoremap <C-x>d <esc>:r!date "+\%Y-\%m-\%d \%H:\%M:\%S"<cr>kJg`]a
 
 def Comp()
     if pumvisible()
@@ -329,54 +332,6 @@ inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
 
 tmap <C-]> <C-\><C-n>
 
-# yank
-map Y yg_
-map gy "+y
-map gY "+Y
-
-def Delete(type: string, op: string = 'd')
-    if type ==# 'count'
-        exe 'norm!' v:count1 .. '"' .. v:register .. op
-    elseif type ==# 'v'
-        exec 'norm!' .. '"' .. v:register .. op
-    else # it's a motion
-        var vselect = type ==# "line" ? "'[V']" : "`[v`]"
-        var vstart = getpos("'<")
-        var vend = getpos("'>")
-        exe 'keepj norm!' vselect .. '"' .. v:register .. op
-        setpos("'<", vstart)
-        setpos("'>", vend)
-    endif
-
-    if reltime(get(g:, 'last_del_time', [0, 0]))[0] < 3 # less than 3 sec
-        setreg("D", getreg('@'))
-    else
-        setreg("d", getreg('@'))
-    endif
-    g:last_del_time = reltime()
-enddef
-
-def DeleteOperator(): string
-    &opfunc = 'Delete'
-    return '"' .. v:register .. 'g@'
-enddef
-
-# TODO: I couldn't pass on the v:register when using motions! so it's saved in a buffer
-# variable
-nnoremap <expr> d DeleteOperator()
-
-# nnoremap dd <scriptcmd>Delete('count', 'dd')<cr>
-nnoremap dd <scriptcmd>Delete('count', 'dd')<cr>
-nnoremap D  <scriptcmd>Delete('count', 'D')<cr>
-nnoremap x  <scriptcmd>Delete('count', 'x')<cr>
-nnoremap X  <scriptcmd>Delete('count', 'X')<cr>
-
-vnoremap d <scriptcmd>Delete('v', 'd')<cr>
-vnoremap x <scriptcmd>Delete('v', 'x')<cr>
-vnoremap D <scriptcmd>Delete('v', 'D')<cr>
-vnoremap X <scriptcmd>Delete('v', 'X')<cr>
-
-
 # nnoremap p :let @c=col('.')<cr>p=`]:if @c > col('.') \| call cursor(0, @c) \| endif<cr>
 def Paste(p: string)
     var c = col('.')
@@ -390,49 +345,77 @@ map <leader>P "dP
 map gp "+p
 map gP "+P
 
-nnoremap yo :let @+=@"<cr>
+def SetOpFunc(F: func): string
+    &opfunc = F
+    return '"' .. v:register .. 'g@'
+enddef
 
-def KeepView(op: string, type = '', view = winsaveview())
-    if type ==# 'count'
-        exe 'norm!' v:count1 .. op
-    elseif type ==# 'cmd'
-        execute(op)
+def Operate(op: string, type: string)
+    var reg = v:register !=# '"' ? '"' .. v:register : ''
+    if type ==# 'v'
+        exec 'norm!' .. reg .. op
     else
-        exe 'norm!' (v:register !=# '"' ? '"' .. v:register : '') .. op
+        var vselect = type ==# "line" ? "'[V']" : "`[v`]"
+        var vstart = getpos("'<")
+        var vend = getpos("'>")
+        exe 'keepj norm!' vselect .. reg .. op
+        setpos("'<", vstart)
+        setpos("'>", vend)
+    endif
+enddef
+
+def Delete(op: string, type: string)
+    Operate(op, type)
+    if reltime(get(g:, 'last_del_time', [0, 0]))[0] < 3 # less than 3 sec
+        setreg("D", getreg('@'))
+    else
+        setreg("d", getreg('@'))
+    endif
+    g:last_del_time = reltime()
+enddef
+nnoremap <expr> d SetOpFunc(function('Delete', ['d']))
+nmap dd d_
+nmap D  dg_
+nmap x  dl
+nmap X  dh
+# nnoremap dd <scriptcmd>Delete('count', 'dd')<cr>
+# nnoremap D  <scriptcmd>Delete('count', 'D')<cr>
+# nnoremap x  <scriptcmd>Delete('count', 'x')<cr>
+# nnoremap X  <scriptcmd>Delete('count', 'X')<cr>
+vnoremap d <scriptcmd>Delete('d', 'v')<cr>
+vnoremap x <scriptcmd>Delete('x', 'v')<cr>
+vnoremap D <scriptcmd>Delete('D', 'v')<cr>
+vnoremap X <scriptcmd>Delete('X', 'v')<cr>
+
+def KeepView(op: string, view: dict<number>, type: string)
+    if type ==# 'c'
+        exec op
+    else
+        Operate(op, type)
     endif
     winrestview(view)
 enddef
-
-def KeepViewOperator(op: string, view: dict<number>, reg: string, type: string)
-    var vselect = type ==# "line" ? "'[V']" : "`[v`]"
-    var vstart = getpos("'<")
-    var vend = getpos("'>")
-    exe 'keepj norm!' vselect .. (len(reg) ? '"' .. reg : '') .. op
-    setpos("'<", vstart)
-    setpos("'>", vend)
-    winrestview(view)
-enddef
-
-# nnoremap y  <scriptcmd>&opfunc = function('KeepViewOperator', ['y', winsaveview(), v:register])<cr>g@
-# nnoremap yy yy
-
-nnoremap =  <scriptcmd>&opfunc = function('KeepViewOperator', ['=', winsaveview(), ''])<cr>g@
-nnoremap == <scriptcmd>KeepView('==', 'count')<cr>
-vnoremap =  <scriptcmd>KeepView('=')<cr>
-
-onoremap if <cmd>norm! ggVG<cr>
-
-nmap ==    =ip
-nmap +     =i{
+nnoremap <expr> = SetOpFunc(function('KeepView', ['=', winsaveview()]))
+vnoremap = <scriptcmd>KeepView('=', winsaveview(), 'v')<cr>
+nmap == =_
+nmap == =ip
+nmap +  =i{
 imap <C-b> <esc>+gi
-
-nnoremap zs <scriptcmd>KeepView(':%s/\s\+$//e', 'cmd')<cr>
-nnoremap gF <scriptcmd>KeepView(':%!clang-format', 'cmd')<cr>
-nmap     gcd yy<scriptcmd>KeepView('gcc', 'count')<cr>p
-
+# yank
+nnoremap <expr> y SetOpFunc(function('KeepView', ['y', winsaveview()]))
+vnoremap y <scriptcmd>KeepView('y', winsaveview(), 'v')<cr>
+nmap yy y_
+map  Y  yg_
+map  gy "+y
+map  gY "+Y
+nnoremap yo :let @+=@"<cr>
 # format
-noremap  gz   1z=
-nmap     gcA  gcc^dWA <C-r>"
+nnoremap zs <scriptcmd>KeepView(':%s/\s\+$//e', winsaveview(), 'c')<cr>
+nnoremap gF <scriptcmd>KeepView(':%!clang-format', winsaveview(), 'c')<cr>
+nnoremap gz 1z=
+
+nmap gcA  gcc^dWA <C-r>"
+nmap gcd <cmd>let @c=col('.')<cr>yygccp<cmd>call cursor(0,@c)<cr>
 
 nnoremap ga  <plug>(EasyAlign)
 xnoremap ga  <plug>(EasyAlign)
@@ -494,8 +477,8 @@ def g:SplitJumpToDefinition()
     execute 'split g:JumpToDefinition()'
     g:MoveOpenedWinodwToSaneSplit()
 enddef # }}}
-noremap  <silent> gd <cmd>call JumpToDefinition()<cr>
-noremap  <C-w>d      <cmd>call SplitJumpToDefinition()<cr>
+noremap  <silent> gd <scriptcmd>JumpToDefinition()<cr>
+noremap  <C-w>d      <scriptcmd>SplitJumpToDefinition()<cr>
 noremap  gn          ]<C-I>
 noremap  <expr> gk   exists(":Man") > 0 ? ":call dist#man#PreGetPage(0)<CR>" : "K"
 nnoremap *           *<cmd>keepj norm! N<cr>
@@ -582,10 +565,13 @@ xmap <expr> gI ForceBlockwise('gI')
 xmap <expr> A  ForceBlockwise('A')
 
 # change hex to [s]ymbol
-def! g:HexToSymbol(hex: string)
-    exec 'normal iU' .. hex .. ' '
+def HexToSymbol(op: string, type: string)
+    Operate(op, type)
+    exec 'normal iU' .. getreg("@")
 enddef
-nnoremap cs diw:call HexToSymbol(expand(@@))<cr>
+nnoremap <expr> cs SetOpFunc(function('HexToSymbol', ['c']))
+vnoremap cs <scriptcmd>HexToSymbol('c', 'v')<cr>
+
 
 # -----------------------------------------------
 # --- auto cmds ---
