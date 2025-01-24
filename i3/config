@@ -251,11 +251,12 @@ set $todo_cmd exec --no-startup-id i3-scratchpad-or-launch "st -n todo -e $EDITO
 bindsym $mod+g $todo_cmd
 exec --no-startup-id $todo_cmd
 
-for_window [instance="discord"] move scratchpad, scratchpad show
+for_window [instance="discord"] move scratchpad, scratchpad show, resize set 1600 900, \
+                      move position center
 bindsym $mod+semicolon exec --no-startup-id i3-scratchpad-or-launch \
-                "discord --proxy-server='socks5://192.168.1.100:9909'" \
-                "discord" \
-                "/opt/discord/Discord --proxy-server=socks5://192.168.1.100:9909"
+      "discord --proxy-server='socks5://192.168.1.100:9909'" \
+      "discord" \
+      "/opt/discord/Discord --proxy-server=socks5://192.168.1.100:9909"
 
 
 set $apps Apps: [f]irefox, [q]utebrowser, [t]hunar, [h]top, [n]itrogen, [c]hrome, [l]utris
