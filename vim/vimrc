@@ -14,7 +14,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/fzf.vim'
 # {{{
 g:fzf_vim = {}
-# g:fzf_vim.preview_window = ['hidden,right,40%,<70(up,40%)', 'ctrl-l']
+g:fzf_vim.preview_window = ['right,50%,<70(up,40%),nohidden', 'ctrl-l']
 def BuildQfList(lines: string)
     call setqflist(map(copy(lines), '{ "filename": v:val, "lnum": 1 }'))
     copen
@@ -28,7 +28,7 @@ g:fzf_action = {
     'ctrl-v': 'vsplit'
 }
 
-g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
+g:fzf_layout = { 'window': { 'width': 0.95, 'height': 0.6 } }
 # }}}
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-sleuth' # Buffer options
@@ -512,10 +512,29 @@ noremap  <leader>H <cmd>Helptags<cr>
 noremap  <leader>t :Tags <C-r><C-w><cr>
 noremap  <leader>T <cmd>Tags<space>
 # for now use grep!
-nnoremap <leader>g :RF <C-r><C-w><cr>
-vnoremap <leader>g :<C-u>RF <C-r>=escape(GetVisualSelection(), "()\+*.[]\|")<cr><cr>
-# nnoremap <leader>G <cmd>RG<cr>
-nnoremap <leader>G <cmd>RF<cr>
+def g:LiveGrep(query: string, fullscreen: bool) # {{{
+    var command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
+    var prompt = ''
+    var initial_grep = printf(command_fmt, shellescape(query))
+    var reload_grep = printf(command_fmt, '{q}')
+    var options = {'options': [
+        '--prompt', '*Rg> ',
+        '--header', getcwd(),
+        '--header-first',
+        '--phony',
+        '--query', query,
+        '--bind', 'change:reload:sleep 0.1;' .. reload_grep,
+        '--bind', 'ctrl-g:transform:[[ ! {fzf:prompt} == "*Rg> " ]] &&' ..
+        'echo "rebind(change)+change-prompt(*Rg> )+disable-search+transform-query:echo \{q} > /tmp/rg-fzf-f; cat /tmp/rg-fzf-r" ||' ..
+        'echo "unbind(change)+change-prompt({q}> )+enable-search+transform-query:echo \{q} > /tmp/rg-fzf-r; cat /tmp/rg-fzf-f"'
+    ]}
+    call fzf#vim#grep(initial_grep, 1, fzf#vim#with_preview(options), fullscreen)
+enddef
+command! -nargs=* -bang LiveGrep call LiveGrep(<q-args>, <bang>0)
+# }}}
+nnoremap <leader>G <cmd>LiveGrep<cr>
+nnoremap <leader>g :LiveGrep <C-r><C-w><cr>
+vnoremap <leader>g :<C-u>LiveGrep <C-r>=escape(GetVisualSelection(), "()\+*.[]\|")<cr><cr>
 
 nnoremap <leader>vv :Git<cr>
 
@@ -569,9 +588,8 @@ def HexToSymbol(op: string, type: string)
     Operate(op, type)
     exec 'normal iU' .. getreg("@")
 enddef
-nnoremap <expr> cs SetOpFunc(function('HexToSymbol', ['c']))
-vnoremap cs <scriptcmd>HexToSymbol('c', 'v')<cr>
-
+nnoremap <expr> gs SetOpFunc(function('HexToSymbol', ['c']))
+vnoremap gs <scriptcmd>HexToSymbol('c', 'v')<cr>
 
 # -----------------------------------------------
 # --- auto cmds ---
@@ -752,26 +770,6 @@ def g:FzfRg()
     }})
 enddef
 command! -nargs=0 Rgg call FzfRg()
-
-def g:RipgrepFzf(query: string, fullscreen: bool)
-    var command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
-    var prompt = ''
-    var initial_grep = printf(command_fmt, shellescape(query))
-    var reload_grep = printf(command_fmt, '{q}')
-    var options = {'options': [
-        '--prompt', '*Rg> ',
-        '--header', getcwd(),
-        '--header-first',
-        '--phony',
-        '--query', query,
-        '--bind', 'change:reload:sleep 0.1;' .. reload_grep,
-        '--bind', 'ctrl-g:transform:[[ ! {fzf:prompt} == "*Rg> " ]] &&' ..
-        'echo "rebind(change)+change-prompt(*Rg> )+disable-search+transform-query:echo \{q} > /tmp/rg-fzf-f; cat /tmp/rg-fzf-r" ||' ..
-        'echo "unbind(change)+change-prompt({q}> )+enable-search+transform-query:echo \{q} > /tmp/rg-fzf-r; cat /tmp/rg-fzf-f"'
-    ]}
-    call fzf#vim#grep(initial_grep, 1, fzf#vim#with_preview(options), fullscreen)
-enddef
-command! -nargs=* -bang RF call RipgrepFzf(<q-args>, <bang>0)
 
 def g:Time(count: number, ...args: list<string>)
     echom args
