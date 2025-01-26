@@ -98,7 +98,7 @@ var lspOpts = {
     autoComplete: false,
     omniComplete: true,
     outlineOnRight: false,
-    outlineWinSize: 20,
+    outlineWinSize: 35,
     showDiagInBalloon: true,
     showDiagInPopup: true,
     showDiagOnStatusLine: false,
@@ -130,11 +130,9 @@ def LspOnAttach()
     nmap <buffer> gh  :LspDiagCurrent<cr>
     nmap <buffer> gla :LspCodeAction<cr>
     nmap <buffer> gls :LspSwitchSourceHeader<cr>
+    nmap <buffer> glo :LspOutline<cr>
+    nmap <buffer> glr :LspShowReferences<cr>
 enddef
-
-autocmd User LspSetup call LspOptionsSet(lspOpts)
-autocmd User LspSetup call LspAddServer(lspServers)
-autocmd User LspAttached call LspOnAttach()
 # }}}
 # {{{
 var lspServers = [
@@ -153,7 +151,18 @@ var lspServers = [
         "--header-insertion-decorators",
         ]
     },
+    {
+        name: 'rust-analyzer',
+        filetype: ['rust'],
+        path: 'rustup',
+        args: [ 'run', 'nightly', 'rust-analyzer', ],
+        rootSearch: ['Cargo.toml']
+    }
 ]
+
+autocmd User LspSetup call LspOptionsSet(lspOpts)
+autocmd User LspSetup call LspAddServer(lspServers)
+autocmd User LspAttached call LspOnAttach()
 # }}}
 Plug 'J-Merle/vim-todo'
 # Plug 'habamax/vim-dir'
@@ -450,7 +459,7 @@ enddef
 # "/usr/include/SDL2/SDL_video.h" [RO] 2184L, 81088B
 # "include/SDL2/SDL_video.h" [RO] 2184L, 81088B
 
-def g:JumpToDefinition()
+def JumpToDefinition()
     var fallbacks = [
         'LspGotoDefinition',
         'call JumpTag()',
@@ -473,7 +482,7 @@ def g:JumpToDefinition()
     endfor
 enddef
 
-def g:SplitJumpToDefinition()
+def SplitJumpToDefinition()
     execute 'split g:JumpToDefinition()'
     g:MoveOpenedWinodwToSaneSplit()
 enddef # }}}
@@ -614,7 +623,7 @@ augroup autoCommands
     autocmd BufAdd /tmp/bash* set filetype=sh
 
     autocmd BufWinEnter man://* call MoveOpenedWinodwToSaneSplit()
-    autocmd Filetype fugitive call MoveOpenedWinodwToSaneSplit()
+    # autocmd Filetype fugitive call MoveOpenedWinodwToSaneSplit()
     autocmd BufWinEnter */doc/*.txt call MoveOpenedWinodwToSaneSplit()
 
     # autocmd WinEnter,WinLeave,WinNew * redrawstatus!

@@ -240,6 +240,8 @@ bindsym Mod1+Shift+Tab fullscreen disable, focus left, fullscreen enable
 bindsym $mod+q scratchpad show
 bindsym $mod+Shift+q move scratchpad
 
+bindsym $mod+Shift+s sticky toggle
+
 for_window [instance="qalculate-gtk"] move scratchpad, scratchpad show
 bindsym $mod+c exec --no-startup-id i3-scratchpad-or-launch "qalculate-gtk"
 
