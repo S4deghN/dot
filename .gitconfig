@@ -13,6 +13,7 @@
     diffFilter = perl /usr/share/git/diff-highlight/diff-highlight
 [credential]
     helper = cache
+    cacheoptions = --timeout 43200
 [commit]
     verbose = true
 [filter "lfs"]

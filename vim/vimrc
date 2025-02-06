@@ -1,4 +1,21 @@
 vim9script
+# -----------------------------------------------
+# --- coloring ---
+# -----------------------------------------------
+# mark trailing spaces as errors using highlight group CursorLine
+match CursorColumn '\s\+$'
+filetype plugin indent on
+syntax on
+set termguicolors
+set background=dark
+color lightgruv
+
+# taghighlight plugin
+hi Member guifg=fg
+# hi GlobalConstant guifg=fg
+hi GlobalVariable guifg=fg
+hi LocalVariable guifg=fg
+hi! link DefinedName Macro
 
 # -----------------------------------------------
 # --- plugins ---
@@ -59,20 +76,20 @@ g:VM_maps = {
 }
 # }}}
 Plug 'lacygoill/vim9asm'
-Plug 'girishji/vimcomplete'
-# {{{
-g:vimcomplete_tab_enable = 1
-var comp_options = {
-    completor: { alwaysOn: false,  shuffleEqualPriority: false, postfixHighlight: true },
-    buffer: { enable: true, priority: 8, urlComplete: true, envComplete: true },
-    abbrev: { enable: true, priority: 9 },
-    lsp: { enable: true, priority: 10, maxCount: 5 },
-    # omnifunc: { enable: false, priority: 8, filetypes: ['python', 'javascript'] },
-    # vsnip: { enable: true, priority: 11 },
-    vimscript: { enable: true, priority: 11 },
-}
-autocmd VimEnter * g:VimCompleteOptionsSet(comp_options)
-# }}}
+# Plug 'girishji/vimcomplete'
+# # {{{
+# g:vimcomplete_tab_enable = 1
+# var comp_options = {
+#     completor: { alwaysOn: false,  shuffleEqualPriority: false, postfixHighlight: true },
+#     buffer: { enable: true, priority: 8, urlComplete: true, envComplete: true },
+#     abbrev: { enable: true, priority: 9 },
+#     lsp: { enable: true, priority: 10, maxCount: 5 },
+#     # omnifunc: { enable: false, priority: 8, filetypes: ['python', 'javascript'] },
+#     # vsnip: { enable: true, priority: 11 },
+#     vimscript: { enable: true, priority: 11 },
+# }
+# autocmd VimEnter * g:VimCompleteOptionsSet(comp_options)
+# # }}}
 Plug '~/.vim/local/vim-shout'
 Plug '~/.vim/local/lsp'
 # {{{
@@ -84,6 +101,7 @@ var lspOpts = {
     autoPopulateDiags: false,
     completionMatcher: 'icase',
     completionMatcherValue: 1,
+    showSignature: true,
     echoSignature: true,
     hideDisabledCodeActions: false,
     highlightDiagInline: false,
@@ -92,7 +110,7 @@ var lspOpts = {
     keepFocusInDiags: false,
     keepFocusInReferences: true,
     completionTextEdit: false,
-    diagVirtualTextAlign: 'above',
+    diagVirtualTextAlign: 'below',
     diagVirtualTextWrap: 'default',
     noNewlineInCompletion: false,
     autoComplete: false,
@@ -105,7 +123,6 @@ var lspOpts = {
     showDiagWithSign: true,
     showDiagWithVirtualText: false,
     showInlayHints: false,
-    showSignature: true,
     snippetSupport: false,
     ultisnipsSupport: false,
     useBufferCompletion: false,
@@ -124,14 +141,17 @@ def LspOnAttach()
 
     # nmap <buffer> gd  <cmd>LspGotoDefinition<cr>
     nmap <buffer> K   :LspHover<cr>
-    nmap <buffer> ]d  :LspDiagNext<cr>
-    nmap <buffer> [d  :LspDiagPrev<cr>
     nmap <buffer> gr  :LspRename<cr>
-    nmap <buffer> gh  :LspDiagCurrent<cr>
     nmap <buffer> gla :LspCodeAction<cr>
     nmap <buffer> gls :LspSwitchSourceHeader<cr>
     nmap <buffer> glo :LspOutline<cr>
     nmap <buffer> glr :LspShowReferences<cr>
+    nmap <buffer> glR :LspPeekReferences<cr>
+
+    nmap <buffer> ]d  :LspDiagNext<cr>
+    nmap <buffer> [d  :LspDiagPrev<cr>
+    nmap <buffer> gh  :LspDiagCurrent<cr>
+    nmap <buffer> gld :LspDiagShow<cr>
 enddef
 # }}}
 # {{{
@@ -167,6 +187,13 @@ autocmd User LspAttached call LspOnAttach()
 Plug 'J-Merle/vim-todo'
 # Plug 'habamax/vim-dir'
 # Plug 'vim-scripts/TagHighlight'
+Plug 'mhinz/vim-signify'
+# {{{
+autocmd User SignifyAutocmds au  signify TextChanged,InsertLeave * call sy#start()
+# }}}
+# Plug 'yggdroot/hipairs'
+Plug 'glts/vim-magnum'
+Plug 'glts/vim-radical'
 plug#end()
 
 packadd! comment
@@ -180,6 +207,8 @@ runtime ftplugin/man.vim
 g:loaded_matchparen = 1
 g:loaded_matchparen9 = 1
 # g:loaded_parenmatch = 1
+
+# 0x50
 
 # -----------------------------------------------
 # --- options ---
@@ -215,7 +244,7 @@ set showcmd
 set showmode
 set signcolumn=no
 set ruler
-set cursorline
+set nocursorline
 set scrolloff=3
 set scrolljump=0
 
@@ -232,7 +261,7 @@ set nosmarttab
 set expandtab shiftwidth=4 tabstop=4
 set backspace=indent,eol,start
 set foldmethod=marker
-set textwidth=95
+set textwidth=85
 set jumpoptions=stack
 set showbreak=↷
 set fillchars+=diff:╱,vert:│
@@ -253,6 +282,34 @@ if executable('rg')
     set grepformat=%f:%l:%c:%m
 endif
 
+def g:LspStatus(): string
+    # var str = $':%#DiagStatusError#{diags.Error}%#*#:%#DiagStatuswarn#{diags.Warn}%#*#:%#DiagStatusHint#{diags.Hint}%#*#:%#DiagStatusInfo#{diags.Info}%#*#'
+    var str = ''
+    var bufnr = bufnr()
+    if lsp#buffer#BufHasLspServer(bufnr)
+        var diags = lsp#diag#DiagsGetErrorCount(bufnr)
+
+        str ..= lsp#buffer#BufLspServerGet(bufnr).name
+
+        if diags.Error != 0
+            str ..= ':%#DiagStatusError#' .. diags.Error .. '%*'
+        endif
+        if diags.Warn != 0
+            str ..= ':%#DiagStatusWarn#' .. diags.Warn .. '%*'
+        endif
+        if diags.Hint != 0
+            str ..= ':%#DiagStatusHint#' .. diags.Hint .. '%*'
+        endif
+        if diags.Info != 0
+            str ..= ':%#DiagStatusInfo#' .. diags.Info .. '%*'
+        endif
+
+        str ..= '%#'
+    endif
+
+    return str
+enddef
+
 set laststatus=2
 if &laststatus > 0
     set showcmdloc=statusline
@@ -261,8 +318,8 @@ if &laststatus > 0
     set stl+=%f
     set stl+=%(\ %m%q%h%w%r%)
     set stl+=\ \ \ \ %P\ %10(%l:%c\ \ %)
-    # set stl+=%(\ \ \ \ Git:%{v:lua.GitSignsStatus()}%)
-    # set stl+=%(\ \ \ \ LSP:%{v:lua.GetRunningLsp()}%{%v:lua.GetDiag()%}%)
+    set stl+=%(\ \ \ \ Git:%{get(w:,'git_branch','')}%)
+    set stl+=%(\ \ \ \ LSP:%{%g:LspStatus()%}%)
     # Middle
     set stl+=\ %=
     set stl+=%S
@@ -270,7 +327,7 @@ if &laststatus > 0
     set stl+=\ %=
     set stl+=
 else
-    set rulerformat=%60(%([%{%v:lua.GetRunningLsp()%}%{%v:lua.GetDiag()%}]%)\ \ \ \ %(Git:%{v:lua.GitSignsStatus()}%)%=\ \ \ \ %-8(%l,%c%)\ %P%)
+    set rulerformat=%60(%(LSP:%{%g:LspStatus()%}%)\ \ \ \ %(Git:%{get(w:,'git_branch','')}%)%=\ \ \ \ %-8(%l,%c%)\ %P%)
     augroup ruler
         autocmd BufEnter * call feedkeys("\<C-g>")
     augroup end
@@ -294,24 +351,6 @@ endif
 g:mapleader = " "
 
 # -----------------------------------------------
-# --- coloring ---
-# -----------------------------------------------
-# mark trailing spaces as errors using highlight group CursorLine
-match CursorColumn '\s\+$'
-filetype plugin indent on
-syntax on
-set termguicolors
-set background=dark
-color lightgruv
-
-# taghighlight plugin
-hi Member guifg=fg
-# hi GlobalConstant guifg=fg
-hi GlobalVariable guifg=fg
-hi LocalVariable guifg=fg
-hi! link DefinedName Macro
-
-# -----------------------------------------------
 # --- keymaps ---
 # -----------------------------------------------
 map ' `
@@ -332,7 +371,7 @@ def Comp()
         feedkeys("\<C-y>")
     else
         feedkeys("\<C-space>")
-        timer_start(50, (_) => feedkeys("\<C-n>"))
+        timer_start(100, (_) => feedkeys("\<C-n>"))
     endif
 enddef
 inoremap        <C-f> <scriptcmd>Comp()<cr>
@@ -418,6 +457,16 @@ map  Y  yg_
 map  gy "+y
 map  gY "+Y
 nnoremap yo :let @+=@"<cr>
+
+def YankLineWithLineColNum()
+    var c = col('.')
+    norm! ^yg_
+    cursor(0, c)
+    var s = getreg(v:register) .. ':' .. line('.') ..  ':' .. col('.')
+    setreg(v:register, s, 'l')
+enddef
+nmap yl <scriptcmd>YankLineWithLineColNum()<cr>
+
 # format
 nnoremap zs <scriptcmd>KeepView(':%s/\s\+$//e', winsaveview(), 'c')<cr>
 nnoremap gF <scriptcmd>KeepView(':%!clang-format', winsaveview(), 'c')<cr>
@@ -439,6 +488,10 @@ noremap <C-h> <cmd>tabp<cr>
 noremap <C-l> <cmd>tabn<cr>
 noremap <C-j> <cmd>cn<cr>
 noremap <C-k> <cmd>cp<cr>
+exe "set <M-j>=\ej"
+noremap <M-j> <cmd>lne<cr>
+exe "set <M-k>=\ek"
+noremap <M-k> <cmd>lp<cr>
 noremap <M-q> g`Qg`"
 noremap <M-w> g`Wg`"
 noremap <M-e> g`Eg`"
@@ -595,10 +648,16 @@ xmap <expr> A  ForceBlockwise('A')
 # change hex to [s]ymbol
 def HexToSymbol(op: string, type: string)
     Operate(op, type)
-    exec 'normal iU' .. getreg("@")
+    # TODO: right now only works on one word in order to apply to multiple words we
+    # have to iterate over words in register and apply the conversion
+    exec 'normal aU' .. getreg("@")
 enddef
-nnoremap <expr> gs SetOpFunc(function('HexToSymbol', ['c']))
-vnoremap gs <scriptcmd>HexToSymbol('c', 'v')<cr>
+
+exe "set <M-g>=\eg"
+nnoremap <expr> <M-g>s SetOpFunc(function('HexToSymbol', ['c']))
+vnoremap <M-g>s <scriptcmd>HexToSymbol('c', 'v')<cr>
+
+# 123  132
 
 # -----------------------------------------------
 # --- auto cmds ---
@@ -633,6 +692,8 @@ augroup autoCommands
 
     autocmd VimResume,BufEnter,WinEnter,VimEnter * call g:TmuxApplyTitle()
     autocmd VimLeave,VimSuspend * call g:TmuxResetTitle()
+
+    autocmd DirChanged,WinNew,VimEnter * w:git_branch = system('git describe --all --contains 2>/dev/null')->substitute('\n', '', '')
 augroup end
 
 # -----------------------------------------------

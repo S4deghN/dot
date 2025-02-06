@@ -12,6 +12,7 @@ g:colors_name = "lightgruv"
 # var dark0  = '#202020'
 var dark0  = '#242424'
 var dark1  = '#3c3836'
+# var dark2  = '#504945'
 var dark2  = '#504945'
 var dark3  = '#665c54'
 var dark4  = '#7c6f64'
@@ -206,11 +207,11 @@ hlset([
     # Completion Menu: {{{
 
     # Popup menu: normal item
-    {name: 'Pmenu', guifg: light1, guibg: dark2, cterm: {}, gui: {}},
+    {name: 'Pmenu', guifg: light1, guibg: dark1, cterm: {}, gui: {}},
     # Popup menu: selected item
     {name: 'PmenuSel', guifg: dark2, guibg: blue, cterm: {bold: 1}, gui: {bold: 1}},
     # Popup menu: scrollbar
-    {name: 'PmenuSbar', guifg: 'NONE', guibg: dark2, cterm: {}, gui: {}},
+    {name: 'PmenuSbar', guifg: 'NONE', guibg: dark1, cterm: {}, gui: {}},
     # Popup menu: scrollbar thumb
     {name: 'PmenuThumb', guifg: 'NONE', guibg: dark4, cterm: {}, gui: {}},
 
@@ -243,11 +244,17 @@ hlset([
     {name: 'SpellLocal', guifg: 'NONE', guibg: 'bg', cterm: {undercurl: 1}, gui: {undercurl: 1}},
     # Rare word
     {name: 'SpellRare',  guifg: 'NONE', guibg: 'bg', cterm: {undercurl: 1}, gui: {undercurl: 1}},
-    {name: 'DiagnosticError', guifg: red, cterm: {}, gui: {}},
-    {name: 'DiagnosticWarn', guifg: yellow, cterm: {}, gui: {}},
-    {name: 'DiagnosticInfo', guifg: 'fg', cterm: {}, gui: {}},
-    {name: 'DiagnosticHint', guifg: blue, cterm: {}, gui: {}},
-    {name: 'DiagnosticOk', guifg: green, cterm: {}, gui: {}},
+    {name: 'DiagnosticError', guifg: red,    cterm: {}, gui: {}},
+    {name: 'DiagnosticWarn',  guifg: yellow, cterm: {}, gui: {}},
+    {name: 'DiagnosticInfo',  guifg: 'fg',   cterm: {}, gui: {}},
+    {name: 'DiagnosticHint',  guifg: blue,   cterm: {}, gui: {}},
+    {name: 'DiagnosticOk',    guifg: green,  cterm: {}, gui: {}},
+    {name: 'DiagStatusError', guifg: red,    guibg: dark2, cterm: {}, gui: {}},
+    {name: 'DiagStatusWarn',  guifg: yellow, guibg: dark2, cterm: {}, gui: {}},
+    {name: 'DiagStatusHint',  guifg: 'fg',   guibg: dark2, cterm: {}, gui: {}},
+    {name: 'DiagStatusInfo',  guifg: blue,   guibg: dark2, cterm: {}, gui: {}},
+    {name: 'DiagStatusOk',    guifg: green,  guibg: dark2, cterm: {}, gui: {}},
+
 ])
 # }}}
 

@@ -13,18 +13,19 @@
 # prompt
 #---------------------------------------------------
 __ps1() {
-    ExitCode=$(Ex=$?; [[ $Ex -ne 0 ]] && echo "[$Ex]")
-    Branch=$(git branch --show-current 2>/dev/null)
-    Root=$(git rev-parse --show-toplevel 2>/dev/null)
-    Root=${Root##*/}
+    ExitCode=$?
+    # Branch=$(git branch --show-current 2>/dev/null)
+    Branch=$(git describe --all --contains 2>/dev/null)
+    # Root=$(git rev-parse --show-toplevel 2>/dev/null)
+    # Root=${Root##*/}
 
     # every sequence of color code (e.g `\e[31m`) must be wraped inside `\[ \]`
     # so to be treaded as non-printing character. Otherwise the positoning of
     # the cursor becomes faulty. In Readline's config file, `.inputrc`, this
     # method doesn't work and we use `\1 \2` instead according to its manual.
-    errP='\[\e[1;31m\]$ExitCode\[\e[m\]'
+    [[ $ExitCode -ne 0 ]] && errP='\[\e[1;31m\]$ExitCode\[\e[m\]' || errP=''
     [[ -n $Branch ]] && branchP='\[\e[0;31m\] $Branch\[\e[m\]' || branchP=""
-    [[ -n $Root ]] && rootP='\[\e[0;35m\]($Root)\[\e[m\]' || rootP=""
+    # [[ -n $Root ]] && rootP='\[\e[0;35m\]($Root)\[\e[m\]' || rootP=""
 
     userP='\[\e[0;33m\]\u\[\e[m\]'
     hostP='\[\e[0;29m\]\h\[\e[m\]'
@@ -135,6 +136,11 @@ complete -C vic vic
 # -----------------------------------------------
 # --- functions ---
 # -----------------------------------------------
+get-source() {
+    paru -G $1 && \
+    pushd $1 && \
+    makepkg -do --skippgpcheck
+}
 # READLINE variable are only populated if the function is called by `bind -x`. The
 # advantage of using READLINE stuff over normal functions is command history population
 # and easy input usage.

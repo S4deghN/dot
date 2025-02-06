@@ -6,9 +6,9 @@
 " Last Modified: 11 Mar 2014
 " -----------------------------------------------------------------------------
 
-g:gruvbox_contrast = 'soft'
-g:gruvbox_italicize_comments = 0
-g:gruvbox_invert_selection = 0
+"let g:gruvbox_contrast = 'soft'
+let g:gruvbox_italicize_comments = 0
+let g:gruvbox_invert_selection = 0
 
 " Supporting code -------------------------------------------------------------
 " Initialisation: {{{
@@ -84,7 +84,7 @@ let s:is_dark=(&background == 'dark')
 
 let s:gb = {}
 
-let s:gb.dark0  = ['282828', 235]     " 40-40-40
+let s:gb.dark0  = ['242424', 235]     " 40-40-40
 let s:gb.dark1  = ['3c3836', 237]     " 60-56-54
 let s:gb.dark2  = ['504945', 239]     " 80-73-69
 let s:gb.dark3  = ['665c54', 241]     " 102-92-84
@@ -118,7 +118,7 @@ let s:gb.aqua   = ['8ec07c', 108]     " 142-192-124
 let s:gb.orange = ['fe8019', 208]     " 254-128-25
 
 if g:gruvbox_termcolors == 16
-	let s:gb.dark0  = ['282828', 0]
+	let s:gb.dark0  = ['242424', 0]
 	let s:gb.light4 = ['a89984', 7]
 	let s:gb.medium = ['928374', 8]
 	let s:gb.red    = ['fb4934', 9]
@@ -934,7 +934,6 @@ hi! link diffSubname Normal
 hi NonText guifg=#888899
 hi SpecialKey guifg=#888899
 
-hi Normal guibg=#2d2c2b
 hi! link CurSearch Incsearch
 
 " vim: set sw=3 ts=3 sts=3 noet tw=80 ft=vim fdm=marker:

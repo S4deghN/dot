@@ -120,7 +120,8 @@ hi! link SpecialComment   Special
 hi! link Debug            Special
 
 call s:h("Underlined",    {"fg": s:norm, "gui": "underline", "cterm": "underline"})
-call s:h("Ignore",        {"fg": s:bg})
+" call s:h("Ignore",        {"fg": s:bg})
+call s:h("Ignore",        {"fg": s:lighter_black})
 call s:h("Error",         {"fg": s:actual_white, "bg": s:red, "cterm": "bold"})
 call s:h("Todo",          {"fg": s:purple, "gui": "underline", "cterm": "underline"})
 call s:h("SpecialKey",    {"fg": s:light_green})
@@ -163,7 +164,7 @@ else
   call s:h("SpellLocal",  {"cterm": "underline", "fg": s:dark_green})
 endif
 
-call s:h("Pmenu",         {"fg": s:norm, "bg": s:bg_subtle})
+call s:h("Pmenu",         {"fg": s:norm, "bg": s:subtle_black})
 call s:h("PmenuSel",      {"fg": s:purple, "bg": s:bg})
 call s:h("PmenuSbar",     {"fg": s:norm, "bg": s:bg_subtle})
 call s:h("PmenuThumb",    {"fg": s:norm, "bg": s:bg_subtle})
@@ -224,6 +225,7 @@ hi  VertSplit       guibg=NONE
 " #E19972
 hi  Constant        guifg=#cda869
 hi  Directory       guifg=#789AC0
+" hi  Function        guifg=#789AC0
 hi  Function        guifg=#789AC0
 hi  String          guifg=#8F9D6A
 hi  Preproc         guifg=#458588
@@ -234,12 +236,16 @@ hi  Type            guifg=#68BEA2
 hi  Statement       guifg=#CF6A4C       "gui=italic cterm=italic
 " hi  Comment         guifg=#5D646A     gui=NONE cterm=NONE
 hi  Comment         guifg=#777777     gui=NONE cterm=NONE
-hi  Ignore          guifg=NONE     gui=italic  cterm=NONE
-hi! link @lsp.type.comment Ignore
+" hi  Ignore          guifg=NONE  gui=italic cterm=NONE
+hi  Ignore          guifg=NONE  gui=italic cterm=NONE
+
+if has('nvim')
+    hi! link @lsp.type.comment Ignore
+endif
 
 hi  Error           guibg=NONE          guifg=#af5f5f gui=underline cterm=underline
 hi  ErrorMsg        guifg=#af5f5f
-hi  MatchParen      guifg=#E6D78E     gui=bold cterm=bold
+hi  MatchParen      guifg=#f6e79E  guibg=#505050 gui=bold cterm=bold
 
 hi  DiagnosticError guifg=#af5f5f
 hi  DiagnosticWarn  guifg=#cda869
@@ -249,9 +255,10 @@ hi  DiagnosticHint  guifg=#747C84
 hi  Visual          guibg=navy  guifg=NONE
 hi! link            Directory         Constant
 hi! link            IncSearch         Visual
-hi  Search          guibg=#23272E     guifg=lightblue
+hi  Search          guibg=#383838     guifg=lightblue
+hi  IncSearch       guibg=lightblue guifg=black gui=NONE
+hi! link CurSearch Incsearch
 " hi  PmenuSel        guibg=bg          guifg=#a790d5
-
 
 hi  htmlH1          guibg=NONE          guifg=#EBC06D gui=bold cterm=bold
 hi  htmlH2          guibg=NONE          guifg=#EBC06D gui=bold cterm=bold
@@ -288,3 +295,28 @@ let g:fzf_colors =
   \   'spinner': ['fg', 'Label'],
   \   'header':  ['fg', 'Comment'] }
 
+" Normal Purple changed from this
+" "#b16286",
+let g:terminal_ansi_colors = [
+	    \"#191919",
+	    \"#CF6A4C",
+	    \"#8F9D6A",
+	    \"#CDA869",
+	    \"#789AC0",
+	    \"#d3869b",
+	    \"#85998f",
+	    \"#6B7278",
+	    \"#747C84",
+	    \"#CF6A4C",
+	    \"#87AF87",
+	    \"#CDA869",
+	    \"#789AC0",
+	    \"#d3869b",
+	    \"#5FAFAF",
+	    \"#BCBCBC",
+	    \]
+
+" a bit lighter yellow
+hi Constant guifg=#ddb879
+" hi Function guifg=#88aad0
+hi Function guifg=#88aacc

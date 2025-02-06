@@ -187,8 +187,6 @@ filetype plugin indent on
 syntax on
 set termguicolors
 
-"let g:gruvbox_contrast = 'soft'
-"let g:gruvbox_italicize_comments = 0
 color gruvbox
 
 "hi normal gui

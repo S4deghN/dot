@@ -5,7 +5,7 @@ vim9script
 if exists('g:loaded_parenmatch') || v:version < 703 || !exists('*matchaddpos')
   finish
 endif
-# g:loaded_parenmatch = 1
+g:loaded_parenmatch = 1
 
 const TIMEOUT = 10
 var paren = {}

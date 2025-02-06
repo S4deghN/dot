@@ -27,8 +27,10 @@ if [ "$HOSTNAME" = "naad" ]; then
     xrandr --output HDMI-2 --primary --mode 1920x1080 --rate 75
 else
     # default home computer
-    xrandr --output eDP-1 --off
-    xrandr --output HDMI-2 --primary --mode 1920x1080 --rate 75
+    # xrandr --setprovideroutputsource modesetting NVIDIA-0
+    # xrandr --auto
+    xrandr --output eDP-1-1 --off
+    xrandr --output HDMI-1-2 --primary --mode 1920x1080 --rate 75
     # xrandr --output eDP-1 --mode 1920x1080
 fi
 

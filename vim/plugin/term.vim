@@ -10,7 +10,8 @@ var S_filetype: string
 def OnTermWinOpen()
     setl foldmethod=expr foldexpr=0
     setl stl-=%f
-    setl stl^=%f\ %([%{%get(t:,'term_cmd')%}]%)%(\ [exit:%{%get(b:,'term_ec','')%}]%)
+    setl stl^=%([%{%get(t:,'term_cmd')%}]%)
+    setl stl+=%([exit:%{%get(b:,'term_ec','')%}]%)
 
     # if !!get(b:, 'match') | silent! matchdelete(b:match) | endif
     # silent! matchdelete(b:match)
@@ -57,7 +58,14 @@ export def g:Term(cmd: string, bang: string, ...args: list<string>): number
         cwd: cwd,
         curwin: 1,
         term_name: '[term]',
-        exit_cb: (job, ec) => setbufvar(bufnr, 'term_ec', ec),
+        exit_cb: (job, ec) => {
+            setbufvar(bufnr, 'term_ec', ec)
+            var status_bg = ec != 0 ? '#bb7070' : '#70bb70'
+            # hlset([
+            #     {name: 'StatuslineTerm',   guibg: status_bg, cterm: {}, gui: {}},
+            #     {name: 'StatuslineTermNC', guibg: status_bg, cterm: {}, gui: {}},
+            # ])
+        },
     })
     OnTermWinOpen()
     win_gotoid(initila_winid)
@@ -149,7 +157,7 @@ def OpenFile()
     for pattern in file_patterns
         matches = matchlist(getline('.'), pattern)
         if len(matches) > 0 | break | endif
-    endfor
+   endfor
     if len(matches) == 0 | return | endif
 
     var [_, fname, lnum, col; _] = matches
