@@ -10,8 +10,7 @@ var S_filetype: string
 def OnTermWinOpen()
     setl foldmethod=expr foldexpr=0
     setl stl-=%f
-    setl stl^=%([%{%get(t:,'term_cmd')%}]%)
-    setl stl+=%([exit:%{%get(b:,'term_ec','')%}]%)
+    setl stl^=%([%{%get(t:,'term_cmd')%}]%)%(\ [exit:%{%get(b:,'term_ec','')%}]%)
 
     # if !!get(b:, 'match') | silent! matchdelete(b:match) | endif
     # silent! matchdelete(b:match)

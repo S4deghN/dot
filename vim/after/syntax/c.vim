@@ -8,6 +8,8 @@ syn keyword cType f32 f64
 "between_type_and_identifier -> \_[ \t*]\+
 "between_identifier_and_paren -> \_s*
 
+" syn match cType '\%(^[ \t}]*\)\I\i*;'
+
 " syn match cType '^\s*[.*]*\s*\zs\I\i*\ze\s*\%(\s\|\*\)\s*\I\i*\%(\s*=\s*.*\|[;,]\)'
 syn match cType '^[ \t;{}]*\zs\I\i*\ze\_[ \t*]\+\I\i*\%(\s*=\s*.*\|[;,]\)'
 
@@ -18,7 +20,7 @@ syn match cType "\%((\_s*\)\@<=\h\w*\ze\_[ \t*]*)\_s*\I\i*"
 " Function definition/declaration
 " TODO: fix the macro miss-match
 " I fucking give up! This is STUPID!
-syn region cFuncDef matchgroup=cFunction start='\%(\I\i*\_[ \t*]\+\)\@5<=\I\i*\_s*('rs=e-1 end=')\ze\_s*[{;]'re=s+1 contains=ALLBUT,cBlock,@cParenGroup,cCppParen,cErrInBracket,cCppBracket,@cStringGroup,@Spell,cParen
+syn region cFuncDef matchgroup=cFunction start='\%(\I\i*\_[ \t*]\+\)\@5<=\I\i*\_s*('rs=e-1 end=')\ze\_.*[{;]'re=s+1 contains=ALLBUT,cBlock,@cParenGroup,cCppParen,cErrInBracket,cCppBracket,@cStringGroup,@Spell,cParen
 syn match cTypeArg '\zs\I\i*\ze\_[ \t*]\+\I\i*\_s*[,)]' contained containedin=cFuncDef
 hi def link cTypeArg cType
 

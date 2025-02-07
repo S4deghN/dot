@@ -10,7 +10,7 @@ g:colors_name = "lightgruv"
 
 # var dark0  = '#2d2c2b'
 # var dark0  = '#202020'
-var dark0  = '#242424'
+var dark0  = '#222222'
 var dark1  = '#3c3836'
 # var dark2  = '#504945'
 var dark2  = '#504945'

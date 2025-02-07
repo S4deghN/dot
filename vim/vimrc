@@ -10,6 +10,7 @@ set termguicolors
 set background=dark
 color lightgruv
 
+hi Normal guibg=NONE
 # taghighlight plugin
 hi Member guifg=fg
 # hi GlobalConstant guifg=fg
