@@ -8,9 +8,8 @@ filetype plugin indent on
 syntax on
 set termguicolors
 set background=dark
-color lightgruv
+color off
 
-hi Normal guibg=NONE
 # taghighlight plugin
 hi Member guifg=fg
 # hi GlobalConstant guifg=fg
@@ -32,7 +31,8 @@ Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/fzf.vim'
 # {{{
 g:fzf_vim = {}
-g:fzf_vim.preview_window = ['right,50%,<70(up,40%),nohidden', 'ctrl-l']
+# g:fzf_vim.preview_window = ['right,50%,<70(up,40%),nohidden', 'ctrl-l']
+g:fzf_vim.preview_window = ['down,70%,nohidden', 'ctrl-l']
 def BuildQfList(lines: string)
     call setqflist(map(copy(lines), '{ "filename": v:val, "lnum": 1 }'))
     copen
@@ -46,7 +46,7 @@ g:fzf_action = {
     'ctrl-v': 'vsplit'
 }
 
-g:fzf_layout = { 'window': { 'width': 0.95, 'height': 0.6 } }
+g:fzf_layout = { 'window': { 'width': 0.95, 'height': 0.9 } }
 # }}}
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-sleuth' # Buffer options
@@ -215,7 +215,7 @@ g:loaded_matchparen9 = 1
 # --- options ---
 # -----------------------------------------------
 # experimental
-# set regexpengine=1
+set regexpengine=2
 set lazyredraw
 
 # timeout for key sequences of terminal like esc and such
@@ -262,7 +262,7 @@ set nosmarttab
 set expandtab shiftwidth=4 tabstop=4
 set backspace=indent,eol,start
 set foldmethod=marker
-set textwidth=85
+set textwidth=80
 set jumpoptions=stack
 set showbreak=↷
 set fillchars+=diff:╱,vert:│
@@ -681,6 +681,9 @@ augroup autoCommands
     autocmd BufAdd .clang* set filetype=yaml
     # for the v command in bash vi mode
     autocmd BufAdd /tmp/bash* set filetype=sh
+
+    autocmd BufEnter *.lub set filetype=lua
+    autocmd BufEnter *.xml set matchpairs+=<:>
 
     autocmd BufWinEnter man://* call MoveOpenedWinodwToSaneSplit()
     # autocmd Filetype fugitive call MoveOpenedWinodwToSaneSplit()

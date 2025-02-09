@@ -20,7 +20,8 @@ syn match cType "\%((\_s*\)\@<=\h\w*\ze\_[ \t*]*)\_s*\I\i*"
 " Function definition/declaration
 " TODO: fix the macro miss-match
 " I fucking give up! This is STUPID!
-syn region cFuncDef matchgroup=cFunction start='\%(\I\i*\_[ \t*]\+\)\@5<=\I\i*\_s*('rs=e-1 end=')\ze\_.*[{;]'re=s+1 contains=ALLBUT,cBlock,@cParenGroup,cCppParen,cErrInBracket,cCppBracket,@cStringGroup,@Spell,cParen
+" syn region cFuncDef matchgroup=Error start='\%(\I\i*\_[ \t*]\+\)\@5<=\I\i*\_s*('rs=e-1 end='\%()\_s*\)\@<=)\ze\_[^{;]*'re=s+1 contains=ALLBUT,cBlock,@cParenGroup,cCppParen,cErrInBracket,cCppBracket,@cStringGroup,@Spell,cParen
+syn region cFuncDef matchgroup=cFunction start='\%(^\(\I\i*\_[ \t*]\+\)\+\)\@<=\I\i*\_s*('rs=e-1 end=')\ze\_[^{;]*'re=s+1 contains=ALLBUT,cBlock,@cParenGroup,cCppParen,cErrInBracket,cCppBracket,@cStringGroup,@Spell,cParen
 syn match cTypeArg '\zs\I\i*\ze\_[ \t*]\+\I\i*\_s*[,)]' contained containedin=cFuncDef
 hi def link cTypeArg cType
 

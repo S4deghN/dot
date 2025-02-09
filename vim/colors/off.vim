@@ -219,7 +219,7 @@ hi Function guifg=ivory3
 hi Statement guifg=goldenrod
 hi Type guifg=goldenrod
 " hi Type guifg=#95a99f
-hi Number guifg=ivory
+hi Number guifg=ivory2
 hi String guifg=#6b9e23
 hi IncSearch guifg=black guibg=#ee799f
 hi Search guifg=black guibg=#218058
