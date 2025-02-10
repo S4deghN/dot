@@ -21,6 +21,7 @@ let colors_off_a_little = get(g:, 'colors_off_a_little', 0)
 "let s:black           = { "gui": "#212121", "cterm": "0"   }
 "let s:black           = { "gui": "#282828", "cterm": "0"   }
 let s:black           = { "gui": "#161616", "cterm": "0"   }
+" let s:black           = { "gui": "#101010", "cterm": "0"   }
 let s:medium_gray     = { "gui": "#767676", "cterm": "243" }
 let s:white           = { "gui": "#F1F1F1", "cterm": "15"  }
 let s:actual_white    = { "gui": "#FFFFFF", "cterm": "231" }
@@ -226,6 +227,26 @@ hi Search guifg=black guibg=#218058
 hi! link CurSearch         Incsearch
 " hi CursorLine cterm=NONE guibg=#0a0a50
 hi CursorLine cterm=NONE guibg=#132939
+
+hi HtmlH1 guifg=goldenrod
+hi markdownCode guibg=#282828
+hi markdownCodeBlock guifg=ivory4
+hi markdownCodeBlockDelimiter guifg=ivory4
+
+" Highlighting in git (diff) files
+hi! link gitDiff comment
+hi! link diffBDiffer comment
+hi! link diffIndexLine comment
+hi! link diffFile comment
+hi! link diffOldFile Type
+hi! link diffNewFile Type
+"hi! link diffline function
+hi! link diffSubname Normal
+
+hi DiffDelete guifg=#504945 guibg=NONE cterm=NONE
+hi DiffAdd guifg=NONE guibg=#283f2f cterm=NONE
+hi DiffChange guifg=NONE guibg=#1F385B cterm=NONE
+hi DiffText guifg=NONE guibg=#172A45 cterm=NONE
 
 let g:terminal_ansi_colors = [
 	    \"#202020",

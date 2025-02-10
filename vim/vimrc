@@ -687,7 +687,7 @@ augroup autoCommands
     autocmd BufEnter *.xml set matchpairs+=<:>
 
     autocmd BufWinEnter man://* call MoveOpenedWinodwToSaneSplit()
-    autocmd Filetype fugitive call MoveOpenedWinodwToSaneSplit()
+    # autocmd BufWinEnter fugitive://*/.git// call MoveOpenedWinodwToSaneSplit()
     autocmd BufWinEnter */doc/*.txt call MoveOpenedWinodwToSaneSplit()
 
     # autocmd WinEnter,WinLeave,WinNew * redrawstatus!
