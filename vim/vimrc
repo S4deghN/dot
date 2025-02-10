@@ -215,7 +215,7 @@ g:loaded_matchparen9 = 1
 # --- options ---
 # -----------------------------------------------
 # experimental
-set regexpengine=2
+# set regexpengine=2
 set lazyredraw
 
 # timeout for key sequences of terminal like esc and such
@@ -248,6 +248,7 @@ set ruler
 set nocursorline
 set scrolloff=3
 set scrolljump=0
+set nostartofline
 
 # set showcmd showcmdloc=statusline
 set shortmess=aoOFtT
@@ -686,7 +687,7 @@ augroup autoCommands
     autocmd BufEnter *.xml set matchpairs+=<:>
 
     autocmd BufWinEnter man://* call MoveOpenedWinodwToSaneSplit()
-    # autocmd Filetype fugitive call MoveOpenedWinodwToSaneSplit()
+    autocmd Filetype fugitive call MoveOpenedWinodwToSaneSplit()
     autocmd BufWinEnter */doc/*.txt call MoveOpenedWinodwToSaneSplit()
 
     # autocmd WinEnter,WinLeave,WinNew * redrawstatus!

@@ -224,7 +224,8 @@ hi String guifg=#6b9e23
 hi IncSearch guifg=black guibg=#ee799f
 hi Search guifg=black guibg=#218058
 hi! link CurSearch         Incsearch
-hi CursorLine cterm=NONE guibg=#202050
+" hi CursorLine cterm=NONE guibg=#0a0a50
+hi CursorLine cterm=NONE guibg=#132939
 
 let g:terminal_ansi_colors = [
 	    \"#202020",
