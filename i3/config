@@ -49,6 +49,8 @@ exec --no-startup-id dex --autostart --environment i3
 # On Arch: pacman -S network-manager-applet
 exec --no-startup-id nm-applet
 
+exec --no-startup-id xfce4-clipman
+
 # exec --no-startup-id blueman-applet
 
 # Mountable device manager as an applet
@@ -172,6 +174,8 @@ bindsym $mod+x exec --no-startup-id rofi -show run
 bindsym $mod+m       exec --no-startup-id dmenu-emoji !
 bindsym $mod+shift+m exec --no-startup-id dmenu-emoji
 # bindsym $mod+m exec --no-startup-id rofi -modi emoji -show emoji
+
+bindsym Mod1+v exec --no-startup-id xfce4-popup-clipman
 
 # A more modern dmenu replacement is rofi:
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
