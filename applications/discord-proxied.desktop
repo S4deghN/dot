@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Discord Proxied
+StartupWMClass=discord
+Comment=All-in-one voice and text chat for gamers that's free, secure, and works on both your desktop and phone.
+GenericName=Internet Messenger
+Exec=/usr/bin/discord --proxy-server="socks5://192.168.1.100:9909"
+Icon=discord
+Type=Application
+Categories=Network;InstantMessaging;
+Path=/usr/bin
