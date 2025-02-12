@@ -1,4 +1,5 @@
 vim9script
+
 # -----------------------------------------------
 # --- coloring ---
 # -----------------------------------------------
@@ -216,7 +217,7 @@ g:loaded_matchparen9 = 1
 # -----------------------------------------------
 # experimental
 # set regexpengine=2
-set lazyredraw
+set nolazyredraw
 
 # timeout for key sequences of terminal like esc and such
 set nocompatible ttimeout ttimeoutlen=0
@@ -698,7 +699,16 @@ augroup autoCommands
     autocmd VimResume,BufEnter,WinEnter,VimEnter * call g:TmuxApplyTitle()
     autocmd VimLeave,VimSuspend * call g:TmuxResetTitle()
 
-    autocmd DirChanged,WinNew,VimEnter * w:git_branch = system('git describe --all --contains 2>/dev/null')->substitute('\n', '', '')
+    def g:UpdateGitBranch()
+        var branch = system('git describe --all --contains 2>/dev/null')->substitute('\n', '', '')
+        if len(branch) > 0
+            var root = system('git rev-parse --show-toplevel 2>/dev/null')->substitute('\n', '', '')->substitute('^.*\/', '', '')
+            w:git_branch = root .. '(' .. branch .. ')'
+        else
+            w:git_branch = ''
+        endif
+    enddef
+    autocmd DirChanged,WinNew,VimEnter * call UpdateGitBranch()
 augroup end
 
 # -----------------------------------------------

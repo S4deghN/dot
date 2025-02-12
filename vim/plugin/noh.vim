@@ -6,8 +6,8 @@ def AutoHL()
         if match(getline('.'), @/, c) != c
             feedkeys("\<cmd>noh\<cr>")
         else
-            var s = searchcount()
-            echo '[' .. s.current .. '/' .. s.total .. ']'
+            # var s = searchcount()
+            # echo '[' .. s.current .. '/' .. s.total .. ']'
         endif
     endif
 enddef
