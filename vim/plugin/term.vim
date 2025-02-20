@@ -15,6 +15,7 @@ def OnTermWinOpen()
     # if !!get(b:, 'match') | silent! matchdelete(b:match) | endif
     # silent! matchdelete(b:match)
     clearmatches()
+    prop_clear(1, line('$'))
 
     hi! link StatuslineTerm Statusline
     hi! link StatuslineTermNC StatuslineNC
@@ -60,10 +61,10 @@ export def g:Term(cmd: string, bang: string, ...args: list<string>): number
         exit_cb: (job, ec) => {
             setbufvar(bufnr, 'term_ec', ec)
             var status_bg = ec != 0 ? '#bb7070' : '#70bb70'
-            # hlset([
-            #     {name: 'StatuslineTerm',   guibg: status_bg, cterm: {}, gui: {}},
-            #     {name: 'StatuslineTermNC', guibg: status_bg, cterm: {}, gui: {}},
-            # ])
+            hlset([
+                {name: 'StatuslineTerm',   guibg: status_bg, cterm: {}, gui: {}},
+                {name: 'StatuslineTermNC', guibg: status_bg, cterm: {}, gui: {}},
+            ])
         },
     })
     OnTermWinOpen()

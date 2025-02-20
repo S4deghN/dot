@@ -11,18 +11,19 @@ syn keyword cType f32 f64
 " syn match cType '\%(^[ \t}]*\)\I\i*;'
 
 " syn match cType '^\s*[.*]*\s*\zs\I\i*\ze\s*\%(\s\|\*\)\s*\I\i*\%(\s*=\s*.*\|[;,]\)'
-syn match cType '^[ \t;{}]*\zs\I\i*\ze\_[ \t*]\+\I\i*\%(\s*=\s*.*\|[;,]\)'
+syn match cType '\zs\I\i*\ze\_[ \t*&]\+\I\i*\%(\s*=\s*.*\|[;,]\)'
+syn match cType '\zs\I\i*\ze\_s*<\_.*>'
 
 " Cast
 " I don't know how. copied from cFunction
-syn match cType "\%((\_s*\)\@<=\h\w*\ze\_[ \t*]*)\_s*\I\i*"
+syn match cType "\%((\_s*\)\@<=\h\w*\ze\_[ \t*&]*)\_s*\I\i*"
 
 " Function definition/declaration
 " TODO: fix the macro miss-match
 " I fucking give up! This is STUPID!
 " syn region cFuncDef matchgroup=Error start='\%(\I\i*\_[ \t*]\+\)\@5<=\I\i*\_s*('rs=e-1 end='\%()\_s*\)\@<=)\ze\_[^{;]*'re=s+1 contains=ALLBUT,cBlock,@cParenGroup,cCppParen,cErrInBracket,cCppBracket,@cStringGroup,@Spell,cParen
-syn region cFuncDef matchgroup=cFunction start='\%(^\(\I\i*\_[ \t*]\+\)\+\)\@<=\I\i*\_s*('rs=e-1 end=')\ze\_[^{;]*'re=s+1 contains=ALLBUT,cBlock,@cParenGroup,cCppParen,cErrInBracket,cCppBracket,@cStringGroup,@Spell,cParen
-syn match cTypeArg '\zs\I\i*\ze\_[ \t*]\+\I\i*\_s*[,)]' contained containedin=cFuncDef
+syn region cFuncDef matchgroup=cFunction start='\%(^\s*\%(\I\i*\_[ \t*&]\+\)\+\)\@<=\I\i*\_s*('rs=e-1 end='\_[^{;]*)\ze\_[^{;]*'re=e+1 contains=ALLBUT,cBlock,@cParenGroup,cCppParen,cErrInBracket,cCppBracket,@cStringGroup,@Spell,cParen
+syn match cTypeArg '\zs\I\i*\ze\_[ \t*&]\+\I\i*\_s*[,)]' contained containedin=cFuncDef
 hi def link cTypeArg cType
 
 " Adds syntax highlighting to ``` ``` blocks of code in comments in a hacky way :)

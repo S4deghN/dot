@@ -74,10 +74,14 @@ for_window [class="Emacs"] border pixel 1
 for_window [class="qutebrowser"] border pixel 1
 for_window [class="Pale moon"] border pixel 1
 
+for_window [class="battleforge.exe"] exec --no-startup-id i3-game-fullscreen
+
 # You can also use any non-zero value if you'd like to have a border
 # for_window [class=".*"] border pixel 1
 
 default_border normal 1
+
+
 default_floating_border normal 1
 smart_borders on
 #for_window [all] title_window_icon on
@@ -248,6 +252,9 @@ bindsym $mod+Shift+s sticky toggle
 
 for_window [instance="mate-cal"] move scratchpad, scratchpad show
 bindsym $mod+c exec --no-startup-id i3-scratchpad-or-launch "mate-calc"
+# bindsym $mod+c move absolute position center
+# bindsym $mod+c exec --no-startup-id i3-gmae-fullscreen
+
 
 for_window [instance="gpick"] move scratchpad, scratchpad show
 bindsym $mod+i exec --no-startup-id i3-scratchpad-or-launch "gpick"

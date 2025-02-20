@@ -9,7 +9,7 @@ filetype plugin indent on
 syntax on
 set termguicolors
 set background=dark
-color off
+color lightgruv
 
 # taghighlight plugin
 hi Member guifg=fg
@@ -142,13 +142,15 @@ def LspOnAttach()
     setlocal tagfunc=lsp#lsp#TagFunc
 
     # nmap <buffer> gd  <cmd>LspGotoDefinition<cr>
-    nmap <buffer> K   :LspHover<cr>
-    nmap <buffer> gr  :LspRename<cr>
-    nmap <buffer> gla :LspCodeAction<cr>
-    nmap <buffer> gls :LspSwitchSourceHeader<cr>
-    nmap <buffer> glo :LspOutline<cr>
-    nmap <buffer> glr :LspShowReferences<cr>
-    nmap <buffer> glR :LspPeekReferences<cr>
+    nmap <buffer> K    :LspHover<cr>
+    nmap <buffer> gr   :LspRename<cr>
+    nmap <buffer> gla  :LspCodeAction<cr>
+    nmap <buffer> gls  :LspSwitchSourceHeader<cr>
+    nmap <buffer> glo  :LspOutline<cr>
+    nmap <buffer> glr  :LspShowReferences<cr>
+    nmap <buffer> glR  :LspPeekReferences<cr>
+    nmap <buffer> glci :LspIncomingCalls<cr>
+    nmap <buffer> glco :LspOutgoingCalls<cr>
 
     nmap <buffer> ]d  :LspDiagNext<cr>
     nmap <buffer> [d  :LspDiagPrev<cr>
@@ -196,6 +198,7 @@ autocmd User SignifyAutocmds au  signify TextChanged,InsertLeave * call sy#start
 # Plug 'yggdroot/hipairs'
 Plug 'glts/vim-magnum'
 Plug 'glts/vim-radical'
+Plug 'alx741/vinfo'
 plug#end()
 
 packadd! comment
@@ -222,6 +225,7 @@ set nolazyredraw
 # timeout for key sequences of terminal like esc and such
 set nocompatible ttimeout ttimeoutlen=0
 set history=10000
+set termwinscroll=100000
 # Undo file shouldn't replace version control
 set noswapfile
 
@@ -237,7 +241,7 @@ set mouse=ar
 set ttymouse=sgr
 # remedy flikering wiht termguicolors `https://github.com/vim/vim/issues/10574`. I'm not
 # sure how effective this one is, but setting Normal guibg=NONE definitly make vim flicker.
-set t_ut=
+# set t_ut=
 set completeopt=menu,popuphidden,noinsert
 set pumheight=6 previewheight=10
 # behave like bash
@@ -247,6 +251,10 @@ set showmode
 set signcolumn=no
 set ruler
 set nocursorline
+# guicursor for terminal
+&t_SI = "\e[5 q" # Insert mode
+&t_SR = "\e[4 q" # Replace mode
+&t_EI = "\e[1 q" # Normal mode (else)
 set scrolloff=3
 set scrolljump=0
 set nostartofline
@@ -337,7 +345,7 @@ else
 endif
 
 if has('gui')
-    set guifont=Inconsolata\ 15
+    set guifont=Liberation\ Mono\ 14
 
     # gui keympas
     noremap <M-1> <cmd>tabn1<cr>
@@ -361,7 +369,8 @@ map ' `
 onoremap if <cmd>norm! ggVG<cr>
 
 inoremap <silent> <Esc> <Esc>g`^
-inoremap <C-z> <C-x>s
+inoremap <expr> <C-z> &spell ? "\<C-x>s" : "\<C-o>:setl spell\<cr>\<C-x>s"
+
 # :help map-special-keys
 inoremap <C-_> <esc>ugi
 # for accepting auto complete
@@ -539,8 +548,9 @@ def JumpToDefinition()
 enddef
 
 def SplitJumpToDefinition()
-    execute 'split g:JumpToDefinition()'
+    split
     g:MoveOpenedWinodwToSaneSplit()
+    JumpToDefinition()
 enddef # }}}
 noremap  <silent> gd <scriptcmd>JumpToDefinition()<cr>
 noremap  <C-w>d      <scriptcmd>SplitJumpToDefinition()<cr>
@@ -700,10 +710,13 @@ augroup autoCommands
     autocmd VimLeave,VimSuspend * call g:TmuxResetTitle()
 
     def g:UpdateGitBranch()
-        var branch = system('git describe --all --contains 2>/dev/null')->substitute('\n', '', '')
+        var branch = system('git branch --show-current 2>/dev/null')
+        if len(branch) == 0 && v:shell_error == 0
+            branch = system('git describe --all --contains 2>/dev/null')
+        endif
+
         if len(branch) > 0
-            var root = system('git rev-parse --show-toplevel 2>/dev/null')->substitute('\n', '', '')->substitute('^.*\/', '', '')
-            w:git_branch = root .. '(' .. branch .. ')'
+            w:git_branch = substitute(branch, '\n', '', '')
         else
             w:git_branch = ''
         endif

@@ -38,6 +38,9 @@ export LESS_TERMCAP_se=$'\e[0m'
 # enabled or the process is run as admin.
 export MSYS=winsymlinks:nativestrict
 
+export HISTSIZE=-1
+export HISTFILESIZE=-1
+
 export FZF_DEFAULT_COMMAND="find . -type f -not -path '*/\.git/*' -not -path '*/\.cargo/*' -not -path '*/\.ccls-cache/*' -not -path '*/\.cache/*' ! -path '*/build/*'"
 export FZF_COLORS="fg:-1,fg+:-1,hl:yellow,hl+:yellow:reverse,border:gray,spinner:-1,header:blue,info:green,pointer:white,marker:blue,prompt:white:regular,gutter:-1"
 export FZF_DEFAULT_OPTS="\

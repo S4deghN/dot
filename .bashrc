@@ -14,8 +14,10 @@
 #---------------------------------------------------
 __ps1() {
     ExitCode=$?
-    # Branch=$(git branch --show-current 2>/dev/null)
-    Branch=$(git describe --all --contains 2>/dev/null)
+    Branch=$(git branch --show-current 2>/dev/null)
+    if [ $? -eq 0 ] && [ -z $Branch ]; then
+        Branch=$(git describe --all --contains 2>/dev/null)
+    fi
     # Root=$(git rev-parse --show-toplevel 2>/dev/null)
     # Root=${Root##*/}
 
@@ -60,6 +62,10 @@ PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 # instances are running)
 shopt -s histappend
 export HISTSIZE=-1
+export HISTFILESIZE=-1
+
+# enable core dump
+ulimit -c unlimited
 
 # Stupid!!!!
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
@@ -85,6 +91,7 @@ alias e.="$EDITOR ."
 alias vi="$EDITOR"
 alias dot="$HOME/dot"
 alias note="$HOME/note"
+alias bf="/home/s4/Games/skylords-reborn/drive_c/Program\ Files/BattleForge"
 alias enw="$EDITOR $HOME/note/en/words.md"
 alias t="tmux a || tmux"
 alias o="octave"
@@ -110,8 +117,6 @@ alias pac-size="pacman -Qq | pacman -Qi - | egrep '(Size|Name[^s])' | sed -E 's/
 alias pac-view="pacman -Slq | fzf --preview 'pacman -Si {}' --layout=reverse"
 alias pac-file-of="pacman -Qo"
 alias pac-check-integ="pacman -Qikk"
-
-alias bf="WINEPREFIX=~/Games/skylords-reborn/ wine /home/s4/Games/skylords-reborn/drive_c/Program\ Files/BattleForge/BattleForge.exe"
 
 alias yt-dlp-video='yt-dlp --cookies-from-browser firefox --proxy socks5://192.168.1.100:9909 -S "height:1080,aext"'
 alias yt-dlp-audio='yt-dlp --cookies-from-browser firefox --proxy socks5://192.168.1.100:9909 -f "ba"'

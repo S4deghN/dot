@@ -4,8 +4,9 @@
 Type=Application
 Name=TablePlus
 Comment=Database GUI
-Icon=~/.local/share/applications/icons/tableplus.png
+Icon=/home/s4/.local/share/applications/icons/tableplus.png
 Exec=env GTK_THEME=Adwaita:dark tableplus
 Keywords=tableplus;db;database;sql
 Terminal=false
 StartupNotify=true
+Path=

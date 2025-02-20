@@ -26,6 +26,7 @@ let s:medium_gray     = { "gui": "#767676", "cterm": "243" }
 let s:white           = { "gui": "#F1F1F1", "cterm": "15"  }
 let s:actual_white    = { "gui": "#FFFFFF", "cterm": "231" }
 let s:light_black     = { "gui": "#424242", "cterm": "8"   }
+let s:popup_bg        = { "gui": "#282828", "cterm": "8"   }
 let s:lighter_black   = { "gui": "#545454", "cterm": "240" }
 let s:subtle_black    = { "gui": "#444240", "cterm": "236" }
 let s:light_gray      = { "gui": "#B2B2B2", "cterm": "249" }
@@ -155,21 +156,21 @@ call s:h("DiffText",      {"fg": s:dark_blue})
 call s:h("SignColumn",    {"fg": s:light_green})
 
 if has("gui_running")
-  call s:h("SpellBad",    {"gui": "underline", "sp": s:red})
-  call s:h("SpellCap",    {"gui": "underline", "sp": s:light_green})
-  call s:h("SpellRare",   {"gui": "underline", "sp": s:pink})
-  call s:h("SpellLocal",  {"gui": "underline", "sp": s:dark_green})
+  call s:h("SpellBad",    {"gui": "underline"})
+  call s:h("SpellCap",    {"gui": "underline"})
+  call s:h("SpellRare",   {"gui": "underline"})
+  call s:h("SpellLocal",  {"gui": "underline"})
 else
-  call s:h("SpellBad",    {"cterm": "underline", "fg": s:red})
-  call s:h("SpellCap",    {"cterm": "underline", "fg": s:light_green})
-  call s:h("SpellRare",   {"cterm": "underline", "fg": s:pink})
-  call s:h("SpellLocal",  {"cterm": "underline", "fg": s:dark_green})
+  call s:h("SpellBad",    {"cterm": "underline"})
+  call s:h("SpellCap",    {"cterm": "underline"})
+  call s:h("SpellRare",   {"cterm": "underline"})
+  call s:h("SpellLocal",  {"cterm": "underline"})
 endif
 
-call s:h("Pmenu",         {"fg": s:norm, "bg": s:bg_subtle})
-call s:h("PmenuSel",      {"fg": s:norm, "bg": s:blue})
-call s:h("PmenuSbar",     {"fg": s:norm, "bg": s:bg_subtle})
-call s:h("PmenuThumb",    {"fg": s:norm, "bg": s:bg_subtle})
+call s:h("Pmenu",         {"fg": s:norm, "bg": s:popup_bg})
+call s:h("PmenuSel",      {"fg": s:norm, "bg": s:subtle_black})
+call s:h("PmenuSbar",     {"fg": s:norm, "bg": s:popup_bg})
+call s:h("PmenuThumb",    {"fg": s:norm, "bg": s:popup_bg})
 call s:h("TabLine",       {"fg": s:norm, "bg": s:bg_very_subtle})
 call s:h("TabLineSel",    {"fg": s:blue, "bg": s:bg_subtle, "gui": "bold", "cterm": "bold"})
 call s:h("TabLineFill",   {"fg": s:norm, "bg": s:bg_very_subtle})
@@ -178,13 +179,6 @@ call s:h("ColorColumn",   {"bg": s:bg_subtle})
 
 call s:h("MatchParen",    {"bg": s:bg_subtle, "fg": s:norm})
 call s:h("qfLineNr",      {"fg": s:medium_gray})
-
-call s:h("htmlH1",        {"bg": s:bg, "fg": s:norm})
-call s:h("htmlH2",        {"bg": s:bg, "fg": s:norm})
-call s:h("htmlH3",        {"bg": s:bg, "fg": s:norm})
-call s:h("htmlH4",        {"bg": s:bg, "fg": s:norm})
-call s:h("htmlH5",        {"bg": s:bg, "fg": s:norm})
-call s:h("htmlH6",        {"bg": s:bg, "fg": s:norm})
 
 hi link diffRemoved       DiffDelete
 hi link diffAdded         DiffAdd
@@ -229,6 +223,11 @@ hi! link CurSearch         Incsearch
 hi CursorLine cterm=NONE guibg=#132939
 
 hi HtmlH1 guifg=goldenrod
+hi HtmlH2 guifg=goldenrod
+hi HtmlH3 guifg=goldenrod
+hi HtmlH4 guifg=goldenrod
+hi HtmlH5 guifg=goldenrod
+hi HtmlH6 guifg=goldenrod
 hi markdownCode guibg=#282828
 hi markdownCodeBlock guifg=ivory4
 hi markdownCodeBlockDelimiter guifg=ivory4
