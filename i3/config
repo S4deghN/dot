@@ -64,6 +64,7 @@ for_window [class="Pavucontrol"] floating enable
 for_window [class="Gpick"] floating enable
 for_window [class="Gnome-calculator"] floating enable
 for_window [class="VirtualBox"] floating enable
+for_window [class="Nitroge"] floating enable
 
 for_window [class="LibreWolf"] border pixel 1
 for_window [class="firefox"] border pixel 1
@@ -86,8 +87,8 @@ default_floating_border normal 1
 smart_borders on
 #for_window [all] title_window_icon on
 
-gaps outer 25
-gaps inner 10
+# gaps outer 25
+# gaps inner 10
 
 # class                 border  backgr. text    indicator child_border
 client.focused          #4c7899 #285577 #ffffff #2e9ef4   #285577
@@ -179,7 +180,7 @@ bindsym $mod+m       exec --no-startup-id dmenu-emoji !
 bindsym $mod+shift+m exec --no-startup-id dmenu-emoji
 # bindsym $mod+m exec --no-startup-id rofi -modi emoji -show emoji
 
-bindsym Mod1+v exec --no-startup-id xfce4-popup-clipman
+bindsym Mod1+Shift+v exec --no-startup-id xfce4-popup-clipman
 
 # A more modern dmenu replacement is rofi:
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
@@ -364,8 +365,7 @@ bindsym $mod+y mode "$mode_system"
 #     # status_command SCRIPT_DIR=~/.config/i3blocks/ i3blocks
 #     status_command i3status
 #     # font pango:BigBlueTermPlus Nerd Font 9
-#     font pango:Ubuntu 10
-
+#     font pango:Ubuntu 11
 #     colors {
 #         background #282828
 #         statusline #C5C8C6

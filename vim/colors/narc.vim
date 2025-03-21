@@ -182,13 +182,6 @@ call s:h("ColorColumn",   {"bg": s:bg_subtle})
 call s:h("MatchParen",    {"bg": s:bg_subtle, "fg": s:norm})
 call s:h("qfLineNr",      {"fg": s:medium_gray})
 
-call s:h("htmlH1",        {"bg": s:bg, "fg": s:norm})
-call s:h("htmlH2",        {"bg": s:bg, "fg": s:norm})
-call s:h("htmlH3",        {"bg": s:bg, "fg": s:norm})
-call s:h("htmlH4",        {"bg": s:bg, "fg": s:norm})
-call s:h("htmlH5",        {"bg": s:bg, "fg": s:norm})
-call s:h("htmlH6",        {"bg": s:bg, "fg": s:norm})
-
 " Synatastic
 call s:h("SyntasticWarningSign",    {"fg": s:yellow})
 call s:h("SyntasticWarning",        {"bg": s:yellow, "fg": s:black, "gui": "bold", "cterm": "bold"})
@@ -232,7 +225,8 @@ hi  Cursor guibg=#8ec07c
 " #EBC06D
 " #458588
 " #E19972
-hi  Constant        guifg=#CDA869
+" hi  Constant        guifg=#CDA869
+hi  Constant        guifg=#dDb869
 hi  Directory       guifg=#789AC0
 hi  Function        guifg=#789AC0
 "hi  Function        guifg=fg
@@ -292,13 +286,8 @@ hi  Search          guibg=#23272E     guifg=lightblue
 " hi  PmenuSel        guibg=bg          guifg=#a790d5
 
 
-hi  htmlH1          guibg=NONE          guifg=#cda869 gui=bold cterm=bold
-hi  htmlH2          guibg=NONE          guifg=#cda869 gui=bold cterm=bold
-hi  htmlH3          guibg=NONE          guifg=#cda869 gui=bold cterm=bold
-hi  htmlH4          guibg=NONE          guifg=#cda869 gui=bold cterm=bold
-hi  htmlH5          guibg=NONE          guifg=#cda869 gui=bold cterm=bold
-hi  htmlH6          guibg=NONE          guifg=#cda869 gui=bold cterm=bold
-hi! link            helpHyperTextJump Statement
+hi Title guifg=#dDb869
+hi! link helpHyperTextJump Statement
 hi  markdownCode guifg=#458588
 
 hi  SpellBad guifg=fg gui=underline
@@ -318,7 +307,7 @@ hi Removed guifg=#CF6A4C
 hi Changed guifg=NONE guibg=#1F385B
 
 " Naysayer merge
-hi Normal guifg=fg guibg=bg gui=NONE
+hi Normal guifg=fg guibg=black gui=NONE
 "hi NormalFloat guibg=#303030
 hi floatBorder guifg=#343434 guibg=bg
 hi NormalFloat guibg=bg guifg=fg
@@ -335,7 +324,7 @@ hi visual guifg=NONE guibg=#505050
 " hi VertSplit guifg=#000000       guibg=NONE         gui=NONE
 "hi VertSplit guifg=#232729 guibg=bg
 hi WinSeparator guibg=bg guifg=#343434
-hi! link VertSplit winSeperator
+hi! link VertSplit WinSeparator
 "hi! link FloatBorder VertSplit
 hi! link CmpPmenuBorder VertSplit
 hi Pmenu guibg=#303030
@@ -377,15 +366,15 @@ let g:terminal_ansi_colors = [
             \"#191919",
             \"#CF6A4C",
             \"#8F9D6A",
-            \"#CDA869",
+            \"#dDb869",
             \"#789AC0",
-            \"#b16286",
+            \"#ee799f",
             \"#85998f",
             \"#6B7278",
             \"#747C84",
             \"#CF6A4C",
             \"#87AF87",
-            \"#CDA869",
+            \"#dDb869",
             \"#789AC0",
             \"#d3869b",
             \"#5FAFAF",

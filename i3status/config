@@ -8,15 +8,16 @@ general {
 
 order += "volume master"
 order += "cpu_temperature 0"
+order += "cpu_usage"
 order += "memory"
 order += "disk /"
-order += "battery all"
-order += "tztime date"
 order += "tztime time"
+order += "battery all"
+// order += "tztime date"
 
 volume master {
         format = "🔊 %volume"
-        format_muted = "🔈 muted"
+        format_muted = "🔇 muted"
         device = "default"
         mixer = "Master"
         mixer_idx = 0
@@ -38,15 +39,16 @@ battery all {
         format = "<span color='#F0C674'>%status</span>  %percentage %remaining %emptytime"
         format_down = "No battery"
         status_chr = "⚡"
-        status_bat = " "
+        status_bat = "🪫"
         status_unk = "BAT?"
-        status_full = "☻  FULL"
+        status_full = "🔋"
+        status_idle = "🔌"
         low_threshold = 10
         path = "/sys/class/power_supply/BAT%d/uevent"
 }
 
 tztime time {
-        format = "<span color='#F0C674'>%a %H:%M</span>"
+        format = "<span color='#F0C674'>%d-%m-%Y, %a, %H:%M</span>"
 }
 
 tztime date {
@@ -55,14 +57,20 @@ tztime date {
 
 memory {
         format = "<span color='#F0C674'>RAM</span> %used"
+        decimals = 0
 }
 
 disk "/" {
         format = "<span color='#F0C674'>/</span> %avail"
 }
 
-cpu_temperature 0 {
-
-        format = "%degrees°C"
-        path = "/sys/devices/platform/coretemp.0/hwmon/hwmon7/temp1_input"
+cpu_usage {
+        format = "<span color='#F0C674'>CPU</span> %usage"
 }
+
+cpu_temperature 0 {
+        format = "<span color='#F0C674'>󱩅  </span> %degrees°C"
+        path = "/sys/devices/platform/coretemp.0/hwmon/hwmon7/temp1_input"
+        max_threshold = 85
+}
+

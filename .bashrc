@@ -9,6 +9,8 @@
 #     . "$HOME/.profile"
 # fi
 
+. /usr/share/git/git-prompt.sh
+
 #--------------------------------------------------
 # prompt
 #---------------------------------------------------
@@ -25,7 +27,7 @@ __ps1() {
     # so to be treaded as non-printing character. Otherwise the positoning of
     # the cursor becomes faulty. In Readline's config file, `.inputrc`, this
     # method doesn't work and we use `\1 \2` instead according to its manual.
-    [[ $ExitCode -ne 0 ]] && errP='\[\e[1;31m\]$ExitCode\[\e[m\]' || errP=''
+    [[ $ExitCode -ne 0 ]] && errP='\[\e[1;31m\][$ExitCode]\[\e[m\]' || errP=''
     [[ -n $Branch ]] && branchP='\[\e[0;31m\] $Branch\[\e[m\]' || branchP=""
     # [[ -n $Root ]] && rootP='\[\e[0;35m\]($Root)\[\e[m\]' || rootP=""
 
@@ -37,10 +39,12 @@ __ps1() {
 #   ╭─────╮
 #   │ box │
 #   ╰─────╯
-    PS1="$userP@$hostP $dircP$branchP $errP\n$suffixP "
+    # Testing the __git_ps1
+    PS1="$userP@$hostP $dircP$branchP$(__git_ps1) $errP\n$suffixP "
 }
 
 PROMPT_COMMAND="__ps1"
+
 #---------------------------------------------------
 # exports
 #---------------------------------------------------
@@ -55,7 +59,7 @@ shopt -s autocd
 shopt -s globstar
 # ignoreboth is shorthand for ignorespace and ignoredups
 export HISTCONTROL=ignoredups:erasedups
-PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+PROMPT_COMMAND="$PROMPT_COMMAND; history -a"
 # If  set,  the  history list is appended to the file named by the value of the
 # HISTFILE variable when the shell exits, rather than overwriting the file. (in
 # order to prevent the issue of lossig bash session history when multiple

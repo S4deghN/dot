@@ -32,8 +32,8 @@ Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/fzf.vim'
 # {{{
 g:fzf_vim = {}
-# g:fzf_vim.preview_window = ['right,50%,<70(up,40%),nohidden', 'ctrl-l']
-g:fzf_vim.preview_window = ['down,70%,nohidden', 'ctrl-l']
+g:fzf_vim.preview_window = ['right,50%,<70(up,40%),hidden', 'ctrl-l']
+# g:fzf_vim.preview_window = ['down,70%,hidden', 'ctrl-l']
 def BuildQfList(lines: string)
     call setqflist(map(copy(lines), '{ "filename": v:val, "lnum": 1 }'))
     copen
@@ -47,7 +47,17 @@ g:fzf_action = {
     'ctrl-v': 'vsplit'
 }
 
-g:fzf_layout = { 'window': { 'width': 0.95, 'height': 0.9 } }
+# g:fzf_layout = { 'window': { 'width': 0.95, 'height': 0.9 } }
+
+g:fzf_layout = { 'window': { 'width': 1, 'height': 0.35, 'yoffset': 1.0, 'border': 'top'} }
+
+# g:fzf_layout = { 'down': '35%' }
+# autocmd! FileType fzf
+# autocmd  FileType fzf set laststatus=0 noshowmode noruler
+#             \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+
+# g:fzf_layout = { 'tmux': 'bottom,30%' }
+
 # }}}
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-sleuth' # Buffer options
@@ -57,7 +67,7 @@ Plug 'tpope/vim-eunuch' # UNIX helper
 Plug 'airblade/vim-rooter'
 # {{{
 g:rooter_silent_chdir = 1
-g:rooter_paterns = [
+g:rooter_patterns = [
     '.git',
     '_darcs',
     '.hg',
@@ -205,8 +215,9 @@ packadd! comment
 packadd! termdebug
 packadd! matchit
 
-g:ft_man_open_mode = 'vert'
 runtime ftplugin/man.vim
+# Redefining the command with auto vetical split
+command! -nargs=+ -complete=customlist,dist#man#ManDbComplete Man call dist#man#GetPage(Vertical() .. <q-mods>, <f-args>)
 
 # disable matchparent and use plugin/parenmatch.vim
 g:loaded_matchparen = 1
@@ -395,7 +406,10 @@ tmap <C-]> <C-\><C-n>
 # nnoremap p :let @c=col('.')<cr>p=`]:if @c > col('.') \| call cursor(0, @c) \| endif<cr>
 def Paste(p: string)
     var c = col('.')
-    exe 'keepj norm!' v:count1 .. '"'  .. v:register  .. p .. '=`]'
+    exe 'keepj norm!' v:count1 .. '"'  .. v:register  .. p
+    var save_pos = getpos("'[")
+    exe 'keepj norm!' "=`]"
+    setpos("'[", save_pos)
     if c > col('.') | cursor(0, c) | endif
 enddef
 noremap p <scriptcmd>Paste('p')<cr>
@@ -555,7 +569,12 @@ enddef # }}}
 noremap  <silent> gd <scriptcmd>JumpToDefinition()<cr>
 noremap  <C-w>d      <scriptcmd>SplitJumpToDefinition()<cr>
 noremap  gn          ]<C-I>
-noremap  <expr> gk   exists(":Man") > 0 ? ":call dist#man#PreGetPage(0)<CR>" : "K"
+
+# noremap  <expr> gk   exists(":Man") > 0 ? ":call dist#man#PreGetPage(0)<CR>" : "K"
+# noremap  <expr> gk   exists(":Man") > 0 ? "<Plug>ManPreGetPage" : "K"
+noremap  gk :Man <C-r><C-w><cr>
+
+
 nnoremap *           *<cmd>keepj norm! N<cr>
 xnoremap *           y/\M<C-R>"<cr><cmd>keepj norm! N<cr>
 nnoremap #           #<cmd>keepj norm! N<cr>
@@ -595,7 +614,7 @@ def g:LiveGrep(query: string, fullscreen: bool) # {{{
     var options = {'options': [
         '--prompt', '*Rg> ',
         '--header', getcwd(),
-        '--header-first',
+        # '--header-first',
         '--phony',
         '--query', query,
         '--bind', 'change:reload:sleep 0.1;' .. reload_grep,
@@ -748,6 +767,16 @@ command! -nargs=1 -bang -complete=file PreProc  call Term(<f-args>  .. " -o- -E"
 # -----------------------------------------------
 # --- functions ---
 # -----------------------------------------------
+def Vertical(): string
+    var result = ""
+    # if the overall vim width is too narrow or
+    # there are >=2 vertical windows, split below
+    if &columns >= 160 && winlayout()[0] != 'row'
+        result ..= "vertical"
+    endif
+    return result
+enddef
+
 def g:UseSplitOrCreate(): number
     var current_win_pos = win_screenpos(0)
     var winnr = winnr()
@@ -891,10 +920,12 @@ enddef
 command! -nargs=* -count -complete=expression Time :call Time(<count>, <q-args>)
 
 def OpenCommandPalette()
-    var windowId = popup_create(term_start([&shell], {hidden: 1, term_finish: 'close'}), { border: [1, 1, 1, 1], minwidth: winwidth(0) / 2, minheight: &lines / 2 })
+    var windowId = popup_create(term_start([&shell], {hidden: 1, term_finish: 'close' }),
+        { border: [1, 1, 1, 1], minwidth: winwidth(0) - 2, minheight: &lines / 2,
+        line: &lines / 2})
 enddef
 
-command CommandPalette call OpenCommandPalette()
+command! CommandPalette call OpenCommandPalette()
 
 def g:IsSearchedWord(): bool
     return expand('<cword>') =~ @/

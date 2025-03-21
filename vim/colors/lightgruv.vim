@@ -10,7 +10,8 @@ g:colors_name = "lightgruv"
 
 # var dark0  = '#2d2c2b'
 # var dark0  = '#202020'
-var dark0  = '#222222'
+var dark0  = '#242424'
+# var dark0  = '#202020'
 var dark1  = '#3c3836'
 # var dark2  = '#504945'
 var dark2  = '#504945'
@@ -23,7 +24,8 @@ var light2 = '#d5c4a1'
 var light3 = '#c8b9a4'
 var light4 = '#928374'
 var red    = '#fb4f3a'
-var green  = '#b8bb26'
+# var green  = '#b8bb26'
+var green  = '#b0bb26'
 var yellow = '#fabd2f'
 var blue   = '#83a598'
 var purple = '#d3869b'
@@ -269,7 +271,7 @@ hi! link diffNewFile Type
 hi! link diffSubname Normal
 
 # sizeof, "+", "*", etc.
-# hi Delimiter guifg=fg
+hi Delimiter guifg=fg
 hi Operator guifg=fg
 hi Signcolumn guibg=bg
 
