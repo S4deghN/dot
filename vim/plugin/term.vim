@@ -60,11 +60,11 @@ export def g:Term(cmd: string, bang: string, ...args: list<string>): number
         term_name: '[term]',
         exit_cb: (job, ec) => {
             setbufvar(bufnr, 'term_ec', ec)
-            var status_bg = ec != 0 ? '#bb7070' : '#70bb70'
-            hlset([
-                {name: 'StatuslineTerm',   guibg: status_bg, cterm: {}, gui: {}},
-                {name: 'StatuslineTermNC', guibg: status_bg, cterm: {}, gui: {}},
-            ])
+            # var status_bg = ec != 0 ? '#bb7070' : '#70bb70'
+            # hlset([
+            #     {name: 'StatuslineTerm',   guibg: status_bg, cterm: {}, gui: {}},
+            #     {name: 'StatuslineTermNC', guibg: status_bg, cterm: {}, gui: {}},
+            # ])
         },
     })
     OnTermWinOpen()
@@ -79,7 +79,8 @@ export def g:Term(cmd: string, bang: string, ...args: list<string>): number
 enddef
 
 def GetTermBufnr(): number
-    var buffers = term_list()
+    # var buffers = term_list()
+    var buffers = term_list()->filter((_, v) => bufname(v) == '[term]')
     if len(buffers) > 0
         return buffers[0]
     else

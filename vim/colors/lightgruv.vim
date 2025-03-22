@@ -286,3 +286,6 @@ hi SpecialKey guifg=#888899
 hi! link WinSeparator VertSplit
 
 hi! link CurSearch Incsearch
+
+hi! link StatuslineTerm StatusLine
+hi! link StatuslineTermNC StatusLineNC

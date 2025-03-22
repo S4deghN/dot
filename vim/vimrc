@@ -689,7 +689,55 @@ exe "set <M-g>=\eg"
 nnoremap <expr> <M-g>s SetOpFunc(function('HexToSymbol', ['c']))
 vnoremap <M-g>s <scriptcmd>HexToSymbol('c', 'v')<cr>
 
-# 123  132
+# hi DictColor guifg=fg guibg=bg
+# def Dict(word: string)
+#     var cmd = ["sdcv", "-c", "-n", word]
+#     # if !!get(t:, 'dict_bufnr', 0) | exec 'bd!' t:dict_bufnr | endif
+#     t:dict_bufnr = term_start(cmd, {hidden: 1, term_name: '[dict]'})
+
+#     var winid = popup_create(t:dict_bufnr,
+#         { border: [1, 1, 1, 1], minwidth: &columns * 2 / 3, minheight: &lines / 2, maxheight: &lines / 2, padding: [0, 1, 0, 1],
+#         callback: (winid, result) => {
+#             var bufnr =  winbufnr(winid)
+#             timer_start(0, (timer) => execute('bd! ' .. bufnr))
+#         }})
+
+#     setwinvar(winid, '&wincolor', 'DictColor')
+#     timer_start(50, (timer) => win_execute(winid, 'norm! gg'))
+# enddef
+def g:Dict(word: string, whole_window: bool = 0)
+    var oldbuf = getbufinfo()->filter((_, v) => fnamemodify(v.name, ":t") == '[dict]')
+
+    if !whole_window
+        if len(oldbuf) > 0 && len(oldbuf[0].windows) > 0
+            win_gotoid(oldbuf[0].windows[0])
+        else
+            exec 'botright' Vertical() 'split'
+        endif
+    endif
+
+    var cmd = ["sdcv", "-c", "-n", word]
+    var newbuf = 0
+    newbuf = term_start(cmd, {
+        curwin: 1,
+        term_name: '[dict]',
+        exit_cb: (job, ec) => {
+            timer_start(10, (timer) => cursor(1, 0))
+        },
+    })
+
+    # hi! link StatuslineTerm StatusLine
+    # hi! link StatuslineTermNC StatusLineNC
+    setl stl-=%f
+    setl stl^=[dict]
+
+    if len(oldbuf) > 0
+        exe "bd!" oldbuf[0].bufnr
+    endif
+
+enddef
+nnoremap <leader>w <scriptcmd>g:Dict(expand("<cword>"))<cr>
+command! -nargs=1 -bang Dict call Dict(<q-args>, <q-bang> == "!" ? 1 : 0)
 
 # -----------------------------------------------
 # --- auto cmds ---
@@ -729,6 +777,11 @@ augroup autoCommands
     autocmd VimLeave,VimSuspend * call g:TmuxResetTitle()
 
     def g:UpdateGitBranch()
+        if len(&buftype) > 0
+            w:git_branch = ''
+            return
+        endif
+
         var branch = system('git branch --show-current 2>/dev/null')
         if len(branch) == 0 && v:shell_error == 0
             branch = system('git describe --all --contains 2>/dev/null')
@@ -740,7 +793,7 @@ augroup autoCommands
             w:git_branch = ''
         endif
     enddef
-    autocmd DirChanged,WinNew,VimEnter * call UpdateGitBranch()
+    autocmd DirChanged,WinNew,VimEnter,TerminalWinOpen * call UpdateGitBranch()
 augroup end
 
 # -----------------------------------------------
