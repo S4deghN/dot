@@ -67,6 +67,7 @@ Plug 'tpope/vim-eunuch' # UNIX helper
 Plug 'airblade/vim-rooter'
 # {{{
 g:rooter_silent_chdir = 1
+g:rooter_cd_cmd = 'cd'
 g:rooter_patterns = [
     '.git',
     '_darcs',
@@ -103,6 +104,7 @@ Plug 'lacygoill/vim9asm'
 # autocmd VimEnter * g:VimCompleteOptionsSet(comp_options)
 # # }}}
 Plug '~/.vim/local/vim-shout'
+Plug '~/.vim/local/vim-fm'
 Plug '~/.vim/local/lsp'
 # {{{
 var lspOpts = {
@@ -224,7 +226,8 @@ g:loaded_matchparen = 1
 g:loaded_matchparen9 = 1
 # g:loaded_parenmatch = 1
 
-# 0x50
+# Disable netrw
+g:loaded_netrw = 1
 
 # -----------------------------------------------
 # --- options ---
@@ -737,11 +740,16 @@ def g:Dict(word: string, whole_window: bool = 0)
 
 enddef
 nnoremap <leader>w <scriptcmd>g:Dict(expand("<cword>"))<cr>
-command! -nargs=1 -bang Dict call Dict(<q-args>, <q-bang> == "!" ? 1 : 0)
+command! -nargs=? -bang Dict call Dict(<q-args>, <q-bang> == "!" ? 1 : 0)
 
 # -----------------------------------------------
 # --- auto cmds ---
 # -----------------------------------------------
+# augroup fm
+#     au!
+#     au BufEnter * echom expand('<afile>')->isdirectory() expand('%:p')->isdirectory()
+# augroup END
+
 augroup autoCommands
     autocmd!
     autocmd BufWritePost */.vim/**/*.vim,.vimrc,vimrc,*/vim/**/*.vim source %
@@ -793,7 +801,7 @@ augroup autoCommands
             w:git_branch = ''
         endif
     enddef
-    autocmd DirChanged,WinNew,VimEnter,TerminalWinOpen * call UpdateGitBranch()
+    autocmd DirChanged,WinNew,VimEnter,TerminalWinOpen,FileType * call UpdateGitBranch()
 augroup end
 
 # -----------------------------------------------

@@ -87,8 +87,8 @@ default_floating_border normal 1
 smart_borders on
 #for_window [all] title_window_icon on
 
-# gaps outer 25
-# gaps inner 10
+gaps outer 25
+gaps inner 10
 
 # class                 border  backgr. text    indicator child_border
 client.focused          #4c7899 #285577 #ffffff #2e9ef4   #285577
@@ -251,6 +251,9 @@ bindsym $mod+Shift+q move scratchpad
 
 bindsym $mod+Shift+s sticky toggle
 
+for_window [instance="dict"] floating enable, resize set 1400 800, move position center, border normal 1
+bindsym Mod1+w exec --no-startup-id "st -n dict -e dict $(xclip -o)"
+
 for_window [instance="mate-cal"] move scratchpad, scratchpad show
 bindsym $mod+c exec --no-startup-id i3-scratchpad-or-launch "mate-calc"
 # bindsym $mod+c move absolute position center
@@ -263,7 +266,7 @@ bindsym $mod+i exec --no-startup-id i3-scratchpad-or-launch "gpick"
 for_window [instance="todo"] move scratchpad, scratchpad show
 set $todo_cmd exec --no-startup-id i3-scratchpad-or-launch "st -n todo -e $EDITOR $HOME/note/todo.vorg" "todo"
 bindsym $mod+g $todo_cmd
-exec --no-startup-id $todo_cmd
+# exec --no-startup-id $todo_cmd
 
 for_window [instance="discord"] move scratchpad, scratchpad show, resize set 1600 900, \
                       move position center
