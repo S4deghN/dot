@@ -2,10 +2,10 @@ vim9script
 
 # Description: slightly simplified port of https://github.com/itchyny/vim-parenmatch to vim9
 
-if exists('g:loaded_parenmatch') || v:version < 703 || !exists('*matchaddpos')
+if exists('g:loaded_matchparen_light') || v:version < 703 || !exists('*matchaddpos')
   finish
 endif
-g:loaded_parenmatch = 1
+g:loaded_matchparen_light = 1
 
 const TIMEOUT = 10
 var paren = {}

@@ -1,68 +1,32 @@
 vim9script
-
-# -----------------------------------------------
-# --- coloring ---
-# -----------------------------------------------
-# mark trailing spaces as errors using highlight group CursorLine
-match CursorColumn '\s\+$'
-filetype plugin indent on
-syntax on
-set termguicolors
-set background=dark
-color lightgruv
-
-# taghighlight plugin
-hi Member guifg=fg
-# hi GlobalConstant guifg=fg
-hi GlobalVariable guifg=fg
-hi LocalVariable guifg=fg
-hi! link DefinedName Macro
-
 # -----------------------------------------------
 # --- plugins ---
 # -----------------------------------------------
-if empty(glob('~/dot/nvim/autoload/plug.vim'))
+# g:loaded_matchparen9 = 1
+g:loaded_matchparen_light = 1
+g:loaded_matchparen = 1
+
+g:loaded_netrw = 1
+
+packadd! comment
+packadd! termdebug
+packadd! matchit
+# Redefining Man with auto vetical split
+runtime ftplugin/man.vim
+
+if empty(glob('~/.vim/autoload/plug.vim'))
     silent !curl -fLo ~/dot/nvim/autoload/plug.vim --create-dirs
                 \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     au VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
-
 plug#begin()
+# Plug 'vim-scripts/TagHighlight'
+Plug 'tpope/vim-scriptease'
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/fzf.vim'
-# {{{
-g:fzf_vim = {}
-g:fzf_vim.preview_window = ['right,50%,<70(up,40%),hidden', 'ctrl-l']
-# g:fzf_vim.preview_window = ['down,70%,hidden', 'ctrl-l']
-def BuildQfList(lines: string)
-    call setqflist(map(copy(lines), '{ "filename": v:val, "lnum": 1 }'))
-    copen
-    cc
-enddef
-
-g:fzf_action = {
-    'ctrl-q': function('BuildQfList'),
-    'ctrl-t': 'tab split',
-    'ctrl-x': 'split',
-    'ctrl-v': 'vsplit'
-}
-
-# g:fzf_layout = { 'window': { 'width': 0.95, 'height': 0.9 } }
-
-g:fzf_layout = { 'window': { 'width': 1, 'height': 0.35, 'yoffset': 1.0, 'border': 'top'} }
-
-# g:fzf_layout = { 'down': '35%' }
-# autocmd! FileType fzf
-# autocmd  FileType fzf set laststatus=0 noshowmode noruler
-#             \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
-
-# g:fzf_layout = { 'tmux': 'bottom,30%' }
-
-# }}}
+Plug 'alx741/vinfo'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-sleuth' # Buffer options
-Plug 'tpope/vim-endwise' # Insert endif
-Plug 'tpope/vim-capslock'
 Plug 'tpope/vim-eunuch' # UNIX helper
 Plug 'airblade/vim-rooter'
 # {{{
@@ -81,74 +45,24 @@ g:rooter_patterns = [
 ]
 # }}}
 Plug 'chrisbra/Colorizer'
-Plug 'mg979/vim-visual-multi'
-# {{{
-g:VM_maps = {
-    'Find Under': '<C-q>',
-    'Find Subword Under': '<C-q>'
-}
-# }}}
 Plug 'lacygoill/vim9asm'
-# Plug 'girishji/vimcomplete'
-# # {{{
-# g:vimcomplete_tab_enable = 1
-# var comp_options = {
-#     completor: { alwaysOn: false,  shuffleEqualPriority: false, postfixHighlight: true },
-#     buffer: { enable: true, priority: 8, urlComplete: true, envComplete: true },
-#     abbrev: { enable: true, priority: 9 },
-#     lsp: { enable: true, priority: 10, maxCount: 5 },
-#     # omnifunc: { enable: false, priority: 8, filetypes: ['python', 'javascript'] },
-#     # vsnip: { enable: true, priority: 11 },
-#     vimscript: { enable: true, priority: 11 },
-# }
-# autocmd VimEnter * g:VimCompleteOptionsSet(comp_options)
-# # }}}
-Plug '~/.vim/local/vim-shout'
+Plug 'glts/vim-magnum'
+Plug 'glts/vim-radical'
+Plug '~/.vim/local/vorg'
 Plug '~/.vim/local/vim-fm'
 Plug '~/.vim/local/lsp'
 # {{{
 var lspOpts = {
     semanticHighlight: false,
-    aleSupport: false,
-    autoHighlight: false,
-    autoHighlightDiags: true,
-    autoPopulateDiags: false,
     completionMatcher: 'icase',
-    completionMatcherValue: 1,
-    showSignature: true,
-    echoSignature: true,
-    hideDisabledCodeActions: false,
     highlightDiagInline: false,
-    hoverInPreview: false,
     ignoreMissingServer: true,
-    keepFocusInDiags: false,
-    keepFocusInReferences: true,
-    completionTextEdit: false,
-    diagVirtualTextAlign: 'below',
-    diagVirtualTextWrap: 'default',
-    noNewlineInCompletion: false,
     autoComplete: false,
-    omniComplete: true,
-    outlineOnRight: false,
     outlineWinSize: 35,
-    showDiagInBalloon: true,
+    showDiagInBalloon: false,
     showDiagInPopup: true,
-    showDiagOnStatusLine: false,
     showDiagWithSign: true,
-    showDiagWithVirtualText: false,
-    showInlayHints: false,
-    snippetSupport: false,
-    ultisnipsSupport: false,
-    useBufferCompletion: false,
-    usePopupInCodeAction: false,
-    useQuickfixForLocations: true,
-    vsnipSupport: false,
-    bufferCompletionTimeout: 0,
-    customCompletionKinds: false,
-    completionKinds: {},
-    filterCompletionDuplicates: false,
 }
-
 def LspOnAttach()
     # so we can use :stag
     setlocal tagfunc=lsp#lsp#TagFunc
@@ -169,8 +83,6 @@ def LspOnAttach()
     nmap <buffer> gh  :LspDiagCurrent<cr>
     nmap <buffer> gld :LspDiagShow<cr>
 enddef
-# }}}
-# {{{
 var lspServers = [
     {
         name: 'clangd',
@@ -195,218 +107,100 @@ var lspServers = [
         rootSearch: ['Cargo.toml']
     }
 ]
-
 autocmd User LspSetup call LspOptionsSet(lspOpts)
 autocmd User LspSetup call LspAddServer(lspServers)
 autocmd User LspAttached call LspOnAttach()
 # }}}
-Plug 'J-Merle/vim-todo'
-# Plug 'habamax/vim-dir'
-# Plug 'vim-scripts/TagHighlight'
-Plug 'mhinz/vim-signify'
-# {{{
-autocmd User SignifyAutocmds au  signify TextChanged,InsertLeave * call sy#start()
-# }}}
-# Plug 'yggdroot/hipairs'
-Plug 'glts/vim-magnum'
-Plug 'glts/vim-radical'
-Plug 'alx741/vinfo'
 plug#end()
-
-packadd! comment
-packadd! termdebug
-packadd! matchit
-
-runtime ftplugin/man.vim
-# Redefining the command with auto vetical split
-command! -nargs=+ -complete=customlist,dist#man#ManDbComplete Man call dist#man#GetPage(Vertical() .. <q-mods>, <f-args>)
-
-# disable matchparent and use plugin/parenmatch.vim
-g:loaded_matchparen = 1
-g:loaded_matchparen9 = 1
-# g:loaded_parenmatch = 1
-
-# Disable netrw
-g:loaded_netrw = 1
 
 # -----------------------------------------------
 # --- options ---
 # -----------------------------------------------
-# experimental
-# set regexpengine=2
 set nolazyredraw
-
 # timeout for key sequences of terminal like esc and such
 set nocompatible ttimeout ttimeoutlen=0
-set history=10000
-set termwinscroll=100000
-# Undo file shouldn't replace version control
-set noswapfile
-
-set undofile
-silent system("mkdir -p /tmp/$USER.vim9undo")
-set undodir=/tmp/$USER.vim9undo
-# speed things up
+set history=10000 termwinscroll=100000
+set noswapfile undofile
+set undodir=/tmp/$USER.vim9undo | silent system("mkdir -p /tmp/$USER.vim9undo")
 set hidden
-set notitle
 # mouse support
-set mouse=ar
-# Essential for scroll to work properly
-set ttymouse=sgr
+# Essential for scroll to work properly in st
+set mouse=ar ttymouse=sgr
 # remedy flikering wiht termguicolors `https://github.com/vim/vim/issues/10574`. I'm not
 # sure how effective this one is, but setting Normal guibg=NONE definitly make vim flicker.
 # set t_ut=
 set completeopt=menu,popuphidden,noinsert
-set pumheight=6 previewheight=10
-# behave like bash
 set nowildmenu wildignorecase wildmode=longest,list,full
-set showcmd
-set showmode
-set signcolumn=no
-set ruler
-set nocursorline
+set pumheight=6 previewheight=10
+set notitle signcolumn=no showmode showcmd ruler laststatus=2 showcmdloc=statusline
+set scrolloff=3
+set nostartofline
 # guicursor for terminal
 &t_SI = "\e[5 q" # Insert mode
 &t_SR = "\e[4 q" # Replace mode
 &t_EI = "\e[1 q" # Normal mode (else)
-set scrolloff=3
-set scrolljump=0
-set nostartofline
-
-# set showcmd showcmdloc=statusline
 set shortmess=aoOFtT
-set shortmess-=S
 set splitbelow splitright
-set incsearch hlsearch
-set ignorecase
-set smartcase
-set smartindent
-# when unset you can delete inserted tab with C-w without deleting the word before it
-set nosmarttab
-set expandtab shiftwidth=4 tabstop=4
+set incsearch hlsearch ignorecase smartcase
+set smartindent nosmarttab expandtab shiftwidth=4 tabstop=4
 set backspace=indent,eol,start
 set foldmethod=marker
 set textwidth=80
 set jumpoptions=stack
-set showbreak=↷
-set fillchars+=diff:╱,vert:│
-set listchars=tab:»\ ,trail:-
-set nolist
-
-# Sane indentation
-set cinoptions+=:0,ls,g0,N-s,E-s,(s,k0,j1,J1,t0
-
-# put the more unlikey first so that when it is the case you search that first.
-set path=.,**,/usr/src/*/include,/usr/include
-
+# match CursorColumn '\s\+$'
+set list listchars=tab:›\ ,nbsp:␣,trail:·,extends:…,precedes:…
+set showbreak=↷ fillchars+=diff:╱,fold:\ ,vert:│
 # if match case is not set to `match` tag search becomes really slow!
 set tagcase=match
-
+set cinoptions+=:0,ls,g0,N-s,E-s,(s,k0,j1,J1,t0
+set path=.,**,/usr/src/*/include,/usr/include
+# set wildignore+=.git/*,*/node_modules/*,*/target/*,*/build/*,*.class,*.png,*.gif,*.pdf,*.exe,*.o,*.so,*.jar,*.war,*.ear,*.dll,*.swp,*.zip
 if executable('rg')
-    set grepprg=rg\ -H\ --no-heading\ --vimgrep
+    set grepprg=rg\ -H\ --no-heading\ --vimgrep\ --hidden\ --smart-case
     set grepformat=%f:%l:%c:%m
 endif
-
-def g:LspStatus(): string
-    # var str = $':%#DiagStatusError#{diags.Error}%#*#:%#DiagStatuswarn#{diags.Warn}%#*#:%#DiagStatusHint#{diags.Hint}%#*#:%#DiagStatusInfo#{diags.Info}%#*#'
-    var str = ''
-    var bufnr = bufnr()
-    if lsp#buffer#BufHasLspServer(bufnr)
-        var diags = lsp#diag#DiagsGetErrorCount(bufnr)
-
-        str ..= lsp#buffer#BufLspServerGet(bufnr).name
-
-        if diags.Error != 0
-            str ..= ':%#DiagStatusError#' .. diags.Error .. '%*'
-        endif
-        if diags.Warn != 0
-            str ..= ':%#DiagStatusWarn#' .. diags.Warn .. '%*'
-        endif
-        if diags.Hint != 0
-            str ..= ':%#DiagStatusHint#' .. diags.Hint .. '%*'
-        endif
-        if diags.Info != 0
-            str ..= ':%#DiagStatusInfo#' .. diags.Info .. '%*'
-        endif
-
-        str ..= '%#'
-    endif
-
-    return str
-enddef
-
-set laststatus=2
-if &laststatus > 0
-    set showcmdloc=statusline
-    set statusline=
-    # Left
-    set stl+=%f
-    set stl+=%(\ %m%q%h%w%r%)
-    set stl+=\ \ \ \ %P\ %10(%l:%c\ \ %)
-    set stl+=%(\ \ \ \ Git:%{get(w:,'git_branch','')}%)
-    set stl+=%(\ \ \ \ LSP:%{%g:LspStatus()%}%)
-    # Middle
-    set stl+=\ %=
-    set stl+=%S
-    # Right
-    set stl+=\ %=
-    set stl+=
-else
-    set rulerformat=%60(%(LSP:%{%g:LspStatus()%}%)\ \ \ \ %(Git:%{get(w:,'git_branch','')}%)%=\ \ \ \ %-8(%l,%c%)\ %P%)
-    augroup ruler
-        autocmd BufEnter * call feedkeys("\<C-g>")
-    augroup end
-endif
-
-if has('gui')
-    set guifont=Liberation\ Mono\ 14
-
-    # gui keympas
-    noremap <M-1> <cmd>tabn1<cr>
-    noremap <M-2> <cmd>tabn2<cr>
-    noremap <M-3> <cmd>tabn3<cr>
-    noremap <M-4> <cmd>tabn4<cr>
-    noremap <M-5> <cmd>tabn5<cr>
-    noremap <M-6> <cmd>tabn6<cr>
-    noremap <M-7> <cmd>tabn7<cr>
-    noremap <M-8> <cmd>tabn8<cr>
-    noremap <M-9> <cmd>tabn9<cr>
-endif
-
-g:mapleader = " "
 
 # -----------------------------------------------
 # --- keymaps ---
 # -----------------------------------------------
+g:mapleader = ' '
+exe "set <M-j>=\ej"
+exe "set <M-k>=\ek"
+exe "set <M-g>=\eg"
+exe "set <M-q>=\eq"
+exe "set <M-w>=\ew"
+exe "set <M-e>=\ee"
+exe "set <M-r>=\er"
+exe "set <M-t>=\et"
+exe "set <M-f>=\ef"
+exe "set <M-b>=\eb"
+
 map ' `
 
+# --- operator ---
 onoremap if <cmd>norm! ggVG<cr>
 
+# --- insert ---
 inoremap <silent> <Esc> <Esc>g`^
-inoremap <expr> <C-z> &spell ? "\<C-x>s" : "\<C-o>:setl spell\<cr>\<C-x>s"
-
-# :help map-special-keys
-inoremap <C-_> <esc>ugi
-# for accepting auto complete
 inoremap <C-^> <esc><C-^>
-inoremap <C-s> <Plug>CapsLockToggle
-inoremap <C-x>d <esc>:r!date "+\%Y-\%m-\%d \%H:\%M:\%S"<cr>kJg`]a
-
-def Comp()
-    if pumvisible()
-        feedkeys("\<C-y>")
-    else
-        feedkeys("\<C-space>")
-        timer_start(100, (_) => feedkeys("\<C-n>"))
-    endif
-enddef
-inoremap        <C-f> <scriptcmd>Comp()<cr>
+inoremap <C-f> <C-x><C-o>
 inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
 inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
+inoremap <expr> <C-z> &spell ? "\<C-x>s" : "\<C-o>:setl spell\<cr>\<C-x>s"
+inoremap <C-x>d <esc>:r!date "+\%Y-\%m-\%d \%H:\%M:\%S"<cr>kJg`]a
 
+# --- term ---
 tmap <C-]> <C-\><C-n>
 
-# nnoremap p :let @c=col('.')<cr>p=`]:if @c > col('.') \| call cursor(0, @c) \| endif<cr>
+# --- cmd ---
+cmap <M-f>  <C-right>
+cmap <M-b>  <C-left>
+cmap <C-j>  <Down>
+cmap <C-k>  <Up>
+cmap <C-x>f <C-r>=expand('%:p')<cr>
+cmap <C-x>d <C-r>=expand('%:p:h:s?\S\+:\/\/??').'/'<cr>
+
+# --- paste ---
 def Paste(p: string)
     var c = col('.')
     exe 'keepj norm!' v:count1 .. '"'  .. v:register  .. p
@@ -422,25 +216,7 @@ map <leader>P "dP
 map gp "+p
 map gP "+P
 
-def SetOpFunc(F: func): string
-    &opfunc = F
-    return '"' .. v:register .. 'g@'
-enddef
-
-def Operate(op: string, type: string)
-    var reg = v:register !=# '"' ? '"' .. v:register : ''
-    if type ==# 'v'
-        exec 'norm!' .. reg .. op
-    else
-        var vselect = type ==# "line" ? "'[V']" : "`[v`]"
-        var vstart = getpos("'<")
-        var vend = getpos("'>")
-        exe 'keepj norm!' vselect .. reg .. op
-        setpos("'<", vstart)
-        setpos("'>", vend)
-    endif
-enddef
-
+# --- delete ---
 def Delete(op: string, type: string)
     Operate(op, type)
     if reltime(get(g:, 'last_del_time', [0, 0]))[0] < 3 # less than 3 sec
@@ -455,30 +231,20 @@ nmap dd d_
 nmap D  dg_
 nmap x  dl
 nmap X  dh
-# nnoremap dd <scriptcmd>Delete('count', 'dd')<cr>
-# nnoremap D  <scriptcmd>Delete('count', 'D')<cr>
-# nnoremap x  <scriptcmd>Delete('count', 'x')<cr>
-# nnoremap X  <scriptcmd>Delete('count', 'X')<cr>
 vnoremap d <scriptcmd>Delete('d', 'v')<cr>
 vnoremap x <scriptcmd>Delete('x', 'v')<cr>
 vnoremap D <scriptcmd>Delete('D', 'v')<cr>
 vnoremap X <scriptcmd>Delete('X', 'v')<cr>
 
+# --- yank ---
 def KeepView(op: string, view: dict<number>, type: string)
     if type ==# 'c'
-        exec op
+        exec 'keepj' op
     else
         Operate(op, type)
     endif
     winrestview(view)
 enddef
-nnoremap <expr> = SetOpFunc(function('KeepView', ['=', winsaveview()]))
-vnoremap = <scriptcmd>KeepView('=', winsaveview(), 'v')<cr>
-nmap == =_
-nmap == =ip
-nmap +  =i{
-imap <C-b> <esc>+gi
-# yank
 nnoremap <expr> y SetOpFunc(function('KeepView', ['y', winsaveview()]))
 vnoremap y <scriptcmd>KeepView('y', winsaveview(), 'v')<cr>
 nmap yy y_
@@ -486,48 +252,181 @@ map  Y  yg_
 map  gy "+y
 map  gY "+Y
 nnoremap yo :let @+=@"<cr>
+nmap yl "+<cmd>call setreg(v:register, expand('%:p:.') .. ':' .. line('.'), 'c')<cr>
 
-def YankLineWithLineColNum()
-    var c = col('.')
-    norm! ^yg_
-    cursor(0, c)
-    var s = getreg(v:register) .. ':' .. line('.') ..  ':' .. col('.')
-    setreg(v:register, s, 'l')
-enddef
-nmap yl <scriptcmd>YankLineWithLineColNum()<cr>
-
-# format
+# --- format ---
+nnoremap <expr> = SetOpFunc(function('KeepView', ['=', winsaveview()]))
+vnoremap = <scriptcmd>KeepView('=', winsaveview(), 'v')<cr>
+nmap == =_
+nmap == =ip
+nmap +  =i{
+imap <C-b> <esc>+gi
 nnoremap zs <scriptcmd>KeepView(':%s/\s\+$//e', winsaveview(), 'c')<cr>
 nnoremap gF <scriptcmd>KeepView(':%!clang-format', winsaveview(), 'c')<cr>
 nnoremap gz 1z=
-
-nmap gcA  gcc^dWA <C-r>"
-nmap gcd <cmd>let @c=col('.')<cr>yygccp<cmd>call cursor(0,@c)<cr>
-
 nnoremap ga  <plug>(EasyAlign)
 xnoremap ga  <plug>(EasyAlign)
 nnoremap ga\ mz<plug>(EasyAlign)ap\g`z
 
-# navigation
-noremap } <cmd>keepj norm! }<cr>
-noremap { <cmd>keepj norm! {<cr>
-noremap j gj
-noremap k gk
-noremap <C-h> <cmd>tabp<cr>
-noremap <C-l> <cmd>tabn<cr>
-noremap <C-j> <cmd>cn<cr>
-noremap <C-k> <cmd>cp<cr>
-exe "set <M-j>=\ej"
-noremap <M-j> <cmd>lne<cr>
-exe "set <M-k>=\ek"
-noremap <M-k> <cmd>lp<cr>
-noremap <M-q> g`Qg`"
-noremap <M-w> g`Wg`"
-noremap <M-e> g`Eg`"
-noremap <M-r> g`Rg`"
-noremap <M-t> g`Tg`"
+# --- navigation ---
+noremap  j      gj
+noremap  k      gk
+noremap  }      <cmd>keepj norm! }<cr>
+noremap  {      <cmd>keepj norm! {<cr>
+noremap  <C-h>  <cmd>tabp<cr>
+noremap  <C-l>  <cmd>tabn<cr>
+noremap  <C-j>  <cmd>cn<cr>
+noremap  <C-k>  <cmd>cp<cr>
+noremap  <M-j>  <cmd>lne<cr>
+noremap  <M-k>  <cmd>lp<cr>
+noremap  <M-q>  g`Qg`"
+noremap  <M-w>  g`Wg`"
+noremap  <M-e>  g`Eg`"
+noremap  <M-r>  g`Rg`"
+noremap  <M-t>  g`Tg`"
+nnoremap *      *<cmd>keepj norm! N<cr>
+nnoremap #      #<cmd>keepj norm! N<cr>
+xnoremap *      y/\M<C-R>"<cr><cmd>keepj norm! N<cr>
+xnoremap #      y?\M<C-R>"<cr><cmd>keepj norm! N<cr>
+noremap  n      <cmd>keepj norm! nzz<cr>
+noremap  N      <cmd>keepj norm! Nzz<cr>
+nnoremap c;     :<C-p>
+noremap  gk     :Man <C-r><C-w><cr>
+noremap  gd     <scriptcmd>JumpToDefinition()<cr>
+noremap  <C-w>d <scriptcmd>SplitJumpToDefinition()<cr>
+noremap  gn     ]<C-I>
 
-def g:JumpTag() # {{{
+# --- jumper ---
+nnoremap <leader>d  :Bdelete<cr>
+nmap     <leader>b  :b<space>
+nmap     <leader>e  :e<space><C-x>d
+nmap     <leader>E  :Exp<cr>
+nmap     <leader>h  :h<space>
+noremap  <leader>f  <cmd>Files<cr>
+nmap     <leader>F  :Files<space><C-x>d
+noremap  <leader>r  <cmd>Histor<cr>
+noremap  <leader>B  <cmd>Buffers<cr>
+noremap  <leader>H  <cmd>Helptags<cr>
+noremap  <leader>t  :Tags <C-r><C-w><cr>
+noremap  <leader>T  <cmd>Tags<space>
+nnoremap <leader>G  <cmd>LiveGrep<cr>
+nnoremap <leader>g  :LiveGrep <C-r><C-w><cr>
+vnoremap <leader>g  :<C-u>LiveGrepVisual<cr>
+nnoremap <leader>vv :Git<cr>
+nnoremap <leader>w  <scriptcmd>g:Dict(expand("<cword>"))<cr>
+
+# --- Term ---
+nnoremap cc :wa<cr>:Term <C-r>=get(t:, 'term_cmd', '')<cr>
+nnoremap sn :Term<space>
+nnoremap ss <cmd>TermToggleWin<cr>
+nnoremap sq <cmd>TermToQf<cr>
+nnoremap sx <cmd>TermKill<cr>
+nnoremap sj <cmd>TermNextErrorJump<cr>
+nnoremap sk <cmd>TermPrevErrorJump<cr>
+nnoremap s$ <cmd>TermLastErrorJump<cr>
+nnoremap s0 <cmd>TermFirstErrorJump<cr>
+nnoremap s<cr> <cmd>TermThisErrorJump<cr>
+
+# --- substitute ---
+# TODO: organize bindings in a meaningful way.
+nnoremap <C-s>s  :s/<C-R>=expand('<cword>')<cr>//g<Left><Left>
+vnoremap <C-s>s  :s//g<Left><Left>
+nnoremap <C-s>f  :%s/<C-R>=expand('<cword>')<cr>//g<Left><Left>
+vnoremap <C-s>f  y:<C-w>%s/<C-r>"//g<Left><Left>
+nnoremap <C-s>h  :'<,'>:s/<C-R>=expand('<cword>')<CR>//g<Left><Left>
+nnoremap <C-s>ip yiwvip<Esc>:'<,'>:s/<C-R>"//g<Left><Left>
+nnoremap <C-s>ap yiwvap<Esc>:'<,'>:s/<C-R>"//g<Left><Left>
+
+# --- transform ---
+# change hex to [s]ymbol
+def HexToSymbol(op: string, type: string)
+    Operate(op, type)
+    # TODO: right now only works on one word in order to apply to multiple words we
+    # have to iterate over words in register and apply the conversion
+    exec 'normal aU' .. getreg("@")
+enddef
+nnoremap <expr> <M-g>s SetOpFunc(function('HexToSymbol', ['c']))
+vnoremap <M-g>s <scriptcmd>HexToSymbol('c', 'v')<cr>
+
+# --- better visual ---
+def ForceBlockwise(next_key: string): string
+    const setup_keyseq_table = {
+        'I':  {'v': "\<C-v>I",  'V': "\<C-v>^o^I", "\<C-v>": 'I'},
+        'A':  {'v': "\<C-v>A",  'V': "\<C-v>0o$A", "\<C-v>": 'A'},
+        'gI': {'v': "\<C-v>0I", 'V': "\<C-v>0o$I", "\<C-v>": '0I'},
+    }
+    return setup_keyseq_table[next_key][mode()]
+enddef
+xmap <expr> I  ForceBlockwise('I')
+xmap <expr> gI ForceBlockwise('gI')
+xmap <expr> A  ForceBlockwise('A')
+
+# --- miscellaneous ---
+noremap <C-g>  1<C-g>
+inoremap <C-U> <C-G>u<C-U>
+nmap gcd <cmd>let @c=col('.')<cr>yygccp<cmd>call cursor(0,@c)<cr>
+
+# -----------------------------------------------
+# --- cmds ---
+# -----------------------------------------------
+def BufWordsComplete(A: string, L: string, P: number): string
+    return join(uniq(sort(split(join(getline(1, '$'), "\n")))), "\n")
+enddef
+# Convenient command to see the difference between the current buffer and the
+# file it was loaded from, thus the changes you made.
+command! DiffOrig vert new | set bt=nofile | r ++edit %% | 0d_ | diffthis | wincmd p | diffthis
+command! RT RooterToggle | exec "norm :\<C-u>cd \<C-x>d\<cr>"
+command! -nargs=? Expand {
+    KeepView(':%!expand -t ' .. (!<q-args> ? '4' : <q-args>), winsaveview(), 'c')
+}
+
+command! -nargs=+ -complete=command  R put = execute(<q-args>)->trim()
+command! -nargs=+ -complete=function RR put = execute('echo ' .. <q-args>)->trim()
+
+command! -nargs=+ -complete=customlist,dist#man#ManDbComplete Man {
+    dist#man#GetPage(g:Vertical() .. <q-mods>, <f-args>)
+}
+
+command! -nargs=1 -bang -complete=custom,BufWordsComplete Grep {
+    g:Term("rg -S --vimgrep " .. <f-args>, <bang>0)
+}
+# Dump {binfile}
+command! -nargs=1 -bang -complete=file Dump {
+    g:Term("objdump -ClSd --disassembler-color=on " .. <f-args>, <bang>0, "[dump]", "asm")
+}
+# Assembly {compiler} {sourcefile}
+command! -nargs=1 -bang -complete=file Assembly {
+    g:Term(<f-args>  .. " -o- -S -fverbose-asm", <bang>0, "[asm]", "asm")
+}
+# PreProc {compiler} {sourcefile}
+command! -nargs=1 -bang -complete=file PreProc  {
+    g:Term(<f-args>  .. " -o- -E", <bang>0, "[PreProc]", "c")
+}
+
+# -----------------------------------------------
+# --- functions ---
+# -----------------------------------------------
+def SetOpFunc(F: func): string
+    &opfunc = F
+    return '"' .. v:register .. 'g@'
+enddef
+
+def Operate(op: string, type: string)
+    var reg = v:register !=# '"' ? '"' .. v:register : ''
+    if type ==# 'v'
+        exec 'norm!' .. reg .. op
+    else
+        var vselect = type ==# "line" ? "'[V']" : "`[v`]"
+        var save_vstart = getpos("'<")
+        var save_vend = getpos("'>")
+        exe 'keepj norm!' vselect .. reg .. op
+        setpos("'<", save_vstart)
+        setpos("'>", save_vend)
+    endif
+enddef
+
+# --- better tag jump ---
+def g:JumpTag()
     var start_bnr = bufnr()
     var start_line = line('.')
     execute("normal! \<C-]>")
@@ -537,19 +436,15 @@ def g:JumpTag() # {{{
     endif
 enddef
 
-# "~/dev/handmade/src/main.h" 3L, 34B
-# "/usr/include/SDL2/SDL_video.h" [RO] 2184L, 81088B
-# "include/SDL2/SDL_video.h" [RO] 2184L, 81088B
-
+# --- jump to definition with fallback ---
+var gd_fallbacks = [
+    'LspGotoDefinition',
+    'call JumpTag()',
+    'normal! gd',
+    'normal! [\<C-I>',
+]
 def JumpToDefinition()
-    var fallbacks = [
-        'LspGotoDefinition',
-        'call JumpTag()',
-        'normal! gd',
-        'normal! [\<C-I>',
-    ]
-
-    for cmd in fallbacks
+    for cmd in gd_fallbacks
         try
             var s = execute(cmd)
             # echomsg $'s: {s}'
@@ -568,444 +463,64 @@ def SplitJumpToDefinition()
     split
     g:MoveOpenedWinodwToSaneSplit()
     JumpToDefinition()
-enddef # }}}
-noremap  <silent> gd <scriptcmd>JumpToDefinition()<cr>
-noremap  <C-w>d      <scriptcmd>SplitJumpToDefinition()<cr>
-noremap  gn          ]<C-I>
-
-# noremap  <expr> gk   exists(":Man") > 0 ? ":call dist#man#PreGetPage(0)<CR>" : "K"
-# noremap  <expr> gk   exists(":Man") > 0 ? "<Plug>ManPreGetPage" : "K"
-noremap  gk :Man <C-r><C-w><cr>
-
-
-nnoremap *           *<cmd>keepj norm! N<cr>
-xnoremap *           y/\M<C-R>"<cr><cmd>keepj norm! N<cr>
-nnoremap #           #<cmd>keepj norm! N<cr>
-xnoremap #           y?\M<C-R>"<cr><cmd>keepj norm! N<cr>
-noremap  n           <cmd>keepj norm! nzz<cr>
-noremap  N           <cmd>keepj norm! Nzz<cr>
-noremap  <C-w>t      :belowright term<cr>
-
-# cmd
-cmap <C-x>f <C-r>=expand('%:p')<cr>
-# cmap <C-x>d <C-r>=expand('%:p:h').'/'<cr>
-cmap <C-x>d <C-r>=expand('%:p:h:s?\S\+:\/\/??').'/'<cr>
-cmap <C-x>r redir<space>@l\|<space>\|redir<space>end<C-left><C-left>
-cmap <C-j>  <Down>
-cmap <C-k>  <Up>
-
-# fast access
-nnoremap <leader>d :Bdelete<cr>
-nmap     <leader>b :b<space>
-nmap     <leader>e :e<space><C-x>d
-# nmap     <leader>e :Dir<space><C-x>d
-nmap     <leader>E :Exp<cr>
-nmap     <leader>h :h<space>
-noremap  <leader>f <cmd>Files<cr>
-nmap     <leader>F :Files<space><C-x>d
-noremap  <leader>r <cmd>Histor<cr>
-noremap  <leader>B <cmd>Buffers<cr>
-noremap  <leader>H <cmd>Helptags<cr>
-noremap  <leader>t :Tags <C-r><C-w><cr>
-noremap  <leader>T <cmd>Tags<space>
-# for now use grep!
-def g:LiveGrep(query: string, fullscreen: bool) # {{{
-    var command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
-    var prompt = ''
-    var initial_grep = printf(command_fmt, shellescape(query))
-    var reload_grep = printf(command_fmt, '{q}')
-    var options = {'options': [
-        '--prompt', '*Rg> ',
-        '--header', getcwd(),
-        # '--header-first',
-        '--phony',
-        '--query', query,
-        '--bind', 'change:reload:sleep 0.1;' .. reload_grep,
-        '--bind', 'ctrl-g:transform:[[ ! {fzf:prompt} == "*Rg> " ]] &&' ..
-        'echo "rebind(change)+change-prompt(*Rg> )+disable-search+transform-query:echo \{q} > /tmp/rg-fzf-f; cat /tmp/rg-fzf-r" ||' ..
-        'echo "unbind(change)+change-prompt({q}> )+enable-search+transform-query:echo \{q} > /tmp/rg-fzf-r; cat /tmp/rg-fzf-f"'
-    ]}
-    call fzf#vim#grep(initial_grep, 1, fzf#vim#with_preview(options), fullscreen)
-enddef
-command! -nargs=* -bang LiveGrep call LiveGrep(<q-args>, <bang>0)
-# }}}
-nnoremap <leader>G <cmd>LiveGrep<cr>
-nnoremap <leader>g :LiveGrep <C-r><C-w><cr>
-vnoremap <leader>g :<C-u>LiveGrep <C-r>=escape(GetVisualSelection(), "()\+*.[]\|")<cr><cr>
-
-nnoremap <leader>vv :Git<cr>
-
-nnoremap cc :wa<cr>:Term <C-r>=get(t:, 'term_cmd', '')<cr>
-nnoremap sn :Term<space>
-nnoremap ss <cmd>TermToggleWin<cr>
-nnoremap sq <cmd>TermToQf<cr>
-nnoremap sx <cmd>TermKill<cr>
-nnoremap sj <cmd>TermNextErrorJump<cr>
-nnoremap sk <cmd>TermPrevErrorJump<cr>
-nnoremap s$ <cmd>TermLastErrorJump<cr>
-nnoremap s0 <cmd>TermFirstErrorJump<cr>
-nnoremap s<cr> <cmd>TermThisErrorJump<cr>
-
-# substitute
-nnoremap <C-s>s  :s/<C-R>=expand('<cword>')<cr>//g<Left><Left>
-vnoremap <C-s>s  :s//g<Left><Left>
-
-nnoremap <C-s>f  :%s/<C-R>=expand('<cword>')<cr>//g<Left><Left>
-vnoremap <C-s>f  y:<C-w>%s/<C-r>"//g<Left><Left>
-
-nnoremap <C-s>h  :'<,'>:s/<C-R>=expand('<cword>')<CR>//g<Left><Left>
-nnoremap <C-s>ip yiwvip<Esc>:'<,'>:s/<C-R>"//g<Left><Left>
-nnoremap <C-s>ap yiwvap<Esc>:'<,'>:s/<C-R>"//g<Left><Left>
-
-# Miscellaneous
-noremap <C-g>  1<C-g>
-# CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
-# so that you can undo CTRL-U after inserting a line break.
-# Revert with ":iunmap <C-U>".
-inoremap <C-U> <C-G>u<C-U>
-# nohighlight
-nnoremap <Esc> <cmd>noh<cr>
-nnoremap c; :<C-p>
-
-# Visual
-def ForceBlockwise(next_key: string): string
-    const setup_keyseq_table = {
-        'I':  {'v': "\<C-v>I",  'V': "\<C-v>^o^I", "\<C-v>": 'I'},
-        'A':  {'v': "\<C-v>A",  'V': "\<C-v>0o$A", "\<C-v>": 'A'},
-        'gI': {'v': "\<C-v>0I", 'V': "\<C-v>0o$I", "\<C-v>": '0I'},
-    }
-    return setup_keyseq_table[next_key][mode()]
-enddef
-xmap <expr> I  ForceBlockwise('I')
-xmap <expr> gI ForceBlockwise('gI')
-xmap <expr> A  ForceBlockwise('A')
-
-# change hex to [s]ymbol
-def HexToSymbol(op: string, type: string)
-    Operate(op, type)
-    # TODO: right now only works on one word in order to apply to multiple words we
-    # have to iterate over words in register and apply the conversion
-    exec 'normal aU' .. getreg("@")
 enddef
 
-exe "set <M-g>=\eg"
-nnoremap <expr> <M-g>s SetOpFunc(function('HexToSymbol', ['c']))
-vnoremap <M-g>s <scriptcmd>HexToSymbol('c', 'v')<cr>
+defcompile
 
-# hi DictColor guifg=fg guibg=bg
-# def Dict(word: string)
-#     var cmd = ["sdcv", "-c", "-n", word]
-#     # if !!get(t:, 'dict_bufnr', 0) | exec 'bd!' t:dict_bufnr | endif
-#     t:dict_bufnr = term_start(cmd, {hidden: 1, term_name: '[dict]'})
-
-#     var winid = popup_create(t:dict_bufnr,
-#         { border: [1, 1, 1, 1], minwidth: &columns * 2 / 3, minheight: &lines / 2, maxheight: &lines / 2, padding: [0, 1, 0, 1],
-#         callback: (winid, result) => {
-#             var bufnr =  winbufnr(winid)
-#             timer_start(0, (timer) => execute('bd! ' .. bufnr))
-#         }})
-
-#     setwinvar(winid, '&wincolor', 'DictColor')
-#     timer_start(50, (timer) => win_execute(winid, 'norm! gg'))
-# enddef
-def g:Dict(word: string, whole_window: bool = 0)
-    var oldbuf = getbufinfo()->filter((_, v) => fnamemodify(v.name, ":t") == '[dict]')
-
-    if !whole_window
-        if len(oldbuf) > 0 && len(oldbuf[0].windows) > 0
-            win_gotoid(oldbuf[0].windows[0])
-        else
-            exec 'botright' Vertical() 'split'
-        endif
-    endif
-
-    var cmd = ["sdcv", "-c", "-n", word]
-    var newbuf = 0
-    newbuf = term_start(cmd, {
-        curwin: 1,
-        term_name: '[dict]',
-        exit_cb: (job, ec) => {
-            timer_start(10, (timer) => cursor(1, 0))
-        },
-    })
-
-    # hi! link StatuslineTerm StatusLine
-    # hi! link StatuslineTermNC StatusLineNC
-    setl stl-=%f
-    setl stl^=[dict]
-
-    if len(oldbuf) > 0
-        exe "bd!" oldbuf[0].bufnr
-    endif
-
-enddef
-nnoremap <leader>w <scriptcmd>g:Dict(expand("<cword>"))<cr>
-command! -nargs=? -bang Dict call Dict(<q-args>, <q-bang> == "!" ? 1 : 0)
 
 # -----------------------------------------------
-# --- auto cmds ---
+# --- autocmds ---
 # -----------------------------------------------
-# augroup fm
-#     au!
-#     au BufEnter * echom expand('<afile>')->isdirectory() expand('%:p')->isdirectory()
-# augroup END
-
 augroup autoCommands
     autocmd!
     autocmd BufWritePost */.vim/**/*.vim,.vimrc,vimrc,*/vim/**/*.vim source %
-    # this option is set by ftplugin for each file type. I just want a consistant format option
-    # across all file types thus the autocmd.
-    # defaults: tcroql
-    autocmd BufEnter * set formatoptions=tcrqljn1p
     # Mark `"` is the position when last exiting the current buffer.
     autocmd BufReadPost *
                 \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
                 \ |   exe "normal! g`\"zz"
                 \ | endif
 
-    autocmd Filetype tex,text,markdown,gitcommit setlocal spell
-    autocmd Filetype qf nmap <buffer> <Esc> ZQ
     autocmd BufAdd .clang* set filetype=yaml
     # for the v command in bash vi mode
     autocmd BufAdd /tmp/bash* set filetype=sh
 
+    # this option is set by ftplugin for each file type. I just want a consistant format option
+    # across all file types thus the autocmd.
+    # defaults: tcroql
+    autocmd BufEnter * set formatoptions=tcrqljn1p
     autocmd BufEnter *.lub set filetype=lua
     autocmd BufEnter *.xml set matchpairs+=<:>
 
     autocmd BufWinEnter man://* call MoveOpenedWinodwToSaneSplit()
-    # autocmd BufWinEnter fugitive://*/.git// call MoveOpenedWinodwToSaneSplit()
     autocmd BufWinEnter */doc/*.txt call MoveOpenedWinodwToSaneSplit()
-
-    # autocmd WinEnter,WinLeave,WinNew * redrawstatus!
 
     autocmd CmdwinEnter * nmap <buffer> q     :q<cr>
     autocmd CmdwinEnter * nmap <buffer> <C-c> :q<cr>
 
-    autocmd VimResume,BufEnter,WinEnter,VimEnter * call g:TmuxApplyTitle()
-    autocmd VimLeave,VimSuspend * call g:TmuxResetTitle()
-
-    def g:UpdateGitBranch()
-        if len(&buftype) > 0
-            w:git_branch = ''
-            return
-        endif
-
-        var branch = system('git branch --show-current 2>/dev/null')
-        if len(branch) == 0 && v:shell_error == 0
-            branch = system('git describe --all --contains 2>/dev/null')
-        endif
-
-        if len(branch) > 0
-            w:git_branch = substitute(branch, '\n', '', '')
-        else
-            w:git_branch = ''
-        endif
-    enddef
-    autocmd DirChanged,WinNew,VimEnter,TerminalWinOpen,FileType * call UpdateGitBranch()
+    autocmd Filetype tex,text,markdown,gitcommit setlocal spell
+    autocmd Filetype qf nmap <buffer> <Esc> ZQ
 augroup end
 
 # -----------------------------------------------
-# --- cmds ---
+# --- coloring ---
 # -----------------------------------------------
-# Convenient command to see the difference between the current buffer and the
-# file it was loaded from, thus the changes you made.
-command! DiffOrig vert new | set bt=nofile | r ++edit %% | 0d_ | diffthis | wincmd p | diffthis
-command! RT RooterToggle | exec "norm :\<C-u>cd \<C-x>d\<cr>"
-
-def BufWordsComplete(A: string, L: string, P: number): string
-    return join(uniq(sort(split(join(getline(1, '$'), "\n")))), "\n")
-enddef
-
-command! -nargs=1 -bang -complete=custom,BufWordsComplete Grep call Term("rg -S --vimgrep " .. <f-args>, <q-bang>)
-# Dump {binfile}
-command! -nargs=1 -bang -complete=file Dump     call Term("objdump -C -l -S -d --disassembler-color=on " .. <f-args>, <q-bang>, "[dump]", "asm")
-# Assembly {compiler} {sourcefile}
-command! -nargs=1 -bang -complete=file Assembly call Term(<f-args>  .. " -o- -S -fverbose-asm", <q-bang>, "[asm]", "asm")
-# PreProc {compiler} {sourcefile}
-command! -nargs=1 -bang -complete=file PreProc  call Term(<f-args>  .. " -o- -E", <q-bang>, "[PreProc]", "c")
-
+filetype plugin indent on
+syntax on
+set termguicolors
+color lightgruv
 
 # -----------------------------------------------
-# --- functions ---
+# --- Gui ---
 # -----------------------------------------------
-def Vertical(): string
-    var result = ""
-    # if the overall vim width is too narrow or
-    # there are >=2 vertical windows, split below
-    if &columns >= 160 && winlayout()[0] != 'row'
-        result ..= "vertical"
-    endif
-    return result
-enddef
-
-def g:UseSplitOrCreate(): number
-    var current_win_pos = win_screenpos(0)
-    var winnr = winnr()
-
-    if &columns > 160
-        if winnr != winnr('1l')
-            return win_getid(winnr('1l'))
-        elseif winnr != winnr('1h')
-            return win_getid(winnr('1h'))
-        else
-            :botright vsplit
-            :wincmd p
-            return win_getid(winnr('#'))
-        endif
-    else
-        if winnr != winnr('1j')
-            return win_getid(winnr('1j'))
-        elseif winnr != winnr('1k')
-            return win_getid(winnr('1k'))
-        else
-            :botright split
-            :wincmd p
-            return win_getid(winnr('#'))
-        endif
-    endif
-enddef
-
-def g:MoveOpenedWinodwToSaneSplit()
-    var prev_winnr = winnr('#')
-    if prev_winnr == 0 | return | endif
-
-    var split_to_use = g:UseSplitOrCreate()
-    if win_getid(prev_winnr) == split_to_use | return | endif
-
-    var bufnr = bufnr('%')
-    var view = winsaveview()
-    var old_win_id = win_getid()
-
-    win_gotoid(split_to_use)
-
-    exec "buffer " .. bufnr
-    winrestview(view)
-    win_execute(old_win_id, 'close')
-enddef
-
-var tmuxapplytimer = 0
-def g:TmuxApplyTitle()
-    if !!tmuxapplytimer | return | endif
-    tmuxapplytimer = timer_start(200, (_) => {
-        silent system("tmux rename-window \"[" .. expand("%:t") .. "]\"")
-        tmuxapplytimer = 0
-    })
-enddef
-
-def g:TmuxResetTitle()
-     silent system("tmux set-window-option automatic-rename on")
-enddef
-
-# Get highlight groups of word under cursor in Vim
-def g:Syn()
-    for id in synstack(line("."), col("."))
-        echo synIDattr(id, "name")
-    endfor
-enddef
-command! Syn call Syn()
-
-def g:GetVisualSelection(): string
-    var mode = mode()
-    var start: list<number>
-    var end: list<number>
-
-    if mode == 'v' || mode == 'V' || mode == "\<C-V>"
-        # getpos() -> [bufnum, lnum, col, off]
-        start = getpos('.')
-        end = getpos('v')
-
-        if mode == 'V'
-            start[2] = 1
-            end[2] = 999
-        endif
-    else
-        start = getpos("'<")
-        end = getpos("'>")
-    endif
-
-    var lines = getline(start[1], end[1])
-    if len(lines) <= 0
-        return ''
-    endif
-
-    lines[-1] = strpart(lines[-1], 0, end[2])
-    lines[0] = strpart(lines[0], start[2] - 1)
-
-    var content = join(lines)
-    return content
-enddef
-
-def g:FzfChistory(): list<string>
-    var hlist = execute("chistory")
-    #echo hlist
-
-    var src = split(hlist, '\n')
-    src = map(src, (_, v): string => {
-        return substitute(v, '^\(>*\s*\)[^0-9]*\|\sof\s[0-9]\|errors', '\1\ ', 'g')
-    })
-
-    return fzf#run(fzf#wrap('chistory', { 'source': src, 'sink': (num) => execute(num[3] .. "chistory") } ))
-enddef
-
-def g:FzfRg()
-    var selection: string
-    var buf: number
-
-    buf = term_start('Rg --height 100%', { close_cb: (channel) => {
-        selection = term_getline(buf, 1)->substitute('^\(\S\{-}\):\(\d\+\):\(\d\+\).*', '+normal!\\ j\2l\3 \1', 'g')
-        execute('bwipeout ' .. buf)
-        :exe $'edit {selection}'
-    }})
-enddef
-command! -nargs=0 Rgg call FzfRg()
-
-def g:Time(count: number, ...args: list<string>)
-    echom args
-    var repeat = (count <= 0 ? 1 : count)
-    var k = 0
-    var start = reltime()
-    while k < repeat
-        exe join(args)
-        k += 1
-    endwhile
-    var time = reltimestr(reltime(start))
-
-    redraw
-
-    if repeat == 1
-        echomsg "Execution took " .. time .. " sec."
-    else
-        echomsg repeat .. " repetitions took " .. time .. " sec."
-    endif
-enddef
-command! -nargs=* -count -complete=expression Time :call Time(<count>, <q-args>)
-
-def OpenCommandPalette()
-    var windowId = popup_create(term_start([&shell], {hidden: 1, term_finish: 'close' }),
-        { border: [1, 1, 1, 1], minwidth: winwidth(0) - 2, minheight: &lines / 2,
-        line: &lines / 2})
-enddef
-
-command! CommandPalette call OpenCommandPalette()
-
-def g:IsSearchedWord(): bool
-    return expand('<cword>') =~ @/
-enddef
-
-# Very interesting! any way to do this for forexample =
-# def g:OpFuncSteady()
-#     if !empty(&operatorfunc)
-#         if !!get(b:, 'opfuncview')
-#             winrestview(b:opfuncview)
-#         endif
-#         b:opfuncview = {}
-#         noautocmd set operatorfunc
-#     endif
-# enddef
-
-# augroup opfunc
-#     autocmd!
-#     autocmd OptionSet operatorfunc b:opfuncview = winsaveview()
-#     autocmd CursorMoved * g:OpFuncSteady()
-# augroup END
-defcompile
+if has('gui')
+    set guifont=Liberation\ Mono\ 14
+    noremap <M-1> <cmd>tabn1<cr>
+    noremap <M-2> <cmd>tabn2<cr>
+    noremap <M-3> <cmd>tabn3<cr>
+    noremap <M-4> <cmd>tabn4<cr>
+    noremap <M-5> <cmd>tabn5<cr>
+    noremap <M-6> <cmd>tabn6<cr>
+    noremap <M-7> <cmd>tabn7<cr>
+    noremap <M-8> <cmd>tabn8<cr>
+    noremap <M-9> <cmd>tabn9<cr>
+endif

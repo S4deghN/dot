@@ -32,6 +32,8 @@ var purple = '#d3869b'
 var aqua   = '#8ec07c'
 var orange = '#fe8019'
 
+var non_text = '#888888'
+
 g:terminal_ansi_colors = [
     "#202020",
     red,
@@ -131,7 +133,7 @@ hlset([
     {name: 'SignColumn', guifg: 'NONE', guibg: dark1, cterm: {}, gui: {}},
 
     # Line used for closed folds
-    {name: 'Folded', guifg: medium, guibg: dark1, cterm: {italic: 1}, gui: {italic: 1}},
+    {name: 'Folded', guifg: non_text, guibg: 'bg', cterm: {italic: 1}, gui: {italic: 1}},
     # Column where folds are displayed
     {name: 'FoldColumn', guifg: medium, guibg: dark1, cterm: {}, gui: {}},
     # }}},
@@ -280,8 +282,8 @@ hi GitGutterChange guibg=bg
 hi GitGutterDelete guibg=bg
 hi GitGutterChangeDelete guibg=bg
 
-hi NonText guifg=#888899
-hi SpecialKey guifg=#888899
+hi NonText guifg=#888888
+hi SpecialKey guifg=#777777
 
 hi! link WinSeparator VertSplit
 

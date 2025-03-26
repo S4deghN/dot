@@ -31,7 +31,7 @@ enddef
 def g:GetDirList(dir: string): list<list<string>>
     var list_info: list<string>
     var list_name: list<string>
-    var ls = systemlist("ls -alhF " .. escape(dir, ' '))
+    var ls = systemlist("ls -alhF --group-directories-first " .. escape(dir, ' '))
 
     add(list_info, dir .. ' (' .. ls[0] .. ')')
 
@@ -135,11 +135,17 @@ def OnBufEnter(arg_bufnr: string, arg_dir: string)
     if isdirectory(arg_dir)
         timer_start(0, (timer) => {
             var bufnr = str2nr(arg_bufnr)
-            if bufexists(bufnr) &&
-                    (getbufvar(bufnr, '&filetype', '') != 'fm' || line('$') == 1)
-                var dir = substitute(resolve(arg_dir), '^\@!/$', '', '')
-                echom "au dir:" dir
+            if !bufexists(bufnr)
+                return
+            endif
+
+            var dir = substitute(resolve(arg_dir), '^\@!/$', '', '')
+            if getcwd() !=# dir
                 exec 'silent lcd' dir
+            endif
+
+            if getbufvar(bufnr, '&filetype', '') != 'fm' || line('$') == 1
+                echom "au dir:" dir
                 exec 'keepalt silent :0file'
                 exec 'keepalt silent file' dir
                 setl buftype=nofile nobuflisted filetype=fm

@@ -29,7 +29,7 @@ def OnTermWinOpen()
     nnoremap <buffer> [{ <scriptcmd>FirstError()<CR>
 enddef
 
-export def g:Term(cmd: string, bang: string, ...args: list<string>): number
+export def g:Term(cmd: string, bang: bool, ...args: list<string>): number
     t:term_cmd = cmd
 
     S_bufname = get(args, 0, '')
@@ -45,7 +45,7 @@ export def g:Term(cmd: string, bang: string, ...args: list<string>): number
     if len(windows)
         win_to_use = windows[0]
     else
-        win_to_use = CreateWindow(!!len(bang))
+        win_to_use = CreateWindow(bang)
     endif
 
     var cwd = getcwd() .. '/'
@@ -133,7 +133,7 @@ enddef
 def OpenTermWindow(): number
     var bufnr = GetTermBufnr()
     if bufnr < 0
-        return g:Term("echo Hello!", "")
+        return g:Term("echo Hello!", 0)
     endif
 
     var winid = bufwinid(bufnr)
@@ -268,7 +268,7 @@ enddef
 
 defcom
 
-command! -nargs=1 -bang -complete=shellcmdline Term g:Term(<q-args>, <q-bang>)
+command! -nargs=1 -bang -complete=shellcmdline Term g:Term(<q-args>, <bang>0)
 command! -nargs=0 -bar TermToggleWin      ToggleWindow()
 command! -nargs=0 -bar TermToQf           TermToQf()
 command! -nargs=0 -bar TermKill           TermKill()
