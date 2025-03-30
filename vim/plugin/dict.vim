@@ -7,7 +7,7 @@ def g:Dict(word: string, whole_window: bool = 0)
         if len(oldbuf) > 0 && len(oldbuf[0].windows) > 0
             win_gotoid(oldbuf[0].windows[0])
         else
-            exec 'botright' Vertical() 'split'
+            exec 'botright' utils#Vertical() 'split'
         endif
     endif
 

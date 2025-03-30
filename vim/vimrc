@@ -2,8 +2,8 @@ vim9script
 # -----------------------------------------------
 # --- plugins ---
 # -----------------------------------------------
-# g:loaded_matchparen9 = 1
-g:loaded_matchparen_light = 1
+g:loaded_matchparen9 = 1
+# g:loaded_matchparen_light = 1
 g:loaded_matchparen = 1
 
 g:loaded_netrw = 1
@@ -11,8 +11,6 @@ g:loaded_netrw = 1
 packadd! comment
 packadd! termdebug
 packadd! matchit
-# Redefining Man with auto vetical split
-runtime ftplugin/man.vim
 
 if empty(glob('~/.vim/autoload/plug.vim'))
     silent !curl -fLo ~/dot/nvim/autoload/plug.vim --create-dirs
@@ -31,7 +29,7 @@ Plug 'tpope/vim-eunuch' # UNIX helper
 Plug 'airblade/vim-rooter'
 # {{{
 g:rooter_silent_chdir = 1
-g:rooter_cd_cmd = 'cd'
+g:rooter_cd_cmd = 'lcd'
 g:rooter_patterns = [
     '.git',
     '_darcs',
@@ -61,7 +59,6 @@ var lspOpts = {
     outlineWinSize: 35,
     showDiagInBalloon: false,
     showDiagInPopup: true,
-    showDiagWithSign: true,
 }
 def LspOnAttach()
     # so we can use :stag
@@ -132,7 +129,7 @@ set mouse=ar ttymouse=sgr
 set completeopt=menu,popuphidden,noinsert
 set nowildmenu wildignorecase wildmode=longest,list,full
 set pumheight=6 previewheight=10
-set notitle signcolumn=no showmode showcmd ruler laststatus=2 showcmdloc=statusline
+set notitle signcolumn=no showmode showcmd showcmdloc=last ruler laststatus=0
 set scrolloff=3
 set nostartofline
 # guicursor for terminal
@@ -145,7 +142,7 @@ set incsearch hlsearch ignorecase smartcase
 set smartindent nosmarttab expandtab shiftwidth=4 tabstop=4
 set backspace=indent,eol,start
 set foldmethod=marker
-set textwidth=80
+set textwidth=95
 set jumpoptions=stack
 # match CursorColumn '\s\+$'
 set list listchars=tab:›\ ,nbsp:␣,trail:·,extends:…,precedes:…
@@ -179,8 +176,10 @@ map ' `
 
 # --- operator ---
 onoremap if <cmd>norm! ggVG<cr>
+onoremap ir <cmd>norm! v`[<cr>
 
 # --- insert ---
+inoremap _ <C-g>u_
 inoremap <silent> <Esc> <Esc>g`^
 inoremap <C-^> <esc><C-^>
 inoremap <C-f> <C-x><C-o>
@@ -191,6 +190,17 @@ inoremap <C-x>d <esc>:r!date "+\%Y-\%m-\%d \%H:\%M:\%S"<cr>kJg`]a
 
 # --- term ---
 tmap <C-]> <C-\><C-n>
+
+# --- w ---
+def Key_w()
+    search('\i\@<!\i', 'zW')
+enddef
+nnoremap w <scriptcmd>Key_w()<cr>
+
+# def Key_e()
+#     search('\i\i\@!', 'e')
+# enddef
+# nnoremap e <scriptcmd>Key_e()<cr>
 
 # --- cmd ---
 cmap <M-f>  <C-right>
@@ -369,6 +379,11 @@ nmap gcd <cmd>let @c=col('.')<cr>yygccp<cmd>call cursor(0,@c)<cr>
 # -----------------------------------------------
 # --- cmds ---
 # -----------------------------------------------
+import './autoload/utils.vim'
+command! Syn utils.Syn()
+command! -nargs=* -count -complete=expression Time utils.Time(<count>, <q-args>)
+command! -nargs=* -complete=command Vert exec <q-mods> utils.Vertical() <q-args>
+
 def BufWordsComplete(A: string, L: string, P: number): string
     return join(uniq(sort(split(join(getline(1, '$'), "\n")))), "\n")
 enddef
@@ -383,6 +398,7 @@ command! -nargs=? Expand {
 command! -nargs=+ -complete=command  R put = execute(<q-args>)->trim()
 command! -nargs=+ -complete=function RR put = execute('echo ' .. <q-args>)->trim()
 
+runtime ftplugin/man.vim
 command! -nargs=+ -complete=customlist,dist#man#ManDbComplete Man {
     dist#man#GetPage(g:Vertical() .. <q-mods>, <f-args>)
 }
@@ -461,12 +477,11 @@ enddef
 
 def SplitJumpToDefinition()
     split
-    g:MoveOpenedWinodwToSaneSplit()
+    utils.MoveOpenedWinodwToSaneSplit()
     JumpToDefinition()
 enddef
 
 defcompile
-
 
 # -----------------------------------------------
 # --- autocmds ---
@@ -491,8 +506,8 @@ augroup autoCommands
     autocmd BufEnter *.lub set filetype=lua
     autocmd BufEnter *.xml set matchpairs+=<:>
 
-    autocmd BufWinEnter man://* call MoveOpenedWinodwToSaneSplit()
-    autocmd BufWinEnter */doc/*.txt call MoveOpenedWinodwToSaneSplit()
+    autocmd BufWinEnter man://* call utils.MoveOpenedWinodwToSaneSplit()
+    autocmd BufWinEnter */doc/*.txt call utils.MoveOpenedWinodwToSaneSplit() | setl nolist
 
     autocmd CmdwinEnter * nmap <buffer> q     :q<cr>
     autocmd CmdwinEnter * nmap <buffer> <C-c> :q<cr>
@@ -508,6 +523,7 @@ filetype plugin indent on
 syntax on
 set termguicolors
 color lightgruv
+hi VertSplit guibg=bg
 
 # -----------------------------------------------
 # --- Gui ---

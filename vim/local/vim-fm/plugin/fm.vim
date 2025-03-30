@@ -1,23 +1,25 @@
 vim9script
 # TODO:
-# 1. [x] Add Navigation and lcd
-# 2. [ ] Fix not being able to open {filename*}
-# 2. [ ] Fix not being able to open {file name -> file name*}
 
 # if !prop_type_get('fmListingInfo')
 silent! prop_type_add('fmListingInfo', {
     highlight: 'LineNr',
-    start_incl: true
+    # start_incl: true
+    # end_incl: true,
 })
 silent! prop_type_add('fmHeader', {
     highlight: 'Type',
-    start_incl: true
+    # start_incl: true
 })
 silent! prop_type_add('fmMark', {
-    highlight: 'QuickFixLine',
-    start_incl: true
+    highlight: 'ModeMsg',
+    end_incl: true,
+    override: true
 })
+
 # endif
+
+t:mark_list = []
 
 def Vertical(): string
     var result = ""
@@ -33,7 +35,7 @@ def g:GetDirList(dir: string): list<list<string>>
     var list_name: list<string>
     var ls = systemlist("ls -alhF --group-directories-first " .. escape(dir, ' '))
 
-    add(list_info, dir .. ' (' .. ls[0] .. ')')
+    add(list_name, dir)
 
     var split_point = match(ls[1], '\.\/')
     for line in ls[1 :]
@@ -52,15 +54,27 @@ def Refresh(bufnr: number, list_info: list<string>, list_name: list<string>)
     setbufline(bufnr, 1, list_name[0])
     appendbufline(bufnr, 1, list_name[1 :])
 
-    prop_add(1, 0, {type: 'fmHeader', bufnr: bufnr, text_align: 'above', text: list_info[0]})
-    var i = 1
+    prop_add(1, 1, {type: 'fmHeader', bufnr: bufnr, length: 999})
+    var i = 0
     while i < len(list_info)
-        prop_add(i, 1, {type: 'fmListingInfo', bufnr: bufnr, text: list_info[i]})
+        prop_add(2 + i, 1, {type: 'fmListingInfo', bufnr: bufnr, text: list_info[i]})
         ++i
     endwhile
 
+    var dir = list_name[0]
+    for mark in get(t:, 'mark_list', [])
+        if fnamemodify(mark, ':h') ==# dir
+            var [lnum, col] = searchpos('^' .. fnamemodify(mark, ':t'), 'ncw')
+            if lnum > 0 
+                prop_add(lnum, 1, {type: 'fmMark', text: "`"})
+                prop_add(lnum, 1, {type: 'fmMark', length: 999})
+            endif
+            # echom $'lnum: {lnum}, col: {col}'
+        endif
+    endfor
+
     if bufinfo.lnum == 1
-        cursor(3, 0)
+        cursor(4, 0)
     else
         cursor(bufinfo.lnum, 0)
     endif
@@ -70,7 +84,7 @@ def OpenFmBuffer(dir: string): list<any>
     var current_bufname = expand('%:p')->substitute('^\@!/$', '', '')
 
     if current_bufname == dir
-        echom "curr == dir"
+        # echom "curr == dir"
         if &filetype != 'fm'
             setl buftype=nofile nobuflisted filetype=fm
             return [bufnr(), true]
@@ -79,13 +93,13 @@ def OpenFmBuffer(dir: string): list<any>
     endif
 
     if bufexists(dir)
-        echom "buffer dir"
+        # echom "buffer dir"
         exec 'badd' dir
         exec 'buffer' dir
         setl nobuflisted
         return [bufnr(), false]
     else
-        echom "fm: e dir"
+        # echom "fm: e dir"
         exec 'e' dir
         exec 'keepalt silent :0file'
         exec 'keepalt silent file' dir
@@ -101,7 +115,7 @@ def g:Fm(arg: string = getcwd())
     #     exe 'botright' Vertical() 'split'
     # endif
 
-    var fname = arg[0 : matchend(arg, '\%(\f\|\s\)\{-}\ze\%(\*\| ->\|$\)') - 1]->resolve()
+    var fname = g:FnameFromLine(arg)->resolve()
 
     if isdirectory(fname)
         var dir = substitute(fname, '^\@!/$', '', '')
@@ -117,19 +131,7 @@ def g:Fm(arg: string = getcwd())
         echoe $'{fname} is not a valid directory or file!'
     endif
 enddef
-
-# -------------------------
-
-def g:Out()
-    g:Fm(expand('%:p:h:h'))
-enddef
-
-def g:In()
-    g:Fm(expand('%:p') .. getline('.'))
-enddef
-
-# TODO: add completion
-command! -nargs=? -bang Fm call g:Fm(<f-args>)
+command! -nargs=? -bang -complete=file Fm call g:Fm(<f-args>)
 
 def OnBufEnter(arg_bufnr: string, arg_dir: string)
     if isdirectory(arg_dir)
@@ -141,6 +143,7 @@ def OnBufEnter(arg_bufnr: string, arg_dir: string)
 
             var dir = substitute(resolve(arg_dir), '^\@!/$', '', '')
             if getcwd() !=# dir
+                echom "auto lcd:" dir "\n"
                 exec 'silent lcd' dir
             endif
 
@@ -156,30 +159,167 @@ def OnBufEnter(arg_bufnr: string, arg_dir: string)
         })
     endif
 enddef
-
 augroup fm
     au!
-    au BufEnter * OnBufEnter(expand('<abuf>'), expand('<afile>:p')) #| echom expand('<abuf>') expand('<afile>') expand('<afile>:p')
+    au BufEnter * OnBufEnter(expand('<abuf>'), expand('<afile>:p'))
 augroup END
 
-var mark_list: list<string>
-def g:Mark()
-    var path = expand('%:p')
-    var start = line('.')
-    var end = line('v')
-    for lnum in range(start, end, end < start ? -1 : 1)
-        var mark =  path .. getline(lnum)
-        var idx = index(mark_list, mark)
 
-        if idx == -1
-            add(mark_list, path .. getline(lnum))
-            prop_add(lnum, 1, {type: 'fmMark', length: 999})
-        else
-            remove(mark_list, idx)
-            prop_remove({type: 'fmMark'}, lnum)
-        endif
-    endfor
+# -------------------------
 
-    echom mark_list
+def g:FnameFromLine(line: string): string
+    return line[0 : matchend(line, '\%(\f\|\s\)\{-}\ze\%(\*\| ->\|$\)') - 1]
 enddef
 
+def g:Out()
+    # TODO: When moving up a directry cursor should land on parent dirctory. If we already have
+    # moved down a directoy and now up again this behaviour naturaly happens because the
+    # up-directory's buffer has been created already and we only load it.
+    g:Fm(expand('%:p:h:h'))
+enddef
+
+def g:In()
+    g:Fm(expand('%:p') .. getline('.'))
+enddef
+
+def g:Delete()
+    if len(t:mark_list) == 0
+        g:Mark()
+    endif
+
+    # TODO: move files to system trash if it exists.
+    var res = system('rm -r ' .. join(t:mark_list))
+    if v:shell_error
+        echohl Error | echom res->trim() | echohl None
+    endif
+    t:mark_list = []
+
+    var [list_info, list_name] = g:GetDirList(getcwd())
+    Refresh(bufnr(), list_info, list_name)
+enddef
+
+def g:Move()
+    if len(t:mark_list) == 0
+        echom "Nothing to move here! Mark list is empty."
+        return
+    endif
+
+    # TODO: when moving files into a directory with existing names, create a backup of existing
+    # files.
+    var res = system('mv ' .. join(t:mark_list) .. ' .')
+    if v:shell_error
+        echohl Error | echom res->trim() | echohl None
+    endif
+    t:mark_list = []
+
+    var [list_info, list_name] = g:GetDirList(getcwd())
+    Refresh(bufnr(), list_info, list_name)
+enddef
+
+def g:Copy()
+    if len(t:mark_list) == 0
+        echom "Nothing to move here! Mark list is empty."
+        return
+    endif
+
+    # TODO: when copying files into a directory with existing names, create a backup of
+    # existing files.
+    var res = system('mv ' .. join(t:mark_list) .. ' .')
+    if v:shell_error
+        echohl Error | echom res->trim() | echohl None
+    endif
+    t:mark_list = []
+
+    var [list_info, list_name] = g:GetDirList(getcwd())
+    Refresh(bufnr(), list_info, list_name)
+enddef
+
+def g:Rename()
+    t:mark_list = []
+
+    var fname = g:FnameFromLine(getline(line('.')))
+    var new_name = ''
+    try
+        echohl ModeMsg
+        new_name = input("Rename: ", fname, 'file')
+    finally
+        echohl None
+    endtry
+    if len(new_name) == 0
+        return
+    endif
+
+    var res = system('mv ' .. fname .. ' ' .. new_name)
+    if v:shell_error
+        echohl Error | echom res->trim() | echohl None
+    endif
+
+    var [list_info, list_name] = g:GetDirList(getcwd())
+    Refresh(bufnr(), list_info, list_name)
+enddef
+
+def g:Mkdir()
+    var dir_name = ''
+    try
+        echohl ModeMsg
+        dir_name = input("Mkdir: ", '', 'file')
+    finally
+        echohl None
+    endtry
+    if len(dir_name) == 0
+        return
+    endif
+
+    var res = system('mkdir -p ' .. dir_name)
+    if v:shell_error
+        echohl Error | echom res->trim() | echohl None
+    endif
+
+    var [list_info, list_name] = g:GetDirList(getcwd())
+    Refresh(bufnr(), list_info, list_name)
+
+    var [lnum, col] = searchpos('^' .. dir_name, 'ncw')
+    if lnum > 0 
+        cursor(lnum, col)
+    endif
+enddef
+
+def g:Extract()
+    if len(t:mark_list) == 0
+        g:Mark()
+    endif
+
+    var res = system('atool --extract --each ' ..  join(t:mark_list))
+    if v:shell_error
+        echohl Error | echom res->trim() | echohl None
+    endif
+    t:mark_list = []
+
+    var [list_info, list_name] = g:GetDirList(getcwd())
+    Refresh(bufnr(), list_info, list_name)
+enddef
+
+def g:Mark()
+    var start = line('.')
+    var end = line('v')
+    var range = range(start, end, end < start ? -1 : 1)
+    norm! 
+
+    var cwd = expand('%:p')->escape(' ')
+    for lnum in range
+        var fname = g:FnameFromLine(getline(lnum))
+        var mark =  (cwd .. fname)->escape(' ')
+        var idx = index(t:mark_list, mark)
+        if idx == -1
+            add(t:mark_list, mark)
+            prop_add(lnum, 1, {type: 'fmMark', text: "`"})
+            prop_add(lnum, 1, {type: 'fmMark', length: 999})
+        else
+            remove(t:mark_list, idx)
+            prop_remove({type: 'fmMark', all: true}, lnum)
+        endif
+    endfor
+enddef
+command! ShowMarks echom t:mark_list
+
+# defcompile

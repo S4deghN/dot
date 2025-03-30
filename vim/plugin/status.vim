@@ -8,15 +8,16 @@ if &laststatus > 0
     set stl+=%(\ %m%q%h%w%r%)
     set stl+=\ \ \ \ %P\ %10(%l:%c\ \ %)
     set stl+=%(\ \ \ \ Git:%{get(w:,'git_branch','')}%)
-    set stl+=%(\ \ \ \ LSP:%{%g:LspStatus()%}%)
+    set stl+=%(\ \ \ \ LSP:%{%get(b:,'lsp_status','')%}%)
     # Middle
     set stl+=\ %=
-        set stl+=%S
+    set stl+=%S
     # Right
     set stl+=\ %=
-        set stl+=
+    set stl+=
 else
-    set rulerformat=%60(%(LSP:%{%g:LspStatus()%}%)\ \ \ \ %(Git:%{get(w:,'git_branch','')}%)%=\ \ \ \ %-8(%l,%c%)\ %P%)
+    # set rulerformat=%40(%(LSP:%{%get(b:,'lsp_status','')%}%)\ %(Git:%{get(w:,'git_branch','')}%)%=\ \ \ \ %-8(%l,%c%)\ %P%)
+    set rulerformat=%40(%(Git:%{get(w:,'git_branch','')}%)%=\ \ \ \ %-8(%l,%c%)\ %P%)
     augroup ruler
         autocmd BufEnter * call feedkeys("\<C-g>")
     augroup end
@@ -39,33 +40,45 @@ def g:UpdateGitBranch()
         w:git_branch = ''
     endif
 enddef
-augroup GitBranch
+
+b:lsp_status_timer = 0
+def g:LspStatusUpdate()
+    if !get(b:, 'lsp_status_timer', 0)
+        b:lsp_status_timer = timer_start(100, (t) => {
+            g:LspStatusSet()
+            b:lsp_status_timer = 0
+            redrawstatus
+        })
+    endif
+enddef
+
+def g:LspStatusSet()
+    var bufnr = bufnr()
+    if !lsp#buffer#BufHasLspServer(bufnr)
+        b:lsp_status = ''
+        return
+    endif
+
+    var diags = lsp#diag#DiagsGetErrorCount(bufnr)
+
+    var str = lsp#buffer#BufLspServerGet(bufnr).name
+    if diags.Error != 0
+        str ..= ':%#DiagStatusError#' .. diags.Error .. '%#StatusLine#'
+    endif
+    if diags.Warn != 0
+        str ..= ':%#DiagStatusWarn#' .. diags.Warn .. '%#StatusLine#'
+    endif
+    if diags.Hint != 0
+        str ..= ':%#DiagStatusHint#' .. diags.Hint .. '%#StatusLine#'
+    endif
+    if diags.Info != 0
+        str ..= ':%#DiagStatusInfo#' .. diags.Info .. '%#StatusLine#'
+    endif
+    b:lsp_status = str
+enddef
+
+augroup StatusLine
     au!
     au DirChanged,WinNew,VimEnter,TerminalWinOpen,FileType * call UpdateGitBranch()
+    au BufEnter,TextChanged,CursorHold * g:LspStatusUpdate()
 augroup end
-
-def g:LspStatus(): string
-    var str = ''
-    var bufnr = bufnr()
-    if lsp#buffer#BufHasLspServer(bufnr)
-        var diags = lsp#diag#DiagsGetErrorCount(bufnr)
-
-        str ..= lsp#buffer#BufLspServerGet(bufnr).name
-
-        if diags.Error != 0
-            str ..= ':%#DiagStatusError#' .. diags.Error .. '%*'
-        endif
-        if diags.Warn != 0
-            str ..= ':%#DiagStatusWarn#' .. diags.Warn .. '%*'
-        endif
-        if diags.Hint != 0
-            str ..= ':%#DiagStatusHint#' .. diags.Hint .. '%*'
-        endif
-        if diags.Info != 0
-            str ..= ':%#DiagStatusInfo#' .. diags.Info .. '%*'
-        endif
-
-        str ..= '%#'
-    endif
-    return str
-enddef

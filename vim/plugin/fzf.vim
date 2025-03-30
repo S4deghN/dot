@@ -86,3 +86,4 @@ def g:LiveGrep(query: string, fullscreen: bool)
 enddef
 command! -nargs=* -bang LiveGrep call LiveGrep(<q-args>, <bang>0)
 command! -nargs=* -bang LiveGrepVisual call LiveGrep(escape(GetVisualSelection(), "()\+*.[]\|"), <bang>0)
+command! -bang -nargs=? -complete=dir Files call fzf#vim#files(<q-args>, {options: ['--prompt=' .. getcwd() .. '/']}, <bang>0)

@@ -75,6 +75,8 @@ for_window [class="Emacs"] border pixel 1
 for_window [class="qutebrowser"] border pixel 1
 for_window [class="Pale moon"] border pixel 1
 
+for_window [instance="popup"] floating enable, border normal 1
+
 for_window [class="battleforge.exe"] exec --no-startup-id i3-game-fullscreen
 
 # You can also use any non-zero value if you'd like to have a border

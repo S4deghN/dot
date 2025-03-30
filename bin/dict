@@ -1,2 +1,2 @@
 #!/bin/sh
-vim -c "Dict $1" -c 'silent only' -M -R --noplugin
+vim -M -R --noplugin -S $HOME/.vim/plugin/dict.vim -c "Dict $1" -c 'silent only'
