@@ -18,9 +18,12 @@ endif
 let g:colors_name='off'
 let colors_off_a_little = get(g:, 'colors_off_a_little', 0)
 
-"let s:black           = { "gui": "#212121", "cterm": "0"   }
+" let s:black           = { "gui": "#212121", "cterm": "0"   }
 "let s:black           = { "gui": "#282828", "cterm": "0"   }
-let s:black           = { "gui": "#161616", "cterm": "0"   }
+" let s:black           = { "gui": "#161616", "cterm": "0"   }
+" let s:black           = { "gui": "#222222", "cterm": "0"   }
+" let s:black           = { "gui": "#1d1d1d", "cterm": "0"   }
+let s:black           = { "gui": "#1a1a1a", "cterm": "0"   }
 " let s:black           = { "gui": "#101010", "cterm": "0"   }
 let s:medium_gray     = { "gui": "#767676", "cterm": "243" }
 let s:white           = { "gui": "#F1F1F1", "cterm": "15"  }
@@ -116,9 +119,11 @@ hi! link StorageClass     Type
 hi! link Structure        Type
 hi! link Typedef          Type
 
-"call s:h("Special",       {"fg": s:pink})
-hi! link Special          Normal
-hi! link SpecialChar      Special
+" call s:h("Special",       {"fg": s:pink})
+
+hi Special guifg=ivory3
+" hi! link Special          Normal
+hi! link SpecialChar      Number
 hi! link Tag              Special
 hi! link Delimiter        Special
 hi! link SpecialComment   Special
@@ -210,11 +215,13 @@ else
     highlight TelescopeSelection     guifg=NONE gui=bold guibg=#303030
 endif
 
+hi Comment guifg=#88888f
+" hi Comment guifg=steelblue3
 hi Function guifg=ivory3
 hi Statement guifg=goldenrod
 hi Type guifg=goldenrod
 " hi Type guifg=#95a99f
-hi Number guifg=ivory2
+hi Number guifg=ivory3
 hi String guifg=#6b9e23
 hi IncSearch guifg=black guibg=#ee799f
 hi Search guifg=black guibg=#218058
@@ -247,21 +254,21 @@ hi DiffAdd guifg=NONE guibg=#283f2f cterm=NONE
 hi DiffChange guifg=NONE guibg=#1F385B cterm=NONE
 hi DiffText guifg=NONE guibg=#172A45 cterm=NONE
 
-let g:terminal_ansi_colors = [
-	    \"#202020",
-	    \"#fb4f3a",
-	    \"#b8bb26",
-	    \"#fabd2f",
-	    \"#83a598",
-	    \"#d3869b",
-	    \"#8ec07c",
-	    \"#c8b9a4",
-	    \"#6C6866",
-	    \"#fb4f3a",
-	    \"#b8bb26",
-	    \"#fabd2f",
-	    \"#83a598",
-	    \"#d3869b",
-	    \"#8ec07c",
-	    \"#e1e0d9",
-	    \]
+" let g:terminal_ansi_colors = [
+	    " \"#202020",
+	    " \"#fb4f3a",
+	    " \"#b8bb26",
+	    " \"#fabd2f",
+	    " \"#83a598",
+	    " \"#d3869b",
+	    " \"#8ec07c",
+	    " \"#c8b9a4",
+	    " \"#6C6866",
+	    " \"#fb4f3a",
+	    " \"#b8bb26",
+	    " \"#fabd2f",
+	    " \"#83a598",
+	    " \"#d3869b",
+	    " \"#8ec07c",
+	    " \"#e1e0d9",
+	    " \]

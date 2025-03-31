@@ -19,7 +19,12 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 plug#begin()
 # Plug 'vim-scripts/TagHighlight'
+Plug 'S4deghN/clrzr'
+# {{{
+g:clrzr_startup = 0
+# }}}
 Plug 'tpope/vim-scriptease'
+
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/fzf.vim'
 Plug 'alx741/vinfo'
@@ -40,6 +45,7 @@ g:rooter_patterns = [
     'package.json',
     '.gitignore',
     'Makefile',
+    'tags',
 ]
 # }}}
 Plug 'chrisbra/Colorizer'
@@ -62,7 +68,7 @@ var lspOpts = {
 }
 def LspOnAttach()
     # so we can use :stag
-    setlocal tagfunc=lsp#lsp#TagFunc
+    # setlocal tagfunc=lsp#lsp#TagFunc
 
     # nmap <buffer> gd  <cmd>LspGotoDefinition<cr>
     nmap <buffer> K    :LspHover<cr>
@@ -179,20 +185,22 @@ onoremap if <cmd>norm! ggVG<cr>
 onoremap ir <cmd>norm! v`[<cr>
 
 # --- insert ---
-inoremap _ <C-g>u_
 inoremap <silent> <Esc> <Esc>g`^
 inoremap <C-^> <esc><C-^>
 inoremap <C-f> <C-x><C-o>
 inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
 inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
 inoremap <expr> <C-z> &spell ? "\<C-x>s" : "\<C-o>:setl spell\<cr>\<C-x>s"
-inoremap <C-x>d <esc>:r!date "+\%Y-\%m-\%d \%H:\%M:\%S"<cr>kJg`]a
+inoremap <C-s>d <esc>:r!date "+\%Y-\%m-\%d \%H:\%M:\%S"<cr>kJg`]a
 
 # --- term ---
 tmap <C-]> <C-\><C-n>
 
 # --- w ---
 def Key_w()
+    if foldclosed('.') > 0
+        feedkeys("j", 'n')
+    endif
     search('\i\@<!\i', 'zW')
 enddef
 nnoremap w <scriptcmd>Key_w()<cr>
@@ -400,7 +408,7 @@ command! -nargs=+ -complete=function RR put = execute('echo ' .. <q-args>)->trim
 
 runtime ftplugin/man.vim
 command! -nargs=+ -complete=customlist,dist#man#ManDbComplete Man {
-    dist#man#GetPage(g:Vertical() .. <q-mods>, <f-args>)
+    dist#man#GetPage(utils.Vertical() .. <q-mods>, <f-args>)
 }
 
 command! -nargs=1 -bang -complete=custom,BufWordsComplete Grep {

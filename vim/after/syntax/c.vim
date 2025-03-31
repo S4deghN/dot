@@ -20,8 +20,9 @@ syn match cType '^[^=*#]\{-}\%(static\_s\+\|register\_s\+\|auto\_s\+\|volatile\_
 " syn match cType "\%((\_s*\)\@<=\h\w*\ze\_[ \t*&]*)\_s*\I\i*"
 
 " syn region cFuncDef matchgroup=cFunction start='('rs=s-1 end=')'re=e+1 contains=ALLBUT,cBlock,@cParenGroup,cCppParen,cErrInBracket,cCppBracket,@cStringGroup,@Spell,cParen
-syn match cTypeArg '[(,]\@1<=\_s*\zs\I\i*\ze\_[ \t*&]\+\I\i*\_s*[,)]' contained containedin=cParen
-syn match cTypeCast '(\@1<=\_s*\zs\I\i*\ze\_[ \t*]*)\_s*\%(\w\|(\)' contained containedin=cParen
+syn match cTypeArg '[(,]\@1<=\_s*\zs\I\i*\ze\_[ \t*]\+\I\i*\_s*[,)]' contained containedin=cParen
+" syn match cTypeCast '(\@1<=\_s*\zs\I\i*\ze\_[ \t*]*)\_s*\%(\w\|(\)' contained containedin=cParen
+syn match cTypeCast '\%([^_a-zA-Z0-9 \t]\_s*(\)\@<=\_s*\zs\I\i*\ze\_[ \t*]*)\_s*\%(\w\|(\)' contained containedin=cParen
 hi def link cTypeArg cType
 hi def link cTypeCast cType
 
