@@ -67,12 +67,12 @@ if [ -d "$HOME/.local/wine_bin" ] ; then
     PATH="$HOME/.local/wine_bin:$PATH"
 fi
 
+for bin in $HOME/.local/bin/*/bin; do
+    PATH="$bin:$PATH"
+done
+
 if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
-fi
-
-if [ -d "$HOME/.local/bin/statusbar/bin" ] ; then
-    PATH="$HOME/.local/bin/statusbar/bin:$PATH"
 fi
 
 if [ -d "$HOME/bin" ] ; then
