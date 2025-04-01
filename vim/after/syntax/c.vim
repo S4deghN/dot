@@ -34,11 +34,11 @@ hi def link cTypeCast cType
 " syn match cTypeArg '\zs\I\i*\ze\_[ \t*&]\+\I\i*\_s*[,)]' contained containedin=cFuncDef
 " hi def link cTypeArg cType
 
-" Adds syntax highlighting to ``` ``` blocks of code in comments in a hacky way :)
-syntax region cSnip matchgroup=cCodeBlock start='^\z(\s*//\s*```\s*\)$' end='^\z1$' keepend contains=ALLBUT,cBadBlock,cCurlyError,@cParenGroup,cErrInParen,cCppParen,cErrInBracket,cCppBracket,@cStringGroup,@Spell fold
-hi link cCodeBlock SpecialComment
-syn match CCommentLineDocLeader "^\s*//" contained
-hi link CCommentLineDocLeader Comment
+" " Adds syntax highlighting to ``` ``` blocks of code in comments in a hacky way :)
+" syntax region cSnip matchgroup=cCodeBlock start='^\z(\s*//\s*```\s*\)$' end='^\z1$' keepend contains=ALLBUT,cBadBlock,cCurlyError,@cParenGroup,cErrInParen,cCppParen,cErrInBracket,cCppBracket,@cStringGroup,@Spell fold
+" hi link cCodeBlock SpecialComment
+" syn match CCommentLineDocLeader "^\s*//" contained
+" hi link CCommentLineDocLeader Comment
 
-" syntax match SpecialComment '`' contained containedin=cComment
-syntax region cSnipOneline matchgroup=SpecialComment start='`' end='`' oneline contained containedin=cComment,cCommentL contains=ALLBUT,cBadBlock,cCurlyError,@cParenGroup,cErrInParen,cCppParen,cErrInBracket,cCppBracket,@cStringGroup,@Spell
+" " syntax match SpecialComment '`' contained containedin=cComment
+" syntax region cSnipOneline matchgroup=SpecialComment start='`' end='`' oneline contained containedin=cComment,cCommentL contains=ALLBUT,cBadBlock,cCurlyError,@cParenGroup,cErrInParen,cCppParen,cErrInBracket,cCppBracket,@cStringGroup,@Spell

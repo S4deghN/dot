@@ -41,10 +41,9 @@ g:rooter_patterns = [
     '.hg',
     '.bzr',
     '.svn',
-    'Makefile',
     'package.json',
     '.gitignore',
-    'Makefile',
+    # 'Makefile',
     'tags',
 ]
 # }}}
@@ -135,7 +134,7 @@ set mouse=ar ttymouse=sgr
 set completeopt=menu,popuphidden,noinsert
 set nowildmenu wildignorecase wildmode=longest,list,full
 set pumheight=6 previewheight=10
-set notitle signcolumn=no showmode showcmd showcmdloc=last ruler laststatus=0
+set notitle signcolumn=no showmode showcmd showcmdloc=last ruler laststatus=2
 set scrolloff=3
 set nostartofline
 # guicursor for terminal
@@ -201,9 +200,29 @@ def Key_w()
     if foldclosed('.') > 0
         feedkeys("j", 'n')
     endif
-    search('\i\@<!\i', 'zW')
+    search('\%(\i\@<!\i\|[({\[]\)', 'zW')
 enddef
 nnoremap w <scriptcmd>Key_w()<cr>
+
+augroup InsertC-w
+    au!
+    au CmdlineEnter,InsertEnter * setl iskeyword-=_
+    au CmdlineLeave,InsertLeavePre * setl iskeyword+=_
+augroup end
+
+def g:HighlihgtColor()
+    var color = '991290'
+    exec 'hi c' .. color 'guibg=#' .. color
+    silent! prop_type_add(color, {highlight: 'c' .. color})
+    prop_add(line('.'), 3, {type: color, length: 7})
+enddef
+
+# #991290
+
+# def Key_i_ctrl_w()
+#     search('[@0-9_192-255]\+', 'bW')
+# enddef
+# inoremap <c-w> <scriptcmd>Key_i_ctrl_w()<cr>
 
 # def Key_e()
 #     search('\i\i\@!', 'e')
@@ -221,10 +240,20 @@ cmap <C-x>d <C-r>=expand('%:p:h:s?\S\+:\/\/??').'/'<cr>
 # --- paste ---
 def Paste(p: string)
     var c = col('.')
+    var delete_trailing_space = false
+    if c == col('$') - 1 && getreg(v:register)[-1] =~ '\s' && getline('.')[-1] !~ '\s'
+        norm! A 
+        delete_trailing_space = true
+    endif
     exe 'keepj norm!' v:count1 .. '"'  .. v:register  .. p
-    var save_pos = getpos("'[")
+    var save_pos1 = getpos("'[")
+    var save_pos2 = getpos("']")
+    if delete_trailing_space
+        norm! g`]gel"_D
+    endif
     exe 'keepj norm!' "=`]"
-    setpos("'[", save_pos)
+    setpos("'[", save_pos1)
+    setpos("']", save_pos2)
     if c > col('.') | cursor(0, c) | endif
 enddef
 noremap p <scriptcmd>Paste('p')<cr>
@@ -246,7 +275,7 @@ def Delete(op: string, type: string)
 enddef
 nnoremap <expr> d SetOpFunc(function('Delete', ['d']))
 nmap dd d_
-nmap D  dg_
+nmap D  d$
 nmap x  dl
 nmap X  dh
 vnoremap d <scriptcmd>Delete('d', 'v')<cr>
@@ -317,6 +346,7 @@ noremap  gn     ]<C-I>
 # --- jumper ---
 nnoremap <leader>d  :Bdelete<cr>
 nmap     <leader>b  :b<space>
+nnoremap <Leader>b  :<C-U>ls<CR>:b<space>
 nmap     <leader>e  :e<space><C-x>d
 nmap     <leader>E  :Exp<cr>
 nmap     <leader>h  :h<space>

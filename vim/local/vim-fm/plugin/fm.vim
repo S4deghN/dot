@@ -1,5 +1,6 @@
 vim9script
-# TODO:
+
+# TODO: fnames with parenthesis and possibly dashed are not recognized.
 
 # if !prop_type_get('fmListingInfo')
 silent! prop_type_add('fmListingInfo', {
@@ -61,6 +62,7 @@ def Refresh(bufnr: number, list_info: list<string>, list_name: list<string>)
         ++i
     endwhile
 
+    # Render marks
     var dir = list_name[0]
     for mark in get(t:, 'mark_list', [])
         if fnamemodify(mark, ':h') ==# dir
@@ -172,10 +174,10 @@ def g:FnameFromLine(line: string): string
 enddef
 
 def g:Out()
-    # TODO: When moving up a directry cursor should land on parent dirctory. If we already have
-    # moved down a directoy and now up again this behaviour naturaly happens because the
-    # up-directory's buffer has been created already and we only load it.
+    var dirname_before_out = expand('%:p:h:t')
     g:Fm(expand('%:p:h:h'))
+    # Land on parent directory
+    search('^' .. dirname_before_out, 'cw')
 enddef
 
 def g:In()
@@ -278,10 +280,7 @@ def g:Mkdir()
     var [list_info, list_name] = g:GetDirList(getcwd())
     Refresh(bufnr(), list_info, list_name)
 
-    var [lnum, col] = searchpos('^' .. dir_name, 'ncw')
-    if lnum > 0 
-        cursor(lnum, col)
-    endif
+    search('^' .. dir_name, 'cw')
 enddef
 
 def g:Extract()

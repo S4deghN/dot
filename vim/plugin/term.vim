@@ -53,7 +53,18 @@ export def g:Term(cmd: string, bang: bool, ...args: list<string>): number
     var old_bufnr = bufnr > 0 ? bufnr : 0
     var initila_winid = win_getid()
     win_gotoid(win_to_use)
-    var escaped_cmd = has('win32') ? cmd : [&shell, &shellcmdflag, escape(cmd, '\')]
+    var escaped_cmd = has('win32') ?  cmd : [
+        &shell,
+        # '-v',
+        &shellcmdflag,
+        # 'PS4="\[\e[32m\]$ \[\e[m\]"; set -x;' .. escape(cmd, '\')
+        'printf "\e[32m$\e[m %s" "' .. cmd .. '" ;' ..
+        'printf "\n\n";' ..
+        escape(cmd, '\') .. ';' ..
+        'printf "\nexit code: %d" $?'
+
+        # escape(cmd, '\') .. '|| printf "\nexit code: %d" $?'
+    ]
     bufnr = term_start(escaped_cmd, {
         cwd: cwd,
         curwin: 1,
@@ -95,14 +106,14 @@ def CreateWindow(force_split: bool = 0): number
 
     if force_split
         var width = getwininfo(win_getid(winnr))[0].width
-        exe (width > 160 ? 'v' : '') .. 'split'
+        exe (width >= 160 ? 'v' : '') .. 'split'
         wincmd p
         return win_getid(winnr('#'))
     endif
 
-    var lj = &columns > 160 ? '1l' : '1j'
-    var hk = &columns > 160 ? '1h' : '1k'
-    var v  = &columns > 160 ? 'v' : ''
+    var lj = &columns >= 160 ? '1l' : '1j'
+    var hk = &columns >= 160 ? '1h' : '1k'
+    var v  = &columns >= 160 ? 'v' : ''
     if winnr != winnr(lj)
         was_a_win_there = true
         return win_getid(winnr(lj))

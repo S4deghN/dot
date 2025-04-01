@@ -86,12 +86,11 @@ call s:h("Cursor",        {"bg": s:blue, "fg": s:norm })
 call s:h("Comment",       {"fg": s:bg_subtle_comment, "gui": "italic"})
 
 "call s:h("Constant",      {"fg": s:cyan})
-hi! link Constant         Normal
+hi! link Constant         ivory3
 hi! link Character        Constant
-hi! link Number           Constant
 hi! link Boolean          Constant
-hi! link Float            Constant
-hi! link String           Constant
+hi! link Number           Normal
+hi! link Float            Normal
 
 "call s:h("Identifier",    {"fg": s:dark_blue})
 hi! link Identifier       Normal
@@ -221,7 +220,6 @@ hi Function guifg=ivory3
 hi Statement guifg=goldenrod
 hi Type guifg=goldenrod
 " hi Type guifg=#95a99f
-hi Number guifg=ivory3
 hi String guifg=#6b9e23
 hi IncSearch guifg=black guibg=#ee799f
 hi Search guifg=black guibg=#218058

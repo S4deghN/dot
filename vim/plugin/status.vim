@@ -17,7 +17,7 @@ if &laststatus > 0
     set stl+=
 else
     # set rulerformat=%40(%(LSP:%{%get(b:,'lsp_status','')%}%)\ %(Git:%{get(w:,'git_branch','')}%)%=\ \ \ \ %-8(%l,%c%)\ %P%)
-    set rulerformat=%40(%(Git:%{get(w:,'git_branch','')}%)%=\ \ \ \ %-8(%l,%c%)\ %P%)
+    set rulerformat=%60(%(Git:%{get(w:,'git_branch','')}%)%=\ \ \ \ %-8(%l,%c%)\ %P%)
     augroup ruler
         autocmd BufEnter * call feedkeys("\<C-g>")
     augroup end
