@@ -10,3 +10,6 @@
 .emacs.d/tutorial
 .emacs.d/url
 *~
+vim/.netrw*
+vim/.*
+vim/plugged/

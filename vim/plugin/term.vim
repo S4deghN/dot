@@ -9,8 +9,9 @@ var S_filetype: string
 
 def OnTermWinOpen()
     setl foldmethod=expr foldexpr=0
-    setl stl-=%f
-    setl stl^=%([%{%get(t:,'term_cmd')%}]%)%(\ [exit:%{%get(b:,'term_ec','')%}]%)
+    # setl stl-=%f
+    # setl stl^=%([%{%get(t:,'term_cmd')%}]%)%(\ [exit:%{%get(b:,'term_ec','')%}]%)
+    # setl stl^=[Term]
 
     # if !!get(b:, 'match') | silent! matchdelete(b:match) | endif
     # silent! matchdelete(b:match)
@@ -53,18 +54,18 @@ export def g:Term(cmd: string, bang: bool, ...args: list<string>): number
     var old_bufnr = bufnr > 0 ? bufnr : 0
     var initila_winid = win_getid()
     win_gotoid(win_to_use)
+
     var escaped_cmd = has('win32') ?  cmd : [
         &shell,
-        # '-v',
         &shellcmdflag,
-        # 'PS4="\[\e[32m\]$ \[\e[m\]"; set -x;' .. escape(cmd, '\')
-        'printf "\e[32m$\e[m %s" "' .. cmd .. '" ;' ..
-        'printf "\n\n";' ..
+        'printf "\e[32m$\e[m %s\n\n" "' .. cmd .. '" ;' ..
+        'start=$EPOCHREALTIME;' ..
         escape(cmd, '\') .. ';' ..
-        'printf "\nexit code: %d" $?'
-
-        # escape(cmd, '\') .. '|| printf "\nexit code: %d" $?'
+        'exit_code=$?;' ..
+        'end=$EPOCHREALTIME;' ..
+        'awk ''{printf "\n%.2fs - exit \033[%dm%d\033[m", $2-$1, $3 == 0 ? 32 : 31, $3}'' <<< "$start $end $exit_code";'
     ]
+
     bufnr = term_start(escaped_cmd, {
         cwd: cwd,
         curwin: 1,
