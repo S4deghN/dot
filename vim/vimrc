@@ -11,6 +11,7 @@ g:loaded_netrw = 1
 packadd! comment
 packadd! termdebug
 packadd! matchit
+runtime ftplugin/man.vim | set keywordprg=:Man
 
 if empty(glob('~/.vim/autoload/plug.vim'))
     silent !curl -fLo ~/dot/nvim/autoload/plug.vim --create-dirs
@@ -131,6 +132,7 @@ set mouse=ar ttymouse=sgr
 # remedy flikering wiht termguicolors `https://github.com/vim/vim/issues/10574`. I'm not
 # sure how effective this one is, but setting Normal guibg=NONE definitly make vim flicker.
 # set t_ut=
+# set number cursorlineopt=number cursorline
 set completeopt=menu,popuphidden,noinsert
 set nowildmenu wildignorecase wildmode=longest,list,full
 set pumheight=6 previewheight=10
@@ -150,8 +152,9 @@ set foldmethod=marker
 set textwidth=95
 set jumpoptions=stack
 # match CursorColumn '\s\+$'
-set list listchars=tab:›\ ,nbsp:␣,trail:·,extends:…,precedes:…
-set showbreak=↷ fillchars+=diff:╱,fold:\ ,vert:│
+set list listchars=tab:·\ ,nbsp:␣,trail:·,extends:…,precedes:…
+set fillchars+=diff:╱,fold:\ ,vert:│ showbreak=↷
+set cpoptions+=n
 # if match case is not set to `match` tag search becomes really slow!
 set tagcase=match
 set cinoptions+=:0,ls,g0,N-s,E-s,(s,k0,j1,J1,t0
@@ -196,13 +199,14 @@ inoremap <C-s>d <esc>:r!date "+\%Y-\%m-\%d \%H:\%M:\%S"<cr>kJg`]a
 tmap <C-]> <C-\><C-n>
 
 # --- w ---
-def Key_w()
-    if foldclosed('.') > 0
-        feedkeys("j", 'n')
-    endif
-    search('\%(\i\@<!\i\|[({\[]\)', 'zW')
-enddef
-nnoremap w <scriptcmd>Key_w()<cr>
+# def Key_w()
+#     if foldclosed('.') > 0
+#         feedkeys("j", 'n')
+#     endif
+#     search('\%(\i\@<!\i\|[({\[]\|(\@<!)\|{\@<!}\|\[\@<!\]\)', 'zW')
+# enddef
+# nnoremap w <scriptcmd>Key_w()<cr>
+# unmap w
 
 augroup InsertC-w
     au!
@@ -217,12 +221,13 @@ def g:HighlihgtColor()
     prop_add(line('.'), 3, {type: color, length: 7})
 enddef
 
+# (some) ([]) sldkj asldfj
 # #991290
 
 # def Key_i_ctrl_w()
 #     search('[@0-9_192-255]\+', 'bW')
 # enddef
-# inoremap <c-w> <scriptcmd>Key_i_ctrl_w()<cr>
+# inoremap <c-w> <scriptcmd>Key_i_ctrl_w()<cr> <>
 
 # def Key_e()
 #     search('\i\i\@!', 'e')
@@ -357,11 +362,12 @@ noremap  <leader>B  <cmd>Buffers<cr>
 noremap  <leader>H  <cmd>Helptags<cr>
 noremap  <leader>t  :Tags <C-r><C-w><cr>
 noremap  <leader>T  <cmd>Tags<space>
-nnoremap <leader>G  <cmd>LiveGrep<cr>
-nnoremap <leader>g  :LiveGrep <C-r><C-w><cr>
+nnoremap <leader>g  <cmd>LiveGrep<cr>
+nnoremap <leader>G  :LiveGrep <C-r><C-w><cr>
 vnoremap <leader>g  :<C-u>LiveGrepVisual<cr>
 nnoremap <leader>vv :Git<cr>
 nnoremap <leader>w  <scriptcmd>g:Dict(expand("<cword>"))<cr>
+nnoremap <leader>a  <cmd>Apropos<cr>
 
 # --- Term ---
 nnoremap cc :wa<cr>:Term <C-r>=get(t:, 'term_cmd', '')<cr>
@@ -436,7 +442,6 @@ command! -nargs=? Expand {
 command! -nargs=+ -complete=command  R put = execute(<q-args>)->trim()
 command! -nargs=+ -complete=function RR put = execute('echo ' .. <q-args>)->trim()
 
-runtime ftplugin/man.vim
 command! -nargs=+ -complete=customlist,dist#man#ManDbComplete Man {
     dist#man#GetPage(utils.Vertical() .. <q-mods>, <f-args>)
 }

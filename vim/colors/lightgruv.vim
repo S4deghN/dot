@@ -83,7 +83,7 @@ hlset([
     {name: 'Conceal', guifg: blue, guibg: 'NONE', cterm: {}, gui: {}},
 
     # Line number of CursorLine
-    {name: 'CursorLineNr', guifg: yellow, guibg: dark1, cterm: {}, gui: {}},
+    {name: 'CursorLineNr', guifg: yellow, guibg: 'bg', cterm: {}, gui: {}},
 
     {name: 'NonText',    guifg: dark3, cterm: {}, gui: {}},
     {name: 'SpecialKey', guifg: dark3, cterm: {}, gui: {}},
@@ -127,7 +127,7 @@ hlset([
     # Gutter: {{{
 
     # Line number for :number and :# commands
-    {name: 'LineNr', guifg: dark4, cterm: {}, gui: {}},
+    {name: 'LineNr', guifg: dark2, cterm: {}, gui: {}},
 
     # Column where signs are displayed
     {name: 'SignColumn', guifg: 'NONE', guibg: dark1, cterm: {}, gui: {}},

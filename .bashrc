@@ -184,6 +184,7 @@ vi-grep() {
     fi
 }
 
+# How did I write it someday?
 fzf-rl() {
     builtin eval "
         builtin bind ' \

@@ -16,8 +16,6 @@ set colored-stats on
 
 set bell-style none
 set completion-ignore-case on
-# set completion-prefix-display-length 2
-set show-all-if-ambiguous on
 set show-all-if-unmodified on
 
 # stupid key sequence of esc and other keys is mapped to meta for emacs and you
@@ -34,13 +32,28 @@ set vi-ins-mode-string "\1\033[0;34m\2[I]\1\033[0m\2"
 set vi-cmd-mode-string "\1\033[0;29m\2[N]\1\033[0m\2"
 
 # set colored-completion-prefix on
-# ?
-set show-all-if-unmodified on
 
+# Necessary for menu-complete to work as expected when mapped to TAB
+set menu-complete-display-prefix on
 
 set keymap vi-insert
-"\C-x": shell-expand-line
-"\e.": yank-last-arg
+"\e\\": universal-argument
 
-Control-j: menu-complete
-Control-k: menu-complete-backward
+TAB:    menu-complete
+# shift tab sends "esc [ Z" 🤷
+"\e[Z": menu-complete-backward
+"\C-x": shell-expand-line
+"\e.":  yank-last-arg
+
+"\e;u": upcase-word
+"\e;U": downcase-word
+"\eu":  "\e\\-\e;u"
+"\eU":  "\e\\-\e;U"
+
+
+"\et":  transpose-words
+"\eb":  backward-word
+"\ef":  forward-word
+
+# Control-j: menu-complete
+# Control-k: menu-complete-backward

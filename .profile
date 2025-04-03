@@ -33,6 +33,8 @@ export LESS_TERMCAP_us=$'\e[0;1;38m'
 export LESS_TERMCAP_ue=$'\e[0m'
 export LESS_TERMCAP_so=$'\e[0;7;35m'
 export LESS_TERMCAP_se=$'\e[0m'
+# experimental
+export MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu noma' -\""
 
 # This makes symlinks work on windows with git-bash if developer mode is
 # enabled or the process is run as admin.
@@ -44,14 +46,18 @@ export HISTFILESIZE=-1
 export FZF_DEFAULT_COMMAND="find . -type f -not -path '*/\.git/*' -not -path '*/\.cargo/*' -not -path '*/\.ccls-cache/*' -not -path '*/\.cache/*' ! -path '*/build/*'"
 export FZF_COLORS="fg:-1,fg+:-1,hl:yellow,hl+:yellow:reverse,border:gray,spinner:-1,header:blue,info:green,pointer:white,marker:blue,prompt:white:regular,gutter:-1"
 export FZF_DEFAULT_OPTS="\
-    --prompt '' \
-    --pointer '>' \
+    --prompt  '󱞵 ' \
+    --pointer '' \
     --height 50% \
     --reverse \
-    --info inline \
+    --info inline-right \
+    --no-separator \
     --color=$FZF_COLORS \
     --bind alt-a:select-all \
+    --bind ctrl-s:select \
     --bind ctrl-l:toggle-preview \
+    --bind ctrl-u:page-up \
+    --bind ctrl-d:page-down \
     --preview-window hidden \
     "
 

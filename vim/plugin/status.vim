@@ -6,15 +6,15 @@ if &laststatus > 0
     # Left
     set stl+=%f
     set stl+=%(\ %m%q%h%w%r%)
-    set stl+=\ \ \ \ %P\ %10(%l:%c\ \ %)
     set stl+=%(\ \ \ \ Git:%{get(w:,'git_branch','')}%)
-    set stl+=%(\ \ \ \ LSP:%{%get(b:,'lsp_status','')%}%)
+    set stl+=%(\ \ \ \ %5(%l%)\|%-3(%c%)%)
     # Middle
-    set stl+=\ %=
-    set stl+=%S
-    # Right
-    set stl+=\ %=
-    set stl+=
+    set stl+=%=
+    set stl+=%-5(%S%)
+    set stl+=%=
+    set stl+=%(LSP:%{%get(b:,'lsp_status','')%}%)
+    # set stl+=%=
+    # set stl+=
 else
     # set rulerformat=%40(%(LSP:%{%get(b:,'lsp_status','')%}%)\ %(Git:%{get(w:,'git_branch','')}%)%=\ \ \ \ %-8(%l,%c%)\ %P%)
     set rulerformat=%60(%(Git:%{get(w:,'git_branch','')}%)%=\ \ \ \ %-8(%l,%c%)\ %P%)

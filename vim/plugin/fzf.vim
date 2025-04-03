@@ -35,6 +35,15 @@ def g:FzfChistory(): list<string>
     return fzf#run(fzf#wrap('chistory', { 'source': src, 'sink': (num) => execute(num[3] .. "chistory") } ))
 enddef
 
+def g:FzfApropos(): list<string>
+    # var src_list = systemlist("apropos .")
+    var src_cmd = 'apropos .'
+    return fzf#run(fzf#wrap('apropos', {'options': ['--header', src_cmd, '--query', '^'], 'source': src_cmd, 'sink': (line) => {
+        var [_, name, section; _] = matchlist(line, '^\(\S\+\)\s\+(\(\d\a*\)\?\(.*\))')
+        exec 'Man' section name
+    } }))
+enddef
+
 def GetVisualSelection(): string
     var mode = mode()
     var start: list<number>
@@ -71,10 +80,10 @@ def g:LiveGrep(query: string, fullscreen: bool)
     var prompt = ''
     var initial_grep = printf(command_fmt, shellescape(query))
     var reload_grep = printf(command_fmt, '{q}')
+    var cwd = getcwd()
     var options = {'options': [
         '--prompt', '*Rg> ',
         '--header', getcwd(),
-        # '--header-first',
         '--phony',
         '--query', query,
         '--bind', 'change:reload:sleep 0.1;' .. reload_grep,
@@ -86,4 +95,7 @@ def g:LiveGrep(query: string, fullscreen: bool)
 enddef
 command! -nargs=* -bang LiveGrep call LiveGrep(<q-args>, <bang>0)
 command! -nargs=* -bang LiveGrepVisual call LiveGrep(escape(GetVisualSelection(), "()\+*.[]\|"), <bang>0)
+# I don't like the default with shortened path name
 command! -bang -nargs=? -complete=dir Files call fzf#vim#files(<q-args>, {options: ['--prompt=' .. getcwd() .. '/']}, <bang>0)
+# Requires :Man command
+command! Apropos call FzfApropos()
