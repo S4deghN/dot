@@ -28,12 +28,11 @@ export def Time(count: number, ...args: list<string>)
 enddef
 
 export def Vertical(): string
-  echom mode()
-  var result = ""
+  var result = ''
   # if the overall vim width is too narrow or
   # there are >=2 vertical windows, split below
   if &columns >= 160 && winlayout()[0] != 'row'
-    result ..= "vertical"
+    result ..= 'vertical '
   endif
   return result
 enddef

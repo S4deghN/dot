@@ -152,7 +152,7 @@ set foldmethod=marker
 set textwidth=95
 set jumpoptions=stack
 # match CursorColumn '\s\+$'
-set list listchars=tab:·\ ,nbsp:␣,trail:·,extends:…,precedes:…
+set list listchars=tab:\ ,nbsp:␣,trail:·,extends:…,precedes:…
 set fillchars+=diff:╱,fold:\ ,vert:│ showbreak=↷
 set cpoptions+=n
 # if match case is not set to `match` tag search becomes really slow!

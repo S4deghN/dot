@@ -302,7 +302,7 @@ def g:Mark()
     var start = line('.')
     var end = line('v')
     var range = range(start, end, end < start ? -1 : 1)
-    norm! 
+    norm! 
 
     var cwd = expand('%:p')->escape(' ')
     for lnum in range

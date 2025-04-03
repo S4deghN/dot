@@ -39,11 +39,11 @@ shape = "Block"
 TERM = "xterm-256color"
 
 [font]
-size = 15
+size = 14
 
 [font.normal]
 # ibm plex mono
-family = "Inconsolata"
+family = "Liberation Mono"
 
 [font.glyph_offset]
 x = 0
