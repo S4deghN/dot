@@ -25,13 +25,13 @@ nmap <buffer> == ma0t]rx`a
 nmap <buffer> -- ma0t]r `a
 
 " shortcut for adding tags at the end of an item
-imap ` <right><right><space><><left>
+" imap ` <right><right><space><><left>
 
 " Shift lines up and down
 nnoremap <buffer> <C-j> mz:m+<CR>`z
 nnoremap <buffer> <C-k> mz:m-2<CR>`z
-inoremap <buffer> <C-j> <Esc>:m+<CR>gi
-inoremap <buffer> <C-k> <Esc>:m-2<CR>gi
+" inoremap <buffer> <C-j> <Esc>:m+<CR>gi
+" inoremap <buffer> <C-k> <Esc>:m-2<CR>gi
 vnoremap <buffer> <C-j> :m'>+<CR>gv=`<my`>mzgv`yo`z
 vnoremap <buffer> <C-k> :m'<-2<CR>gv=`>my`<mzgv`yo`z
 

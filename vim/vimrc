@@ -13,7 +13,8 @@ packadd! termdebug
 g:termdebug_config = {
     map_plus: false,
     variables_window: true,
-    variables_window_height: 15,
+    variables_window_height: 20,
+    evaluate_in_popup: true,
 }
 
 packadd! matchit
@@ -480,7 +481,6 @@ command! -nargs=1 -bang -complete=file Assembly {
 command! -nargs=1 -bang -complete=file PreProc  {
     g:Term(<f-args>  .. " -o- -E", <bang>0, "[PreProc]", "c")
 }
-
 # -----------------------------------------------
 # --- functions ---
 # -----------------------------------------------
@@ -573,11 +573,16 @@ augroup autoCommands
     autocmd BufWinEnter * if &ft == 'man' | call utils.MoveOpenedWinodwToSaneSplit() | endif
     autocmd BufWinEnter */doc/*.txt call utils.MoveOpenedWinodwToSaneSplit() | setl nolist
 
+
     autocmd CmdwinEnter * nmap <buffer> q     :q<cr>
     autocmd CmdwinEnter * nmap <buffer> <C-c> :q<cr>
 
     autocmd Filetype tex,text,markdown,gitcommit setlocal spell
     autocmd Filetype qf nmap <buffer> <Esc> ZQ
+
+    # Set debug layout!
+    autocmd User TermdebugStartPost norm! cc:setl nus:b gdb:resize 7ls:resize 7:b debugged-programh
+    autocmd User TermdebugStopPre norm! :Source:setl nonu
 augroup end
 
 # -----------------------------------------------
