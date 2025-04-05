@@ -38,22 +38,20 @@ set menu-complete-display-prefix on
 
 set keymap vi-insert
 "\e\\": universal-argument
-
 TAB:    menu-complete
 # shift tab sends "esc [ Z" 🤷
 "\e[Z": menu-complete-backward
 "\C-x": shell-expand-line
 "\e.":  yank-last-arg
-
+# this solves the problem where sometime C-w would get stuck on start of a word!
+"\ew": backward-kill-word
+"\C-w": "\ew"
 "\e;u": upcase-word
 "\e;U": downcase-word
 "\eu":  "\e\\-\e;u"
 "\eU":  "\e\\-\e;U"
-
-
 "\et":  transpose-words
 "\eb":  backward-word
 "\ef":  forward-word
 
-# Control-j: menu-complete
 # Control-k: menu-complete-backward

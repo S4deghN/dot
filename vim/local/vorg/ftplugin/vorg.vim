@@ -8,8 +8,9 @@ setlocal smartindent
 setlocal softtabstop=2
 setlocal tabstop=2
 setlocal shiftwidth=2
-setlocal noexpandtab
+setlocal expandtab
 setlocal nowrap
+setlocal autowrite
 
 " use TAB in normal mode to fold and unfold patern items
 nmap <buffer> <TAB> za

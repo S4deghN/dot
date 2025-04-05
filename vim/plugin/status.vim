@@ -7,7 +7,7 @@ if &laststatus > 0
     set stl+=%f
     set stl+=%(\ %m%q%h%w%r%)
     set stl+=%(\ \ \ \ Git:%{get(w:,'git_branch','')}%)
-    set stl+=%(\ \ \ \ %5(%l%)\|%-3(%c%)%)
+    set stl+=%(\ \ %5(%l%):%-3(%c%)%)\ \ %-3(%P%)
     # Middle
     set stl+=%=
     set stl+=%-5(%S%)

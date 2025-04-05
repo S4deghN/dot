@@ -40,7 +40,8 @@ __ps1() {
 #   │ box │
 #   ╰─────╯
     # Testing the __git_ps1
-    PS1="$userP@$hostP $dircP$branchP$(__git_ps1) $errP\n$suffixP "
+    # PS1="$userP@$hostP $dircP$branchP$(__git_ps1) $errP\n$suffixP "
+    PS1="$userP@$hostP $dircP$branchP $errP\n$suffixP "
 }
 
 PROMPT_COMMAND="__ps1"

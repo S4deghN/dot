@@ -14,8 +14,8 @@ syn match vorgDeadline        "[<>^]\ \d*[/-]\d*[/-]\d*" contained
 syn match vorgTag             "<.*>" contained
 syn match vorgLink            "\%(http://\|www\.\)[^ ,;\t]*" contained
 syn match vorgTitle           "^\t*[-\*].*" contains=vorgTag,vorgLink
-syn match vorgTaskAlt         "\t*\[[o\ ]\].*" contains=vorgTag,vorgDeadline,vorgLink
-syn match vorgTask            "\t*[-\*].*\[[o\ ]\].*" contains=vorgTag,vorgDeadline,vorgLink
+syn match vorgTaskAlt         "\t*\[[op\ ]\].*" contains=vorgTag,vorgDeadline,vorgLink
+syn match vorgTask            "\t*[-\*].*\[[op\ ]\].*" contains=vorgTag,vorgDeadline,vorgLink
 syn match vorgDone            "\t*[-\*].*\[[X|x]\].*"
 syn match vorgDoneAlt         "\t*\[[X|x]\].*"
 syn match vorgComment         "// .*"
@@ -28,8 +28,8 @@ hi Keyword gui=bold
 hi Number gui=underline
 
 hi def link vorgComment       Comment
-hi def link vorgDone	         Comment
-hi def link vorgDoneAlt	      Comment
+hi def link vorgDone             Comment
+hi def link vorgDoneAlt       Comment
 hi def link vorgTitle         Function
 hi def link vorgTaskAlt       PreCondit
 hi def link vorgTask          PreCondit
@@ -42,12 +42,12 @@ hi! link Folded Comment
 "
 "" Fold based on the Vorg specification
 "function! SimpleFoldText()
-"	return	repeat(' ',indent(v:foldstart)).substitute(getline(v:foldstart),"[ \t]*[-\*]","+","").' '
+"   return  repeat(' ',indent(v:foldstart)).substitute(getline(v:foldstart),"[ \t]*[-\*]","+","").' '
 "endfunction
 "set foldtext=SimpleFoldText() " Custom fold text function
 "
 "function! LimitFoldLevel(level)
-"	return a:level
+"   return a:level
 "endfunction
 "
 "function! VorgFoldExpr(lnum)

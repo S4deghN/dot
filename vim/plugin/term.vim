@@ -31,7 +31,19 @@ def OnTermWinOpen()
     nnoremap <buffer> [{ <scriptcmd>FirstError()<CR>
 enddef
 
-export def g:Term(cmd: string, bang: bool, ...args: list<string>): number
+def g:TermInput()
+    var cmd = ''
+    echohl ModeMsg
+    try
+        cmd = input('Term: ', get(t:, 'term_cmd', ''), 'shellcmdline')
+    finally | echohl None | endtry
+    if len(cmd) == 0 | return | endif
+
+    g:Term(cmd, false)
+enddef
+
+
+def g:Term(cmd: string, bang: bool, ...args: list<string>): number
     t:term_cmd = cmd
 
     S_bufname = get(args, 0, '')

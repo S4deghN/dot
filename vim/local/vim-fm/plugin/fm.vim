@@ -1,6 +1,9 @@
 vim9script
 
-# TODO: fnames with parenthesis and possibly dashed are not recognized.
+# TODO:
+# - fnames with parenthesis and possibly dashed are not recognized.
+# - after each operation we empty the mark list though we do not rerender any buffer that
+#   containes those marks. we only rerender current buffer.
 
 # if !prop_type_get('fmListingInfo')
 silent! prop_type_add('fmListingInfo', {
@@ -226,7 +229,7 @@ def g:Copy()
 
     # TODO: when copying files into a directory with existing names, create a backup of
     # existing files.
-    var res = system('mv ' .. join(t:mark_list) .. ' .')
+    var res = system('cp ' .. join(t:mark_list) .. ' .')
     if v:shell_error
         echohl Error | echom res->trim() | echohl None
     endif

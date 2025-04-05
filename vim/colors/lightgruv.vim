@@ -32,6 +32,9 @@ var purple = '#d3869b'
 var aqua   = '#8ec07c'
 var orange = '#fe8019'
 
+var pmenu = dark1
+var pmenuSel = dark2
+
 var non_text = '#888888'
 
 g:terminal_ansi_colors = [
@@ -211,9 +214,13 @@ hlset([
     # Completion Menu: {{{
 
     # Popup menu: normal item
-    {name: 'Pmenu', guifg: light1, guibg: dark1, cterm: {}, gui: {}},
+    {name: 'Pmenu', guifg: 'fg', guibg: pmenu, cterm: {}, gui: {}},
     # Popup menu: selected item
-    {name: 'PmenuSel', guifg: dark2, guibg: blue, cterm: {bold: 1}, gui: {bold: 1}},
+    {name: 'PmenuSel', guifg: 'fg', guibg: pmenuSel, cterm: {bold: 1}, gui: {bold: 1}},
+    {name: 'PmenuMatch', guifg: yellow, guibg: pmenu, cterm: {}, gui: {}},
+    {name: 'PmenuMatchSel', guifg: yellow, guibg: pmenu, cterm: {bold: 1, inverse: 1}, gui: {bold: 1, inverse: 1}},
+    {name: 'PmenuKind', guifg: orange, guibg: pmenu, cterm: {}, gui: {}},
+    {name: 'PmenuKindSel', guifg: orange, guibg: pmenuSel, cterm: {bold: 1}, gui: {bold: 1}},
     # Popup menu: scrollbar
     {name: 'PmenuSbar', guifg: 'NONE', guibg: dark1, cterm: {}, gui: {}},
     # Popup menu: scrollbar thumb
@@ -280,10 +287,10 @@ hi Signcolumn guibg=bg
 hi GitGutterAdd guibg=bg
 hi GitGutterChange guibg=bg
 hi GitGutterDelete guibg=bg
-hi GitGutterChangeDelete guibg=bg
+	hi GitGutterChangeDelete guibg=bg
 
 hi NonText guifg=#888888
-hi SpecialKey guifg=#777777
+hi SpecialKey guifg=#444455
 
 hi! link WinSeparator VertSplit
 

@@ -28,13 +28,14 @@ int main()
     case /*Discharging*/  'D': line[0] = L'🪫'; break;
     case /*Not charging*/ 'N': line[0] = L'🔌'; break;
     case /*Full*/         'F': line[0] = L'🔋'; break;
+    default:                   line[0] = L'❓'; break;
     }
     line[1] = ' ';
 
     setlocale(LC_CTYPE, "");
 
     fp = fopen(capacity_fname, "r");
-    fgetws(line + 2, 4, fp);
+    fgetws(line + 2, 5, fp);
     int idx = wcslen(line) - 1;
     line[idx] = '%';
     line[idx+1] = '\0';

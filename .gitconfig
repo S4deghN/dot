@@ -34,6 +34,7 @@
     amend = commit --amend --no-edit
     s     = status
     d     = diff
+    dh1   = diff HEAD~1
     ds    = diff --staged
     a     = add
     b     = branch -vv
