@@ -35,7 +35,7 @@ def g:TermInput()
     var cmd = ''
     echohl ModeMsg
     try
-        cmd = input('Term: ', get(t:, 'term_cmd', ''), 'shellcmdline')
+        cmd = input('Term: ', "\<Up>", 'shellcmdline')
     finally | echohl None | endtry
     if len(cmd) == 0 | return | endif
 
