@@ -192,7 +192,7 @@ def g:Delete()
         g:Mark()
     endif
 
-    # TODO: move files to system trash if it exists.
+    # TODO: move files to system trash if it exists. `mktemp` can come in handy.
     var res = system('rm -r ' .. join(t:mark_list))
     if v:shell_error
         echohl Error | echom res->trim() | echohl None

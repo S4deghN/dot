@@ -20,4 +20,4 @@ rx=$(update /sys/class/net/[ew]*/statistics/rx_bytes)
 tx=$(update /sys/class/net/[ew]*/statistics/tx_bytes)
 
 # printf "%4sB/s %4sB/s" $(numfmt --to=si $rx $tx)
-numfmt --to=si --format="%5fB/s" --field=1,2 "$rx $tx"
+numfmt --to=si --format="%4fB/s" --field=1,2 "$rx $tx"

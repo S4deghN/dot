@@ -349,7 +349,7 @@ mode "resize" {
 
 bindsym $mod+z mode "resize"
 
-set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+set $mode_system [l]ock, [e]xit session, [h]ibernate, [s]uspend, [Shift+s]hutdown, [r]eboot
 mode "$mode_system" {
     bindsym l exec --no-startup-id $Locker, mode "default"
     bindsym e exec --no-startup-id i3-msg exit, mode "default"

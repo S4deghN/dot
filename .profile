@@ -33,8 +33,6 @@ export LESS_TERMCAP_us=$'\e[0;1;38m'
 export LESS_TERMCAP_ue=$'\e[0m'
 export LESS_TERMCAP_so=$'\e[0;7;35m'
 export LESS_TERMCAP_se=$'\e[0m'
-# experimental
-# export MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu noma' -\""
 
 # This makes symlinks work on windows with git-bash if developer mode is
 # enabled or the process is run as admin.

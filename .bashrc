@@ -50,6 +50,8 @@ PROMPT_COMMAND="__ps1"
 # exports
 #---------------------------------------------------
 # export TERM=xterm-256color
+# experimental
+export MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu noma' -\""
 
 #---------------------------------------------------
 # options

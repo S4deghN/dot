@@ -38,17 +38,17 @@ elif [ -f "$tfile" ]; then
   fi
 
   remain=${timer["remain"]}
-  if [ $remain -gt 0 ]; then symbol="🍅"
+  if [ $remain -gt 0 ]; then symbol="🍅 "
   else arr=("💢 -" "🍅 -"); symbol=${arr[$((remain%2))]}; ((remain=-remain))
   fi
 
   if [ $remain -ge 3600 ]; then
-    printf "%s %d%dm%ds\n" r
-      "$symbol" $((remain / 3600)) $(((remain % 3600) / 60)) $((remain % 60))
+    printf "%s%dh%dm%ds\n" \
+   "$symbol" $((remain / 3600)) $(((remain % 3600) / 60)) $((remain % 60))
   elif [ $remain -ge 60 ]; then
-    printf "%s %dm%ds\n" "$symbol" $(((remain % 3600) / 60)) $((remain % 60))
+    printf "%s%dm%ds\n" "$symbol" $(((remain % 3600) / 60)) $((remain % 60))
   else
-    printf "%s %ds\n" "$symbol" $((remain % 60))
+    printf "%s%ds\n" "$symbol" $((remain % 60))
   fi
 
   declare -p timer > $tfile

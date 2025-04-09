@@ -8,18 +8,6 @@ g:loaded_matchparen = 1
 
 g:loaded_netrw = 1
 
-packadd! comment
-packadd! termdebug
-g:termdebug_config = {
-    map_plus: false,
-    variables_window: true,
-    variables_window_height: 20,
-    evaluate_in_popup: true,
-}
-
-packadd! matchit
-runtime ftplugin/man.vim | set keywordprg=:Man
-
 if empty(glob('~/.vim/autoload/plug.vim'))
     silent !curl -fLo ~/dot/nvim/autoload/plug.vim --create-dirs
                 \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -70,6 +58,7 @@ var lspOpts = {
     outlineWinSize: 35,
     showDiagInBalloon: false,
     showDiagInPopup: true,
+    autoHighlightDiags: false
     # echoSignature: true,
 }
 def LspOnAttach()
@@ -123,6 +112,17 @@ autocmd User LspSetup call LspAddServer(lspServers)
 autocmd User LspAttached call LspOnAttach()
 # }}}
 plug#end()
+
+runtime ftplugin/man.vim | set keywordprg=:Man
+packadd! matchit
+packadd! comment
+packadd! termdebug
+g:termdebug_config = {
+    map_plus: false,
+    variables_window: true,
+    variables_window_height: 20,
+    evaluate_in_popup: true,
+}
 
 # -----------------------------------------------
 # --- options ---
@@ -435,7 +435,7 @@ noremap <C-g>  1<C-g>
 inoremap <C-U> <C-G>u<C-U>
 nmap gcd <cmd>let @c=col('.')<cr>yygccp<cmd>call cursor(0,@c)<cr>
 def OpenLink(link: string)
-    var err = system("xdg-open " .. link)
+    var err = system("setsid xdg-open " .. link .. " &")
     if v:shell_error != 0 | echom err | endif
 enddef
 nnoremap gL <scriptcmd>OpenLink(expand("<cfile>"))<cr>
@@ -463,6 +463,10 @@ command! -nargs=+ -complete=command  R put = execute(<q-args>)->trim()
 command! -nargs=+ -complete=function RR put = execute('echo ' .. <q-args>)->trim()
 
 command! -nargs=+ -complete=customlist,dist#man#ManDbComplete Man {
+    if &ft != 'man'
+        var winid = utils.UseSplitOrCreate()
+        win_execute(winid, 'enew | set buftype=nofile ft=man')
+    endif
     dist#man#GetPage(utils.Vertical() .. <q-mods>, <f-args>)
 }
 
@@ -568,11 +572,7 @@ augroup autoCommands
     autocmd BufEnter *.lub set filetype=lua
     autocmd BufEnter *.xml set matchpairs+=<:>
 
-    # TODO: Since I'm defining this command I can handle this inside the
-    # command by first checking if we have an open window of this type.
-    autocmd BufWinEnter * if &ft == 'man' | call utils.MoveOpenedWinodwToSaneSplit() | endif
     autocmd BufWinEnter */doc/*.txt call utils.MoveOpenedWinodwToSaneSplit() | setl nolist
-
 
     autocmd CmdwinEnter * nmap <buffer> q     :q<cr>
     autocmd CmdwinEnter * nmap <buffer> <C-c> :q<cr>
