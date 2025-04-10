@@ -218,11 +218,11 @@ tmap <C-]> <C-\><C-n>
 # nnoremap w <scriptcmd>Key_w()<cr>
 # unmap w
 
-augroup InsertC-w
-    au!
-    au CmdlineEnter,InsertEnter * setl iskeyword-=_
-    au CmdlineLeave,InsertLeavePre * setl iskeyword+=_
-augroup end
+# augroup InsertC-w
+#     au!
+#     au CmdlineEnter,InsertEnter * setl iskeyword-=_
+#     au CmdlineLeave,InsertLeavePre * setl iskeyword+=_
+# augroup end
 
 def g:HighlihgtColor()
     var color = '991290'
@@ -355,7 +355,7 @@ xnoremap #      y?\M<C-R>"<cr><cmd>keepj norm! N<cr>
 noremap  n      <cmd>keepj norm! nzz<cr>
 noremap  N      <cmd>keepj norm! Nzz<cr>
 nnoremap c;     :<C-p>
-noremap  gk     :Man <C-r><C-w><cr>
+noremap  gk     :<C-u>Man <C-r>=v:count<cr> <C-r><C-w><cr>
 noremap  gd     <scriptcmd>JumpToDefinition()<cr>
 noremap  <C-w>d <scriptcmd>SplitJumpToDefinition()<cr>
 noremap  gn     ]<C-I>

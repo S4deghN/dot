@@ -1,12 +1,9 @@
-#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <glob.h>
 #include <unistd.h>
-#include <errno.h>
 #include <fcntl.h>
-#include <string.h>
-#include <stdint.h>
+#include <sys/mman.h>
 
 const char* tx_path = "/sys/class/net/{en,wl}*/statistics/tx_bytes";
 const char* rx_path = "/sys/class/net/{en,wl}*/statistics/rx_bytes";
@@ -38,7 +35,14 @@ read_update_shm_var(char* path, long val)
     // rw-   r--   r--
     // 420   400   400
     // 6     4     4
-    int fd = open(path, O_RDWR | O_CREAT, 0644);
+
+    // Either shm_open() with only file name ("/tx") or
+    // regular open() in the /dev/shm/ directory.
+    // On linux files opened with shm_open() appear in
+    // the filesystem under /dev/shm
+
+    // int fd = open(path, O_RDWR | O_CREAT, 0644);
+    int fd = shm_open(path, O_CREAT | O_RDWR, 0644);
     read(fd, &last_val, sizeof(last_val));
     ftruncate(fd, 0);
     lseek(fd, 0, SEEK_SET);
@@ -57,8 +61,8 @@ int main()
     long tx = fread_bytes(tx_g.gl_pathc, tx_g.gl_pathv, O_RDONLY);
     long rx = fread_bytes(rx_g.gl_pathc, rx_g.gl_pathv, O_RDONLY);
 
-    long last_tx = read_update_shm_var("/dev/shm/tx", tx);
-    long last_rx = read_update_shm_var("/dev/shm/rx", rx);
+    long last_tx = read_update_shm_var("/tx", tx);
+    long last_rx = read_update_shm_var("/rx", rx);
 
     float tx_delta = tx - last_tx;
     float rx_delta = rx - last_rx;
@@ -78,7 +82,8 @@ int main()
     // int rx_decimal = (int)((rx_delta + 0.05 - (int)rx_delta) * 10) != 0;
     int rx_decimal = (rx_delta  - (int)rx_delta) > 0.05;
     int tx_decimal = (tx_delta  - (int)tx_delta) > 0.05;
-    printf("%5.*f%s %5.*f%s",
+    // ↓ ↑
+    printf("↓%5.*f%s ↑%5.*f%s",
         tx_decimal, tx_delta, unit[tx_unit_idx],
         rx_decimal, rx_delta, unit[rx_unit_idx]);
 }
