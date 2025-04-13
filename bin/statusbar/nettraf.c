@@ -84,6 +84,6 @@ int main()
     int tx_decimal = (tx_delta  - (int)tx_delta) > 0.05;
     // ↓ ↑
     printf("↓%5.*f%s ↑%5.*f%s",
-        tx_decimal, tx_delta, unit[tx_unit_idx],
-        rx_decimal, rx_delta, unit[rx_unit_idx]);
+        rx_decimal, rx_delta, unit[rx_unit_idx],
+        tx_decimal, tx_delta, unit[tx_unit_idx]);
 }
