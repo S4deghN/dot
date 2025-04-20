@@ -29,7 +29,9 @@ else
     # default home computer
     # xrandr --setprovideroutputsource modesetting NVIDIA-0
     # xrandr --auto
-    xrandr --output HDMI-2 --primary --mode 1920x1080 --rate 75 && xrandr --output eDP-1 --off
+    xrandr --output HDMI-2 --primary --mode 1920x1080 --rate 75 && 
+        xrandr --output eDP-1 --off ||
+        xrandr --output eDP-1 --mode 1920x1080
     # xrandr --output eDP-1 --mode 1920x1080
 fi
 

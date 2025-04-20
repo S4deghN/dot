@@ -1,6 +1,5 @@
 // TODO:
 // - Support human readlable time input. 1h, 50min, ...
-// - Simplify logic and avoid unnecessary write calls.
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
@@ -24,9 +23,10 @@ int main(int argc, char* argv[]) {
         t.period = argc > 2 ? atol(argv[2]) : 3600;
         t.remain = t.period;
         t.paused = 0;
-        int fd = shm_open("/timer", O_RDWR | O_CREAT, 0644);
+        fd = shm_open("/timer", O_RDWR | O_CREAT, 0644);
         write(fd, &t, sizeof(t));
     } else if ((fd = shm_open("/timer", O_RDWR, 0644)) != -1) {
+        int w = 0;
         long now = time(NULL);
         read(fd, &t, sizeof(t));
 
@@ -34,15 +34,23 @@ int main(int argc, char* argv[]) {
             if (*argv[1] == 'p') {
                 t.prev = t.paused ? now : t.prev;
                 t.paused = !t.paused;
+                w = 1;
             } else if (*argv[1] == 'r') {
                 t.prev = now;
                 t.remain = t.period;
+                w = 1;
             }
         }
 
         if (!t.paused) {
             t.remain -= (now - t.prev);
             t.prev = now;
+            w = 1;
+        }
+
+        if (w) {
+            lseek(fd, 0, SEEK_SET);
+            write(fd, &t, sizeof(t));
         }
 
         int remain = abs(t.remain);
@@ -58,9 +66,6 @@ int main(int argc, char* argv[]) {
         } else {
             printf("%s%ds\n", symbol, remain%60);
         }
-
-        lseek(fd, 0, SEEK_SET);
-        write(fd, &t, sizeof(t));
 
         // printf("t: %ld, %ld, %ld, %ld\n", t.period, t.prev, t.remain, t.paused);
     }

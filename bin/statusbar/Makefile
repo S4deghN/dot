@@ -1,8 +1,11 @@
-CFLAGS := -Wall -O0 -g
+CFLAGS := -Wall -O0
 
 programs = $(patsubst %.c,bin/%,$(wildcard *.c))
 
 all: $(programs)
+
+debug: CFLAGS += -g
+debug: all
 
 bin/%: %.c | bin/
 	$(CC) $(CFLAGS) $< -o $@
