@@ -93,7 +93,7 @@ fi
 alias ls='ls --color=auto --classify'
 alias la="ls -alh"
 alias cp="cp -vi"
-alias cp="mv -vi"
+alias mv="mv -vi"
 alias grep="grep --color=auto"
 alias e="$EDITOR"
 alias e.="$EDITOR ."

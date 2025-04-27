@@ -18,7 +18,14 @@ plug#begin()
 Plug 'AndrewRadev/sideways.vim'
 Plug 'S4deghN/clrzr'
 Plug 'tpope/vim-scriptease'
-
+Plug 'mg979/vim-visual-multi'
+# {{{
+g:VM_leader = '\'
+g:VM_maps = {
+    Undo: 'u',
+    Redo: '<C-r>'
+}
+# }}}
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/fzf.vim'
 Plug 'alx741/vinfo'
@@ -116,13 +123,20 @@ plug#end()
 runtime ftplugin/man.vim | set keywordprg=:Man
 packadd! matchit
 packadd! comment
-packadd! termdebug
+
+# Using modified version under user plugin directory
+# packadd! termdebug
 g:termdebug_config = {
     map_plus: false,
     variables_window: true,
     variables_window_height: 20,
     evaluate_in_popup: true,
+    map_fn: true,
 }
+
+# nnoremap <nowait> <esc> <esc>
+set <S-F5>=[15;2~
+nnoremap <S-F5> :Termdebug <Up>
 
 # -----------------------------------------------
 # --- options ---
@@ -331,6 +345,10 @@ xnoremap ga  <plug>(EasyAlign)
 nnoremap ga\ mz<plug>(EasyAlign)ap\g`z
 
 # --- navigation ---
+# nnoremap <expr> <C-d> repeat("1\<C-d>", &scroll) .. "\<cmd>let &scroll=0\<cr>"
+# nnoremap <expr> <C-u> repeat("1\<C-u>", &scroll) .. "\<cmd>let &scroll=0\<cr>"
+# nnoremap <expr> <C-f> repeat("1\<C-d>", &scroll * 2) .. "\<cmd>let &scroll=0\<cr>"
+# nnoremap <expr> <C-b> repeat("1\<C-u>", &scroll * 2) .. "\<cmd>let &scroll=0\<cr>"
 noremap  j      gj
 noremap  k      gk
 noremap  }      <cmd>keepj norm! }<cr>
@@ -581,7 +599,8 @@ augroup autoCommands
     autocmd Filetype qf nmap <buffer> <Esc> ZQ
 
     # Set debug layout!
-    autocmd User TermdebugStartPost norm! cc:setl nus:b gdb:resize 7ls:resize 7:b debugged-programh
+    autocmd User TermdebugStartPost norm! cc:setl nus:b gdb:resize 15ls:resize 7:b debugged-programh
+    autocmd User TermdebugStartPost feedkeys("start\<cr>")
     autocmd User TermdebugStopPre norm! :Source:setl nonu
 augroup end
 
