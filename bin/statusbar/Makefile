@@ -1,4 +1,4 @@
-CFLAGS := -Wall -O0 -g
+CFLAGS := -Wall -O0 -g -std=c23
 
 programs = $(patsubst %.c,bin/%,$(wildcard *.c))
 
