@@ -14,6 +14,27 @@ if empty(glob('~/.vim/autoload/plug.vim'))
     au VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 plug#begin()
+Plug 'habamax/vim-asciidoctor'
+# {{{
+g:asciidoctor_fenced_languages = ['c', 'sh', 'make', 'systemd', 'conf', 'json']
+g:asciidoctor_syntax_conceal = 1
+def AsciidoctorHighlight()
+    hi link asciidoctorCode markDownCode
+    hi link asciidoctorSourceBlock asciidoctorListingBlock
+    # hi link asciidoctorListingBlock asciidoctorSourceBlock
+    hi link asciidoctorOption Special
+    hi link asciidoctorBlockOptions Special
+    hi link asciidoctorBlock Special
+    hi link asciidoctorH1Delimiter asciidoctorH1
+    hi link asciidoctorH2Delimiter asciidoctorH2
+    hi link asciidoctorH3Delimiter asciidoctorH3
+    hi link asciidoctorH4Delimiter asciidoctorH4
+enddef
+augroup ASCIIDOCTOR_COLORS | au!
+    au Colorscheme * call AsciidoctorHighlight()
+    au BufNew,BufRead *.adoc call AsciidoctorHighlight()
+augroup end
+# }}}
 # Plug 'vim-scripts/TagHighlight'
 Plug 'AndrewRadev/sideways.vim'
 Plug 'S4deghN/clrzr'
@@ -136,7 +157,7 @@ g:termdebug_config = {
 
 # nnoremap <nowait> <esc> <esc>
 set <S-F5>=[15;2~
-nnoremap <S-F5> :Termdebug <Up>
+nnoremap <S-F5> :Termdebug --args <Up>
 
 # -----------------------------------------------
 # --- options ---
@@ -220,7 +241,8 @@ inoremap <expr> <C-z> &spell ? "\<C-x>s" : "\<C-o>:setl spell\<cr>\<C-x>s"
 inoremap <C-s>d <esc>:r!date "+\%Y-\%m-\%d \%H:\%M:\%S"<cr>kJg`]a
 
 # --- term ---
-tmap <C-]> <C-\><C-n>
+tnoremap <C-]> <C-\><C-n>
+tnoremap <ScrollWheelUp> <C-\><C-n><ScrollWheelUp>
 
 # --- w ---
 # def Key_w()
@@ -265,6 +287,7 @@ cmap <C-j>  <Down>
 cmap <C-k>  <Up>
 cmap <C-x>f <C-r>=expand('%:p')<cr>
 cmap <C-x>d <C-r>=expand('%:p:h:s?\S\+:\/\/??').'/'<cr>
+cmap %% <C-x>f
 
 # --- paste ---
 def Paste(p: string)

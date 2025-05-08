@@ -48,6 +48,7 @@ TAB:    menu-complete
 "\C-w": "\ew"
 "\e;u": upcase-word
 "\e;U": downcase-word
+# "\e\\-" makes universal argument negative (reverse direction)
 "\eu":  "\e\\-\e;u"
 "\eU":  "\e\\-\e;U"
 "\et":  transpose-words

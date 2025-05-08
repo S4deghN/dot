@@ -94,6 +94,7 @@ alias ls='ls --color=auto --classify'
 alias la="ls -alh"
 alias cp="cp -vi"
 alias mv="mv -vi"
+alias rm="rm -vI"
 alias grep="grep --color=auto"
 alias e="$EDITOR"
 alias e.="$EDITOR ."
@@ -145,6 +146,7 @@ alias ffmpeg-combine='ffmpeg -i "" -i "" out.mp4'
 # completions
 #---------------------------------------------------
 complete -C vic vic
+complete -C n n
 [[ -x $(command -v pomo) ]] && complete -C pomo pomo
 
 # -----------------------------------------------

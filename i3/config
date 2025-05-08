@@ -267,7 +267,7 @@ for_window [instance="gpick"] move scratchpad, scratchpad show
 bindsym $mod+i exec --no-startup-id i3-scratchpad-or-launch "gpick"
 
 for_window [instance="todo"] move scratchpad, scratchpad show, resize set 1200 900, move position center
-set $todo_cmd exec --no-startup-id i3-scratchpad-or-launch "st -n todo -e $EDITOR $HOME/note/todo.vorg" "todo"
+set $todo_cmd exec --no-startup-id i3-scratchpad-or-launch "st -n todo -e $EDITOR $HOME/note/todo/todo.adoc" "todo"
 bindsym $mod+g $todo_cmd
 # exec --no-startup-id $todo_cmd
 

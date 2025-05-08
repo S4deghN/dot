@@ -210,6 +210,12 @@ hlset([
     # typedef
     {name: 'Typedef', guifg: yellow, cterm: {}, gui: {}},
 
+    # {name: 'MarkDownCode', guibg: '#2c2c2c', cterm: {}, gui: {}},
+    # {name: 'MarkDownCodeBlock', guifg: 'ivory4', cterm: {}, gui: {}},
+    # {name: 'MarkDownCode', guifg: 'ivory4', guibg: '#282828', cterm: {}, gui: {}},
+    {name: 'MarkDownCodeBlock', guifg: 'ivory4', cterm: {}, gui: {}},
+    {name: 'MarkDownCode', guifg: blue, cterm: {}, gui: {}},
+
     # }}},
     # Completion Menu: {{{
 
@@ -250,7 +256,8 @@ hlset([
     # Not capitalised word
     {name: 'SpellCap',   guifg: 'NONE', guibg: 'bg', cterm: {undercurl: 1}, gui: {undercurl: 1}},
     # Not recognized word
-    {name: 'SpellBad',   guifg: 'NONE', guibg: 'bg', cterm: {undercurl: 1}, gui: {undercurl: 1}},
+    # {name: 'SpellBad',   guifg: 'NONE', guibg: 'bg', cterm: {undercurl: 1}, gui: {undercurl: 1}},
+    {name: 'SpellBad',   guifg: red, guibg: 'bg', cterm: {}, gui: {}},
     # Wrong spelling for selected region
     {name: 'SpellLocal', guifg: 'NONE', guibg: 'bg', cterm: {undercurl: 1}, gui: {undercurl: 1}},
     # Rare word

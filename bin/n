@@ -1,0 +1,40 @@
+#!/usr/bin/bash
+
+note_dir="$HOME/note/note"
+
+# TODO: check out rob's auto complete
+#------------------------
+# Tab Completion Context
+#------------------------
+if [ -n "$COMP_LINE" ]; then
+    commands=$(find "$note_dir" -type f -printf "%f\n")
+    pre=${COMP_LINE##* } # remove any finished word from the line. ('word ')
+    for cmd in ${commands[@]}; do
+        [[ $cmd =~ ^$pre ]] && echo $cmd
+    done
+    exit 0
+fi
+
+if [ $# -lt 2 ]; then
+    file="$note_dir/$1"
+    [[ -n "$1" ]] &&
+        [[ ! -f "$file" ]] && 
+        [[ $1 != *.* ]] &&
+        file=$file.adoc
+    exec $EDITOR $file
+    exit 0
+fi
+
+case "$1" in
+    rm)
+        shift 1
+        pushd "$note_dir" > /dev/null
+        rm -vi $@
+        popd > /dev/null
+        exit 0
+        ;;
+    *)
+        printf "Invalid command '%s'\n" $1 >&2
+        exit 1
+        ;;
+esac

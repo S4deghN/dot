@@ -14,6 +14,11 @@ if [ -n "$COMP_LINE" ]; then
     exit 0
 fi
 
+if [ -z $1 ]; then
+    exec $EDITOR $HOME/.local/bin/
+fi
 
 cmd=$(command -v $1)
-test -n "$cmd" && exec $EDITOR "$cmd"
+test -n "$cmd" &&
+    exec $EDITOR "$cmd" ||
+    exec $EDITOR $HOME/.local/bin/$1

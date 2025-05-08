@@ -1,0 +1,6 @@
+#!/usr/bin/sh
+
+# Bashism
+# echo -e ${PATH//:/\\n}
+# Posix
+echo "$PATH" | sed 's/:/\n/g'

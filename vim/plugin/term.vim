@@ -3,6 +3,8 @@ vim9script
 # TODO: Line wraps are a problem
 # https://github.com/vim/vim/issues/5769
 # https://github.com/vim/vim/issues/2865
+# - [ ] jobs are not killed porperlly all the times
+# - [ ] path is not always set currectly
 
 var S_bufname: string
 var S_filetype: string
@@ -51,7 +53,7 @@ def g:Term(cmd: string, bang: bool, ...args: list<string>): number
 
     var bufnr = GetTermBufnr()
     if term_getstatus(bufnr) == "running"
-        job_stop(term_getjob(bufnr))
+        job_stop(term_getjob(bufnr), "kill")
     endif
 
     var windows = win_findbuf(bufnr)
