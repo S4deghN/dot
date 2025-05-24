@@ -73,7 +73,7 @@ def g:Term(cmd: string, bang: bool, ...args: list<string>): number
     var escaped_cmd = has('win32') ?  cmd : [
         &shell,
         &shellcmdflag,
-        'printf "\e[32m$\e[m %s\n\n" "' .. cmd .. '" ;' ..
+        'printf "\e[32m$\e[m %s\n" "' .. cmd .. '" ;' ..
         'start=$EPOCHREALTIME;' ..
         escape(cmd, '\') .. ';' ..
         'exit_code=$?;' ..

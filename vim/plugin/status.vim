@@ -59,21 +59,22 @@ def g:LspStatusSet()
         return
     endif
 
-    var diags = lsp#diag#DiagsGetErrorCount(bufnr)
-
     var str = lsp#buffer#BufLspServerGet(bufnr).name
-    if diags.Error != 0
-        str ..= ':%#DiagStatusError#' .. diags.Error .. '%#StatusLine#'
-    endif
-    if diags.Warn != 0
-        str ..= ':%#DiagStatusWarn#' .. diags.Warn .. '%#StatusLine#'
-    endif
-    if diags.Hint != 0
-        str ..= ':%#DiagStatusHint#' .. diags.Hint .. '%#StatusLine#'
-    endif
-    if diags.Info != 0
-        str ..= ':%#DiagStatusInfo#' .. diags.Info .. '%#StatusLine#'
-    endif
+
+    # Too distracting therefore disabled for now
+    # var diags = lsp#diag#DiagsGetErrorCount(bufnr)
+    # if diags.Error != 0
+    #     str ..= ':%#DiagStatusError#' .. diags.Error .. '%#StatusLine#'
+    # endif
+    # if diags.Warn != 0
+    #     str ..= ':%#DiagStatusWarn#' .. diags.Warn .. '%#StatusLine#'
+    # endif
+    # if diags.Hint != 0
+    #     str ..= ':%#DiagStatusHint#' .. diags.Hint .. '%#StatusLine#'
+    # endif
+    # if diags.Info != 0
+    #     str ..= ':%#DiagStatusInfo#' .. diags.Info .. '%#StatusLine#'
+    # endif
     b:lsp_status = str
 enddef
 

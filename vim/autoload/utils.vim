@@ -81,3 +81,12 @@ export def MoveOpenedWinodwToSaneSplit()
   winrestview(view)
   win_execute(old_win_id, 'close')
 enddef
+
+export def OpenWinWithBufPattern(pattern: string)
+  var win_to_use = getwininfo()->filter((_, v) => bufname(v.bufnr) =~ pattern)
+  if len(win_to_use) > 0
+    win_gotoid(win_to_use[0].winid)
+  else
+    exec 'botright' Vertical() 'new'
+  endif
+enddef

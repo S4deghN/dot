@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for ((i=0;i<$1;i++)); do
+for ((i=0; i < ${1:-5}; i++)); do
     if [[ $? -ne 0 ]]; then
         tmux select-layout tiled
         ((i--))

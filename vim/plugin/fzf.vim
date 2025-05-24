@@ -39,8 +39,8 @@ def g:FzfApropos(): list<string>
     # var src_list = systemlist("apropos .")
     var src_cmd = 'apropos .'
     return fzf#run(fzf#wrap('apropos', {'options': ['--header', src_cmd, '--query', '^'], 'source': src_cmd, 'sink': (line) => {
-        var [_, name, section; _] = matchlist(line, '^\(\S\+\)\s\+(\(\w\+\))')
-       exec 'Man' section name
+        var [_, name, section; _] = matchlist(line, '^\(\S\+\)\s\+\((\w\+)\)')
+        exec 'Man' name .. section
     } }))
 enddef
 
