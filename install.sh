@@ -38,6 +38,7 @@ if [[ $1 = "-d" ]]; then
     ln -sfv "$PWD"/alacritty     "$HOME"/.config/
     ln -sfv "$PWD"/tridactyl     "$HOME"/.config/
     ln -sfv "$PWD"/qutebrowser   "$HOME"/.config/
+    ln -sfv "$PWD"/yt-dlp        "$HOME"/.config/
     ln -sfv "$PWD"/share         "$HOME"/.local/share/dot
     # ln -sfv "$PWD"/fontconfig    "$HOME"/.config/
 fi
