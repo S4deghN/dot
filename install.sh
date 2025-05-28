@@ -11,6 +11,7 @@ ln -sfv "$PWD"/.clang-tidy   "$HOME"/
 ln -sfv "$PWD"/vim           "$HOME"/.vim
 ln -sfv "$PWD"/bin           "$HOME"/.local/
 ln -sfv "$PWD"/tmux          "$HOME"/.config/
+ln -sfv "$PWD"/gdb           "$HOME"/.config/
 ln -sfv "$PWD"/nvim          "$HOME"/.config/
 ln -sfv "$PWD"/fish          "$HOME"/.config/
 ln -sfv "$PWD"/ranger        "$HOME"/.config/
