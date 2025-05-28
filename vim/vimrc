@@ -158,8 +158,9 @@ g:termdebug_config = {
 }
 
 # nnoremap <nowait> <esc> <esc>
-set <S-F5>=[15;2~
+exe "set <S-F5>=\e[15;2~"
 nnoremap <S-F5> :Termdebug --args <Up>
+nnoremap <F5> :Termdebug --args <Up>
 
 # -----------------------------------------------
 # --- options ---
@@ -167,7 +168,7 @@ nnoremap <S-F5> :Termdebug --args <Up>
 set nolazyredraw
 # timeout for key sequences of terminal like esc and such
 set nocompatible ttimeout ttimeoutlen=0
-set history=10000 termwinscroll=100000
+set history=10000 termwinscroll=1000000
 set noswapfile undofile
 set undodir=/tmp/$USER.vim9undo | silent system("mkdir -p /tmp/$USER.vim9undo")
 set hidden
@@ -367,7 +368,7 @@ nnoremap gF <scriptcmd>KeepView(':%!clang-format', winsaveview(), 'c')<cr>
 nnoremap gz 1z=
 nnoremap ga  <plug>(EasyAlign)
 xnoremap ga  <plug>(EasyAlign)
-nnoremap ga\ mz<plug>(EasyAlign)ap\g`z
+nnoremap ga\ mz<plug>(EasyAlign)ap<C-x>\\<cr>g`z
 
 # --- navigation ---
 # nnoremap <expr> <C-d> repeat("1\<C-d>", &scroll) .. "\<cmd>let &scroll=0\<cr>"
@@ -407,7 +408,6 @@ def ManUnderCursor()
         exec 'Man' expand('<cword>') .. '(' .. v:count .. ')'
     else
         var page = matchstr(expand('<cWORD>'), '\%(\w\|-\)\+\%((\w\+)\)\?')
-        echom page
         exec 'Man ' .. page
     endif
 enddef
@@ -619,6 +619,8 @@ defcompile
 augroup autoCommands
     autocmd!
     autocmd BufWritePost */.vim/**/*.vim,.vimrc,vimrc,*/vim/**/*.vim source %
+    autocmd BufWritePost */i3/config !i3-msg reload
+    autocmd BufWritePost */i3/config feedkeys("\<Enter>")
     # Mark `"` is the position when last exiting the current buffer.
     autocmd BufReadPost *
                 \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
@@ -645,6 +647,7 @@ augroup autoCommands
     autocmd Filetype qf nmap <buffer> <Esc> ZQ
 
     # Set debug layout!
+    autocmd User TermdebugStartPre norm! o
     autocmd User TermdebugStartPost norm! cc:setl nus:b gdb:resize 15ls:resize 7:b debugged-programh
     autocmd User TermdebugStartPost feedkeys("start\<cr>")
     autocmd User TermdebugStopPre norm! :Source:setl nonu

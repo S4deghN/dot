@@ -42,3 +42,62 @@ hi def link cTypeCast cType
 
 " " syntax match SpecialComment '`' contained containedin=cComment
 " syntax region cSnipOneline matchgroup=SpecialComment start='`' end='`' oneline contained containedin=cComment,cCommentL contains=ALLBUT,cBadBlock,cCurlyError,@cParenGroup,cErrInParen,cCppParen,cErrInBracket,cCppBracket,@cStringGroup,@Spell
+
+finish
+
+if &ft != 'c'
+    finish
+endif
+
+syn clear
+
+syn sync ccomment cComment minlines=50
+
+syn keyword cType void char short int long float double signed unsigned
+syn keyword cType uint ulong
+syn keyword cType size_t ssize_t ptrdiff_t
+syn keyword cType int8_t int16_t int32_t int64_t
+syn keyword cType uint8_t uint16_t uint32_t uint64_t
+syn keyword cType char8_t char16_t char32_t
+syn keyword cType u8 u16 u32 u64 u128
+syn keyword cType i8 i16 i32 i64 i128
+syn keyword cType f32 f64
+syn keyword cType _Complex complex _Imaginary imaginary _Bool bool
+
+syn keyword cStatement goto break return continue asm __asm__
+syn keyword cStatement case default
+syn keyword cStatement if else switch
+syn keyword cStatement while for do
+
+syn keyword cStructure struct union enum
+
+syn keyword cTypedef typedef
+
+syn keyword cStorageClass auto const volatile register inline static extern restrict constexpr
+syn keyword cStorageClass _Alignas alignas _Atomic _Noreturn noreturn _Thread_local thread_local
+syn keyword cStorageClass __attribute__
+
+syn match cConstant "\<[A-Z_][0-9A-Z_]*\>"
+
+syn match cPreProc "^\s*\zs\%(%:\|#\)\s*\h\w*"
+
+syn match  cInclude "^\s*\zs\%(%:\|#\)\s*include\>" skipwhite nextgroup=cIncluded
+syn region cIncluded display contained start=+"+ skip=+\\\\\|\\"+ end=+"+
+syn match  cIncluded display contained "<[^>]*>"
+
+syn match  cDefine "^\s*\zs\%(%:\|#\)\s*\%(define\|undef\)\>" skipwhite nextgroup=cDefined
+syn match  cDefined contained "\h\w*"
+hi def link cDefined cDefine
+
+syn match cFunction        "\<\h\w*\ze\_s*("
+syn match cFunctionPointer "\%((\s*\*\s*\)\@<=\h\w*\ze\s*)\_s*(.*)"
+
+syn match cFormat display contained containedin=cString "%\%(\d\+\$\)\=[-+' #0*]*\%(\d*\|\*\|\*\d\+\$\)\%(\.\%(\d*\|\*\|\*\d\+\$\)\)\=\%([hlLjzt]\|ll\|hh\)\=\%([aAbdiuoxXDOUfFeEgGcCsSpn]\|\[\^\=.[^]]*\]\)"
+syn match cSpecialCharacter display contained containedin=cCharacter,cString "\\[\\?'\"abfnrtv]"
+syn region cString start=+"+ skip=+\\"+ end=+"+
+syn match cCharacter "'[^']\+'"
+
+syn keyword cTodo contained containedin=cComment TODO FIXME FIX XXX NOTE WARN
+syn match cTodo contained containedin=cComment '@\S\+\>'
+syn match cComment "//.*$"
+syn region cComment matchgroup=cComment extend fold start=+/\*+ end=+\*/+

@@ -271,12 +271,16 @@ set $todo_cmd exec --no-startup-id i3-scratchpad-or-launch "st -n todo -e $EDITO
 bindsym $mod+g $todo_cmd
 # exec --no-startup-id $todo_cmd
 
-for_window [instance="discord"] move scratchpad, scratchpad show, resize set 1600 900, \
+for_window [instance="discord"] move scratchpad, scratchpad show, resize set 1920 1060, \
                       move position center
+# pgrep in i3-scratchpad-or-launch would not if the command is enclosed in
+# double quote hence the single quotes though I don't understand why. I has
+# something to do with quotes in the command string.
+# Alternatively just removing the single quotes inside the command and encolsing
+# with double quotes works.
 bindsym $mod+semicolon exec --no-startup-id i3-scratchpad-or-launch \
-      "discord --proxy-server='socks5://192.168.1.100:9909'" \
-      "discord" \
-      "/opt/discord/Discord --proxy-server=socks5://192.168.1.100:9909"
+      "discord --proxy-server=socks5://192.168.1.100:9909" \
+      "discord"
 
 
 set $apps Apps: [f]irefox, [q]utebrowser, [t]hunar, [h]top, [n]itrogen, [c]hrome, [l]utris

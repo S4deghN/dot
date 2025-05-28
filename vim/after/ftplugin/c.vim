@@ -8,6 +8,7 @@ hi! link Identifier Normal
 let g:c_gnu = 1
 let g:c_functions = 1
 let g:c_function_pointers = 1
+let g:c_no_curly_error = 1
 
 func! s:guard_name()
     return substitute(toupper(expand('%:p:.')), '\.\|\/\|\\', '_', 'g')

@@ -13,3 +13,4 @@
 vim/.netrw*
 vim/.*
 vim/plugged/
+tags
