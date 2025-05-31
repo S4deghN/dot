@@ -9,8 +9,6 @@ vim9script
 var S_bufname: string
 var S_filetype: string
 
-g:auto_set_qf = 1
-
 def OnTermWinOpen()
     setl foldmethod=expr foldexpr=0
     setl nonu
@@ -89,11 +87,6 @@ def g:Term(cmd: string, bang: bool, ...args: list<string>): number
         term_name: '[term]',
         exit_cb: (job, ec) => {
             setbufvar(bufnr, 'term_ec', ec)
-            if g:auto_set_qf
-                timer_start(100, (_) => {
-                    cgetexpr getbufline(bufnr, 1, "$")
-                })
-            endif
             # var status_bg = ec != 0 ? '#bb7070' : '#70bb70'
             # hlset([
             #     {name: 'StatuslineTerm',   guibg: status_bg, cterm: {}, gui: {}},
@@ -311,17 +304,3 @@ command! -nargs=0 -bar TermFirstErrorJump TermFirstErrorJump()
 command! -nargs=0 -bar TermPrevErrorJump  TermPrevErrorJump()
 command! -nargs=0 -bar TermLastErrorJump  TermLastErrorJump()
 command! -nargs=0 -bar TermThisErrorJump  TermThisErrorJump()
-
-# Configuration -----------------------------------------------------
-# nnoremap cc :wa<cr>:Term <C-r>=get(t:, 'term_cmd', '')<cr>
-nnoremap cc :wa<cr><cmd>call TermInput()<cr>
-nnoremap sn :Term<space>
-nnoremap ss <cmd>TermToggleWin<cr>
-nnoremap sq <cmd>TermToQf<cr>
-nnoremap sx <cmd>TermKill<cr>
-nnoremap sj <cmd>TermNextErrorJump<cr>
-nnoremap sk <cmd>TermPrevErrorJump<cr>
-nnoremap s$ <cmd>TermLastErrorJump<cr>
-nnoremap s0 <cmd>TermFirstErrorJump<cr>
-nnoremap s<cr> <cmd>TermThisErrorJump<cr>
-

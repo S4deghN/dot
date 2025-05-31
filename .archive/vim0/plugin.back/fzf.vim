@@ -18,7 +18,7 @@ g:fzf_action = {
     'ctrl-v': 'vsplit'
 }
 
-# g:fzf_layout = { 'window': { 'width': 1, 'height': 0.35, 'yoffset': 1.0, 'border': 'top'} }
+g:fzf_layout = { 'window': { 'width': 1, 'height': 0.35, 'yoffset': 1.0, 'border': 'top'} }
 
 # -----------------------------------------------
 # --- extend ---

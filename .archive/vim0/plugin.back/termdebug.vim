@@ -2146,22 +2146,4 @@ enddef
 InitHighlight()
 InitAutocmd()
 
-# Configuration -----------------------------------------------------
-g:termdebug_config = {
-    map_plus: false,
-    variables_window: true,
-    variables_window_height: 20,
-    evaluate_in_popup: true,
-    map_fn: true,
-}
-
-nnoremap <F5> :Termdebug --args <Up>
-
-augroup termdebugAugroup
-  autocmd User TermdebugStartPre norm! o
-  autocmd User TermdebugStartPost norm! cc:setl nus:b gdb:resize 15ls:resize 7:b debugged-programh
-  autocmd User TermdebugStartPost feedkeys("start\<cr>")
-  autocmd User TermdebugStopPre norm! :Source:setl nonu
-augroup end
-
 # vim: sw=2 sts=2 et

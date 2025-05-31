@@ -1,4 +1,5 @@
 vim9script
+finish
 
 if &laststatus > 0
     set showcmdloc=statusline

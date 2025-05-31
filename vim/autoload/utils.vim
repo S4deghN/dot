@@ -1,5 +1,7 @@
 vim9script
 
+const script_path = expand('<script>:p:h') .. '/'
+
 # Get highlight groups of word under cursor in Vim
 export def Syn()
   for id in synstack(line("."), col("."))
@@ -89,4 +91,50 @@ export def OpenWinWithBufPattern(pattern: string)
   else
     exec 'botright' Vertical() 'new'
   endif
+enddef
+
+export def OpenLink(link: string)
+    var err = system("setsid xdg-open " .. link .. " &")
+    if v:shell_error != 0 | echom err | endif
+enddef
+
+export def GetGitBranch(): string
+    var branch = system('git branch --show-current 2>/dev/null')
+    if len(branch) == 0 && v:shell_error == 0
+        branch = system('git describe --all --contains 2>/dev/null')
+    endif
+    return branch->trim()
+enddef
+
+export def SetOpFunc(F: func): string
+    &opfunc = F
+    return '"' .. v:register .. 'g@'
+enddef
+
+export def Operate(op: string, type: string)
+    var reg = v:register !=# '"' ? '"' .. v:register : ''
+    if type ==# 'v'
+        exec 'norm!' .. reg .. op
+    else
+        var vselect = type ==# "line" ? "'[V']" : "`[v`]"
+        var save_vstart = getpos("'<")
+        var save_vend = getpos("'>")
+        exe 'keepj norm!' vselect .. reg .. op
+        setpos("'<", save_vstart)
+        setpos("'>", save_vend)
+    endif
+enddef
+
+export def KeepView(op: string, view: dict<number>, type: string)
+    if type ==# 'c'
+        exec 'keepj' op
+    else
+        Operate(op, type)
+    endif
+    winrestview(view)
+enddef
+
+
+export def BashComplete(partialCommand: string): list<string>
+    return systemlist(script_path .. 'bash_completer.sh ' .. partialCommand)
 enddef

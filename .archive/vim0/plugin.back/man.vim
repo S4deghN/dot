@@ -38,22 +38,3 @@ def g:Man(word: string, whole_window: bool = 0)
         },
     })
 enddef
-
-# TODO: Add support for selection
-def ManUnderCursor()
-    if v:count != 0
-        exec 'Man' expand('<cword>') .. '(' .. v:count .. ')'
-    else
-        var page = matchstr(expand('<cWORD>'), '\%(\w\|-\)\+\%((\w\+)\)\?')
-        exec 'Man ' .. page
-    endif
-enddef
-
-def ManCmdCompletion(arg_lead: string, cmdline: string, curpos: number): list<string>
-    var args = split(cmdline)
-    args[0] = 'man'
-    return utils#BashComplete(join(args))
-enddef
-
-command! -nargs=+ -complete=customlist,ManCmdCompletion Man g:Man(<q-args>, <bang>0)
-command! -nargs=0 ManCword ManUnderCursor()
