@@ -16,19 +16,22 @@ var cyan         = '#afd7af'
 var dim          = '#242424'
 var green        = '#6b9e23'
 var red          = '#ff4444'
-var white        = '#cccdce'
+# var white        = '#cccdce'
+var white        = '#dcddde'
+# var white        = 'ivory2'
 var yellow       = '#ffdd33'
 var dark_gray    = '#343434'
 var gray         = '#444444'
 var light_gray   = '#505050'
 var quartz       = '#95a99f'
 var redish_brown = '#aa8888'
-var goldenrod    = '#D9A420'
+# var goldenrod    = '#D9A420'
+var goldenrod    = 'goldenrod2'
 var oldivory     = '#ccccbc'
 
 g:terminal_ansi_colors = [
     "#202020", #black
-    "#ff5f5f", #red
+    red,
     "#6B9D23", #green
     goldenrod, #yellow
     blue,      #blue
@@ -36,7 +39,7 @@ g:terminal_ansi_colors = [
     quartz,    #cyan
     "#8A8581", #white
     "#777777", #brblack
-    "#ff5f5f", #brred
+    red,
     "#6B9D23", #brgreen
     goldenrod, #bryellow
     blue,      #brblue
@@ -47,7 +50,7 @@ g:terminal_ansi_colors = [
 
 hlset([
     {name: 'ColorColumn',       guibg: dim},
-    {name: 'Constant',          guifg: white},
+    {name: 'Constant',          guifg: oldivory},
     {name: 'CursorLine',        guibg: dim, cterm: {}},
     {name: 'Directory',         guifg: blue},
     {name: 'EndOfBuffer',       guifg: light_gray},
@@ -80,13 +83,15 @@ hlset([
     {name: 'Identifier',        guifg: 'fg', cterm: {}},
     {name: 'Function',          guifg: 'fg', cterm: {}},
     {name: 'Operator',          guifg: 'fg', cterm: {}},
-    {name: 'PreProc',           guifg: 'fg', cterm: {}},
+    {name: 'PreProc',           guifg: quartz, cterm: {}},
     {name: 'delimiter',         guifg: 'fg'},
-    {name: 'Special',           guifg: oldivory, cterm: {}},
-    {name: 'Statement',         guifg: 'goldenrod', cterm: {}},
+    {name: 'Special',           guifg: cyan, cterm: {}},
+    {name: 'Statement',         guifg: goldenrod, cterm: {}},
     {name: 'Number',            guifg: oldivory, cterm: {}},
     {name: 'MatchParen',        guifg: 'skyblue', cterm: {}},
-    {name: 'Comment',           guifg: '#777879'},
+    {name: 'Comment',           guifg: '#878889'},
+    # {name: 'Comment',           guifg: 'ivory4'},
+    # {name: 'Comment',           guifg: blue},
     {name: 'VertSplit',         guifg: gray, guibg: gray},
     {name: 'Statusline',        guifg: '#bbbbbb', guibg: gray, cterm: {}},
     {name: 'StatuslineNC',      guifg: '#aaaaaa', guibg: gray, cterm: {}},
@@ -118,7 +123,11 @@ hi! link SpecialChar       Special
 hi! link Tag               Special
 hi! link SpecialComment    Special
 hi! link Debug             Special
-hi! link cConstant         Type
 hi! link Character         String
 hi! link CurSearch         Incsearch
-hi! link WinSeparator	   VertSplit
+hi! link WinSeparator      VertSplit
+hi! link SpecialKey        NonText
+hi! link LineNr            NonText
+hi! link Signcolumn        NonText
+hi! link StatuslineTerm    StatusLine
+hi! link StatuslineTermNC  StatusLineNC

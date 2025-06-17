@@ -40,9 +40,9 @@ def g:Man(word: string, whole_window: bool = 0)
 enddef
 
 # TODO: Add support for selection
-def ManUnderCursor()
-    if v:count != 0
-        exec 'Man' expand('<cword>') .. '(' .. v:count .. ')'
+def ManUnderCursor(count: number = v:count)
+    if count != 0
+        exec 'Man' expand('<cword>') .. '(' .. count .. ')'
     else
         var page = matchstr(expand('<cWORD>'), '\%(\w\|-\)\+\%((\w\+)\)\?')
         exec 'Man ' .. page
@@ -56,4 +56,5 @@ def ManCmdCompletion(arg_lead: string, cmdline: string, curpos: number): list<st
 enddef
 
 command! -nargs=+ -complete=customlist,ManCmdCompletion Man g:Man(<q-args>, <bang>0)
-command! -nargs=0 ManCword ManUnderCursor()
+command! -nargs=0 -count ManCword ManUnderCursor(<count>)
+    

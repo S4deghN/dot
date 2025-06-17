@@ -8,15 +8,21 @@ if exists("syntax_on")
 	syntax reset
 endif
 
-let g:colors_name="naysayer88"
+let g:colors_name="naysayer"
 
-highlight! Normal guifg=#d1b897 guibg=#042327 gui=NONE
+" highlight! Normal guifg=#d1b897 guibg=#042327 gui=NONE
+highlight! Normal guifg=#d1b897 guibg=#242424 gui=NONE
 
-highlight! Comment guifg=#44b340 guibg=NONE gui=NONE
-highlight! NonText guifg=darkgray
+" highlight! Comment guifg=#44b340 guibg=NONE gui=NONE
+" highlight! Comment guifg=yellow2 guibg=NONE gui=NONE
+highlight! Comment guifg=gold guibg=NONE gui=NONE
+highlight! NonText guifg=#484848
+highlight! link SpecialKey NonText
+highlight! link EndOfBuffer NonText
 
-highlight! link Constant Statement
+highlight! link Constant Number
 highlight! String guifg=#2ec09c guibg=NONE gui=NONE
+" highlight! String guifg=#EDD400 guibg=NONE gui=NONE
 highlight! link Character Number
 highlight! Number guifg=#7ad0c6 guibg=NONE gui=NONE
 highlight! link Boolean Number
@@ -24,9 +30,8 @@ highlight! link Float Number
 
 highlight! link Identifier Normal
 highlight! link Function Normal
-highlight Function guifg=#cceeee
 
-highlight! Statement guifg=#eeeeee guibg=NONE gui=NONE
+highlight! Statement guifg=#ffffff guibg=NONE gui=NONE
 highlight! link Conditional Statement
 highlight! link Repeat Statement
 highlight! link Label Statement
@@ -37,7 +42,7 @@ highlight! link Exception Statement
 highlight! PreProc guifg=#8cde94 guibg=NONE gui=NONE
 highlight link Include PreProc
 highlight link Define PreProc
-highlight link Macro PreProc
+highlight link Macro Normal
 highlight link PreCondit PreProc
 
 highlight! link Type PreProc
@@ -74,28 +79,27 @@ highlight! link csLogicSymbols Normal
 " Window UI
 highlight Cursor                     guifg=#000000       guibg=#dfdfaf      gui=NONE
 highlight MoreMsg                    guifg=#dfaf87       guibg=NONE         gui=NONE
-highlight Visual                     guifg=NONE          guibg=#08454D      gui=NONE
+highlight Visual                     guifg=NONE          guibg=#434343      gui=NONE
 highlight Question                   guifg=#875f5f       guibg=NONE         gui=NONE
 highlight Search                     guifg=#dfdfaf       guibg=#878787      gui=NONE
-highlight PmenuSel                   guifg=#dfdfaf       guibg=#875f5f      gui=NONE
 highlight MatchParen                 guifg=#dfdfaf       guibg=#875f5f      gui=NONE
-highlight! EndOfBuffer               guifg=#042327       guibg=#042327      gui=NONE
+hi Pmenu guibg=#343434
+hi PmenuSel guibg=#444444
+hi PmenuThumb guibg=fg
+hi PmenuMatch guifg=#ffffff
+hi! link  PmenuMatchSel PmenuMatch
 
 " Addons
 hi NormalFloat guibg=bg
 hi CmpPmenuBorder guifg=#000000
 hi SignColumn guibg=bg
-hi VertSplit    guifg=#282828 guibg=#282828 cterm=NONE
-hi StatusLine   guibg=#282828 cterm=NONE
-hi StatusLineNC guibg=#282828 cterm=NONE
+hi VertSplit    guifg=#343434 guibg=#343434 cterm=NONE
+hi StatusLine   guibg=#343434 cterm=NONE
+hi StatusLineNC guibg=#343434 cterm=NONE
 hi LineNr guifg=#18555D
 hi ErrorMsg guifg=red guibg=bg
 hi Folded guifg=#878787 guibg=bg
 hi QuickFixLine guibg=#031E21
-hi Pmenu guibg=#031C20
-hi! link Pmenu Visual
-hi! link PmenuSel Pmenu
-hi PmenuThumb guibg=fg
 hi FloatTitle guifg=#2ec09c
 hi Title guifg=#2ec09c
 hi IncSearch     guibg=#ee799f guifg=black cterm=NONE
@@ -106,3 +110,23 @@ hi DiffAdd       guibg=#123723 guifg=NONE    gui=NONE
 hi DiffChange    guibg=#424218 guifg=NONE    gui=NONE
 hi DiffDelete    guibg=#4d1f24 guifg=NONE    gui=NONE
 " hi DiffText      guibg=NONE    guifg=NONE    gui=reverse
+
+let g:terminal_ansi_colors = [
+            \ "#202020",
+            \ "#ff2222",
+            \ "#8cde94",
+            \ "#FED600",
+            \ "#7ad0c6",
+            \ "#ee799f",
+            \ "#2ec09c",
+            \ "#d1b897",
+            \ "#6C6866",
+            \ "#fe2222",
+            \ "#8cde94",
+            \ "#FED600",
+            \ "#7ad0c6",
+            \ "#ee799f",
+            \ "#2ec09c",
+            \ "#e1e0d9",
+            \ ]
+

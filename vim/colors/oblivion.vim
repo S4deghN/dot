@@ -13,7 +13,8 @@ let g:colors_name = "oblivion"
 
 
 " Define reusable colorvariables.
-let s:bg="#2E3436"
+" let s:bg="#2E3436"
+let s:bg="#202428"
 let s:fg="#D3D7CF"
 let s:fg2="#c2c6be"
 let s:fg3="#b1b5ae"
@@ -23,7 +24,7 @@ let s:bg3="#4f5456"
 let s:bg4="#606566"
 let s:keyword="#FFFFFF"
 let s:builtin="#AD7FA8"
-" let s:const="#CE5C00"
+let s:const0="#CE5C00"
 let s:const="#dE6C00"
 " let s:const="#ff8800"
 let s:comment="#888A85"
@@ -44,7 +45,7 @@ exe 'hi FoldColumn guifg='s:comment' guibg='s:bg2
 exe 'hi SignColumn guifg='s:comment' guibg='s:bg2
 exe 'hi LineNr guifg='s:fg2' guibg='s:bg2
 exe 'hi CursorLineNr guifg='s:fg' guibg='s:bg2
-exe 'hi MatchParen guifg='s:warning2'  gui=underline'
+exe 'hi MatchParen guifg='s:warning2' guibg='s:comment ' cterm=bold'
 exe 'hi StatusLine guifg='s:fg2' guibg='s:bg3
 exe 'hi Pmenu guifg='s:fg' guibg='s:bg2
 exe 'hi PmenuSel  guibg='s:bg3

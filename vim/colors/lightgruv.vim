@@ -19,7 +19,8 @@ var dark3  = '#665c54'
 var dark4  = '#7c6f64'
 var medium = '#928374'
 var light0 = '#fdf4c1'
-var light1 = '#dad1bf'
+# var light1 = '#dad1bf'
+var light1 = '#dcd3c1'
 var light2 = '#d5c4a1'
 var light3 = '#c8b9a4'
 var light4 = '#928374'
@@ -155,7 +156,7 @@ hlset([
     # Syntax Highlighting: {{{
 
     {name: 'Special', guifg: orange, cterm: {}, gui: {}},
-    {name: 'Comment', guifg: medium, guibg: 'NONE', cterm: {}, gui: {}},
+    {name: 'Comment', guifg: medium, guibg: '#282828', cterm: {}, gui: {}},
     {name: 'Todo', guifg: 'fg', guibg: 'bg', cterm: {bold: 1}, gui: {bold: 1}},
     {name: 'Error', guifg: red, guibg: 'bg', cterm: {bold: 1}, gui: {bold: 1}},
 

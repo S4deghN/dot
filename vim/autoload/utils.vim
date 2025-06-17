@@ -43,7 +43,7 @@ export def UseSplitOrCreate(): number
   var current_win_pos = win_screenpos(0)
   var winnr = winnr()
 
-  if &columns > 160
+  if &columns >= 160
     if winnr != winnr('1l')
       return win_getid(winnr('1l'))
     elseif winnr != winnr('1h')

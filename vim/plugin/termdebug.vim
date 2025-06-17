@@ -2156,6 +2156,7 @@ g:termdebug_config = {
 }
 
 nnoremap <F5> :Termdebug --args <Up>
+exe "set <S-F5>=\e[15;2~" | nnoremap <S-F5> :Termdebug --args <Up>
 
 augroup termdebugAugroup
   autocmd User TermdebugStartPre norm! o

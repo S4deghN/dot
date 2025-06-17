@@ -16,15 +16,14 @@ set list listchars=tab:\ ,nbsp:␣,trail:·,extends:…,precedes:… showbrea
 set cpoptions+=n
 set cinoptions+=:0,ls,g0,N-s,E-s,(s,k0,j1,J1,t0
 set path=.,**,/usr/include
-set grepprg=grep\ -rn
+set grepprg=grep
 set termguicolors
-
-color lightgruv
 
 g:loaded_netrw = 1 | g:loaded_matchparen = 1 | g:loaded_vimballPlugin = 1
 packadd! matchit
 packadd! comment
 plug#begin()
+Plug 'hardselius/warlock'
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
@@ -38,7 +37,10 @@ Plug '~/.vim/local/vim-fm'
 Plug '~/.vim/local/lsp' | runtime lsp.vim
 plug#end()
 
+color vim9
+
 map ' `
+map Y y$
 map gp "+p
 map gP "+P
 map +  =i{
@@ -123,6 +125,7 @@ augroup autoCommands
     autocmd BufWinEnter */doc/*.txt call utils#MoveOpenedWinodwToSaneSplit() | setl nolist
 
     autocmd Filetype qf nmap <buffer> <Esc> ZQ
+    autocmd Filetype man nmap <buffer> q ZQ
     autocmd CmdwinEnter * nmap <buffer> q     :q<cr>
     autocmd CmdwinEnter * nmap <buffer> <C-c> :q<cr>
 

@@ -76,7 +76,7 @@ def GetVisualSelection(): string
 enddef
 
 def g:LiveGrep(query: string, fullscreen: bool)
-    var command_fmt = &grepprg .. ' --color=always %s || true'
+    var command_fmt = 'rg --color=always %s || true'
     var prompt = ''
     var initial_grep = printf(command_fmt, shellescape(query))
     var reload_grep = printf(command_fmt, '{q}')
