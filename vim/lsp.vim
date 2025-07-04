@@ -16,7 +16,8 @@ var lspOpts = {
     outlineWinSize: 35,
     showDiagInBalloon: false,
     showDiagInPopup: true,
-    autoHighlightDiags: false
+    autoHighlightDiags: false,
+    showSignature: false,
 }
 
 var lspServers = [

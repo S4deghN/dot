@@ -63,11 +63,14 @@ nnoremap ga  <plug>(EasyAlign)
 xnoremap ga  <plug>(EasyAlign)
 nnoremap ga\ mz<plug>(EasyAlign)ap<C-x>\\<cr>g`z
 noremap  gk  :ManCword<cr>
-nnoremap zs  :%s/\s\+$//e<cr>
+nnoremap zs  <scriptcmd>utils#KeepView(':%s/\s\+$//e', winsaveview(), 'c')<cr>
 nnoremap gL  <scriptcmd>utils#OpenLink(expand("<cfile>"))<cr>
 nmap     gcd <cmd>let @c=col('.')<cr>yygccp<cmd>call cursor(0,@c)<cr>
+exe "set <M-t>=\et" | nmap <M-t> <cmd>t.<cr>
 
-noremap <C-g>  1<C-g>
+noremap <C-g> 1<C-g>
+nnoremap <C-s>s :%s/<C-r><C-w>/
+xnoremap <C-s>s "vy:%s/<C-r>v/
 
 exe "set <M-f>=\ef" | cmap <M-f>  <C-right>
 exe "set <M-b>=\eb" | cmap <M-b>  <C-left>
@@ -102,8 +105,12 @@ nnoremap <space>w  <scriptcmd>g:Dict(expand("<cword>"))<cr>
 nnoremap <space>a  <cmd>Apropos<cr>
 nnoremap <space>z  <cmd>setl spell!<cr>
 
+inoremap <expr> <C-e> pumvisible() ? "\<C-e>" : "\<esc>A"
+inoremap <silent> <Esc> <Esc>g`^
+
 command! Syn utils#Syn()
 command! RT RooterToggle | exec "norm :\<C-u>cd \<C-x>d\<cr>"
+command! SudoWrite exec ':silent w !sudo tee' expand('%:p') | e!
 command! -nargs=+ -complete=command  R put = execute(<q-args>)->trim()
 command! -nargs=+ -complete=function RR put = execute('echo ' .. <q-args>)->trim()
 command! -nargs=? Expand utils#KeepView(':%!expand -t ' .. (!<q-args> ? '4' : <q-args>), winsaveview(), 'c')

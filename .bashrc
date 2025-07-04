@@ -148,6 +148,7 @@ alias ffmpeg-combine='ffmpeg -i "" -i "" out.mp4'
 complete -C vic vic
 complete -C n n
 [[ -x $(command -v pomo) ]] && complete -C pomo pomo
+[[ -f "/opt/dmd/etc/bash_completion.d/dmd" ]] && source /opt/dmd/etc/bash_completion.d/dmd
 
 # -----------------------------------------------
 # --- functions ---

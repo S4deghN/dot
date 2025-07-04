@@ -181,18 +181,18 @@ enddef
 
 def OpenFile()
     const file_patterns = [
-        '^\s\+File "\(.\{-}\)", line \(\d\+\)',
-        '^\s\+in function\s\+.\{-}(\(.\{-}\), line \(\d\+\))',
-        '^\s\+--> \(.\{-}\):\(\d\+\):\(\d\+\)',
-        '^\(\)\(\d\+:\)\(\d\+:\)\?',
-        '^\(.\{-}\):\(\d\+:\)\?\(\d\+:\)\?',
-        '^\(\S\+\)'
+        '^\s\+\s\+File "\(.\{-}\)", line \(\d\+\)',
+        '^\s\+\s\+in function\s\+.\{-}(\(.\{-}\), line \(\d\+\))',
+        '^\s\+\s\+--> \(.\{-}\):\(\d\+\):\(\d\+\)',
+        '^\s\+\(\)\(\d\+:\)\(\d\+:\)\?',
+        '^\s\+\(.\{-}\):\(\d\+:\)\?\(\d\+:\)\?',
+        '^\s\+\(\S\+\)'
     ]
     var matches: list<string>
     for pattern in file_patterns
         matches = matchlist(getline('.'), pattern)
         if len(matches) > 0 | break | endif
-   endfor
+    endfor
     if len(matches) == 0 | return | endif
 
     var [_, fname, lnum, col; _] = matches

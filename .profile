@@ -83,6 +83,10 @@ if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
 
+if [ -d "/opt/dmd/usr/bin" ] ; then
+    PATH="/opt/dmd/usr/bin:$PATH"
+fi
+
 # if [[ "$(tty)" = "/dev/tty1" ]]; then
 #     pgrep Xorg || startx
 # fi
