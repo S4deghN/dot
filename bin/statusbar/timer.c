@@ -1,5 +1,8 @@
 // TODO:
 // - Support human readlable time input. 1h, 50min, ...
+#define __USE_XOPEN       /* See feature_test_macros(7) */
+#define _XOPEN_SOURCE       /* See feature_test_macros(7) */
+#include <time.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
@@ -73,7 +76,7 @@ option(bool, help, "h", "", "Print Help") {
 option(long, start, "s", "[period]", "Start tiemr") {
     start.is_set = true;
     t.prev = time(NULL);
-    t.period = *argc > 0 ? atoi(shift(*argc, *argv)) : 3600;
+    t.period = *argc > 0 ? ({ struct tm time = {0}; strptime(shift(*argc, *argv), "%H:%M", &time); time.tm_hour * 3600 + time.tm_min * 60; }) : 3600;
     t.remain = t.period;
     t.paused = 0;
     int fd = shm_open("/timer", O_RDWR | O_CREAT, 0644);
