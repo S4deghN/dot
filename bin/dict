@@ -1,2 +1,3 @@
 #!/bin/sh
-vim -M -R --noplugin -S $HOME/.vim/plugin/dict.vim -c "Dict $1" -c 'silent only'
+word=${1:-$(xclip -o)}
+vim -M -R --noplugin -S $HOME/.vim/plugin/dict.vim -c "Dict $word" -c 'silent only'

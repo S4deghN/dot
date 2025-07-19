@@ -181,12 +181,12 @@ enddef
 
 def OpenFile()
     const file_patterns = [
-        '^\s\+\s\+File "\(.\{-}\)", line \(\d\+\)',
-        '^\s\+\s\+in function\s\+.\{-}(\(.\{-}\), line \(\d\+\))',
-        '^\s\+\s\+--> \(.\{-}\):\(\d\+\):\(\d\+\)',
-        '^\s\+\(\)\(\d\+:\)\(\d\+:\)\?',
-        '^\s\+\(.\{-}\):\(\d\+:\)\?\(\d\+:\)\?',
-        '^\s\+\(\S\+\)'
+        '^\s*\s\+File "\(.\{-}\)", line \(\d\+\)',
+        '^\s*\s\+in function\s\+.\{-}(\(.\{-}\), line \(\d\+\))',
+        '^\s*\s\+--> \(.\{-}\):\(\d\+\):\(\d\+\)',
+        '^\s*\(\)\(\d\+:\)\(\d\+:\)\?',
+        '^\s*\(.\{-}\):\(\d\+:\)\?\(\d\+:\)\?',
+        '^\s*\(\S\+\)'
     ]
     var matches: list<string>
     for pattern in file_patterns
@@ -252,11 +252,17 @@ const ErrJumpPattern =
     '\(^\s*File ".\{-}", line \d\+,\)\|' ..
     '\(^\s\+in function\s\+.\{-}(.\{-}, line \d\+)\)'
 def NextError()
-    search(ErrJumpPattern, 'W')
+    var did_match = search(ErrJumpPattern, 'W')
+    if !!did_match
+        normal! zz
+    endif
 enddef
 
 def PrevError(accept_current: bool = false)
-    search(ErrJumpPattern, 'bW' .. (accept_current ? 'c' : ''))
+    var did_match = search(ErrJumpPattern, 'bW' .. (accept_current ? 'c' : ''))
+    if !!did_match
+        normal! zz
+    endif
 enddef
 
 def FirstError()

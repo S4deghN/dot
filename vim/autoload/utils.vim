@@ -134,6 +134,16 @@ export def KeepView(op: string, view: dict<number>, type: string)
     winrestview(view)
 enddef
 
+export def JumpToEndOfOp(op: string, type: string)
+    if type ==# 'c'
+        exec 'keepj' op
+    else
+        Operate(op, type)
+    endif
+    keepj normal! `]
+enddef
+
+
 
 export def BashComplete(partialCommand: string): list<string>
     return systemlist(script_path .. 'bash_completer.sh ' .. partialCommand)

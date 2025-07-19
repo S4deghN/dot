@@ -75,25 +75,29 @@ def GetVisualSelection(): string
     return content
 enddef
 
-def g:LiveGrep(query: string, fullscreen: bool)
-    var command_fmt = 'rg --color=always %s || true'
+def g:LiveGrep(query: string, fullscreen: bool, previous = false)
+    var command_fmt = 'rg -S --vimgrep --color=always --sort=path %s || true'
     var prompt = ''
-    var initial_grep = printf(command_fmt, shellescape(query))
+    var q = previous ? system('cat /tmp/rg-fzf-p') : query
+    var initial_grep = printf(command_fmt, shellescape(q))
     var reload_grep = printf(command_fmt, '{q}')
     var cwd = getcwd()
     var options = {'options': [
         '--prompt', '*Rg> ',
         '--header', getcwd(),
         '--phony',
-        '--query', query,
+        '--query', q,
         '--bind', 'change:reload:sleep 0.1;' .. reload_grep,
         '--bind', 'ctrl-g:transform:[[ ! {fzf:prompt} == "*Rg> " ]] &&' ..
         'echo "rebind(change)+change-prompt(*Rg> )+disable-search+transform-query:echo \{q} > /tmp/rg-fzf-f; cat /tmp/rg-fzf-r" ||' ..
-        'echo "unbind(change)+change-prompt({q}> )+enable-search+transform-query:echo \{q} > /tmp/rg-fzf-r; cat /tmp/rg-fzf-f"'
+        'echo "unbind(change)+change-prompt({q}> )+enable-search+transform-query:echo \{q} > /tmp/rg-fzf-r; cat /tmp/rg-fzf-f"',
+        '--bind', 'enter:execute(printf {q} > /tmp/rg-fzf-p)+accept',
+        '--bind', 'esc:execute(printf {q} > /tmp/rg-fzf-p)+abort',
     ]}
     call fzf#vim#grep(initial_grep, 1, fzf#vim#with_preview(options), fullscreen)
 enddef
 command! -nargs=* -bang LiveGrep call LiveGrep(<q-args>, <bang>0)
+command! -bang LiveGrepPrevious call LiveGrep("", <bang>0, true)
 command! -nargs=* -bang LiveGrepVisual call LiveGrep(escape(GetVisualSelection(), "()\+*.[]\|"), <bang>0)
 # I don't like the default with shortened path name
 command! -bang -nargs=? -complete=dir Files call fzf#vim#files(<q-args>, {options: ['--prompt=' .. getcwd() .. '/']}, <bang>0)

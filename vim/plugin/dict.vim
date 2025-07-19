@@ -23,6 +23,7 @@ def g:Dict(word: string, whole_window: bool = 0)
 
     setl stl-=%f
     setl stl^=[dict]
+    setl nospell
     nnoremap <buffer> <leader>e :Dict<space>
 
     if len(oldbuf) > 0

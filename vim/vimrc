@@ -7,13 +7,13 @@ set hidden noswapfile undofile undodir=/tmp/$USER.vim9undo | silent system("mkdi
 set mouse=ar ttymouse=sgr
 set completeopt=menu,longest
 set nowildmenu wildignorecase wildmode=longest,list,full wildcharm=<Tab>
-set notitle showcmd shortmess=aoOFtT
+set notitle showcmd laststatus=2 shortmess=aoOFtT
 set nostartofline splitbelow splitright
 set hlsearch incsearch ignorecase smartcase tagcase=match # if match case is not set to `match` tag search becomes really slow!
 set smartindent nosmarttab expandtab shiftwidth=4 tabstop=4
 set fillchars+=diff:╱,fold:\ ,vert:│
 set list listchars=tab:\ ,nbsp:␣,trail:·,extends:…,precedes:… showbreak=\
-set cpoptions+=n
+set cpoptions+=n foldmethod=marker
 set cinoptions+=:0,ls,g0,N-s,E-s,(s,k0,j1,J1,t0
 set path=.,**,/usr/include
 set grepprg=grep
@@ -23,7 +23,6 @@ g:loaded_netrw = 1 | g:loaded_matchparen = 1 | g:loaded_vimballPlugin = 1
 packadd! matchit
 packadd! comment
 plug#begin()
-Plug 'hardselius/warlock'
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
@@ -41,6 +40,8 @@ color vim9
 
 map ' `
 map Y y$
+map gy "+y
+map gY "+Y
 map gp "+p
 map gP "+P
 map +  =i{
@@ -72,8 +73,6 @@ noremap <C-g> 1<C-g>
 nnoremap <C-s>s :%s/<C-r><C-w>/
 xnoremap <C-s>s "vy:%s/<C-r>v/
 
-exe "set <M-f>=\ef" | cmap <M-f>  <C-right>
-exe "set <M-b>=\eb" | cmap <M-b>  <C-left>
 cmap <C-j>  <Down>
 cmap <C-k>  <Up>
 cmap <C-x>f <C-r>=expand('%:p')<cr>
@@ -97,8 +96,9 @@ noremap  <space>H  <cmd>Helptags<cr>
 noremap  <space>t  :Tags <C-r><C-w><cr>
 noremap  <space>T  <cmd>Tags<space>
 nnoremap <space>g  <cmd>LiveGrep<cr>
-nnoremap <space>G  :LiveGrep <C-r><C-w><cr>
 vnoremap <space>g  :<C-u>LiveGrepVisual<cr>
+nnoremap <space>G  :LiveGrep <C-r>=expand('<cword>')<cr><cr>
+nnoremap <space><enter> :LiveGrepPrevious<cr>
 nnoremap <space>vv :Git<cr>
 nnoremap <space>vb <cmd>echo utils#GetGitBranch()<cr>
 nnoremap <space>w  <scriptcmd>g:Dict(expand("<cword>"))<cr>
@@ -108,13 +108,22 @@ nnoremap <space>z  <cmd>setl spell!<cr>
 inoremap <expr> <C-e> pumvisible() ? "\<C-e>" : "\<esc>A"
 inoremap <silent> <Esc> <Esc>g`^
 
+noremap j gj
+noremap k gk
+
+nnoremap <expr> y utils#SetOpFunc(function('utils#JumpToEndOfOp', ['y']))
+vnoremap y <scriptcmd>utils#JumpToEndOfOp('y', 'v')<cr>
+nmap yy y_
+map  Y  yg_
+
+
 command! Syn utils#Syn()
 command! RT RooterToggle | exec "norm :\<C-u>cd \<C-x>d\<cr>"
 command! SudoWrite exec ':silent w !sudo tee' expand('%:p') | e!
 command! -nargs=+ -complete=command  R put = execute(<q-args>)->trim()
 command! -nargs=+ -complete=function RR put = execute('echo ' .. <q-args>)->trim()
 command! -nargs=? Expand utils#KeepView(':%!expand -t ' .. (!<q-args> ? '4' : <q-args>), winsaveview(), 'c')
-command! -nargs=1 -bang Grep g:Term("rg -S --vimgrep " .. <f-args>, <bang>0)
+command! -nargs=1 -bang Grep g:Term("rg -S --vimgrep --sort=path" .. <f-args>, <bang>0)
 # Dump {binfile}
 command! -nargs=1 -bang -complete=file Dump g:Term("objdump -ClSd --disassembler-color=on " .. <f-args>, <bang>0, "[dump]", "asm")
 # Assembly {compiler} {sourcefile}
@@ -139,4 +148,11 @@ augroup autoCommands
     autocmd BufAdd *.lub set filetype=lua
     autocmd BufAdd .clang* set filetype=yaml
     autocmd BufAdd /tmp/bash* set filetype=sh
+
+    def CapsOff()
+        timer_start(100, (_) => {
+            silent system("caps-off")
+        })
+    enddef
+    autocmd InsertLeave * CapsOff()
 augroup end

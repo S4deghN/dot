@@ -5,12 +5,6 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# if [ -f "$HOME/.profile" ]; then
-#     . "$HOME/.profile"
-# fi
-
-. /usr/share/git/git-prompt.sh
-
 #--------------------------------------------------
 # prompt
 #---------------------------------------------------
@@ -158,6 +152,7 @@ get-source() {
     pushd $1 && \
     makepkg -do --skippgpcheck
 }
+
 # READLINE variable are only populated if the function is called by `bind -x`. The
 # advantage of using READLINE stuff over normal functions is command history population
 # and easy input usage.
