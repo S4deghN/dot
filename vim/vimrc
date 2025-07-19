@@ -23,7 +23,6 @@ g:loaded_netrw = 1 | g:loaded_matchparen = 1 | g:loaded_vimballPlugin = 1
 packadd! matchit
 packadd! comment
 plug#begin()
-Plug 'https://github.com/fatih/vim-go'
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
