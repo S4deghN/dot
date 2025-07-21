@@ -148,3 +148,35 @@ enddef
 export def BashComplete(partialCommand: string): list<string>
     return systemlist(script_path .. 'bash_completer.sh ' .. partialCommand)
 enddef
+
+export def GetVisualSelection(): string
+    var mode = mode()
+    var start: list<number>
+    var end: list<number>
+
+    if mode == 'v' || mode == 'V' || mode == "\<C-V>"
+        # getpos() -> [bufnum, lnum, col, off]
+        start = getpos('.')
+        end = getpos('v')
+
+        if mode == 'V'
+            start[2] = 1
+            end[2] = 999
+        endif
+    else
+        start = getpos("'<")
+        end = getpos("'>")
+    endif
+
+    var lines = getline(start[1], end[1])
+    if len(lines) <= 0
+        return ''
+    endif
+
+    lines[-1] = strpart(lines[-1], 0, end[2])
+    lines[0] = strpart(lines[0], start[2] - 1)
+
+    var content = join(lines)
+    return content
+enddef
+

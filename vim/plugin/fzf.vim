@@ -44,37 +44,6 @@ def g:FzfApropos(): list<string>
     } }))
 enddef
 
-def GetVisualSelection(): string
-    var mode = mode()
-    var start: list<number>
-    var end: list<number>
-
-    if mode == 'v' || mode == 'V' || mode == "\<C-V>"
-        # getpos() -> [bufnum, lnum, col, off]
-        start = getpos('.')
-        end = getpos('v')
-
-        if mode == 'V'
-            start[2] = 1
-            end[2] = 999
-        endif
-    else
-        start = getpos("'<")
-        end = getpos("'>")
-    endif
-
-    var lines = getline(start[1], end[1])
-    if len(lines) <= 0
-        return ''
-    endif
-
-    lines[-1] = strpart(lines[-1], 0, end[2])
-    lines[0] = strpart(lines[0], start[2] - 1)
-
-    var content = join(lines)
-    return content
-enddef
-
 def g:LiveGrep(query: string, fullscreen: bool, previous = false)
     var command_fmt = 'rg -S --vimgrep --color=always --sort=path %s || true'
     var prompt = ''
@@ -98,7 +67,7 @@ def g:LiveGrep(query: string, fullscreen: bool, previous = false)
 enddef
 command! -nargs=* -bang LiveGrep call LiveGrep(<q-args>, <bang>0)
 command! -bang LiveGrepPrevious call LiveGrep("", <bang>0, true)
-command! -nargs=* -bang LiveGrepVisual call LiveGrep(escape(GetVisualSelection(), "()\+*.[]\|"), <bang>0)
+command! -nargs=* -bang LiveGrepVisual call LiveGrep(escape(utils#GetVisualSelection(), "()\+*.[]\|"), <bang>0)
 # I don't like the default with shortened path name
 command! -bang -nargs=? -complete=dir Files call fzf#vim#files(<q-args>, {options: ['--prompt=' .. getcwd() .. '/']}, <bang>0)
 # Requires :Man command
