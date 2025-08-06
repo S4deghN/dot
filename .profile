@@ -87,6 +87,11 @@ if [ -d "/opt/dmd/usr/bin" ] ; then
     PATH="/opt/dmd/usr/bin:$PATH"
 fi
 
+export GEM_HOME=$HOME/.local/share/gem/ruby/3.4.0
+if [ -d "$HOME/.local/share/gem/ruby/3.4.0/bin" ] ; then
+    PATH="$HOME/.local/share/gem/ruby/3.4.0/bin:$PATH"
+fi
+
 # if [[ "$(tty)" = "/dev/tty1" ]]; then
 #     pgrep Xorg || startx
 # fi

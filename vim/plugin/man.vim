@@ -1,6 +1,6 @@
 vim9script
 
-def g:Man(word: string, whole_window: bool = 0)
+def g:Man(word: string)
     var bufname = 'man://' .. word
     if bufexists(bufname) && getbufinfo(bufname)[0].linecount > 1
         utils#OpenWinWithBufPattern('^man://')
@@ -32,6 +32,7 @@ def g:Man(word: string, whole_window: bool = 0)
                 set nobuflisted
                 set bt=nofile
                 set ft=man
+                setl keywordprg=:Man
             else
                 exe ':' bufnr 'bwipeout'
             endif
@@ -55,6 +56,6 @@ def ManCmdCompletion(arg_lead: string, cmdline: string, curpos: number): list<st
     return utils#BashComplete(join(args))
 enddef
 
-command! -nargs=+ -complete=customlist,ManCmdCompletion Man g:Man(<q-args>, <bang>0)
+command! -range -nargs=* -complete=customlist,ManCmdCompletion Man g:Man(<q-args>)
 command! -nargs=0 -count ManCword ManUnderCursor(<count>)
-    
+command! -nargs=0 ManVisual g:Man(utils#GetVisualSelection())

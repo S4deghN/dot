@@ -18,6 +18,7 @@ var lspOpts = {
     showDiagInPopup: true,
     autoHighlightDiags: false,
     showSignature: false,
+    useQuickfixForLocations: true,
 }
 
 var lspServers = [
@@ -39,9 +40,9 @@ var lspServers = [
     {
         name: 'rust-analyzer',
         filetype: ['rust'],
-        path: 'rustup',
-        args: [ 'run', 'nightly', 'rust-analyzer', ],
-        rootSearch: ['Cargo.toml']
+        path: 'rust-analyzer',
+        args: [],
+        rootSearch: ['Cargo.toml', '.git']
     }
 ]
 

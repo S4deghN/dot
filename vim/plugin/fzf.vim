@@ -45,7 +45,7 @@ def g:FzfApropos(): list<string>
 enddef
 
 def g:LiveGrep(query: string, fullscreen: bool, previous = false)
-    var command_fmt = 'rg -S --vimgrep --color=always --sort=path %s || true'
+    var command_fmt = 'rg -S -n --column --color=always --sort=path %s || true'
     var prompt = ''
     var q = previous ? system('cat /tmp/rg-fzf-p') : query
     var initial_grep = printf(command_fmt, shellescape(q))

@@ -14,7 +14,7 @@ set smartindent nosmarttab expandtab shiftwidth=4 tabstop=4
 set fillchars+=diff:╱,fold:\ ,vert:│
 set list listchars=tab:\ ,nbsp:␣,trail:·,extends:…,precedes:… showbreak=\
 set cpoptions+=n foldmethod=marker
-set cinoptions+=:0,ls,g0,N-s,E-s,(s,k0,j1,J1,t0
+set cinoptions+=:s,=s,l1,b1,g0,N-s,E-s,(s,k0,j1,J1,t0,Ls
 set path=.,**,/usr/include
 set grepprg=grep
 set termguicolors
@@ -63,11 +63,21 @@ nnoremap gz  1z=
 nnoremap ga  <plug>(EasyAlign)
 xnoremap ga  <plug>(EasyAlign)
 nnoremap ga\ mz<plug>(EasyAlign)ap<C-x>\\<cr>g`z
-noremap  gk  :ManCword<cr>
+nnoremap gk  :ManCword<cr>
+vnoremap gk  :<C-u>ManVisual<cr>
 nnoremap zs  <scriptcmd>utils#KeepView(':%s/\s\+$//e', winsaveview(), 'c')<cr>
 nnoremap gL  <scriptcmd>utils#OpenLink(expand("<cfile>"))<cr>
 nmap     gcd <cmd>let @c=col('.')<cr>yygccp<cmd>call cursor(0,@c)<cr>
-exe "set <M-t>=\et" | nmap <M-t> <cmd>t.<cr>
+
+exe "set <M-t>=\et"
+nmap <M-t> :t.<cr>
+vmap <M-t> :t'><cr>`[V`]
+exe "set <M-j>=\ej"
+nmap <silent> <M-j> :m+1<cr>==
+vmap <silent> <M-j> :m'>+1<cr>gv=gv
+exe "set <M-k>=\ek"
+nmap <silent> <M-k> :m-2<cr>==
+vmap <silent> <M-k> :m'<-2<cr>gv=gv
 
 noremap <C-g> 1<C-g>
 nnoremap <C-s>s :%s/<C-r><C-w>/
@@ -95,15 +105,15 @@ noremap  <space>B  <cmd>Buffers<cr>
 noremap  <space>H  <cmd>Helptags<cr>
 noremap  <space>t  :Tags <C-r><C-w><cr>
 noremap  <space>T  <cmd>Tags<space>
-nnoremap <space>g  <cmd>LiveGrep<cr>
-vnoremap <space>g  :<C-u>LiveGrepVisual<cr>
-nnoremap <space>G  :LiveGrep <C-r>=expand('<cword>')<cr><cr>
+nnoremap <space>s  <cmd>LiveGrep<cr>
+vnoremap <space>s  :<C-u>LiveGrepVisual<cr>
+nnoremap <space>w  :LiveGrep <C-r>=expand('<cword>')<cr><cr>
 nnoremap <space><enter> :LiveGrepPrevious<cr>
 nnoremap <space>vv :Git<cr>
 nnoremap <space>vb <cmd>echo utils#GetGitBranch()<cr>
-nnoremap <space>w  <scriptcmd>g:Dict(expand("<cword>"))<cr>
 nnoremap <space>a  <cmd>Apropos<cr>
 nnoremap <space>z  <cmd>setl spell!<cr>
+nnoremap <space>D  <scriptcmd>g:Dict(expand("<cword>"))<cr>
 
 inoremap <expr> <C-e> pumvisible() ? "\<C-e>" : "\<esc>A"
 inoremap <silent> <Esc> <Esc>g`^
@@ -116,13 +126,13 @@ vnoremap y <scriptcmd>utils#JumpToEndOfOp('y', 'v')<cr>
 nmap yy y_
 map  Y  yg_
 
-
 command! Syn utils#Syn()
 command! RT RooterToggle | exec "norm :\<C-u>cd \<C-x>d\<cr>"
 command! SudoWrite exec ':silent w !sudo tee' expand('%:p') | e!
 command! -nargs=+ -complete=command  R put = execute(<q-args>)->trim()
 command! -nargs=+ -complete=function RR put = execute('echo ' .. <q-args>)->trim()
 command! -nargs=? Expand utils#KeepView(':%!expand -t ' .. (!<q-args> ? '4' : <q-args>), winsaveview(), 'c')
+command! -nargs=? Unexpand utils#KeepView(':%!unexpand -t ' .. (!<q-args> ? '4' : <q-args>), winsaveview(), 'c')
 command! -nargs=1 -bang Grep g:Term("rg -S --vimgrep --sort=path" .. <f-args>, <bang>0)
 # Dump {binfile}
 command! -nargs=1 -bang -complete=file Dump g:Term("objdump -ClSd --disassembler-color=on " .. <f-args>, <bang>0, "[dump]", "asm")

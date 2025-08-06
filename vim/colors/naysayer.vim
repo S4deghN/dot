@@ -11,11 +11,14 @@ endif
 let g:colors_name="naysayer"
 
 " highlight! Normal guifg=#d1b897 guibg=#042327 gui=NONE
-highlight! Normal guifg=#d1b897 guibg=#242424 gui=NONE
+" highlight! Normal guifg=#d1b897 guibg=#242424 gui=NONE
+" highlight! Normal guifg=#d1b897 guibg=#062626 gui=NONE
+highlight! Normal guifg=#d1c8a7 guibg=#062626 gui=NONE
 
 " highlight! Comment guifg=#44b340 guibg=NONE gui=NONE
+highlight! Comment guifg=#55CA43 guibg=NONE gui=NONE
 " highlight! Comment guifg=yellow2 guibg=NONE gui=NONE
-highlight! Comment guifg=gold guibg=NONE gui=NONE
+" highlight! Comment guifg=gold guibg=NONE gui=NONE
 highlight! NonText guifg=#484848
 highlight! link SpecialKey NonText
 highlight! link EndOfBuffer NonText
@@ -82,7 +85,7 @@ highlight MoreMsg                    guifg=#dfaf87       guibg=NONE         gui=
 highlight Visual                     guifg=NONE          guibg=#434343      gui=NONE
 highlight Question                   guifg=#875f5f       guibg=NONE         gui=NONE
 highlight Search                     guifg=#dfdfaf       guibg=#878787      gui=NONE
-highlight MatchParen                 guifg=#dfdfaf       guibg=#875f5f      gui=NONE
+highlight MatchParen                 guifg=skyblue       guibg=#666666      gui=NONE
 hi Pmenu guibg=#343434
 hi PmenuSel guibg=#444444
 hi PmenuThumb guibg=fg

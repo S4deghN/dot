@@ -1,7 +1,7 @@
 vim9script
 
 setl keywordprg=:Godoc
-setl expandtab
+hi! link goBuiltins Keyword
 
 def g:Godoc(args: string)
     var arg_list = split(args)
@@ -15,7 +15,7 @@ def g:Godoc(args: string)
         endif
     endif
 
-    var bufname = 'godoc://' .. word
+    var bufname = 'godoc://' .. join(arg_list)
     if bufexists(bufname) && getbufinfo(bufname)[0].linecount > 1
         utils#OpenWinWithBufPattern('^godoc://')
         exec 'badd' bufname
@@ -26,7 +26,7 @@ def g:Godoc(args: string)
 
     var cmd = [&shell, &shellcmdflag, 'go doc ' .. join(arg_list)]
 
-    echom "cmd is: " cmd
+    # echom "cmd is: " cmd
 
     var bufnr = bufadd(bufname)
 
@@ -39,7 +39,7 @@ def g:Godoc(args: string)
         err_io: 'pipe',
         pty: 0,
         err_cb: (_, msg) => {
-            echo msg
+            echon msg '. '
         },
         exit_cb: (_, e) => {
             if e == 0

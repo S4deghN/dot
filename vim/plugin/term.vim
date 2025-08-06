@@ -9,7 +9,8 @@ vim9script
 var S_bufname: string
 var S_filetype: string
 
-g:auto_set_qf = 1
+g:term_auto_set_qf = 1
+g:term_vertical = 1
 
 def OnTermWinOpen()
     setl foldmethod=expr foldexpr=0
@@ -89,7 +90,7 @@ def g:Term(cmd: string, bang: bool, ...args: list<string>): number
         term_name: '[term]',
         exit_cb: (job, ec) => {
             setbufvar(bufnr, 'term_ec', ec)
-            if g:auto_set_qf
+            if g:term_auto_set_qf
                 timer_start(100, (_) => {
                     cgetexpr getbufline(bufnr, 1, "$")
                 })
@@ -136,7 +137,7 @@ def CreateWindow(force_split: bool = 0): number
 
     var lj = &columns >= 160 ? '1l' : '1j'
     var hk = &columns >= 160 ? '1h' : '1k'
-    var v  = &columns >= 160 ? 'v' : ''
+    var v  = (&columns >= 160) && (g:term_vertical == 1) ? 'v' : ''
     if winnr != winnr(lj)
         was_a_win_there = true
         return win_getid(winnr(lj))
