@@ -10,21 +10,28 @@
 #---------------------------------------------------
 __ps1() {
     ExitCode=$?
+    if [ $ExitCode -ne 0 ]; then
+        errP='\[\e[1;31m\][$ExitCode]\[\e[m\]'
+    else
+        errP=''
+    fi
+
     Branch=$(git branch --show-current 2>/dev/null)
     if [ $? -eq 0 ] && [ -z $Branch ]; then
         Branch=$(git describe --all --contains 2>/dev/null)
+        branchP='\[\e[0;31m\] $Branch\[\e[m\]'
+    else
+        branchP=""
     fi
+
     # Root=$(git rev-parse --show-toplevel 2>/dev/null)
     # Root=${Root##*/}
+    # [[ -n $Root ]] && rootP='\[\e[0;35m\]($Root)\[\e[m\]' || rootP=""
 
     # every sequence of color code (e.g `\e[31m`) must be wraped inside `\[ \]`
     # so to be treaded as non-printing character. Otherwise the positoning of
     # the cursor becomes faulty. In Readline's config file, `.inputrc`, this
     # method doesn't work and we use `\1 \2` instead according to its manual.
-    [[ $ExitCode -ne 0 ]] && errP='\[\e[1;31m\][$ExitCode]\[\e[m\]' || errP=''
-    [[ -n $Branch ]] && branchP='\[\e[0;31m\] $Branch\[\e[m\]' || branchP=""
-    # [[ -n $Root ]] && rootP='\[\e[0;35m\]($Root)\[\e[m\]' || rootP=""
-
     userP='\[\e[0;33m\]\u\[\e[m\]'
     hostP='\[\e[0;29m\]\h\[\e[m\]'
     suffixP='\[\e[1;32m\]$\[\e[m\]'
@@ -68,15 +75,15 @@ export HISTFILESIZE=-1
 # enable core dump
 ulimit -c unlimited
 
-# Stupid!!!!
-if [[ "$OSTYPE" == "linux-gnu" ]]; then
-    if [ "$DISPLAY" ]; then
-        activ_win_id=$(xprop -root _NET_ACTIVE_WINDOW)
-        activ_win_id=$(echo "$activ_win_id" | awk '{ activ_win_id=substr($0,41,9); print activ_win_id; }' )
-        [ "$activ_win_id" != "0x0" ] &&
-            xprop -id "$activ_win_id" -remove WM_NORMAL_HINTS
-    fi
-fi
+# # Stupid!!!!
+# if [[ "$OSTYPE" == "linux-gnu" ]]; then
+#     if [ "$DISPLAY" ]; then
+#         activ_win_id=$(xprop -root _NET_ACTIVE_WINDOW)
+#         activ_win_id=$(echo "$activ_win_id" | awk '{ activ_win_id=substr($0,41,9); print activ_win_id; }' )
+#         [ "$activ_win_id" != "0x0" ] &&
+#             xprop -id "$activ_win_id" -remove WM_NORMAL_HINTS
+#     fi
+# fi
 
 #---------------------------------------------------
 # aliases

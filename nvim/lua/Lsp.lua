@@ -60,8 +60,8 @@ local kind_icons = {
 
 -- find more here: https://www.nerdfonts.com/cheat-sheet
 
--- ╭──────╮
--- │ test │
+-- ╭──────╮ [[[
+-- │ test │ ]]]
 -- ╰──────╯
 
 local border = {

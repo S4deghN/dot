@@ -19,10 +19,13 @@ set path=.,**,/usr/include
 set grepprg=grep
 set termguicolors
 
+g:mapleader = " "
+
 g:loaded_netrw = 1 | g:loaded_matchparen = 1 | g:loaded_vimballPlugin = 1
 packadd! matchit
 packadd! comment
 plug#begin()
+Plug 'guns/vim-sexp' | g:sexp_filetypes = '*' | g:sexp_enable_insert_mode_mappings = false
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
@@ -37,6 +40,19 @@ Plug '~/.vim/local/lsp' | runtime lsp.vim
 plug#end()
 
 color vim9
+
+g:sexp_mappings = {
+    sexp_swap_list_backward: '', # '<M-k>',
+    sexp_swap_list_forward:  '', # '<M-j>',
+}
+
+exe "set <M-w>=\ew"
+exe "set <M-b>=\eb"
+exe "set <M-e>=\ee"
+exe "set <M-i>=\ei"
+exe "set <M-j>=\ej"
+exe "set <M-h>=\eh"
+exe "set <M-l>=\el"
 
 map ' `
 map Y y$
@@ -105,8 +121,8 @@ noremap  <space>B  <cmd>Buffers<cr>
 noremap  <space>H  <cmd>Helptags<cr>
 noremap  <space>t  :Tags <C-r><C-w><cr>
 noremap  <space>T  <cmd>Tags<space>
-nnoremap <space>s  <cmd>LiveGrep<cr>
-vnoremap <space>s  :<C-u>LiveGrepVisual<cr>
+nnoremap <space>g  <cmd>LiveGrep<cr>
+vnoremap <space>g  :<C-u>LiveGrepVisual<cr>
 nnoremap <space>w  :LiveGrep <C-r>=expand('<cword>')<cr><cr>
 nnoremap <space><enter> :LiveGrepPrevious<cr>
 nnoremap <space>vv :Git<cr>

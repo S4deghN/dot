@@ -22,6 +22,9 @@ set editorcmd st -e nvim
 " Ctrl-F should use the browser's native 'find' functionality.
 unbind <C-f>
 
+" Ctrl-B should use the browser's native 'bookmarks' functionality.
+unbind <C-b>
+
 " But also support Tridactyl search too.
 bind / fillcmdline find
 bind ? fillcmdline find -?
