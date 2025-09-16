@@ -10,13 +10,13 @@ endif
 
 let g:colors_name="naysayer"
 
-" highlight! Normal guifg=#d1b897 guibg=#042327 gui=NONE
+highlight! Normal guifg=#d1b897 guibg=#042327 gui=NONE
 " highlight! Normal guifg=#d1b897 guibg=#242424 gui=NONE
 " highlight! Normal guifg=#d1b897 guibg=#062626 gui=NONE
-highlight! Normal guifg=#d1c8a7 guibg=#062626 gui=NONE
+" highlight! Normal guifg=#d1c8a7 guibg=#062626 gui=NONE
 
-" highlight! Comment guifg=#44b340 guibg=NONE gui=NONE
-highlight! Comment guifg=#55CA43 guibg=NONE gui=NONE
+highlight! Comment guifg=#44b340 guibg=NONE gui=NONE
+" highlight! Comment guifg=#55CA43 guibg=NONE gui=NONE
 " highlight! Comment guifg=yellow2 guibg=NONE gui=NONE
 " highlight! Comment guifg=gold guibg=NONE gui=NONE
 highlight! NonText guifg=#484848
@@ -32,7 +32,8 @@ highlight! link Boolean Number
 highlight! link Float Number
 
 highlight! link Identifier Normal
-highlight! link Function Normal
+" highlight! link Function Normal
+highlight Function guifg=ivory3
 
 highlight! Statement guifg=#ffffff guibg=NONE gui=NONE
 highlight! link Conditional Statement
@@ -133,3 +134,5 @@ let g:terminal_ansi_colors = [
             \ "#e1e0d9",
             \ ]
 
+
+hi normal guibg=#242424

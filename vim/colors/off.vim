@@ -19,11 +19,12 @@ let g:colors_name='off'
 let colors_off_a_little = get(g:, 'colors_off_a_little', 0)
 
 " let s:black           = { "gui": "#212121", "cterm": "0"   }
-"let s:black           = { "gui": "#282828", "cterm": "0"   }
+" let s:black           = { "gui": "#282828", "cterm": "0"   }
 " let s:black           = { "gui": "#161616", "cterm": "0"   }
 " let s:black           = { "gui": "#222222", "cterm": "0"   }
+let s:black           = { "gui": "#202020", "cterm": "0"   }
 " let s:black           = { "gui": "#1d1d1d", "cterm": "0"   }
-let s:black           = { "gui": "#1a1a1a", "cterm": "0"   }
+" let s:black           = { "gui": "#1a1a1a", "cterm": "0"   }
 " let s:black           = { "gui": "#101010", "cterm": "0"   }
 let s:medium_gray     = { "gui": "#767676", "cterm": "243" }
 let s:white           = { "gui": "#F1F1F1", "cterm": "15"  }

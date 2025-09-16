@@ -18,7 +18,7 @@ int main() {
     long number[3];
     int index = 0;
     while(cursor < buff + n) {
-        if (57 < *cursor || *cursor < 48) {
+        if (57 < *cursor || *cursor < 48) { // skip non-number characters.
             ++cursor;
         } else {
             number[index++] = strtol(cursor, &cursor, 10);

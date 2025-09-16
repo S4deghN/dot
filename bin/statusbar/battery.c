@@ -23,11 +23,11 @@ int main()
     fread(line, 1, 1, fp);
 
     switch (line[0]) {
-    case /*Unknown*/      'U': line[0] = L'❗'; break;
-    case /*Charging*/     'C': line[0] = L'⚡'; break;
-    case /*Discharging*/  'D': line[0] = L'🪫'; break;
-    case /*Not charging*/ 'N': line[0] = L'🔌'; break;
-    case /*Full*/         'F': line[0] = L'🔋'; break;
+    case /* Unknown */      'U': line[0] = L'❗'; break;
+    case /* Charging */     'C': line[0] = L'⚡'; break;
+    case /* Discharging */  'D': line[0] = L'🪫'; break;
+    case /* Not charging */ 'N': line[0] = L'🔌'; break;
+    case /* Full */         'F': line[0] = L'🔋'; break;
     default:                   line[0] = L'❓'; break;
     }
     line[1] = ' ';

@@ -15,7 +15,9 @@ var brown        = '#cc8c3c'
 var cyan         = '#afd7af'
 var dim          = '#242424'
 # var green        = '#6b9e23'
-var green        = '#73c936'
+# var green        = '#6bae23'
+var green        = '#6bae23'
+# var green        = '#73c936'
 var red          = '#ff4444'
 # var white        = '#cccdce'
 var white        = '#dcddde'
@@ -27,8 +29,8 @@ var light_gray   = '#505050'
 var quartz       = '#95a99f'
 var redish_brown = '#aa8888'
 # var goldenrod    = '#D9A420'
-# var goldenrod    = 'goldenrod2'
-var goldenrod    = yellow
+var goldenrod    = 'goldenrod1'
+# var goldenrod    = yellow
 var oldivory     = '#ccccbc'
 
 g:terminal_ansi_colors = [
@@ -94,7 +96,7 @@ hlset([
     # {name: 'Comment',           guifg: '#878889'},
     # {name: 'Comment',           guifg: 'ivory4'},
     {name: 'Comment',           guifg: blue},
-    {name: 'VertSplit',         guifg: gray, guibg: gray},
+    {name: 'VertSplit',         guifg: 'bg', guibg: gray},
     {name: 'Statusline',        guifg: '#bbbbbb', guibg: gray, cterm: {}},
     {name: 'StatuslineNC',      guifg: '#aaaaaa', guibg: gray, cterm: {}},
     {name: 'DiffAdd',           guifg: 'NONE', guibg: '#1D2B21'},

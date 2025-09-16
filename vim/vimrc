@@ -19,11 +19,16 @@ set path=.,**,/usr/include
 set grepprg=grep
 set termguicolors
 
+&t_md = "" # disable bold
+&t_SI = "\e[5 q" # Insert mode
+&t_SR = "\e[4 q" # Replace mode
+&t_EI = "\e[1 q" # Normal mode (else)
+
 g:mapleader = " "
 
 g:loaded_netrw = 1 | g:loaded_matchparen = 1 | g:loaded_vimballPlugin = 1
-packadd! matchit
-packadd! comment
+silent! packadd! matchit
+silent! packadd! comment
 plug#begin()
 Plug 'guns/vim-sexp' | g:sexp_filetypes = '*' | g:sexp_enable_insert_mode_mappings = false
 Plug 'junegunn/vim-easy-align'
