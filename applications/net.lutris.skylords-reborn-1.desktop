@@ -1,0 +1,13 @@
+
+[Desktop Entry]
+Type=Application
+Name=Skylords Reborn
+# Icon=lutris_skylords-reborn
+Icon=/home/s4/.local/share/applications/icons/bf.ico
+# Exec=bash -c "st -e bash -c /home/s4/Games/skylords-reborn/drive_c/Program\ Files/BattleForge/skylords-upd.sh && LUTRIS_SKIP_INIT=1 lutris lutris:rungameid/1"
+Exec=bash /home/s4/.local/share/applications/sk-runner.sh
+Categories=Game
+Comment=
+Path=
+Terminal=false
+StartupNotify=false

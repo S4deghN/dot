@@ -1,0 +1,39 @@
+! run `xmodmap -pm` to get existing modifiers status
+
+!
+! Swap Control_L and Super_L
+!
+! remove control = Control_L
+! add mod4 = Control_L
+! remove mod4 = Super_L
+! add control = Super_L
+
+!
+! Specific for nuphy keyboard
+! The original fn key is only mapable to win_r on the nuphy software therefore
+! the previous set of mapping functions also maps the original fn key to control
+!
+! remove control = Control_R
+! add mod4 = Control_R
+
+!
+! Swap Alt_R and Super_R
+!
+! remove mod1 = Alt_R
+! add mod4 = Alt_R
+! remove mod4 = Super_R
+! add mod1 = Super_R
+
+!
+! Make Caps_Lock and additional Escape
+!
+! remove lock = Caps_Lock
+! keysym Caps_Lock = Escape
+! add control = Caps_Lock
+
+!
+! Make Caps_Lock Control
+!
+! remove lock = Caps_Lock
+! keysym Caps_Lock = Control_L
+! add control = Control_L

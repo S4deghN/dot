@@ -1,0 +1,39 @@
+# add everything then remove undesired ones with '-'
+Checks: "
+  *,
+  -abseil-*,
+  -altera-*,
+  -android-*,
+  -fuchsia-*,
+  -google-*,
+  -llvm*,
+  -zircon-*,
+  -hicpp-*,
+  -modernize-*,
+  -cppcoreguidelines-*,
+  -modernize-use-trailing-return-type,
+  -readability-uppercase-literal-suffix,
+  -readability-isolate-declaration,
+  -readability-magic-numbers,
+  -readability-else-after-return,
+  -readability-static-accessed-through-instance,
+  -readability-avoid-const-params-in-decls,
+  -readability-identifier-length,
+  -readability-implicit-bool-conversion,
+  -misc-non-private-member-variables-in-classes,
+  -bugprone-easily-swappable-parameters,
+"
+
+CheckOptions:
+  - { key: readability-identifier-naming.VariableCase, value: lower_case }
+  # - { key: readability-identifier-naming.PrivateMemberSuffix, value: "" }
+  - { key: readability-identifier-naming.PrivateMemberCase, value: lower_case }
+  - { key: readability-identifier-naming.NamespaceCase, value: lower_case }
+  - { key: readability-identifier-naming.FunctionCase, value: lower_case }
+  - { key: readability-identifier-naming.ClassCase, value: CamelCase }
+  - { key: readability-identifier-naming.StructCase, value: CamelCase }
+  - { key: readability-identifier-naming.EnumCase, value: CamelCase }
+  - { key: readability-braces-around-statements.ShortStatementLines, value: 10 }
+
+WarningsAsErrors: ''
+HeaderFilterRegex: ''

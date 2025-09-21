@@ -1,0 +1,12 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=caja
+Comment=MATE file manager
+Icon=user-home
+Exec=/usr/bin/caja --no-desktop
+Keywords=caja;file;mate;
+Terminal=false
+StartupNotify=true
+

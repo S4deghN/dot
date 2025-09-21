@@ -1,0 +1,13 @@
+#!/usr/bin/bash
+
+date=$(date +%y-%m-%d)
+file_name="$HOME/note/daily/$date.md"
+
+[[ -f $file_name ]] || cat > $file_name << eof
+
+
+---
+$date
+eof
+
+$EDITOR "$file_name"

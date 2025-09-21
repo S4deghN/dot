@@ -1,0 +1,58 @@
+#
+# inputrc
+#
+
+set editing-mode vi
+
+$include /etc/inputrc
+
+#  you will no longer have to hit the <Tab> key twice to produce a list of all
+#  possible completions
+set show-all-if-ambiguous on
+# out put list of completion for file names with classification, like `ls -F`
+set visible-stats on
+# also color theme
+set colored-stats on
+
+set bell-style none
+set completion-ignore-case on
+set show-all-if-unmodified on
+
+# stupid key sequence of esc and other keys is mapped to meta for emacs and you
+# can't really unmap it.
+set keyseq-timeout 0
+set show-mode-in-prompt on
+# read manual for Readline
+# form manual: "Use the \1 and \2 escapes to begin and end sequences of
+# non-printing characters, which can be used to embed a terminal control
+# sequence into the mode string."
+# `\e` or `\033` (the second is more portable) is a escape character and has to
+# be treated as non-printing string otherwise it bugs the input of the terminal
+set vi-ins-mode-string "\1\033[0;34m\2[I]\1\033[0m\2"
+set vi-cmd-mode-string "\1\033[0;29m\2[N]\1\033[0m\2"
+
+# set colored-completion-prefix on
+
+# Necessary for menu-complete to work as expected when mapped to TAB
+set menu-complete-display-prefix on
+
+set keymap vi-insert
+"\e\\": universal-argument
+TAB:    menu-complete
+# shift tab sends "esc [ Z" 🤷
+"\e[Z": menu-complete-backward
+"\C-x": shell-expand-line
+"\e.":  yank-last-arg
+# this solves the problem where sometime C-w would get stuck on start of a word!
+"\ew": backward-kill-word
+"\C-w": "\ew"
+"\e;u": upcase-word
+"\e;U": downcase-word
+# "\e\\-" makes universal argument negative (reverse direction)
+"\eu":  "\e\\-\e;u"
+"\eU":  "\e\\-\e;U"
+"\et":  transpose-words
+"\eb":  backward-word
+"\ef":  forward-word
+
+# Control-k: menu-complete-backward

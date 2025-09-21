@@ -1,0 +1,94 @@
+Xft.antialias:  1
+## hinting ruins Ubuntu Font in Emacs
+Xft.hinting:    0
+
+Xcursor.size: 16
+Xft.dpi: 96
+
+## https://unix.stackexchange.com/questions/194696/alt-and-alt-and-possibly-some-other-keys-not-working-in-elinks
+*metaSendsEscape: true
+*disallowedWindowOps: 20,21,SetXprop
+*selectToClipboard: true
+## https://wiki.archlinux.org/title/Xterm#Fix_the_backspace_key
+*backarrowKey: false
+*ttyModes: erase ^?
+
+*.cursorBlink: true
+/* *.cursorOffTime: 500 */
+/* *.cursorOnTime: 800 */
+
+! *translations: #override \n\
+!         Ctrl Shift <Key>C: copy-selection(CLIPBOARD) \n\
+!         Ctrl Shift <Key>V: insert-selection(CLIPBOARD)
+
+*faceName: Ubuntu Mono:size=14:antialias=true,Symbols Nerd Font Mono:size=14
+/* *faceNameDoublesize: Symbols Nerd Font Mono */
+/* urxvt -fn 'xft:DejaVu Sans:pixelsize=14,xft:Symbola,xft:Noto Emoji:minspace=False' */
+
+! arc*/
+*.foreground:   #a2aaaa
+*.background:   #242424
+*.cursorColor:  #8ec07c
+! black*/
+*.color0:       #191919
+*.color8:       #747C84
+! red*/
+*.color1:       #CF6A4C
+*.color9:       #CF6A4C
+! green*/
+*.color2:       #8F9D6A
+*.color10:      #87AF87
+! yellow*/
+*.color3:       #CDA869
+*.color11:      #CDA869
+! blue*/
+*.color4:       #789AC0
+*.color12:      #789AC0
+! magenta*/
+*.color5:       #85678f
+*.color13:      #b294bb
+! cyan*/
+*.color6:       #5e8d87
+*.color14:      #8abeb7
+! white*/
+*.color7:       #707880
+*.color15:      #c5c8c6
+
+*VT100.colorBDMode:     true
+*VT100.colorBD:         #CDA869
+*VT100.colorULMode:     true
+*VT100.colorUL:         #CF6A4C
+
+/* !! tango-oblivion */
+/* !*.foreground:   #D3D7CF */
+/* !*.background:   #2E3436 */
+/* !*.cursorColor:  #8ec07c */
+/* !*color0:  #2E3436 */
+/* !*color8:  #555753 */
+/* !! Red */
+/* !*color1:  #CC0000 */
+/* !*color9:  #EF2929 */
+/* !! Green */
+/* !*color2:  #4E9A06 */
+/* !*color10: #8AE234 */
+/* !! Yellow */
+/* !*color3:  #C4A000 */
+/* !*color11: #FCE94F */
+/* !! Blue */
+/* !*color4:  #3465A4 */
+/* !*color12: #729FCF */
+/* !! Purple */
+/* !*color5:  #75507B */
+/* !*color13: #AD7FA8 */
+/* !! Cyan */
+/* !*color6:  #06989A */
+/* !*color14: #34E2E2 */
+/* !! White */
+/* !*color7:  #D3D7CF */
+/* !*color15: #EEEEEC */
+
+/* !*VT100.colorBDMode:     true */
+/* !*VT100.colorBD:         #FCE94F */
+/* !*VT100.colorULMode:     true */
+/* !*VT100.colorUL:         #EF2929 */
+

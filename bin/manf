@@ -1,0 +1,6 @@
+#!/usr/bin/bash
+set -e -o pipefail
+# [[ -z "$1" ]] && regex='.' || regex=$1
+page=$(apropos ${1:-.} | fzf | awk '{print $1 $2}')
+echo $page
+man $page

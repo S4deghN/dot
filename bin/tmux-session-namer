@@ -1,0 +1,8 @@
+#!/usr/bin/bash
+[[ -z "$1" ]] && exit 1
+
+declare -A ws_names=( ["1"]="1"
+                      ["2"]="2" )
+name="${ws_names[$1]}"
+
+[[ -z $name ]] && echo "$1" || echo "$name"

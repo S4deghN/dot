@@ -1,0 +1,17 @@
+#!/bin/sh -x
+
+if [ -z "$1" ]; then
+  exit 1
+fi
+
+cmd="$1"
+instance="${2:-$cmd}"
+grep_name="${3:-$cmd}"
+
+if pgrep -x -f "$grep_name" > /dev/null; then
+  i3-msg "[instance=$instance]" scratchpad show ||
+    i3-msg "[instance=$instance]" move scratchpad
+else
+  i3-msg "exec --no-startup-id $cmd" ||
+    notify-send "exit $?:" $cmd
+fi

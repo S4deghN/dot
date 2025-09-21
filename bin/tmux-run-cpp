@@ -1,0 +1,25 @@
+#!/usr/bin/bash
+
+# toggle zoom if the current pane is zoomed
+if [ "$(tmux display-message -p '#{window_zoomed_flag}')" -eq 1 ]; then
+    tmux resize-pane -Z
+fi
+
+# check if a pane on right of the current pane doesn't exits.
+# if so, create a split horizontal (-h) split with the current pane's path and
+# with 30 percent coverage of the terminal.
+# and then return to the last pane (-l). (creating a pane changes focus to it)
+# (-d) do not select the pane
+if [ "$(tmux display-message -p '#{pane_at_right}')" -eq 1 ]; then
+    tmux split-window -h -p 30 -c '#{pane_current_path}' -d
+    # tmux select-pane -l
+fi
+
+# for now, since vim rooter is being used there is no need to change the
+# directoyur. TODO: change directory to the root directory accordint to
+# language.
+
+# send the compilation command
+# -l make send-keys process the keys as literal UTF-8 characters.
+tmux send-keys -t right -l "make"
+tmux send-keys -t right Enter

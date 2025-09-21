@@ -1,0 +1,18 @@
+[submodule "nvim/local/vim-cool"]
+	path = nvim/local/vim-cool
+	url = https://github.com/s4deghn/vim-cool.git
+[submodule "nvim/local/vim8-shout"]
+	path = nvim/local/vim8-shout
+	url = https://github.com/s4deghn/vim8-shout.git
+[submodule "vim/local/vim-shout"]
+	path = vim/local/vim-shout
+	url = https://github.com/S4deghN/vim-shout.git
+[submodule "vim/local/vim-cool"]
+	path = vim/local/vim-cool
+	url = https://github.com/S4deghN/vim-cool.git
+[submodule "vim/local/vim-dir"]
+	path = vim/local/vim-dir
+	url = https://github.com/habamax/vim-dir
+[submodule "vim/local/lsp"]
+	path = vim/local/lsp
+	url = https://github.com/S4deghN/lsp.git

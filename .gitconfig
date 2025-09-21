@@ -1,0 +1,65 @@
+[user]
+    email = sadegh.nobakhti@gmail.com
+    name = Zero
+[credential "https://github.com"]
+    helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+    helper = !/usr/bin/gh auth git-credential
+[init]
+    defaultBranch = main
+[pull]
+    rebase = true
+[fetch]
+    prune = true
+[core]
+    pager = perl /usr/share/git/diff-highlight/diff-highlight | less
+[interactive]
+    diffFilter = perl /usr/share/git/diff-highlight/diff-highlight
+[credential]
+    helper = cache
+    cacheoptions = --timeout 43200
+[commit]
+    verbose = true
+[filter "lfs"]
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
+[alias]
+    l     = log --color --graph --pretty=format:'%C(auto)%h%d %s %C(black)%C(bold)%an, %ar' --abbrev-commit --decorate
+    ll    = log --pretty=format:'%C(red)%h%C(reset) -%C(yellow)%d%C(reset) %s %C(bold blue) <%an>' --decorate --numstat --abbrev-commit
+    rf    = reflog --pretty=format:'%C(auto)%h %gd %gs%C(black)%C(bold), %cr'
+    co    = checkout
+    sw    = switch
+    amend = commit --amend --no-edit
+    s     = status
+    d     = diff
+    dh1   = diff HEAD~1
+    ds    = diff --staged
+    a     = add
+    b     = branch -vv
+    rb    = rebase
+    chp   = cherry-pick
+[color]
+    ui = auto
+[color "branch"]
+    current = red
+    local = yellow
+    remote = green
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan
+[color "diff"]
+    meta = white
+    frag = blue
+    old = red
+    new = green
+[diff]
+    noprefix = 1
+[merge]
+    conflictstyle = merge
+[init]
+    defaultBranch = master
+[includeIf "gitdir:/home/naad/"]
+    path = ~/.naad.gitconfig

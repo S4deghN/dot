@@ -1,0 +1,9 @@
+#!/usr/bin/bash
+
+# Take in arguments and pass to `pio`
+declare -a A=("$@")
+[[ -p /dev/stdin ]] && { \
+    mapfile -t -O ${#A[@]} A; set -- "${A[@]}"; \
+}
+
+$HOME/.platformio/penv/bin/pio "$@"

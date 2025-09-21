@@ -1,0 +1,10 @@
+#!/usr/bin/sh
+
+date=$(date +%y-%m-%d)
+file="$HOME/note/log/$date.adoc"
+
+[ ! -f "$file" ] && cat > $file << EOF
+= $date
+EOF
+
+$EDITOR $file

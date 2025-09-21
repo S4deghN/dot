@@ -1,0 +1,12 @@
+#!/usr/bin/env xdg-open
+# Download source form https://deb.tableplus.com/debian/24/pool/main/t/tableplus/
+[Desktop Entry]
+Type=Application
+Name=TablePlus
+Comment=Database GUI
+Icon=/home/s4/.local/share/applications/icons/tableplus.png
+Exec=env GTK_THEME=Adwaita:dark tableplus
+Keywords=tableplus;db;database;sql
+Terminal=false
+StartupNotify=true
+Path=

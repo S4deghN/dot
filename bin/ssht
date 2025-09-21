@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+
+# `-t` before the address in ssh asks the host to provide a pesudo terminal so
+# the shell running the command doesn't exit after completion.
+st -e ssh -t root@"$1" "tmux attach || tmux new"

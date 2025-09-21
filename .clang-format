@@ -1,0 +1,37 @@
+---
+BasedOnStyle: Google
+IndentWidth: 4
+AccessModifierOffset: -4
+UseTab: Never
+ColumnLimit: 100
+
+# IndentPPDirectives: BeforeHash
+IndentCaseLabels: false
+
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterControlStatement: MultiLine
+
+
+AlignConsecutiveAssignments: false
+AlignConsecutiveDeclarations: false
+AlignConsecutiveMacros: true
+AlignAfterOpenBracket: true
+AlignTrailingComments: true
+AlignArrayOfStructures: Left
+PointerAlignment: Left
+# SeparateDefinitionBlocks: Always # clang 14
+
+# Disable formatting options which may break tests.
+# SortIncludes: false
+ReflowComments: false
+
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortIfStatementsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: false
+AllowShortBlocksOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+AllowShortEnumsOnASingleLine: false
+
+BreakConstructorInitializers: AfterColon
+PackConstructorInitializers: Never

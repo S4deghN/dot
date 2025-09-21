@@ -1,0 +1,14 @@
+#!/usr/bin/bash
+
+if [[ "$1" == "off" ]]; then
+    unset all_proxy
+    unset http_proxy
+    unset https_proxy
+else
+    declare -A Services=( ["lantern"]="127.0.0.1:46561"
+                          ["clash"]="127.0.0.1:7890"
+                          ["1080"]="127.0.0.1:1080" )
+
+    export https_proxy=http://"${Services[$1]}"
+    export http_proxy=http://"${Services[$1]}"
+fi

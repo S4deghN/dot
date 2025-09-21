@@ -1,0 +1,189 @@
+vim9script
+
+set nocompatible
+set ttimeout ttimeoutlen=0
+set history=1000 termwinscroll=1000000
+set hidden noswapfile undofile undodir=/tmp/$USER.vim9undo | silent system("mkdir -p /tmp/$USER.vim9undo")
+set mouse=ar ttymouse=sgr
+set completeopt=menu,longest
+set nowildmenu wildignorecase wildmode=longest,list,full wildcharm=<Tab>
+set notitle showcmd laststatus=2 shortmess=aoOFtT
+set nostartofline splitbelow splitright
+set hlsearch incsearch ignorecase smartcase tagcase=match # if match case is not set to `match` tag search becomes really slow!
+set smartindent nosmarttab expandtab shiftwidth=4 tabstop=4
+set fillchars+=diff:╱,fold:\ ,vert:│
+set list listchars=tab:\ ,nbsp:␣,trail:·,extends:…,precedes:… showbreak=\
+set cpoptions+=n foldmethod=marker
+set cinoptions+=:s,=s,l1,b1,g0,N-s,E-s,(s,k0,j1,J1,t0,Ls
+set path=.,**,/usr/include
+set grepprg=grep
+set termguicolors
+
+# &t_md = "" # disable bold
+&t_SI = "\e[5 q" # Insert mode
+&t_SR = "\e[4 q" # Replace mode
+&t_EI = "\e[1 q" # Normal mode (else)
+
+g:mapleader = " "
+
+g:loaded_netrw = 1 | g:loaded_matchparen = 1 | g:loaded_vimballPlugin = 1
+silent! packadd! matchit
+silent! packadd! comment
+plug#begin("~/local/share/vim/plugged")
+Plug 'guns/vim-sexp' | g:sexp_filetypes = '*' | g:sexp_enable_insert_mode_mappings = false
+Plug 'junegunn/vim-easy-align'
+Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'glts/vim-magnum'
+Plug 'glts/vim-radical'
+Plug 'alx741/vinfo'
+Plug 'S4deghN/clrzr'
+Plug 'mg979/vim-visual-multi'
+Plug 'airblade/vim-rooter' | g:rooter_silent_chdir = 1 | g:rooter_patterns = [ '.git', '.svn', '.gitignore', 'tags']
+Plug '~/.vim/local/vim-fm'
+Plug '~/.vim/local/lsp' | runtime lsp.vim
+plug#end()
+
+color vim9
+
+g:sexp_mappings = {
+    sexp_swap_list_backward: '', # '<M-k>',
+    sexp_swap_list_forward:  '', # '<M-j>',
+}
+
+exe "set <M-w>=\ew"
+exe "set <M-b>=\eb"
+exe "set <M-e>=\ee"
+exe "set <M-i>=\ei"
+exe "set <M-j>=\ej"
+exe "set <M-h>=\eh"
+exe "set <M-l>=\el"
+
+map ' `
+map Y y$
+map gy "+y
+map gY "+Y
+map gp "+p
+map gP "+P
+map +  =i{
+
+noremap <C-j> <cmd>cn<cr>
+noremap <C-k> <cmd>cp<cr>
+
+noremap  } <cmd>keepj norm! }<cr>
+noremap  { <cmd>keepj norm! {<cr>
+noremap  n <cmd>keepj norm! nzz<cr>
+noremap  N <cmd>keepj norm! Nzz<cr>
+nnoremap * *<cmd>keepj norm! N<cr>
+nnoremap # #<cmd>keepj norm! N<cr>
+xnoremap * y/\V<C-R>"<cr><cmd>keepj norm! N<cr>
+xnoremap # y?\V<C-R>"<cr><cmd>keepj norm! N<cr>
+
+nnoremap yo  :let @+=@"<cr>
+nnoremap gz  1z=
+nnoremap ga  <plug>(EasyAlign)
+xnoremap ga  <plug>(EasyAlign)
+nnoremap ga\ mz<plug>(EasyAlign)ap<C-x>\\<cr>g`z
+nnoremap gk  :ManCword<cr>
+vnoremap gk  :<C-u>ManVisual<cr>
+nnoremap zs  <scriptcmd>utils#KeepView(':%s/\s\+$//e', winsaveview(), 'c')<cr>
+nnoremap gL  <scriptcmd>utils#OpenLink(expand("<cfile>"))<cr>
+nmap     gcd <cmd>let @c=col('.')<cr>yygccp<cmd>call cursor(0,@c)<cr>
+
+exe "set <M-t>=\et"
+nmap <M-t> :t.<cr>
+vmap <M-t> :t'><cr>`[V`]
+exe "set <M-j>=\ej"
+nmap <silent> <M-j> :m+1<cr>==
+vmap <silent> <M-j> :m'>+1<cr>gv=gv
+exe "set <M-k>=\ek"
+nmap <silent> <M-k> :m-2<cr>==
+vmap <silent> <M-k> :m'<-2<cr>gv=gv
+
+noremap <C-g> 1<C-g>
+nnoremap <C-s>s :%s/<C-r><C-w>/
+xnoremap <C-s>s "vy:%s/<C-r>v/
+
+cmap <C-j>  <Down>
+cmap <C-k>  <Up>
+cmap <C-x>f <C-r>=expand('%:p')<cr>
+cmap <C-x>d <C-r>=expand('%:p:h:s?\S\+:\/\/??').'/'<cr>
+cmap %% <C-x>f
+
+tnoremap <C-]> <C-\><C-n>
+tnoremap <ScrollWheelUp> <C-\><C-n><ScrollWheelUp>
+
+nnoremap <space>d  :Bdelete<cr>
+nmap     <space>b  :b<space><Tab>
+nmap     <space>e  :e<space><C-x>d
+nnoremap <space>E  :e ~/.vim/**/
+nnoremap <space><C-e> :e $VIMRUNTIME/**/
+nmap     <space>h  :h<space>
+noremap  <space>f  <cmd>Files<cr>
+nmap     <space>F  :Files<space><C-x>d
+noremap  <space>r  <cmd>Histor<cr>
+noremap  <space>B  <cmd>Buffers<cr>
+noremap  <space>H  <cmd>Helptags<cr>
+noremap  <space>t  :Tags <C-r><C-w><cr>
+noremap  <space>T  <cmd>Tags<space>
+nnoremap <space>g  <cmd>LiveGrep<cr>
+vnoremap <space>g  :<C-u>LiveGrepVisual<cr>
+nnoremap <space>w  :LiveGrep <C-r>=expand('<cword>')<cr><cr>
+nnoremap <space><enter> :LiveGrepPrevious<cr>
+nnoremap <space>vv :Git<cr>
+nnoremap <space>vb <cmd>echo utils#GetGitBranch()<cr>
+nnoremap <space>a  <cmd>Apropos<cr>
+nnoremap <space>z  <cmd>setl spell!<cr>
+nnoremap <space>D  <scriptcmd>g:Dict(expand("<cword>"))<cr>
+
+inoremap <expr> <C-e> pumvisible() ? "\<C-e>" : "\<esc>A"
+inoremap <silent> <Esc> <Esc>g`^
+
+noremap j gj
+noremap k gk
+
+nnoremap <expr> y utils#SetOpFunc(function('utils#JumpToEndOfOp', ['y']))
+vnoremap y <scriptcmd>utils#JumpToEndOfOp('y', 'v')<cr>
+nmap yy y_
+map  Y  yg_
+
+command! Syn utils#Syn()
+command! RT RooterToggle | exec "norm :\<C-u>cd \<C-x>d\<cr>"
+command! SudoWrite exec ':silent w !sudo tee' expand('%:p') | e!
+command! -nargs=+ -complete=command  R put = execute(<q-args>)->trim()
+command! -nargs=+ -complete=function RR put = execute('echo ' .. <q-args>)->trim()
+command! -nargs=? Expand utils#KeepView(':%!expand -t ' .. (!<q-args> ? '4' : <q-args>), winsaveview(), 'c')
+command! -nargs=? Unexpand utils#KeepView(':%!unexpand -t ' .. (!<q-args> ? '4' : <q-args>), winsaveview(), 'c')
+command! -nargs=1 -bang Grep g:Term("rg -S --vimgrep --sort=path" .. <f-args>, <bang>0)
+# Dump {binfile}
+command! -nargs=1 -bang -complete=file Dump g:Term("objdump -ClSd --disassembler-color=on " .. <f-args>, <bang>0, "[dump]", "asm")
+# Assembly {compiler} {sourcefile}
+command! -nargs=1 -bang -complete=file Assembly g:Term(<f-args>  .. " -o- -S -fverbose-asm", <bang>0, "[asm]", "asm")
+# PreProc {compiler} {sourcefile}
+command! -nargs=1 -bang -complete=file PreProc g:Term(<f-args>  .. " -o- -E", <bang>0, "[PreProc]", "c")
+
+augroup autoCommands
+    autocmd!
+    autocmd BufWritePost *.vim,vimrc source %
+    autocmd BufReadPost * if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit' | exe "normal! g`\"zz" | endif
+    # this option is set by ftplugin for each file type.
+    # I just want a consistant format option across all file types thus the autocmd.
+    autocmd BufEnter * set formatoptions=tcrqljn1p # default: tcroql
+    autocmd BufWinEnter */doc/*.txt call utils#MoveOpenedWinodwToSaneSplit() | setl nolist
+
+    autocmd Filetype qf nmap <buffer> <Esc> ZQ
+    autocmd Filetype man nmap <buffer> q ZQ
+    autocmd CmdwinEnter * nmap <buffer> q     :q<cr>
+    autocmd CmdwinEnter * nmap <buffer> <C-c> :q<cr>
+
+    autocmd BufAdd *.lub set filetype=lua
+    autocmd BufAdd .clang* set filetype=yaml
+    autocmd BufAdd /tmp/bash* set filetype=sh
+
+    def CapsOff()
+        timer_start(100, (_) => {
+            silent system("caps-off")
+        })
+    enddef
+    autocmd InsertLeave * CapsOff()
+augroup end

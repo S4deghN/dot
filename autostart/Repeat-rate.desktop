@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Repeat-rate
+Comment=xset
+Exec=setxkbmap -option caps:escape; xset r rate 170 70
+Terminal=false
+Type=Application
+Hidden=true
+

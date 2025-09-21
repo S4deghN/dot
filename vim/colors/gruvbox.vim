@@ -1,0 +1,1 @@
+/home/s4/dot/nvim/colors/gruvbox.vim

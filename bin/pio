@@ -1,0 +1,19 @@
+#!/usr/bin/bash
+
+set -e -o pipefail
+
+# Take in arguments and pass to `pio` (copy paste from internet)
+declare -a A=("$@")
+[[ -p /dev/stdin ]] && { \
+    mapfile -t -O ${#A[@]} A; set -- "${A[@]}"; \
+}
+
+
+if [[ -d "$HOME/.platformio/penv/bin/" ]]; then
+    $HOME/.platformio/penv/bin/pio "$@"
+elif [[ -f "/usr/bin/pio" ]]; then
+    /usr/bin/pio "$@"
+else
+    echo pio not found!
+    exit 1
+fi

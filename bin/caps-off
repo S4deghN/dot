@@ -1,0 +1,5 @@
+#!/bin/sh
+
+if [ $(xset -q | sed -n 's/^.*Caps Lock:\s*\(\S*\).*$/\1/p') = "on" ]; then
+    xdotool key Caps_Lock
+fi

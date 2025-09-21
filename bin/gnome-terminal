@@ -1,0 +1,15 @@
+#!/usr/bin/bash
+
+set -e -o pipefail
+
+# Take in arguments and pass to executable (copy paste from internet)
+declare -a A=("$@")
+[[ -p /dev/stdin ]] && { \
+    mapfile -t -O ${#A[@]} A; set -- "${A[@]}"; \
+}
+
+if [[ -x "/bin/gnome-terminal" ]]; then
+    /bin/gnome-terminal "$@"
+else
+    st "$@"
+fi

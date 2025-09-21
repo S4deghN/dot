@@ -1,0 +1,22 @@
+#!/usr/bin/bash
+
+# Usage
+#   ./isosecToYoutube.sh input
+#   input -> the whole video descripton containig "START ([isosec])"
+# In vim as a filter
+#   .![script] %
+
+starttime=$(sed -n 's/START (.*\([[:digit:]]\{8\}\).*.*\([[:digit:]]\{2\}\).*.*\([[:digit:]]\{2\}\).*.*\([[:digit:]]\{2\}\).*)/\2:\3:\4/p' "$1")
+starttime_epoch=$(date -u -d "$starttime" "+%s")
+
+while IFS= read -r line; do
+    isosec=$(echo "$line" | sed -n 's/.*([[:digit:]]\{8\}.*\([[:digit:]]\{2\}\).*.*\([[:digit:]]\{2\}\).*.*\([[:digit:]]\{2\}\).*)/\1:\2:\3/p')
+    if [[ -n $isosec ]]; then
+        time=$(( $(date -u -d "$isosec" "+%s") - starttime_epoch ))
+        time=$(date -u -d @$time "+%H:%M:%S")
+        # echo "$line" | sed "s/\$/ ($time)/"
+        printf "%s (%s)\n" "$line" "$time"
+    else
+        printf "%s\n" "$line"
+    fi
+done < "$1"
