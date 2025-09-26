@@ -29,15 +29,15 @@ g:mapleader = " "
 g:loaded_netrw = 1 | g:loaded_matchparen = 1 | g:loaded_vimballPlugin = 1
 silent! packadd! matchit
 silent! packadd! comment
-plug#begin("~/local/share/vim/plugged")
+plug#begin("~/.local/share/vim/plugged")
 Plug 'guns/vim-sexp' | g:sexp_filetypes = '*' | g:sexp_enable_insert_mode_mappings = false
 Plug 'junegunn/vim-easy-align'
-Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf.vim' | silent source /usr/share/doc/fzf/examples/fzf.vim
 Plug 'tpope/vim-fugitive'
 Plug 'glts/vim-magnum'
 Plug 'glts/vim-radical'
 Plug 'alx741/vinfo'
-Plug 'S4deghN/clrzr'
+Plug 'S4deghN/clrzr' | g:clrzr_startup = 0
 Plug 'mg979/vim-visual-multi'
 Plug 'airblade/vim-rooter' | g:rooter_silent_chdir = 1 | g:rooter_patterns = [ '.git', '.svn', '.gitignore', 'tags']
 Plug '~/.vim/local/vim-fm'

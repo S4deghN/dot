@@ -12,9 +12,9 @@
 [fetch]
     prune = true
 [core]
-    pager = perl /usr/share/git/diff-highlight/diff-highlight | less
+    pager = diff-highlight | less
 [interactive]
-    diffFilter = perl /usr/share/git/diff-highlight/diff-highlight
+    diffFilter = diff-highlight
 [credential]
     helper = cache
     cacheoptions = --timeout 43200
