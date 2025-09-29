@@ -1,3 +1,3 @@
 #!/bin/sh
-word=${1:-$(xclip -o)}
+word=${1:-$(xsel --output --primary)}
 vim -M -R --noplugin -S $HOME/.vim/plugin/dict.vim -c "Dict $word" -c 'silent only'

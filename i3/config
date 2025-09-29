@@ -4,7 +4,6 @@
 # Should you change your keyboard layout some time, delete
 # this file and re-run i3-config-wizard(1).
 #
-
 # i3 config file (v4)
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
@@ -133,7 +132,6 @@ set $ws10 "10"
 # -- Keybindings --
 #----------------------------------------------------------------------------
 floating_modifier $mod
-tiling_drag modifier titlebar
 
 # The middle button over a titlebar kills the window
 bindsym --release button2 kill
@@ -288,7 +286,7 @@ bindsym $mod+a mode "$apps"
 mode "$apps" {
         bindsym f exec --no-startup-id firefox, mode "default"
         bindsym q exec --no-startup-id qutebrowser, mode "default"
-        bindsym t exec --no-startup-id thunar, mode "default"
+        bindsym t exec --no-startup-id pcmanfm, mode "default"
         bindsym h exec --no-startup-id $TERMINAL -e htop, mode "default"
         bindsym n exec --no-startup-id nitrogen, mode "default"
         bindsym c exec --no-startup-id google-chrome-stable, mode "default"

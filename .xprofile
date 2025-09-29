@@ -29,8 +29,8 @@ elif [ "$HOSTNAME" = "naad" ]; then
     setxkbmap -option ctrl:swap_lwin_lctl
     setxkbmap -option ctrl:swap_rwin_rctl
     setxkbmap -option altwin:menu_win
-    setxkbmap -option grp:win_space_toggle
     xrandr --output HDMI-2 --primary --mode 1920x1080 --rate 75
 fi
 
 setxkbmap -layout us,ir
+setxkbmap -option grp:win_space_toggle

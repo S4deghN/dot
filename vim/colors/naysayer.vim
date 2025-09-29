@@ -133,6 +133,3 @@ let g:terminal_ansi_colors = [
             \ "#2ec09c",
             \ "#e1e0d9",
             \ ]
-
-
-hi normal guibg=#242424
