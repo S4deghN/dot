@@ -59,6 +59,10 @@ export FZF_DEFAULT_OPTS="\
     --preview-window hidden \
     "
 
+if [ -d "/sbin" ] ; then
+    PATH="/sbin:$PATH"
+fi
+
 if [ -d "$HOME/.cargo/bin" ] ; then
     PATH="$HOME/.cargo/bin:$PATH"
 fi
