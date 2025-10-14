@@ -179,4 +179,3 @@ export def GetVisualSelection(): string
     var content = join(lines)
     return content
 enddef
-

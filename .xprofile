@@ -11,6 +11,12 @@
 #! make short-pressed Ctrl behave like Escape:
 # xcape -e 'Control_L=Escape'
 
+# HOSTNAME variable is not populated in sh (dash) environment.
+HOSTNAME=$(hostname) ||
+    HOSTNAME=$(uname -n) ||
+    HOSTNAME=$(head -n 1 /etc/hostname) ||
+    HOSTNAME="x580vd"
+
 if [ "$VISUAL" = "emacs" ]; then
     setxkbmap -option caps:ctrl_modifier
 else

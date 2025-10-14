@@ -96,6 +96,6 @@ if [ -d "$HOME/.local/share/gem/ruby/3.4.0/bin" ] ; then
     PATH="$HOME/.local/share/gem/ruby/3.4.0/bin:$PATH"
 fi
 
-# if [[ "$(tty)" = "/dev/tty1" ]]; then
-#     pgrep Xorg || startx
-# fi
+if [ "$(tty)" = "/dev/tty1" ]; then
+    pgrep Xorg || exec startx
+fi

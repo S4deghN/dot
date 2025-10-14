@@ -48,12 +48,12 @@ exec --no-startup-id dex --autostart --environment i3
 # On Arch: pacman -S network-manager-applet
 exec --no-startup-id nm-applet
 
-exec --no-startup-id xfce4-clipman
+exec --no-startup-id qlipper
 
 # exec --no-startup-id blueman-applet
 
 # Mountable device manager as an applet
-exec --no-startup-id udiskie -t
+# exec --no-startup-id udiskie -t
 
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
@@ -174,7 +174,6 @@ bindsym $mod+d kill
 # why is --release needed for this to work?
 bindsym --release $mod+Shift+d exec --no-startup-id xkill
 
-bindsym $mod+s exec --no-startup-id rofi -show drun
 bindsym $mod+x exec --no-startup-id rofi -show run
 
 bindsym $mod+m       exec --no-startup-id dmenu-emoji !
@@ -252,6 +251,9 @@ bindsym $mod+Shift+q move scratchpad
 
 bindsym $mod+Shift+s sticky toggle
 
+for_window [instance="scratch"] floating enable, resize set 1400 800, move position center, border normal 1
+bindsym $mod+s exec --no-startup-id i3-scratchpad-or-launch "st -n scratch" "scratch"
+
 for_window [instance="dict"] floating enable, resize set 1400 800, move position center, border normal 1
 bindsym $mod+Shift+w exec --no-startup-id "st -n dict -e dict"
 
@@ -296,7 +298,7 @@ mode "$apps" {
         bindsym Return mode "default"
         bindsym Escape mode "default"
         bindsym Ctrl+c mode "default"
-        bindsym $mod+a mode "default"
+        bindsym $mod+a mode "default"; exec --no-startup-id rofi -show drun
 }
 
 

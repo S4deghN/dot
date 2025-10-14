@@ -10,7 +10,8 @@ endif
 
 let g:colors_name="naysayer"
 
-highlight! Normal guifg=#d1b897 guibg=#042327 gui=NONE
+" highlight! Normal guifg=#d1b897 guibg=#042327 gui=NONE
+highlight! Normal guifg=#d1b897 guibg=#282828 gui=NONE
 " highlight! Normal guifg=#d1b897 guibg=#242424 gui=NONE
 " highlight! Normal guifg=#d1b897 guibg=#062626 gui=NONE
 " highlight! Normal guifg=#d1c8a7 guibg=#062626 gui=NONE
@@ -100,7 +101,7 @@ hi SignColumn guibg=bg
 hi VertSplit    guifg=#343434 guibg=#343434 cterm=NONE
 hi StatusLine   guibg=#343434 cterm=NONE
 hi StatusLineNC guibg=#343434 cterm=NONE
-hi LineNr guifg=#18555D
+hi LineNr guifg=ivory4
 hi ErrorMsg guifg=red guibg=bg
 hi Folded guifg=#878787 guibg=bg
 hi QuickFixLine guibg=#031E21
@@ -114,6 +115,8 @@ hi DiffAdd       guibg=#123723 guifg=NONE    gui=NONE
 hi DiffChange    guibg=#424218 guifg=NONE    gui=NONE
 hi DiffDelete    guibg=#4d1f24 guifg=NONE    gui=NONE
 " hi DiffText      guibg=NONE    guifg=NONE    gui=reverse
+
+hi! link vimDef function
 
 let g:terminal_ansi_colors = [
             \ "#202020",

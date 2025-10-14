@@ -85,7 +85,7 @@ hlset([
     {name: 'diffRemoved',       guifg: red},
     {name: 'diffSubname',       guifg: blue},
     {name: 'Identifier',        guifg: 'fg', cterm: {}},
-    {name: 'Function',          guifg: 'darkorange', cterm: {}},
+    {name: 'Function',          guifg: 'orange2', cterm: {}},
     {name: 'Operator',          guifg: 'fg', cterm: {}},
     {name: 'PreProc',           guifg: quartz, cterm: {}},
     {name: 'delimiter',         guifg: 'fg'},

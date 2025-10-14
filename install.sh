@@ -28,6 +28,7 @@ if [[ $1 = "-d" ]]; then
     ln -sfv "$PWD"/.Xmodmap      "$HOME"/
     ln -sfv "$PWD"/.Xresources   "$HOME"/
     ln -sfv "$PWD"/.xprofile     "$HOME"/
+    ln -sfv "$PWD"/.xinitrc      "$HOME"/
     ln -sfv "$PWD"/.emacs.d      "$HOME"/
     ln -sfv "$PWD"/rofi          "$HOME"/.config/
     ln -sfv "$PWD"/i3            "$HOME"/.config/

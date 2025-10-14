@@ -18,7 +18,7 @@ if [ -z $1 ]; then
     exec $EDITOR $HOME/.local/bin/
 fi
 
-cmd=$(command -v $1)
+cmd=$(command -v "$1")
 test -n "$cmd" &&
     exec $EDITOR "$cmd" ||
-    exec $EDITOR $HOME/.local/bin/$1
+    exec $EDITOR $(find $HOME/.local/bin/ -type f -name "$1")
