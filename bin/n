@@ -20,7 +20,7 @@ if [ $# -lt 2 ]; then
     [[ -n "$1" ]] &&
         [[ ! -f "$file" ]] && 
         [[ $1 != *.* ]] &&
-        file=$file.adoc
+        file=$file.md
     exec $EDITOR $file
     exit 0
 fi

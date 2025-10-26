@@ -2,8 +2,8 @@
 setlocal commentstring=//\ %s
 setlocal matchpairs+=<:>
 
-hi! link Delimiter  Normal
-hi! link Identifier Normal
+" hi! link Delimiter  Normal
+" hi! link Identifier Normal
 
 let g:c_gnu = 1
 let g:c_functions = 1

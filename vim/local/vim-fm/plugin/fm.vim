@@ -193,6 +193,13 @@ def g:Delete()
     endif
 
     # TODO: move files to system trash if it exists. `mktemp` can come in handy.
+    for name in t:mark_list
+        if isdirectory(name)
+            var yes = confirm("Delete directories recursively?", "&Yes\n&No", 0)
+            if yes != 1 | echo "Aborted deletion!" | return | endif
+        endif
+    endfor
+
     var res = system('rm -r ' .. join(t:mark_list))
     if v:shell_error
         echohl Error | echom res->trim() | echohl None

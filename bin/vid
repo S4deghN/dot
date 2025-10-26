@@ -9,7 +9,7 @@ query=$(find ~/dot -not -path "*/\.git/*" -wholename "*$regex*" -type f)
 if [[ $(printf "%s\n" $query | wc -l) -eq 1 ]]; then
     $EDITOR $query
 else
-    printf "%s\n" $query | fzf --height 60% --preview 'highlight -O ansi -l {}' --preview-window=down | xargs -r $EDITOR
+    $EDITOR $(printf "%s\n" $query | fzf --height 60% --preview 'highlight -O ansi -l {}' --preview-window=down)
 fi
 
 

@@ -12,12 +12,13 @@ set nostartofline splitbelow splitright
 set hlsearch incsearch ignorecase smartcase tagcase=match # if match case is not set to `match` tag search becomes really slow!
 set smartindent nosmarttab expandtab shiftwidth=4 tabstop=4
 set fillchars+=diff:╱,fold:\ ,vert:│
-set list listchars=tab:\ ,nbsp:␣,trail:·,extends:…,precedes:… showbreak=\
+set list listchars=tab:\ ,nbsp:␣,trail:·,extends:…,precedes:… showbreak=󱞩
 set cpoptions+=n foldmethod=marker
 set cinoptions+=:s,=s,l1,b1,g0,N-s,E-s,(s,k0,j1,J1,t0,Ls
 set path=.,**,/usr/include
 set grepprg=grep
 set termguicolors
+set textwidth=80
 
 # &t_md = "" # disable bold
 &t_SI = "\e[5 q" # Insert mode
@@ -44,7 +45,7 @@ Plug '~/.vim/local/vim-fm'
 Plug '~/.vim/local/lsp' | runtime lsp.vim
 plug#end()
 
-color naysayer
+color vim9
 
 g:sexp_mappings = {
     sexp_swap_list_backward: '', # '<M-k>',
@@ -92,6 +93,7 @@ nmap     gcd <cmd>let @c=col('.')<cr>yygccp<cmd>call cursor(0,@c)<cr>
 
 exe "set <M-t>=\et"
 nmap <M-t> :t.<cr>
+imap <M-t> <C-o><M-t>
 vmap <M-t> :t'><cr>`[V`]
 exe "set <M-j>=\ej"
 nmap <silent> <M-j> :m+1<cr>==
