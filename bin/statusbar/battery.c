@@ -11,7 +11,7 @@ int main()
 
     int err = glob(path, GLOB_BRACE, NULL, &globbuf);
     if (err) {
-        fprintf(stderr, "ERR: %d\n", err);
+        // fprintf(stderr, "ERR: %d\n", err);
         return err;
     }
 

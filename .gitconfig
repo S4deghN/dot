@@ -61,5 +61,5 @@
     conflictstyle = merge
 [init]
     defaultBranch = master
-[includeIf "gitdir:/home/naad/"]
+[includeIf "gitdir:/home/s4/naad"]
     path = ~/.naad.gitconfig
