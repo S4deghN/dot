@@ -54,7 +54,6 @@ g:terminal_ansi_colors = [
 
 hlset([
     {name: 'ColorColumn',       guibg: dim},
-    {name: 'Constant',          guifg: oldivory},
     {name: 'CursorLine',        guibg: dim, cterm: {}},
     {name: 'Directory',         guifg: blue},
     {name: 'EndOfBuffer',       guifg: light_gray},
@@ -85,7 +84,7 @@ hlset([
     {name: 'diffRemoved',       guifg: red},
     {name: 'diffSubname',       guifg: blue},
     {name: 'Identifier',        guifg: 'fg', cterm: {}},
-    {name: 'Function',          guifg: 'fg', cterm: {}},
+    {name: 'Function',          guifg: 'white', cterm: {bold: 0}},
     # {name: 'Function',          guifg: '#99bbdd', cterm: {}},
     # {name: 'Function',          guifg: 'orange2', cterm: {}},
     # {name: 'Function',          guifg: '#EFBBBB', cterm: {}},
@@ -97,7 +96,10 @@ hlset([
     {name: 'delimiter',         guifg: 'fg'},
     {name: 'Special',           guifg: cyan, cterm: {}},
     {name: 'Statement',         guifg: goldenrod, cterm: {}},
+    # {name: 'Number',            guifg: oldivory, cterm: {}},
+    # {name: 'Constant',          guifg: oldivory, cterm: {}},
     {name: 'Number',            guifg: oldivory, cterm: {}},
+    {name: 'Constant',          guifg: oldivory, cterm: {}},
     {name: 'MatchParen',        guifg: 'skyblue', guibg: light_gray, cterm: {}},
     # {name: 'Comment',           guifg: '#878889'},
     # {name: 'Comment',           guifg: '#979999'},
