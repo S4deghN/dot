@@ -1,7 +1,3 @@
 [user]
     name = Sadegh Nobakhti
     email = m.nobakhti@naadsecure.local
-[core]
-    pager = perl /usr/share/doc/git/contrib/diff-highlight/diff-highlight | less
-[interactive]
-    pager = perl /usr/share/doc/git/contrib/diff-highlight/diff-highlight
