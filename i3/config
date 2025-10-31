@@ -285,7 +285,7 @@ bindsym $mod+a mode "$apps"
 mode "$apps" {
         bindsym f exec --no-startup-id firefox, mode "default"
         bindsym q exec --no-startup-id qutebrowser, mode "default"
-        bindsym t exec --no-startup-id thunar, mode "default"
+        bindsym t exec --no-startup-id pcmanfm, mode "default"
         bindsym h exec --no-startup-id $TERMINAL -e htop, mode "default"
         bindsym n exec --no-startup-id nitrogen, mode "default"
         bindsym c exec --no-startup-id google-chrome-stable, mode "default"
