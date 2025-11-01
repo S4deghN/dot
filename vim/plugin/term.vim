@@ -198,16 +198,22 @@ def OpenFile()
 
     var [_, fname, lnum, col; _] = matches
 
+    # echom "reached before fname check"
+
     # check if it's a regular rg output with filename as a header
     if empty(fname)
-        var header = getline(search('^$', 'bnW') + 1)
+        var fname_line = search('^$', 'bnW') + 1
+        if fname_line == 1 | fname_line = 2 | endif
+        var header = getline(fname_line)
         fname = header
     endif
 
-    if !filereadable(fname) | return | endif
-
     # echom matches
     # echom $'{fname}, {lnum}, {col}'
+
+    if !filereadable(fname) | return | endif
+
+    # echom "after check"
 
     # Highlight the line
     if !!get(b:, 'match') | silent! matchdelete(b:match) | endif
