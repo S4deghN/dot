@@ -145,3 +145,5 @@ hi! link LineNr            NonText
 hi! link Signcolumn        NonText
 hi! link StatuslineTerm    StatusLine
 hi! link StatuslineTermNC  StatusLineNC
+hi! link TabLine           Statusline
+hi! link TabLineFill       StatuslineNC
