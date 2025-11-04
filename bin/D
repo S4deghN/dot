@@ -1,0 +1,10 @@
+#!/bin/sh
+
+D_dir="/mnt/D"
+
+if [ -z "$(ls $D_dir 2>/dev/null)" ]; then 
+    sudo mount --mkdir /dev/sda1 $D_dir
+fi
+
+cd $D_dir
+exec $SHELL
