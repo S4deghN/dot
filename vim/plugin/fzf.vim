@@ -167,7 +167,7 @@ def g:LiveGrep(query: string, fullscreen: bool, previous = false, dir = "")
                     var g3: float
                     var b3: float
 
-                    var now = reltime()
+                    var start = reltime()
                     while t < 1
                         r3 = (1 - t) * r1 + t * r2
                         g3 = (1 - t) * g1 + t * g2
@@ -175,9 +175,10 @@ def g:LiveGrep(query: string, fullscreen: bool, previous = false, dir = "")
                         var color = printf("#%x%x%x", float2nr(r3), float2nr(g3), float2nr(b3))
                         hlset([{name: 'Cursorline', guibg: color}])
                         redraw
-                        var loop_time = reltime(now)
-                        now = reltime()
-                        t += reltimefloat(loop_time) * hz
+                        var loop_time = reltime(start)
+                        t = atan(reltimefloat(loop_time) * 5)
+                        # t = pow(reltimefloat(loop_time), 2) * 25
+                        # t = cos(reltimefloat(loop_time)) * 2
                         # echo $'{loop_time}, {t}'
                     endwhile
 
