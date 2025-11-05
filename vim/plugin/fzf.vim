@@ -74,13 +74,13 @@ enddef
 
 # TODO: Add support for fzf_action.
 def g:LiveGrep(query: string, fullscreen: bool, previous = false, dir = "")
-    var command_fmt = 'rg -. -S -n --column --color=always --sort=path %s %s || true'
+    var command_fmt = 'rg -. --glob "!**/.git/**" -S -n --column --color=always --sort=path %s %s 2>/dev/null || true'
     var prompt = ''
     var q = previous ? system('cat /tmp/rg-fzf-p') : query
-    var initial_grep = printf(command_fmt, shellescape(q), dir)
+    var initial_grep = printf(command_fmt, shellescape(q, true), dir)
     var reload_grep = printf(command_fmt, '{q}', dir)
     var cwd = getcwd()
-    var transform = 
+    var transform =
         'transform:[[ ! {fzf:prompt} == "*Rg> " ]] &&' ..
         'echo "rebind(change)+change-prompt(*Rg> )+disable-search+transform-query:echo \{q} > /tmp/rg-fzf-f; cat /tmp/rg-fzf-r" ||' ..
         'echo "unbind(change)+change-prompt({q}> )+enable-search+transform-query:echo \{q} > /tmp/rg-fzf-r; cat /tmp/rg-fzf-f"'
@@ -99,7 +99,7 @@ def g:LiveGrep(query: string, fullscreen: bool, previous = false, dir = "")
             '--bind', 'enter:execute(printf {q} > /tmp/rg-fzf-p)+accept',
             '--bind', 'esc:execute(printf {q} > /tmp/rg-fzf-p)+abort',
             # '--bind', 'ctrl-u:transform-header(echo $FZF_API_KEY)'
-            '--expect', 'ctrl-u'
+            '--expect', 'ctrl-^'
         ],
         'source': initial_grep,
     }
@@ -113,12 +113,12 @@ def g:LiveGrep(query: string, fullscreen: bool, previous = false, dir = "")
     unlet spec['sink*']
 
     spec.sinklist = (lines) => {
-        echom lines
+        # echom lines
         if len(lines) < 2
             echom "less than 2!"
             return
         endif
-        if lines[0] == 'ctrl-u'
+        if lines[0] == 'ctrl-^'
             call g:LiveGrep(q, fullscreen, false, dir .. "../")
         else
             remove(lines, 0) # it must be empty!
@@ -148,12 +148,41 @@ def g:LiveGrep(query: string, fullscreen: bool, previous = false, dir = "")
             if ok
                 var savehl = hlget('CursorLine', true)[0]
                 var visualhl = hlget('Visual', true)[0]
+                var bghl = hlget('Normal', true)[0]
                 setl cursorline
                 hlset([{name: 'Cursorline', guibg: (visualhl.guibg)}])
 
                 timer_start(300, (_) => {
-                    setl cursorline<
+                    const hz = 5
+                    var t: float = 0.0
+                    var r1 = str2nr(visualhl.guibg[1 : 2], 16)
+                    var g1 = str2nr(visualhl.guibg[3 : 4], 16)
+                    var b1 = str2nr(visualhl.guibg[5 : 6], 16)
+
+                    var r2 = str2nr(bghl.guibg[1 : 2], 16)
+                    var g2 = str2nr(bghl.guibg[3 : 4], 16)
+                    var b2 = str2nr(bghl.guibg[5 : 6], 16)
+
+                    var r3: float
+                    var g3: float
+                    var b3: float
+
+                    var now = reltime()
+                    while t < 1
+                        r3 = (1 - t) * r1 + t * r2
+                        g3 = (1 - t) * g1 + t * g2
+                        b3 = (1 - t) * b1 + t * b2
+                        var color = printf("#%x%x%x", float2nr(r3), float2nr(g3), float2nr(b3))
+                        hlset([{name: 'Cursorline', guibg: color}])
+                        redraw
+                        var loop_time = reltime(now)
+                        now = reltime()
+                        t += reltimefloat(loop_time) * hz
+                        # echo $'{loop_time}, {t}'
+                    endwhile
+
                     hlset([{name: 'Cursorline', guibg: savehl.guibg}])
+                    setl cursorline<
                 })
             endif
 
