@@ -74,7 +74,7 @@ enddef
 
 # TODO: Add support for fzf_action.
 def g:LiveGrep(query: string, fullscreen: bool, previous = false, dir = "")
-    var command_fmt = 'rg -. --glob "!**/.git/**" -S -n --column --color=always --sort=path %s %s 2>/dev/null || true'
+    var command_fmt = 'rg -. --glob ''!**/.git/*'' -S -n --column --color=always --sort=path %s %s 2>/dev/null || true'
     var prompt = ''
     var q = previous ? system('cat /tmp/rg-fzf-p') : query
     var initial_grep = printf(command_fmt, shellescape(q), dir)

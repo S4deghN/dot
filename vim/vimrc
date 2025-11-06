@@ -32,7 +32,7 @@ g:loaded_netrw = 1 | g:loaded_matchparen = 1 | g:loaded_vimballPlugin = 1
 silent! packadd! matchit
 silent! packadd! comment
 plug#begin("~/.local/share/vim/plugged")
-Plug 'guns/vim-sexp' | g:sexp_filetypes = '*' | g:sexp_enable_insert_mode_mappings = false
+# Plug 'guns/vim-sexp' | g:sexp_filetypes = '*' | g:sexp_enable_insert_mode_mappings = false
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/fzf.vim' | silent source /usr/share/doc/fzf/examples/fzf.vim
 Plug 'tpope/vim-fugitive'
@@ -158,7 +158,7 @@ command! -nargs=+ -complete=function RR put = execute('echo ' .. <q-args>)->trim
 command! -nargs=? Format utils#KeepView(':%!clang-format', winsaveview(), 'c')
 command! -nargs=? Expand utils#KeepView(':%!expand -t ' .. (!<q-args> ? '4' : <q-args>), winsaveview(), 'c')
 command! -nargs=? Unexpand utils#KeepView(':%!unexpand -t ' .. (!<q-args> ? '4' : <q-args>), winsaveview(), 'c')
-command! -nargs=1 -bang Grep g:Term("rg -S --vimgrep --sort=path " .. <f-args>, <bang>0)
+command! -nargs=1 -bang Grep g:Term("rg -S --column --sort=path " .. <f-args>, <bang>0)
 # Dump {binfile}
 command! -nargs=1 -bang -complete=file Dump g:Term("objdump -ClSd --disassembler-color=on " .. <f-args>, <bang>0, "[dump]", "asm")
 # Assembly {compiler} {sourcefile}

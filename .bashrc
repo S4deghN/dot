@@ -100,7 +100,6 @@ alias e.="$EDITOR ."
 alias vi="$EDITOR"
 alias dot="$HOME/dot"
 alias note="$HOME/note"
-alias bf="/home/s4/Games/bf/drive_c/Program\ Files/BattleForge"
 alias enw="$EDITOR $HOME/note/en/words.md"
 alias t="tmux a || tmux"
 alias o="octave"
@@ -131,6 +130,9 @@ alias pac-check-integ="pacman -Qikk"
 alias yt-dlp-video='yt-dlp --cookies-from-browser firefox --proxy socks5://192.168.1.100:9909 -S "height:1080,aext"'
 alias yt-dlp-audio='yt-dlp --cookies-from-browser firefox --proxy socks5://192.168.1.100:9909 -f "ba"'
 alias ffmpeg-combine='ffmpeg -i "" -i "" out.mp4'
+
+alias bf="/home/s4/Games/bf/drive_c/Program\ Files/BattleForge"
+alias hw="/home/s4/repo/naad/HWIPSec_SW/"
 
 #---------------------------------------------------
 # env

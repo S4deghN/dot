@@ -45,7 +45,7 @@ exec --no-startup-id dex --autostart --environment i3
 # On Arch: pacman -S network-manager-applet
 # exec --no-startup-id nm-applet
 
-exec --no-startup-id qlipper
+# exec --no-startup-id qlipper
 
 # exec --no-startup-id blueman-applet
 
@@ -157,7 +157,7 @@ bindsym $mod+Shift+g exec --no-startup-id "i3-toggle-gap $HOME/.config/i3/config
 
 # start a terminal
 # depends on jq and custom i3WorkspaceName script
-bindsym $mod+Return exec --no-startup-id st -e fish
+bindsym $mod+Return exec --no-startup-id st
 # bindsym $mod+t exec alacritty -e bash -c "tmux attach -t $(tmux-session-namer $(i3WorkspaceName)) || tmux new -s $(tmux-session-namer $(i3WorkspaceName))"
 bindsym $mod+t exec --no-startup-id st
 bindsym $mod+r exec --no-startup-id st -e ranger
