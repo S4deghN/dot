@@ -98,7 +98,8 @@ def g:LiveGrep(query: string, fullscreen: bool, previous = false, dir = "")
             '--bind', 'ctrl-g:' .. transform,
             '--bind', 'enter:execute(printf {q} > /tmp/rg-fzf-p)+accept',
             '--bind', 'esc:execute(printf {q} > /tmp/rg-fzf-p)+abort',
-            # '--bind', 'ctrl-u:transform-header(echo $FZF_API_KEY)'
+            '--delimiter', ':',
+            '--preview-window', '+{2}/2',
             '--expect', 'ctrl-^'
         ],
         'source': initial_grep,
@@ -107,7 +108,7 @@ def g:LiveGrep(query: string, fullscreen: bool, previous = false, dir = "")
         extend(options['options'], [ '--bind', 'start:' .. transform ])
     endif
     # var ret = fzf#vim#grep(initial_grep, 1, fzf#vim#with_preview(options), fullscreen)
-    var spec = fzf#wrap(fzf#vim#with_preview(options))
+    var spec = fzf#vim#with_preview(fzf#wrap(options))
     # var original_spec = copy(spec)
     unlet spec.sinklist
     unlet spec['sink*']

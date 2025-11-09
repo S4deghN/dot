@@ -7,12 +7,12 @@ set hidden noswapfile undofile undodir=/tmp/$USER.vim9undo | silent system("mkdi
 set mouse=ar ttymouse=sgr
 set completeopt=menu,longest
 set nowildmenu wildignorecase wildmode=longest,list,full wildcharm=<Tab>
-set notitle showcmd laststatus=2 shortmess=aoOFtT
+set notitle showcmd showcmdloc=statusline laststatus=2 shortmess=aoOFtT
 set nostartofline splitbelow splitright
 set hlsearch incsearch ignorecase smartcase tagcase=match # if match case is not set to `match` tag search becomes really slow!
 set smartindent nosmarttab expandtab shiftwidth=4 tabstop=4
 set fillchars+=diff:╱,fold:\ ,vert:│
-set list listchars=tab:\ ,nbsp:␣,trail:·,extends:…,precedes:… showbreak=󱞩
+set list listchars=tab:\ ,nbsp:␣,trail:·,extends:…,precedes:… showbreak=—
 set cpoptions+=n foldmethod=marker
 set cinoptions+=:s,=s,l1,b1,g0,N-s,E-s,(s,k0,j1,J1,t0,Ls
 set path=.,**,/usr/include

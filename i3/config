@@ -45,6 +45,7 @@ exec --no-startup-id dex --autostart --environment i3
 # On Arch: pacman -S network-manager-applet
 # exec --no-startup-id nm-applet
 
+exec --no-startup-id xfce4-clipman
 # exec --no-startup-id qlipper
 
 # exec --no-startup-id blueman-applet
@@ -86,8 +87,8 @@ default_floating_border normal 1
 smart_borders on
 # for_window [all] title_window_icon on
 
-# gaps outer 20
-# gaps inner 5
+gaps outer 20
+gaps inner 5
 
 # class                 border  backgr. text    indicator child_border
 client.focused          #4c7899 #285577 #ffffff #2e9ef4   #285577
@@ -177,7 +178,7 @@ bindsym $mod+m       exec --no-startup-id dmenu-emoji !
 bindsym $mod+shift+m exec --no-startup-id dmenu-emoji
 # bindsym $mod+m exec --no-startup-id rofi -modi emoji -show emoji
 
-# bindsym Mod1+Shift+v exec --no-startup-id xfce4-popup-clipman
+bindsym Mod1+Shift+v exec --no-startup-id xfce4-popup-clipman
 
 # A more modern dmenu replacement is rofi:
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"

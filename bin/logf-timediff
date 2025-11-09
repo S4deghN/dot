@@ -1,0 +1,11 @@
+#!/bin/bash 
+
+while IFS= read -r line; do
+    read -ra words <<< "$line"
+    # Print each word
+    t1=$(date -d ${words[0]} +%s)
+    t2=$(date -d ${words[2]%%:} +%s)
+    timediff=$(date -ud @$((t2-t1)) +%H:%M)
+
+    sed "s/\([0-9: ->]\+\):/\1 | $timediff:/" <<< $line
+done < "$1"
