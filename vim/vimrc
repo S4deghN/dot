@@ -173,7 +173,7 @@ augroup autoCommands
     # this option is set by ftplugin for each file type.
     # I just want a consistant format option across all file types thus the autocmd.
     autocmd BufEnter * set formatoptions=tcrqljn1p # default: tcroql
-    autocmd BufWinEnter */doc/*.txt call utils#MoveOpenedWinodwToSaneSplit() | setl nolist
+    autocmd BufWinEnter */doc/*.txt call utils#MoveOpenedWindowToSaneSplit() | setl nolist
 
     autocmd Filetype qf nmap <buffer> <Esc> ZQ
     autocmd Filetype man nmap <buffer> q ZQ

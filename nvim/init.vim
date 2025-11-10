@@ -354,7 +354,7 @@ noremap <M-d> dw
 
 function! TagJumpSplit()
     :exec "stag " .. expand('<cword>')
-    call MoveOpenedWinodwToSaneSplit()
+    call MoveOpenedWindowToSaneSplit()
 endfunction
 noremap <C-w>d     :call TagJumpSplit()<cr>
 noremap <C-w><C-d> :exec VertOrNot() .. " stag " .. expand('<cword>')<cr>
@@ -528,7 +528,7 @@ function! UseSplitOrCreate()
     endif
 endfunction
 
-function! MoveOpenedWinodwToSaneSplit()
+function! MoveOpenedWindowToSaneSplit()
     let prev_winnr = winnr('#')
     if prev_winnr == 0 | return | endif
 
@@ -754,11 +754,11 @@ augroup auto
 
     " TODO: for now we just ignore if columns are too small but we need our horizontal splits to
     " also use existing horizontal splits.
-    autocmd BufWinEnter man://* call MoveOpenedWinodwToSaneSplit()
-    autocmd Filetype fugitive call MoveOpenedWinodwToSaneSplit()
+    autocmd BufWinEnter man://* call MoveOpenedWindowToSaneSplit()
+    autocmd Filetype fugitive call MoveOpenedWindowToSaneSplit()
     "autocmd Filetype help
     "autocmd BufWinEnter */doc/*.txt if strlen(VertOrNot()) > 0 | wincmd L | endif
-    autocmd BufWinEnter */doc/*.txt call MoveOpenedWinodwToSaneSplit()
+    autocmd BufWinEnter */doc/*.txt call MoveOpenedWindowToSaneSplit()
 
     autocmd BufAdd .clang* set filetype=yaml
     " for visual mode in bash vi mode

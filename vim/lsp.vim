@@ -105,6 +105,6 @@ enddef
 
 def SplitJumpToDefinition()
     split
-    utils#MoveOpenedWinodwToSaneSplit()
+    utils#MoveOpenedWindowToSaneSplit()
     JumpToDefinition()
 enddef

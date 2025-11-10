@@ -66,7 +66,7 @@ export def UseSplitOrCreate(): number
   endif
 enddef
 
-export def MoveOpenedWinodwToSaneSplit()
+export def MoveOpenedWindowToSaneSplit()
   var prev_winnr = winnr('#')
   if prev_winnr == 0 | return | endif
 
