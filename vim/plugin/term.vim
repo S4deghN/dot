@@ -48,11 +48,12 @@ def g:TermInput()
 enddef
 
 
-def g:Term(cmd: string, bang: bool, ...args: list<string>): number
+def g:Term(cmd: string, bang: bool, ...args: list<any>): number
     t:term_cmd = cmd
 
     S_bufname = get(args, 0, '')
     S_filetype = get(args, 1, '')
+    g:term_vertical = get(args, 2, 1)
 
     var bufnr = GetTermBufnr()
     if term_getstatus(bufnr) == "running"
@@ -64,7 +65,7 @@ def g:Term(cmd: string, bang: bool, ...args: list<string>): number
     if len(windows)
         win_to_use = windows[0]
     else
-        win_to_use = CreateWindow(bang)
+        win_to_use = CreateWindow()
     endif
 
     var cwd = getcwd() .. '/'
