@@ -187,7 +187,7 @@ export def Spotlight(): void
     setl cursorline
     hlset([{name: 'Cursorline', guibg: (visualhl.guibg)}])
 
-    timer_start(300, (_) => {
+    timer_start(200, (_) => {
         const hz = 5
         var t: float = 0.0
         var r1 = str2nr(visualhl.guibg[1 : 2], 16)
@@ -211,7 +211,7 @@ export def Spotlight(): void
             hlset([{name: 'Cursorline', guibg: color}])
             redraw
             var loop_time = reltime(start)
-            t = atan(reltimefloat(loop_time) * 5)
+            t = atan(reltimefloat(loop_time) * 7)
             # t = pow(reltimefloat(loop_time), 2) * 25
             # t = cos(reltimefloat(loop_time)) * 2
             # echo $'{loop_time}, {t}'
