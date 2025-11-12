@@ -221,7 +221,8 @@ bind -x '"\ex3": vi-find ~/dot  .git'
 bind -x '"\ex4": vi-find ~/note .git'
 bind -x '"\ex5": vi-grep'
 # take in history from other shells
-bind -x '"\C-h": history -n'
+# NOTE: do not use C-h because backspace sends  when capslock is on in st!
+bind -x '"\eh": history -n'
 
 bind -m vi-insert '"\C-f": "\ex1\e@"'
 bind -m vi-insert '"\ef":  "\ex2\e@"'

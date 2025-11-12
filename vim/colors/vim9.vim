@@ -42,7 +42,7 @@ g:terminal_ansi_colors = [
     "#d3869b", #magenta
     quartz,    #cyan
     "#8A8581", #white
-    "#777777", #brblack
+    "#555555", #brblack
     red,
     "#6B9D23", #brgreen
     goldenrod, #bryellow
@@ -80,9 +80,9 @@ hlset([
     {name: 'Underlined',        gui:   {underline: 1}},
     {name: 'WarningMsg',        guifg: yellow},
     {name: 'WildMenu',          guifg: black, guibg: yellow, gui: {bold: 1}},
-    {name: 'diffAdded',         guifg: green},
-    {name: 'diffRemoved',       guifg: red},
-    {name: 'diffSubname',       guifg: blue},
+    {name: 'diffAdded',         guifg: green, cterm: {}},
+    {name: 'diffRemoved',       guifg: red, cterm: {}},
+    {name: 'diffSubname',       guifg: blue, cterm: {}},
     {name: 'Identifier',        guifg: 'fg', cterm: {}},
     {name: 'Function',          guifg: 'fg', cterm: {bold: 0}},
     # {name: 'Function',          guifg: '#99bbdd', cterm: {}},
@@ -109,10 +109,10 @@ hlset([
     {name: 'VertSplit',         guifg: 'bg', guibg: gray},
     {name: 'Statusline',        guifg: '#bbbbbb', guibg: gray, cterm: {}},
     {name: 'StatuslineNC',      guifg: '#aaaaaa', guibg: gray, cterm: {}},
-    {name: 'DiffAdd',           guifg: 'NONE', guibg: '#1D2B21'},
-    {name: 'DiffDelete',        guifg: '#484E52', guibg: 'NONE'},
-    {name: 'DiffChange',        guifg: 'NONE', guibg: '#1F385B'},
-    {name: 'DiffText',          guifg: 'NONE', guibg: '#172A45'},
+    {name: 'DiffAdd',           guifg: 'NONE', guibg: '#1D2B21', cterm: {}},
+    {name: 'DiffDelete',        guifg: '#484E52', guibg: 'NONE', cterm: {}},
+    {name: 'DiffChange',        guifg: 'NONE', guibg: '#1F385B', cterm: {}},
+    {name: 'DiffText',          guifg: 'NONE', guibg: '#172A45', cterm: {}},
     {name: 'Added',             guifg: '#8F9D6A'},
     {name: 'Removed',           guifg: '#CF6A4C'},
     {name: 'Changed',           guifg: 'NONE', guibg: '#1F385B'},

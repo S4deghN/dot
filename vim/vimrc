@@ -9,10 +9,10 @@ set completeopt=menu,longest
 set nowildmenu wildignorecase wildmode=longest,list,full wildcharm=<Tab>
 set notitle showcmd showcmdloc=statusline laststatus=2 shortmess=aoOFtT
 set nostartofline splitbelow splitright
-set hlsearch incsearch ignorecase smartcase tagcase=match # if match case is not set to `match` tag search becomes really slow!
+set hlsearch incsearch ignorecase nosmartcase tagcase=match # if match case is not set to `match` tag search becomes really slow!
 set smartindent nosmarttab expandtab shiftwidth=4 tabstop=4
 set fillchars+=diff:╱,fold:\ ,vert:│
-set list listchars=tab:\ ,nbsp:␣,trail:·,extends:…,precedes:… showbreak=—
+set list listchars=tab:›\ ,nbsp:␣,trail:·,extends:…,precedes:… showbreak=–
 set cpoptions+=n foldmethod=marker
 set cinoptions+=:s,=s,l1,b1,g0,N-s,E-s,(s,k0,j1,J1,t0,Ls
 set path=.,**,/usr/include
@@ -33,6 +33,9 @@ silent! packadd! matchit
 silent! packadd! comment
 plug#begin("~/.local/share/vim/plugged")
 # Plug 'guns/vim-sexp' | g:sexp_filetypes = '*' | g:sexp_enable_insert_mode_mappings = false
+Plug 'coacher/vim9-buckler'
+Plug 'ycm/shimp'
+Plug 'zeminzhou/diffview.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/fzf.vim' | silent source /usr/share/doc/fzf/examples/fzf.vim
 Plug 'tpope/vim-fugitive'
@@ -138,6 +141,7 @@ nnoremap <space>vb <cmd>echo utils#GetGitBranch()<cr>
 nnoremap <space>a  <cmd>Apropos<cr>
 nnoremap <space>z  <cmd>setl spell!<cr>
 nnoremap <space>D  <scriptcmd>g:Dict(expand("<cword>"))<cr>
+nnoremap <space>'  <cmd>Marks<cr>
 
 inoremap <expr> <C-e> pumvisible() ? "\<C-e>" : "\<esc>A"
 inoremap <silent> <Esc> <Esc>g`^

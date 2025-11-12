@@ -42,7 +42,7 @@ export HISTSIZE=-1
 export HISTFILESIZE=-1
 
 export FZF_DEFAULT_COMMAND="find . -type f -not -path '*/\.git/*' -not -path '*/\.cargo/*' -not -path '*/\.ccls-cache/*' -not -path '*/\.cache/*' ! -path '*/build/*'"
-export FZF_COLORS="fg:-1,fg+:-1,hl:yellow,hl+:yellow:reverse,border:gray,spinner:-1,header:blue,info:green,pointer:white,marker:blue,prompt:white:regular,gutter:-1"
+export FZF_COLORS="bg+:gray,fg:-1,fg+:-1,hl:yellow,hl+:yellow:reverse,border:gray,spinner:-1,header:blue,info:green,pointer:white,marker:blue,prompt:white:regular,gutter:-1"
 export FZF_DEFAULT_OPTS="\
     --prompt  '󱞵 ' \
     --pointer '' \

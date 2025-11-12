@@ -5,6 +5,13 @@ RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
 # INITIAL_QUERY="${*:-}"
 INITIAL_QUERY=""
 
+PREVIEWER=$(find ~/.local/share/vim ~/.vim -name preview.sh -type f -print -quit 2>/dev/null)
+if [ -n $PREVIEWER ]; then
+    PREVIEWER+=" {1}:{2}"
+else
+    PREVIEWER="highlight -O ansi -l {1}"
+fi
+
 fzf --color="$FZF_COLORS" --ansi --disabled --query "$INITIAL_QUERY" \
     --header 'CTRL-g: Switch between ripgrep/fzf' \
     --bind "start:reload:$RG_PREFIX {q}"\
@@ -14,7 +21,7 @@ fzf --color="$FZF_COLORS" --ansi --disabled --query "$INITIAL_QUERY" \
     echo "unbind(change)+change-prompt({q}> )+enable-search+transform-query:echo \{q} > /tmp/rg-fzf-r; cat /tmp/rg-fzf-f"' \
     --prompt 'grep> ' \
     --delimiter : \
-    --preview 'highlight -O ansi -l {1}' \
+    --preview "$PREVIEWER"\
     --preview-window '+{2}/2' \
     "$@"
-    # --bind 'enter:become(vim {1} +{2})'
+    # --bind 'enter:become(vim {1} +{2})' # done in .bashrc keybinds

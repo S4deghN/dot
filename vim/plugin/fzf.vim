@@ -19,6 +19,7 @@ g:fzf_action = {
 }
 
 # g:fzf_layout = { 'window': { 'width': 1, 'height': 0.35, 'yoffset': 1.0, 'border': 'top'} }
+g:fzf_layout = { 'down': "50%" }
 
 # -----------------------------------------------
 # --- extend ---
@@ -38,13 +39,20 @@ enddef
 def g:FzfApropos(): list<string>
     # var src_list = systemlist("apropos .")
     var src_cmd = 'apropos .'
-    return fzf#run(fzf#wrap('apropos', {'options': ['--no-sort', '--header', src_cmd, '--query', '^'], 'source': src_cmd, 'sink': (line) => {
-        var [_, name, section; _] = matchlist(line, '^\(\S\+\)\s\+\((\w\+)\)')
-        exec 'Man' name .. section
-    } }))
+    return fzf#run(fzf#wrap('apropos', {
+        'options': [
+            '--no-sort',
+            '--header', src_cmd,
+            '--query', '^',
+        ],
+        'source': src_cmd,
+        'sink': (line) => {
+            var [_, name, section; _] = matchlist(line, '^\(\S\+\)\s\+\((\w\+)\)')
+            exec 'Man' name .. section
+        } }))
 enddef
 
-def OpenFile(fname_arg: string, lnum: string, col = ""): bool
+def OpenFile(fname_arg: string, lnum: number, col = 0): bool
     if !filereadable(fname_arg) | echoe $'{fname_arg} not readable!' | return false | endif
 
     var buffers = filter(getbufinfo(), (idx, v) => fnamemodify(fname_arg, ":p") == v.name)
@@ -60,30 +68,100 @@ def OpenFile(fname_arg: string, lnum: string, col = ""): bool
         execute "edit" fname
     endif
 
-    if !empty(lnum)
+    if lnum != 0
         execute ":" .. lnum
         execute "normal! 0"
     endif
 
-    if !empty(col) && str2nr(col) > 1
-        execute "normal!" (str2nr(col)) .. "|"
+    if col != 0
+        execute "normal!" col .. "|"
     endif
     normal! zvzz
     return true
 enddef
 
+# augroup fzf
+#     au!
+#     autocmd FileType fzf tnoremap <silent> <Enter> <C-w>:call g:RemoteSelect("<C-v><Enter>")<cr>
+#     autocmd FileType fzf tnoremap <silent> <Plug>CloseFzfRg <C-w>:call g:RemoteSelect("<C-v><Esc>")<cr>
+#     autocmd FileType fzf tnoremap <Esc>a <Esc>a
+#     autocmd FileType fzf tmap <nowait> <Esc> <Plug>CloseFzfRg
+# augroup end
+
+def g:RemoteSelect(key: string)
+    echom "Called this!" key
+    # Only run if it's rg window, otherwise just pass the key to terminal
+    var line1 = term_getline(bufnr(), 1)
+    if line1 !~# "^\*Rg>" && line1 !~# "^'.\\{-}'>"
+        term_sendkeys(bufnr(), key)
+        return
+    endif
+
+    t:fzf_rg_bufnr = bufnr()
+    set bufhidden=hide
+
+    if key == "\<Esc>"
+        wincmd c
+        return
+    endif
+
+    var port = readfile(t:fzf_port_tmpfile)[0]
+    var ch = ch_open('127.0.0.1:' .. port, {
+        mode: "lsp",
+        callback: (c, msg) => {
+            # echom "cb: " .. msg.current.text
+
+            var parts = matchlist(msg.current.text, '\(.\{-}\)\s*:\s*\(\d\+\)\%(\s*:\s*\(\d\+\)\)\?\%(\s*:\(.*\)\)\?')
+            var file = &autochdir ? fnamemodify(parts[1], ':p') : parts[1]
+            if has('win32unix') && file !~ '/'
+                file = substitute(file, '\', '/', 'g')
+            endif
+            var dict = {'filename': file, 'lnum': parts[2], 'text': parts[4]}
+            if len(parts[3]) > 0
+                dict.col = parts[3]
+            endif
+
+            wincmd c
+
+            if OpenFile(dict.filename, dict.lnum, dict.col)
+                utils#Spotlight()
+            endif
+        }
+    })
+    if ch_status(ch) != "open"
+        echom 'oops:' ch_info(ch)
+        return
+    endif
+    ch_sendraw(ch, "GET /?limit=0 HTTP/1.1\r\n\r\n")
+enddef
+
 # TODO: Add support for fzf_action.
 def g:LiveGrep(query: string, fullscreen: bool, previous = false, dir = "")
+    # var bufnr = get(t:, 'fzf_rg_bufnr', -1)
+    # echom "bufnr:" bufnr
+    # if !!bufexists(bufnr)
+    #     if query == ""
+    #         exec "botright sbuf" bufnr
+    #         return
+    #     else
+    #         # BUG: stupid fzf jumps back to previous window with a delay after buffer
+    #         # is whped!!!
+    #         exec ":" .. bufnr .. "bwipe!"
+    #     endif
+    # endif
+
     var command_fmt = 'rg -. --glob ''!**/.git/*'' -S -n --column --color=always --sort=path %s %s 2>/dev/null || true'
     var prompt = ''
     var q = previous ? system('cat /tmp/rg-fzf-p') : query
     var initial_grep = printf(command_fmt, shellescape(q), dir)
     var reload_grep = printf(command_fmt, '{q}', dir)
     var cwd = getcwd()
+    t:fzf_port_tmpfile = get(t:, 'fzf_port_tmpfile', tempname())
     var transform =
         'transform:[[ ! {fzf:prompt} == "*Rg> " ]] &&' ..
         'echo "rebind(change)+change-prompt(*Rg> )+disable-search+transform-query:echo \{q} > /tmp/rg-fzf-f; cat /tmp/rg-fzf-r" ||' ..
         'echo "unbind(change)+change-prompt({q}> )+enable-search+transform-query:echo \{q} > /tmp/rg-fzf-r; cat /tmp/rg-fzf-f"'
+    var save_query = 'execute([[ {fzf:prompt} == "*Rg> " ]] && printf {q} > /tmp/rg-fzf-p || cat /tmp/rg-fzf-r > /tmp/rg-fzf-p)'
     var options = {
         'options': [
             '--ansi',
@@ -96,11 +174,13 @@ def g:LiveGrep(query: string, fullscreen: bool, previous = false, dir = "")
             '--bind', 'alt-a:select-all,alt-d:deselect-all',
             '--bind', 'change:reload:sleep 0.1;' .. reload_grep,
             '--bind', 'ctrl-g:' .. transform,
-            '--bind', 'enter:execute(printf {q} > /tmp/rg-fzf-p)+accept',
-            '--bind', 'esc:execute(printf {q} > /tmp/rg-fzf-p)+abort',
+            '--bind', 'enter:execute([[ {fzf:prompt} == "*Rg> " ]] && printf {q} > /tmp/rg-fzf-p || printf $(cat /tmp/rg-fzf-r) > /tmp/rg-fzf-p)+accept',
+            '--bind', 'esc:execute([[ {fzf:prompt} == "*Rg> " ]] && printf {q} > /tmp/rg-fzf-p || printf $(cat /tmp/rg-fzf-r) > /tmp/rg-fzf-p)+abort',
             '--delimiter', ':',
             '--preview-window', '+{2}/2',
-            '--expect', 'ctrl-^'
+            '--expect', 'ctrl-^',
+            # '--listen', '127.0.0.1:0',
+            # '--bind', 'start:execute-silent:echo $FZF_PORT > ' .. t:fzf_port_tmpfile,
         ],
         'source': initial_grep,
     }
@@ -116,7 +196,7 @@ def g:LiveGrep(query: string, fullscreen: bool, previous = false, dir = "")
     spec.sinklist = (lines) => {
         # echom lines
         if len(lines) < 2
-            echom "less than 2!"
+            echom "less than 2!\n" .. string(lines)
             return
         endif
         if lines[0] == 'ctrl-^'
@@ -124,18 +204,20 @@ def g:LiveGrep(query: string, fullscreen: bool, previous = false, dir = "")
         else
             remove(lines, 0) # it must be empty!
 
-            var list = map(filter(lines, (_, line) => len(line) > 0), (_, line): dict<string> => {
-                var parts = matchlist(line, '\(.\{-}\)\s*:\s*\(\d\+\)\%(\s*:\s*\(\d\+\)\)\?\%(\s*:\(.*\)\)\?')
-                var file = &autochdir ? fnamemodify(parts[1], ':p') : parts[1]
-                if has('win32unix') && file !~ '/'
-                    file = substitute(file, '\', '/', 'g')
-                endif
-                var dict = {'filename': file, 'lnum': parts[2], 'text': parts[4]}
-                if len(parts[3]) > 0
-                    dict.col = parts[3]
-                endif
-                return dict
-            })
+            var list = lines
+                ->filter((_, line) => len(line) > 0)
+                ->map((_, line): dict<any> => {
+                    var parts = matchlist(line, '\(.\{-}\)\s*:\s*\(\d\+\)\%(\s*:\s*\(\d\+\)\)\?\%(\s*:\(.*\)\)\?')
+                    var file = &autochdir ? fnamemodify(parts[1], ':p') : parts[1]
+                    if has('win32unix') && file !~ '/'
+                        file = substitute(file, '\', '/', 'g')
+                    endif
+                    var dict = {'filename': file, 'lnum': str2nr(parts[2]), 'text': parts[4]}
+                    if len(parts[3]) > 0
+                        dict.col = str2nr(parts[3])
+                    endif
+                    return dict
+                })
 
             # echom list
 
