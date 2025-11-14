@@ -99,7 +99,7 @@ hi SpellRare guifg=#9acd32 guibg=NONE guisp=#9acd32 gui=undercurl cterm=underlin
 hi Comment guifg=#6dceeb guibg=NONE gui=NONE cterm=NONE
 " hi Identifier guifg=#89fb98 guibg=NONE gui=NONE cterm=NONE
 hi Identifier guifg=#89fb98 guibg=NONE gui=NONE cterm=NONE
-hi Statement guifg=#f0e68c guibg=NONE gui=bold cterm=bold
+hi Statement guifg=#f0e68c guibg=NONE gui=NONE cterm=NONE
 hi Constant guifg=#ffa0a0 guibg=NONE gui=NONE cterm=NONE
 hi PreProc guifg=#cd5c5c guibg=NONE gui=NONE cterm=NONE
 hi Type guifg=#cdc77b guibg=NONE gui=NONE cterm=NONE
