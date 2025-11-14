@@ -142,7 +142,7 @@ def OnBufEnter(arg_bufnr: string, arg_dir: string)
     if isdirectory(arg_dir)
         timer_start(0, (timer) => {
             var bufnr = str2nr(arg_bufnr)
-            if !bufexists(bufnr)
+            if !bufexists(bufnr) || getbufvar(bufnr, '&buftype', '') == 'terminal' # avoid setting fzf buffer's dir
                 return
             endif
 

@@ -207,7 +207,7 @@ export def Spotlight(): void
             r3 = (1 - t) * r1 + t * r2
             g3 = (1 - t) * g1 + t * g2
             b3 = (1 - t) * b1 + t * b2
-            var color = printf("#%x%x%x", float2nr(r3), float2nr(g3), float2nr(b3))
+            var color = printf("#%.2x%.2x%.2x", float2nr(r3), float2nr(g3), float2nr(b3))
             hlset([{name: 'Cursorline', guibg: color}])
             redraw
             var loop_time = reltime(start)

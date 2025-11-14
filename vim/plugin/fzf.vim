@@ -18,8 +18,12 @@ g:fzf_action = {
     'ctrl-v': 'vsplit'
 }
 
-# g:fzf_layout = { 'window': { 'width': 1, 'height': 0.35, 'yoffset': 1.0, 'border': 'top'} }
-g:fzf_layout = { 'down': "50%" }
+# g:fzf_layout = { 'window': { 'width': 1, 'height': 0.5, 'yoffset': .95, 'reletavie': v:true, 'border': 'top'} }
+# g:fzf_layout = { 'window': '10new' }
+g:fzf_layout = { 'down': "40%" }
+
+autocmd! FileType fzf set laststatus=0 noshowmode noruler
+            \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 
 # -----------------------------------------------
 # --- extend ---
@@ -41,7 +45,7 @@ def g:FzfApropos(): list<string>
     var src_cmd = 'apropos .'
     return fzf#run(fzf#wrap('apropos', {
         'options': [
-            '--no-sort',
+            # '--no-sort',
             '--header', src_cmd,
             '--query', '^',
         ],
@@ -179,6 +183,7 @@ def g:LiveGrep(query: string, fullscreen: bool, previous = false, dir = "")
             '--delimiter', ':',
             '--preview-window', '+{2}/2',
             '--expect', 'ctrl-^',
+            # '--border=horizontal'
             # '--listen', '127.0.0.1:0',
             # '--bind', 'start:execute-silent:echo $FZF_PORT > ' .. t:fzf_port_tmpfile,
         ],

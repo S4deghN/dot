@@ -24,8 +24,8 @@ if (has('termguicolors') && &termguicolors) || has('gui_running')
         \ '#6dceeb',
         \ '#ffa0a0',
         \ '#75a0ff',
-        \ '#505050',
-        \ '#8a7f7f',
+        \ '#777777',
+        \ '#7a6f6f',
         \ '#cd5c5c',
         \ '#89fb98',
         \ '#f0e68c',
@@ -111,7 +111,10 @@ hi Title guifg=#cd5c5c guibg=NONE gui=bold cterm=bold
 hi DiffAdd guifg=#ffffff guibg=#5f875f gui=NONE cterm=NONE
 hi DiffChange guifg=#ffffff guibg=#5f87af gui=NONE cterm=NONE
 hi DiffText guifg=#000000 guibg=#c6c6c6 gui=NONE cterm=NONE
-hi DiffDelete guifg=#ffffff guibg=#af5faf gui=NONE cterm=NONE
+hi DiffDelete guifg=#ffffff guibg=#cd5c5c gui=NONE cterm=NONE
+hi! link DiffSubname Comment
+hi DiffIndexline guifg=#777777
+hi DiffFile guifg=#777777
 
 " Background: dark
 " Color: foreground  #ffffff        231            white

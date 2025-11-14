@@ -42,14 +42,14 @@ Plug 'tpope/vim-fugitive'
 Plug 'glts/vim-magnum'
 Plug 'glts/vim-radical'
 Plug 'alx741/vinfo'
-Plug 'S4deghN/clrzr' | g:clrzr_startup = 0
+Plug 'BourgeoisBear/clrzr' | g:clrzr_startup = 0
 Plug 'mg979/vim-visual-multi'
-Plug 'airblade/vim-rooter' | g:rooter_silent_chdir = 1 | g:rooter_patterns = [ '.git', '.svn', 'tags']
+Plug 'airblade/vim-rooter' | g:rooter_silent_chdir = 1 | g:rooter_patterns = [ '.git', '.svn', 'tags'] | g:rooter_targets = ['*'] # avoid setting root for directories
 Plug '~/.vim/local/vim-fm'
 Plug '~/.vim/local/lsp' | runtime lsp.vim
 plug#end()
 
-color vim9
+color mydesert
 
 g:sexp_mappings = {
     sexp_swap_list_backward: '', # '<M-k>',
