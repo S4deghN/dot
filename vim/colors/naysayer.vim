@@ -5,7 +5,7 @@ set background=dark
 
 highlight clear
 if exists("syntax_on")
-	syntax reset
+    syntax reset
 endif
 
 let g:colors_name="naysayer"
@@ -17,17 +17,20 @@ highlight! Normal guifg=#d1b897 guibg=#282828 gui=NONE
 " highlight! Normal guifg=#d1b897 guibg=#062626 gui=NONE
 " highlight! Normal guifg=#d1c8a7 guibg=#062626 gui=NONE
 
-highlight! Comment guifg=#44b340 guibg=NONE gui=NONE
+" highlight! Comment guifg=#44b340 guibg=NONE gui=NONE
 " highlight! Comment guifg=#55CA43 guibg=NONE gui=NONE
-" highlight! Comment guifg=yellow2 guibg=NONE gui=NONE
+" highlight! Comment guifg=#EAdA2D guibg=NONE gui=NONE
 " highlight! Comment guifg=gold guibg=NONE gui=NONE
+highlight! Comment guifg=ivory4 guibg=NONE gui=NONE
 highlight! NonText guifg=#484848
 highlight! link SpecialKey NonText
 highlight! link EndOfBuffer NonText
 
 highlight! link Constant Number
-highlight! String guifg=#2ec09c guibg=NONE gui=NONE
+" highlight! String guifg=#2ec09c guibg=NONE gui=NONE
 " highlight! String guifg=#EDD400 guibg=NONE gui=NONE
+" highlight! String guifg=#44b340 guibg=NONE gui=NONE
+" highlight! String guifg=#55CA43 guibg=NONE gui=NONE
 highlight! link Character Number
 highlight! Number guifg=#7ad0c6 guibg=NONE gui=NONE
 highlight! link Boolean Number
@@ -45,13 +48,15 @@ highlight! link Operator Normal
 highlight! link Keyword Statement
 highlight! link Exception Statement
 
-highlight! PreProc guifg=#8cde94 guibg=NONE gui=NONE
+" highlight! PreProc guifg=#8cde94 guibg=NONE gui=NONE
+" highlight! PreProc guifg=#2ec09c guibg=NONE gui=NONE
+highlight! PreProc guifg=#4f9797 guibg=NONE gui=NONE
 highlight link Include PreProc
 highlight link Define PreProc
-highlight link Macro Normal
+highlight link Macro PreProc
 highlight link PreCondit PreProc
 
-highlight! link Type PreProc
+highlight Type guifg=#8cde94
 highlight! link StorageClass Type
 highlight! link Structure Type
 highlight! link Typedef Type
@@ -121,6 +126,7 @@ hi! link vimDef function
 
 hi! link StatuslineTerm    StatusLine
 hi! link StatuslineTermNC  StatusLineNC
+hi cursorline gui=NONE cterm=NONE
 
 let g:terminal_ansi_colors = [
             \ "#202020",
@@ -131,7 +137,7 @@ let g:terminal_ansi_colors = [
             \ "#ee799f",
             \ "#2ec09c",
             \ "#d1b897",
-            \ "#6C6866",
+            \ "#484848",
             \ "#fe2222",
             \ "#8cde94",
             \ "#FED600",
@@ -140,3 +146,5 @@ let g:terminal_ansi_colors = [
             \ "#2ec09c",
             \ "#e1e0d9",
             \ ]
+
+

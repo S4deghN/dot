@@ -19,7 +19,7 @@ set path=.,**,/usr/include
 set grepprg=grep
 set termguicolors
 set textwidth=80
-set complete-=i
+set complete-=i # can be very slow
 
 # &t_md = "" # disable bold
 &t_SI = "\e[5 q" # Insert mode
@@ -49,7 +49,7 @@ Plug '~/.vim/local/vim-fm'
 Plug '~/.vim/local/lsp' | runtime lsp.vim
 plug#end()
 
-color mydesert
+color naysayer
 
 g:sexp_mappings = {
     sexp_swap_list_backward: '', # '<M-k>',

@@ -20,7 +20,7 @@ g:fzf_action = {
 
 # g:fzf_layout = { 'window': { 'width': 1, 'height': 0.5, 'yoffset': .95, 'reletavie': v:true, 'border': 'top'} }
 # g:fzf_layout = { 'window': '10new' }
-g:fzf_layout = { 'down': "40%" }
+g:fzf_layout = { 'down': "55%" }
 
 autocmd! FileType fzf set laststatus=0 noshowmode noruler
             \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
