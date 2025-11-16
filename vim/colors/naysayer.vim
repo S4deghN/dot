@@ -50,7 +50,8 @@ highlight! link Exception Statement
 
 " highlight! PreProc guifg=#8cde94 guibg=NONE gui=NONE
 " highlight! PreProc guifg=#2ec09c guibg=NONE gui=NONE
-highlight! PreProc guifg=#4f9797 guibg=NONE gui=NONE
+" highlight! PreProc guifg=#2ec09c guibg=NONE gui=NONE
+highlight! PreProc guifg=#5a9f9f guibg=NONE gui=NONE
 highlight link Include PreProc
 highlight link Define PreProc
 highlight link Macro PreProc
