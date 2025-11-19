@@ -49,7 +49,7 @@ Plug '~/.vim/local/vim-fm'
 Plug '~/.vim/local/lsp' | runtime lsp.vim
 plug#end()
 
-color naysayer
+color vim9
 
 g:sexp_mappings = {
     sexp_swap_list_backward: '', # '<M-k>',

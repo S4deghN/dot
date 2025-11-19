@@ -10,6 +10,7 @@ set background=dark
 g:colors_name = "vim9"
 
 var black        = '#282828'
+# var black        = '#2a2a2a'
 var blue         = '#88aacc'
 var brown        = '#cc8c3c'
 var cyan         = '#afd7af'
@@ -84,9 +85,10 @@ hlset([
     {name: 'diffRemoved',       guifg: red, cterm: {}},
     {name: 'diffSubname',       guifg: blue, cterm: {}},
     {name: 'Identifier',        guifg: 'fg', cterm: {}},
-    {name: 'Function',          guifg: 'fg', cterm: {bold: 0}},
+    # {name: 'Function',          guifg: 'fg', cterm: {bold: 0}},
     # {name: 'Function',          guifg: '#99bbdd', cterm: {}},
     # {name: 'Function',          guifg: 'orange2', cterm: {}},
+    {name: 'Function',          guifg: '#FE9C20', cterm: {}},
     # {name: 'Function',          guifg: '#EFBBBB', cterm: {}},
     # {name: 'Function',          guifg: 'lightsalmon', cterm: {}},
     # {name: 'Function',          guifg: '#FEAC8C', cterm: {}},
@@ -122,7 +124,7 @@ hlset([
     {name: 'DiagnosticHint',    guifg: '#747C84'},
     {name: 'IncSearch',         guifg: 'black', guibg: '#ee799f', cterm: {}},
     {name: 'Search',            guifg: 'black', guibg: '#218058', cterm: {}},
-    {name: 'markdowncode',      guifg: 'fg', guibg: '#383838'},
+    {name: 'markdowncode',      guifg: 'ivory3'},
     {name: 'markdowncodeblock', guifg: 'ivory4'},
     {name: 'Todo',              guifg: 'white', guibg: 'bg', cterm: {bold: 1}},
 ])

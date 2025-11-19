@@ -106,8 +106,8 @@ hi NormalFloat guibg=bg
 hi CmpPmenuBorder guifg=#000000
 hi SignColumn guibg=bg
 hi VertSplit    guifg=#343434 guibg=#343434 cterm=NONE
-hi StatusLine   guibg=#343434 cterm=NONE
-hi StatusLineNC guibg=#343434 cterm=NONE
+hi StatusLine   guifg=ivory3 guibg=#343434 cterm=NONE
+hi StatusLineNC guifg=ivory4 guibg=#343434 cterm=NONE
 hi LineNr guifg=ivory4
 hi ErrorMsg guifg=red guibg=bg
 hi Folded guifg=#878787 guibg=bg
@@ -128,6 +128,10 @@ hi! link vimDef function
 hi! link StatuslineTerm    StatusLine
 hi! link StatuslineTermNC  StatusLineNC
 hi cursorline gui=NONE cterm=NONE
+
+hi markdowncodedelimiter guifg=ivory3
+hi markdowncode guifg=ivory3
+hi! link htmltagname Statement
 
 let g:terminal_ansi_colors = [
             \ "#202020",
