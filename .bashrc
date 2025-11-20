@@ -89,6 +89,10 @@ ulimit -c unlimited
 #if [[ "$OSTYPE" == "msys" ]]; then
 #fi
 
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
 alias ls='ls --color=auto --classify'
 alias la="ls -alh"
 alias cp="cp -vi"
