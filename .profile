@@ -24,6 +24,10 @@ export QT_AUTO_SCREEN_SCALE_FACTOR=1
 
 export GOPATH="$HOME/.local/go"
 
+if [ -n "$(grep ID=debian /etc/os-release 2>/dev/null)" ]; then
+    export DEBUGINFOD_URLS="https://debuginfod.debian.net"
+fi
+
 # Highlighting for 'less'
 export MANROFFOPT="-c"
 export LESS_TERMCAP_mb=$'\e[0;33m'

@@ -229,8 +229,6 @@ static char *disk()// {{{
 static char *volume(int signum, siginfo_t *si, void *ucontext)// {{{
 {
     static char output_str[32];
-    static struct tm tm;
-    static bool alternative_format;
 
     if (signum > SIGRTMIN) {
         int signal = signum - SIGRTMIN;

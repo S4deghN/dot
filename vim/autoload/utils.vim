@@ -89,7 +89,8 @@ export def OpenWinWithBufPattern(pattern: string)
   if len(win_to_use) > 0
     win_gotoid(win_to_use[0].winid)
   else
-    exec 'botright' Vertical() 'new'
+    # exec 'botright' Vertical() 'new'
+    win_gotoid(UseSplitOrCreate())
   endif
 enddef
 
