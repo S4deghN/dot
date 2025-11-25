@@ -12,6 +12,8 @@
 #include <stdbool.h>
 #include <string.h>
 
+#include "timer.h"
+
 struct Option {
     char* sym1;
     char* sym1_arg;
@@ -45,13 +47,6 @@ type name##_val;                                 \
 void name##_h (int* argc, char** argv[])
 
 #define shift(xs_sz, xs) ((xs_sz)--, *(xs)++)
-
-typedef struct {
-    long prev;
-    long period;
-    long remain;
-    long paused;
-} Timer;
 
 Timer t;
 int fd;
@@ -132,17 +127,7 @@ int main(int argc, char* argv[]) {
         write(fd, &t, sizeof(t));
     }
 
-    int remain = abs(t.remain);
-    char* symbol = t.remain > 0 ?
-        "🍅 " :
-        remain%2 ? "🍅 -" : "💢 -";
-
-    if (remain > 3600) {
-        printf("%s%dh%dm%ds\n", symbol, remain/3600, (remain%3600)/60,
-            remain%60);
-    } else if (remain > 60) {
-        printf("%s%dm%ds\n", symbol, remain/60, remain%60);
-    } else {
-        printf("%s%ds\n", symbol, remain%60);
-    }
+    char buff[32];
+    int n = timer_snprintf(buff, sizeof(buff), &t);
+    write(STDOUT_FILENO, buff, n);
 }

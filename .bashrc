@@ -41,6 +41,9 @@ __ps1() {
     # Testing the __git_ps1
     # PS1="$userP@$hostP $dircP$branchP$(__git_ps1) $errP\n$suffixP "
     PS1="$userP@$hostP $dircP$branchP $errP\n$suffixP "
+
+    # set terminal title
+    printf "\033]0;${PWD}\007"
 }
 
 PROMPT_COMMAND="__ps1"
@@ -61,7 +64,8 @@ shopt -s autocd
 shopt -s globstar
 # ignoreboth is shorthand for ignorespace and ignoredups
 export HISTCONTROL=ignoredups:erasedups
-PROMPT_COMMAND="$PROMPT_COMMAND; history -a"
+PROMPT_COMMAND="$PROMPT_COMMAND; history -a;"
+
 # If  set,  the  history list is appended to the file named by the value of the
 # HISTFILE variable when the shell exits, rather than overwriting the file. (in
 # order to prevent the issue of lossig bash session history when multiple

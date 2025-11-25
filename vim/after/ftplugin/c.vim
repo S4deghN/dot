@@ -33,4 +33,7 @@ augroup CFile
     au BufWritePre *.h if line('$') == 1 && empty(getline(1))
                 \| exec "norm i\<C-x>gg\<esc>{"
                 \| endif
+
+    au BufWritePost **/dwm/config.h set makeprg=sudo\ make\ install | make!
+    au BufWritePost **/st/config.h set makeprg=sudo\ make\ install | make!
 augroup END
