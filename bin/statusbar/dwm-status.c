@@ -396,7 +396,7 @@ StatusBlock blocks[] = {
     {timer,     1, hex_str(1),       hex_str(1)},
     {net,       2, hex_str(2),       hex_str(2)},
     {cpu_temp,  3, hex_str(3),       "°C"hex_str(3)},
-    {mem,       4, hex_str(4)"MEM ", hex_str(4)},
+    {mem,       4, hex_str(4)"MEM ",  hex_str(4)},
     {disk,      5, hex_str(5)"/ ",   hex_str(5)},
     {xkeyboard, 6, hex_str(6)" ",   hex_str(6)},
     {timedate,  7, hex_str(7),       hex_str(7)},
