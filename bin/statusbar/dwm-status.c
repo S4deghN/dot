@@ -12,26 +12,44 @@
 #include <wchar.h>
 #include <X11/X.h>
 #include <X11/Xlib.h>
+#include <X11/XKBlib.h>
+#include <X11/extensions/XKB.h>
+#include <X11/extensions/XKBstr.h>
+#include <X11/extensions/XKBrules.h>
 #include <assert.h>
 #include <errno.h>
+#include <pthread.h>
 
 #include "timer.h"
 
-#define leftClick   1
-#define rightClick  2
-#define middleClick 3
-#define scrollUp    4
-#define scrollDown  5
+#define countof(a) (sizeof(a)/sizeof(a[0]))
+#define stringify(a) #a
+#define hex_str(a)  stringify(\x##a)
 
 #define INIT \
     static int init = 1; \
     if (init && (init = 0) == 0)
 
-typedef void (signalHandler_h)(int,  siginfo_t *, void *);
+#define LeftClick   1
+#define MiddleClick 2
+#define RightClick  3
+#define ScrollUp    4
+#define ScrollDown  5
+
+typedef void (*SignalCb)(int,  siginfo_t *, void *);
+typedef char *(*BlockCb)(int,  siginfo_t *, void *);
+
+typedef struct {
+    BlockCb cb;
+    int rt_signum;
+    char *prefix;
+    char *postfix;
+} StatusBlock;
+
 
 static uint sec_count;
 
-static char *timer()// {{{
+static char *timer(int signum, siginfo_t *si, void *ucontext)// {{{
 {
     static char output_str[32];
     static Timer *t = NULL;
@@ -55,7 +73,7 @@ static char *timer()// {{{
     return output_str;
 }// }}}
 
-static char *net()// {{{
+static char *net(int signum, siginfo_t *si, void *ucontext)// {{{
 {
     const char* tx_path = "/sys/class/net/{en,wl}*/statistics/tx_bytes";
     const char* rx_path = "/sys/class/net/{en,wl}*/statistics/rx_bytes";
@@ -121,7 +139,7 @@ static char *net()// {{{
     return out_str;
 }// }}}
 
-static char *cpu_temp()// {{{
+static char *cpu_temp(int signum, siginfo_t *si, void *ucontext)// {{{
 {
     const char* temp_file = "/sys/devices/platform/coretemp.0/hwmon/hwmon?/temp1_input";
     static char output_str[3];
@@ -148,7 +166,7 @@ static char *cpu_temp()// {{{
     return output_str;
 }// }}}
 
-static char *mem()// {{{
+static char *mem(int signum, siginfo_t *si, void *ucontext)// {{{
 {
     const char unit[] = { 'k', 'M', 'G'};
     static char out_str[16];
@@ -190,15 +208,17 @@ static char *mem()// {{{
     return out_str;
 }// }}}
 
-static char *disk()// {{{
+static char *disk(int signum, siginfo_t *si, void *ucontext)// {{{
 {
-    static char buff[32];
+    static char *buff;
     static int stdout_redir;
-    static char* number = buff;
+    static char* number;
 
     if (sec_count % 10) return number;
 
     INIT {
+        buff = malloc(32);
+        number = buff;
         stdout_redir = memfd_create("stdout_redirect", 0);
     }
 
@@ -213,10 +233,12 @@ static char *disk()// {{{
             NULL);
     } else {
         int wstatus;
-        waitpid(cpid, &wstatus, 0);
+        if (waitpid(cpid, &wstatus, 0) == -1) {
+            fprintf(stderr, "%s: errno = %d: %s\n", __FUNCTION__, errno, strerror(errno));
+        }
 
         lseek(stdout_redir, 0, SEEK_SET);
-        int n = read(stdout_redir, buff, sizeof(buff));
+        int n = read(stdout_redir, buff, 32);
         number = buff;
         while(57 < *number || *number < 48) ++number;
         // extra -1 to skip '\n' at the end.
@@ -226,27 +248,27 @@ static char *disk()// {{{
     return number;
 }// }}}
 
-static char *volume(int signum, siginfo_t *si, void *ucontext)// {{{
-{
-    static char output_str[32];
+// static char *volume(int signum, siginfo_t *si, void *ucontext)// {{{
+// {
+//     static char output_str[32];
 
-    if (signum > SIGRTMIN) {
-        int signal = signum - SIGRTMIN;
-        int button = si->si_value.sival_int;
+//     if (signum > SIGRTMIN) {
+//         int signal = signum - SIGRTMIN;
+//         int button = si->si_value.sival_int;
 
-        if (button == scrollUp) {
-            // pactl set-sink-volume @DEFAULT_SINK@ +5%
-        }
-    }
+//         if (button == ScrollUp) {
+//             // pactl set-sink-volume @DEFAULT_SINK@ +5%
+//         }
+//     }
 
-    if (sec_count % -1) {
-        return output_str;
-    } else {
-        printf("priodic update\n");
-    }
+//     if (sec_count % -1) {
+//         return output_str;
+//     } else {
+//         printf("priodic update\n");
+//     }
 
-    return output_str;
-}// }}}
+//     return output_str;
+// }// }}}
 
 static char *timedate(int signum, siginfo_t *si, void *ucontext)// {{{
 {
@@ -259,7 +281,7 @@ static char *timedate(int signum, siginfo_t *si, void *ucontext)// {{{
         int signal = signum - SIGRTMIN;
         int button = si->si_value.sival_int;
         printf("signal: %d, button: %d\n", signal, button);
-        if (button == leftClick) {
+        if (button == LeftClick) {
             alternative_format = !alternative_format;
         }
     }
@@ -276,67 +298,138 @@ static char *timedate(int signum, siginfo_t *si, void *ucontext)// {{{
     return output_str;
 }// }}}
 
-#define stringify(a) #a
-#define hex_str(a)  stringify(\x##a)
+uint xk_led_state;
+char xk_layout[8];
+void *_xkeyboard_listener(void *arg);
+char *xkeyboard(int signum, siginfo_t *si, void *ucontext)// {{{
+{
+    static char output_str[32] = {0};
 
-#define block(f, signum) do {                           \
-    INIT {                                              \
-        struct sigaction sa = {                         \
-            .sa_sigaction = (signalHandler_h*)timedate, \
-            .sa_flags = SA_SIGINFO                      \
-        };                                              \
-        sigaction(SIGRTMIN+signum, &sa, NULL);          \
-    }                                                   \
-    p = stpcpy(p, hex_str(signum));                     \
-    p = stpcpy(p, timedate(0, NULL, NULL));             \
-    p = stpcpy(p, hex_str(signum));                     \
-} while(0)
-
-void ten_sig_handler(int signum) {
-    printf("got sig: %d\n!", signum);
-}
-
-int main() {
-
-    // signal(SIGRTMIN+10, SIG_IGN);
-    if (signal(SIGRTMIN+10, ten_sig_handler) == SIG_ERR) {
-        printf("error:%d: %s!\n", errno, strerror(errno));
-        return 1;
+    INIT {
+        pthread_t xk_thr;
+        int *xk_signum = &(((StatusBlock*)ucontext)->rt_signum);
+        pthread_create(&xk_thr, NULL, _xkeyboard_listener, xk_signum);
+        pthread_detach(xk_thr);
     }
 
+    if (signum > SIGRTMIN) {
+        if (si && si->si_value.sival_int) {
+        }
+        output_str[0] = '\0';
+        char *p = output_str;
 
+        p = stpcpy(p, xk_layout);
+
+        if (xk_led_state & 0x01) {
+            p = stpcpy(p, ":CAPS");
+        }
+        if (xk_led_state & 0x02) {
+            p = stpcpy(p, ":NUM");
+        }
+
+        // snprintf(output_str, sizeof(output_str), "XKB 0x%x", state);
+    }
+
+    return output_str;
+}// }}}
+void _xkeyboard_get_layout(Display *dpy, char *layout_buf, int size)// {{{
+{
+    XkbRF_VarDefsRec vd;
+    XkbStateRec state;
+
+    XkbGetState(dpy, XkbUseCoreKbd, &state);
+    XkbRF_GetNamesProp(dpy, NULL, &vd);
+
+    char *group = strtok(vd.layout, ",");
+    for (int i = 0; i < state.group; i++) {
+        group = strtok(NULL, ",");
+        if (group == NULL) {
+            fprintf(stderr, "Group out of bounds: %d\n", state.group);
+            return;
+        }
+    }
+    strncpy(layout_buf, group, size);
+}// }}}
+void *_xkeyboard_listener(void *arg)// {{{
+{
+    int xk_signum = *(int*)arg;
+    int xkb_event_base;
+    XEvent event;
+    XkbEvent *xkb_event = (XkbEvent*)&event;
+    Display *main_display = XOpenDisplay(0);
+
+    // update on startup
+    XkbGetIndicatorState(main_display, XkbUseCoreKbd, &xk_led_state);
+    _xkeyboard_get_layout(main_display, xk_layout, sizeof(xk_layout));
+
+    xkeyboard(SIGRTMIN+xk_signum, NULL, NULL);
+
+    XkbSelectEvents(main_display, XkbUseCoreKbd,
+        XkbIndicatorStateNotifyMask, XkbIndicatorStateNotifyMask);
+
+    if (!XkbQueryExtension(main_display, NULL, &xkb_event_base, NULL, NULL, NULL)) {
+        fprintf(stderr, "XKB extension not available\n");
+        return NULL;
+    }
+
+    while (1) {
+        XNextEvent(main_display, &event);
+
+        if (event.type != xkb_event_base + XkbEventCode) {
+            fprintf(stderr, "WARN: stray event %d\n", event.type);
+        }
+
+        switch (xkb_event->any.xkb_type) {
+            case XkbIndicatorStateNotify: {
+                xk_led_state = xkb_event->indicators.state;
+                _xkeyboard_get_layout(main_display, xk_layout, sizeof(xk_layout));
+                sigqueue(getpid(), SIGRTMIN+xk_signum, (union sigval)0);
+            } break;
+            default:
+                printf("uncaught event: %d\n", xkb_event->any.xkb_type);
+            break;
+        }
+    }
+}// }}}
+
+StatusBlock blocks[] = {
+    {timer,     1, hex_str(1),       hex_str(1)},
+    {net,       2, hex_str(2),       hex_str(2)},
+    {cpu_temp,  3, hex_str(3),       "°C"hex_str(3)},
+    {mem,       4, hex_str(4)"MEM ", hex_str(4)},
+    {disk,      5, hex_str(5)"/ ",   hex_str(5)},
+    {xkeyboard, 6, hex_str(6)" ",   hex_str(6)},
+    {timedate,  7, hex_str(7),       hex_str(7)},
+};
+
+
+int main() {
     Display* main_display = XOpenDisplay(0);
     Window root_window = XDefaultRootWindow(main_display);
 
-    char *c = hex_str(1);
-    printf("c = %d\n", *c);
-
+    for (int i = 0; i < countof(blocks); ++i) {
+        struct sigaction sa = {
+            .sa_flags = SA_SIGINFO,
+            .sa_sigaction = (SignalCb)blocks[i].cb,
+        };
+        sigaction(SIGRTMIN + blocks[i].rt_signum, &sa, NULL);
+    }
 
     for (;; ++sec_count) {
         static char status_str[254];
         char *p = status_str;
 
-        char *t = timer();
-        if (t) {
-            p = stpcpy(p, t);
-            p = stpcpy(p, " | ");
+        for (int i = 0; i < countof(blocks); ++i) {
+            char *block_str = blocks[i].cb(0, NULL, &blocks[i]);
+            if (block_str) {
+                p = stpcpy(p, blocks[i].prefix);
+                p = stpcpy(p, block_str);
+                p = stpcpy(p, blocks[i].postfix);
+                p = stpcpy(p, " | ");
+            }
         }
-        p = stpcpy(p, net());
-        p = stpcpy(p, " | ");
-        p = stpcpy(p, cpu_temp());
-        p = stpcpy(p, "°C");
-        p = stpcpy(p, " | ");
-        p = stpcpy(p, "MEM ");
-        p = stpcpy(p, mem());
-        p = stpcpy(p, " | ");
-        p = stpcpy(p, "/ ");
-        p = stpcpy(p, disk());
-        p = stpcpy(p, " | ");
-        block(timedate, 1);
 
-        // snprintf(status_str, sizeof(status_str),
-        //     " %s | %s | %s°C | MEM %s | / %s | %s",
-        //     timer(), net(), cpu_temp(), mem(), disk(), timedate());
+        // fprintf(stderr, "%s\n", status_str);
 
         XStoreName(main_display, root_window, status_str);
         XFlush(main_display);

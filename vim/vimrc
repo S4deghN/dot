@@ -40,6 +40,7 @@ Plug 'zeminzhou/diffview.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/fzf.vim' | silent source /usr/share/doc/fzf/examples/fzf.vim
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-sleuth'
 Plug 'glts/vim-magnum'
 Plug 'glts/vim-radical'
 Plug 'alx741/vinfo'
@@ -121,7 +122,7 @@ tnoremap <C-]> <C-\><C-n>
 tnoremap <ScrollWheelUp> <C-\><C-n><ScrollWheelUp>
 
 nnoremap <space>d  :Bdelete<cr>
-nmap     <space>b  :b<space><Tab>
+nmap     <space>b  :b<space>
 nmap     <space>e  :e<space><C-x>d
 nnoremap <space>E  :e ~/.vim/**/
 nnoremap <space><C-e> :e $VIMRUNTIME/**/
@@ -146,6 +147,7 @@ nnoremap <space>'  <cmd>Marks<cr>
 
 inoremap <expr> <C-e> pumvisible() ? "\<C-e>" : "\<esc>A"
 inoremap <silent> <Esc> <Esc>g`^
+inoremap <C-x>t <C-r>=strftime("%H:%M")<Cr>
 
 noremap j gj
 noremap k gk

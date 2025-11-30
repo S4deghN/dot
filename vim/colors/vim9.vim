@@ -127,6 +127,7 @@ hlset([
     {name: 'markdowncode',      guifg: 'ivory3'},
     {name: 'markdowncodeblock', guifg: 'ivory4'},
     {name: 'Todo',              guifg: 'white', guibg: 'bg', cterm: {bold: 1}},
+    {name: 'QuickFixLine',      guifg: 'NONE', guibg: '#333333', cterm: {}, gui: {}},
 ])
 
 hi! link Type              Statement

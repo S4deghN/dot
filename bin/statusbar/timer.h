@@ -19,12 +19,12 @@ timer_snprintf(char *buff, unsigned int n, Timer *t)
         remain%2 ? "🍅 -" : "💢 -";
 
     if (remain > 3600) {
-        return snprintf(buff, n, "%s%dh%dm%ds\n", symbol, remain/3600, (remain%3600)/60,
+        return snprintf(buff, n, "%s%dh%dm%ds", symbol, remain/3600, (remain%3600)/60,
             remain%60);
     } else if (remain > 60) {
-        return snprintf(buff, n, "%s%dm%ds\n", symbol, remain/60, remain%60);
+        return snprintf(buff, n, "%s%dm%ds", symbol, remain/60, remain%60);
     } else {
-        return snprintf(buff, n, "%s%ds\n", symbol, remain%60);
+        return snprintf(buff, n, "%s%ds", symbol, remain%60);
     }
 }
 
