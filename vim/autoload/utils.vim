@@ -188,7 +188,7 @@ export def Spotlight(): void
     setl cursorline
     hlset([{name: 'Cursorline', guibg: (visualhl.guibg)}])
 
-    timer_start(200, (_) => {
+    timer_start(100, (_) => {
         const hz = 5
         var t: float = 0.0
         var r1 = str2nr(visualhl.guibg[1 : 2], 16)
