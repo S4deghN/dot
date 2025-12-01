@@ -56,6 +56,8 @@ def LspOnAttach()
     nmap <buffer> glR  :LspPeekReferences<cr>
     nmap <buffer> glci :LspIncomingCalls<cr>
     nmap <buffer> glco :LspOutgoingCalls<cr>
+    nmap <buffer> glt  :LspSubTypeHierarchy<cr>
+    nmap <buffer> glT  :LspSuperTypeHierarchy<cr>
 
     nmap <buffer> ]d  :LspDiagNext<cr>
     nmap <buffer> [d  :LspDiagPrev<cr>
