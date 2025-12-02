@@ -39,7 +39,6 @@ hi! link Conditional Statement
 hi! link CurSearch Search
 hi! link CursorLineFold FoldColumn
 hi! link CursorLineSign SignColumn
-hi! link Debug Special
 hi! link Define PreProc
 hi! link Delimiter Special
 hi! link Exception Statement
@@ -69,8 +68,6 @@ hi! link String Constant
 hi! link Structure Type
 hi! link Tag Special
 hi! link Typedef Type
-hi! link debugBreakpoint SignColumn
-hi! link debugPC SignColumn
 hi! link lCursor Cursor
 
 " hi Normal guifg=#839496 guibg=#002b36 guisp=NONE gui=NONE
@@ -140,11 +137,14 @@ hi VisualNOS guifg=NONE guibg=#073642 guisp=NONE gui=reverse
 hi WarningMsg guifg=#cb4b16 guibg=NONE guisp=NONE gui=bold
 hi WildMenu guifg=#657b83 guibg=#eee8d5 guisp=NONE gui=reverse
 
+hi debugPC guibg=navy
+
 hi StatusLine guifg=black guibg=#586E75 cterm=NONE
 hi StatusLineNC guifg=black guibg=#586E75 cterm=NONE
 
 hi! link Statement Type
-hi String guifg=olivedrab
-hi Identifier cterm=NONE gui=NONE
+hi String guifg=cyan4
+hi Identifier guifg=olivedrab cterm=NONE gui=NONE
+hi! link Special Constant
 
 " vim: et ts=8 sw=2 sts=2
