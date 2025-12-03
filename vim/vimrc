@@ -15,7 +15,7 @@ set fillchars+=diff:╱,fold:\ ,vert:│
 set list listchars=tab:›\ ,nbsp:␣,trail:·,extends:…,precedes:… showbreak=–
 set cpoptions+=n foldmethod=marker
 set cinoptions+=:s,=s,l1,b1,g0,N-s,E-s,(s,k0,j1,J1,t0,Ls
-set path=.,**,/usr/include
+set path=.,**,/usr/include,/usr/include/x86_64-linux-gnu
 set grepprg=grep
 set termguicolors
 set textwidth=80
@@ -32,6 +32,7 @@ g:loaded_netrw = 1 | g:loaded_matchparen = 1 | g:loaded_vimballPlugin = 1
 silent! packadd! matchit
 silent! packadd! comment
 plug#begin("~/.local/share/vim/plugged")
+Plug 'kana/vim-smartword'
 Plug 'preservim/tagbar'
 Plug 'AndrewRadev/splitjoin.vim'
 # Plug 'guns/vim-sexp' | g:sexp_filetypes = '*' | g:sexp_enable_insert_mode_mappings = false
@@ -52,7 +53,19 @@ Plug '~/.vim/local/vim-fm'
 Plug '~/.vim/local/lsp' | runtime lsp.vim
 plug#end()
 
-color solarized8_flat
+set regexpengine=1
+
+color lightgruv
+hi Normal guibg=#1c1c1c
+
+# map w  <Plug>(smartword-w)
+# map b  <Plug>(smartword-b)
+# map e  <Plug>(smartword-e)
+# map ge <Plug>(smartword-ge)
+# noremap ,w  w
+# noremap ,b  b
+# noremap ,e  e
+# noremap ,ge ge
 
 g:sexp_mappings = {
     sexp_swap_list_backward: '', # '<M-k>',

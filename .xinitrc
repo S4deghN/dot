@@ -6,6 +6,7 @@ DE=dwm
 
 if [ $DE = "dwm" ]; then
     nitrogen --restore &
+    picom --config ~/.config/picom/picom-dwm.conf &
     dwm-status &
     qlipper &
 elif [ $DE = "i3" ]; then
