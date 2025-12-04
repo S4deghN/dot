@@ -34,6 +34,7 @@ silent! packadd! comment
 plug#begin("~/.local/share/vim/plugged")
 Plug 'kana/vim-smartword'
 Plug 'preservim/tagbar'
+Plug 'romainl/vim-qf' | g:qf_auto_resize = 0
 Plug 'AndrewRadev/splitjoin.vim'
 # Plug 'guns/vim-sexp' | g:sexp_filetypes = '*' | g:sexp_enable_insert_mode_mappings = false
 Plug 'coacher/vim9-buckler'
@@ -90,6 +91,8 @@ map +  =i{
 
 noremap <C-j> <cmd>cn<cr>
 noremap <C-k> <cmd>cp<cr>
+noremap <Down> 3<C-e>3j
+noremap <Up> 3<C-y>3k
 
 noremap  } <cmd>keepj norm! }<cr>
 noremap  { <cmd>keepj norm! {<cr>
