@@ -209,8 +209,10 @@ def OpenFile()
         fname = header
     endif
 
-    # echom matches
-    # echom $'{fname}, {lnum}, {col}'
+    # construct absolute path because vim's cwd might have changed since command
+    # was run.
+    var term_cwd = get(b:, 'term_cwd', '')
+    fname = term_cwd .. fname
 
     if !filereadable(fname) | return | endif
 
@@ -220,7 +222,7 @@ def OpenFile()
     if !!get(b:, 'match') | silent! matchdelete(b:match) | endif
     b:match = matchaddpos('QuickFixLine', [line('.')])
 
-    var buffers = filter(getbufinfo(), (idx, v) => fnamemodify(fname, ":p") == v.name)
+    var buffers = filter(getbufinfo(), (idx, v) => fname == v.name)
     fname = substitute(fname, '#', '\&', 'g')
 
     if len(buffers) > 0
@@ -231,9 +233,8 @@ def OpenFile()
             execute "buffer" fname
         endif
     else
-        var term_cwd = get(b:, 'term_cwd', '')
         win_gotoid(CreateWindow())
-        execute "edit" term_cwd .. fname
+        execute "edit" fname
     endif
 
     if !empty(lnum)
