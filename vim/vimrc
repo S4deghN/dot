@@ -33,7 +33,8 @@ g:loaded_netrw = 1 | g:loaded_matchparen = 1 | g:loaded_vimballPlugin = 1
 silent! packadd! matchit
 silent! packadd! comment
 plug#begin("~/.local/share/vim/plugged")
-Plug 'kana/vim-smartword'
+Plug 'mhinz/vim-grepper'
+Plug 'mhinz/vim-tree'
 Plug 'preservim/tagbar'
 Plug 'romainl/vim-qf' | g:qf_auto_resize = 0
 Plug 'AndrewRadev/splitjoin.vim'
@@ -60,6 +61,8 @@ set regexpengine=1
 color lightgruv
 hi Normal guibg=#1c1c1c
 
+# TODO:
+# Plug 'kana/vim-smartword'
 # map w  <Plug>(smartword-w)
 # map b  <Plug>(smartword-b)
 # map e  <Plug>(smartword-e)
