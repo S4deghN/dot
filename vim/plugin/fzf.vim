@@ -128,7 +128,7 @@ def g:RemoteSelect(key: string)
             wincmd c
 
             if OpenFile(dict.filename, dict.lnum, dict.col)
-                utils#Spotlight()
+                # utils#Spotlight()
             endif
         }
     })
@@ -234,7 +234,7 @@ def g:LiveGrep(query: string, fullscreen: bool, previous = false, dir = "")
             endif
 
             if ok
-                utils#Spotlight()
+                # utils#Spotlight()
             endif
 
 

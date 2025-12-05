@@ -5,6 +5,7 @@ set ttimeout ttimeoutlen=0
 set history=1000 termwinscroll=1000000
 set hidden noswapfile undofile undodir=/tmp/$USER.vim9undo | silent system("mkdir -p /tmp/$USER.vim9undo")
 set mouse=ar ttymouse=sgr
+set scrolloff=3
 set completeopt=menu,longest
 set nowildmenu wildignorecase wildmode=longest,list,full wildcharm=<Tab>
 set notitle showcmd showcmdloc=statusline laststatus=2 shortmess=aoOFtT
@@ -16,7 +17,7 @@ set list listchars=tab:›\ ,nbsp:␣,trail:·,extends:…,precedes:… showbrea
 set cpoptions+=n foldmethod=marker
 set cinoptions+=:s,=s,l1,b1,g0,N-s,E-s,(s,k0,j1,J1,t0,Ls
 set path=.,**,/usr/include,/usr/include/x86_64-linux-gnu
-set grepprg=grep
+set grepprg=grep\ -rnI
 set termguicolors
 set textwidth=80
 set complete-=i # can be very slow
@@ -49,7 +50,7 @@ Plug 'glts/vim-radical'
 Plug 'alx741/vinfo'
 Plug 'BourgeoisBear/clrzr' | g:clrzr_startup = 0
 Plug 'mg979/vim-visual-multi'
-Plug 'airblade/vim-rooter' | g:rooter_silent_chdir = 1 | g:rooter_patterns = [ '.git', '.svn', 'tags'] | g:rooter_targets = ['*'] # avoid setting root for directories
+Plug 'airblade/vim-rooter' | g:rooter_cd_cmd = 'lcd' | g:rooter_silent_chdir = 1 | g:rooter_patterns = [ '.git', '.svn', 'tags'] | g:rooter_targets = ['*'] # avoid setting root for directories
 Plug '~/.vim/local/vim-fm'
 Plug '~/.vim/local/lsp' | runtime lsp.vim
 plug#end()
@@ -182,7 +183,7 @@ command! -nargs=+ -complete=function RR put = execute('echo ' .. <q-args>)->trim
 command! -nargs=? Format utils#KeepView(':%!clang-format', winsaveview(), 'c')
 command! -nargs=? Expand utils#KeepView(':%!expand -t ' .. (!<q-args> ? '4' : <q-args>), winsaveview(), 'c')
 command! -nargs=? Unexpand utils#KeepView(':%!unexpand -t ' .. (!<q-args> ? '4' : <q-args>), winsaveview(), 'c')
-command! -nargs=1 -bang Grep g:Term("rg -S --column --sort=path " .. <f-args>, <bang>0, "[Grep]", "", 0)
+command! -nargs=1 -bang Grep g:Term("rg -S --column --sort=path " .. <f-args>, <bang>0, "[Grep]", "")
 # Dump {binfile}
 command! -nargs=1 -bang -complete=file Dump g:Term("objdump -ClSd --disassembler-color=on " .. <f-args>, <bang>0, "[dump]", "asm")
 # Assembly {compiler} {sourcefile}

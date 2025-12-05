@@ -94,7 +94,7 @@ def JumpToDefinition()
             var s = execute(cmd)
             # echomsg $'s: {s}'
             if strlen(s) < 2 || s =~? '"\([\~\/]\|\S\+\/\)\S\+"\s.*'
-                # norm! zvzz
+                norm! zvzz
                 # utils#Spotlight()
                 echomsg $'used {cmd}'
                 break
