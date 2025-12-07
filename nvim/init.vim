@@ -200,7 +200,7 @@ color gruvbox
 "hi Function guifg=fg gui=NONE
 
 color gruber
-hi Normal guibg=#363534
+"hi Normal guibg=#363534
 
 "hi Normal guibg=#312C2A
 "hi Normal guibg=#413C3A

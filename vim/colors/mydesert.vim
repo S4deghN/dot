@@ -65,7 +65,7 @@ hi ToolbarLine guifg=NONE guibg=#505050 gui=NONE cterm=NONE
 hi ToolbarButton guifg=#333333 guibg=#ffde9b gui=bold cterm=bold
 hi NonText guifg=#6dceeb guibg=bg gui=NONE cterm=NONE
 hi SpecialKey guifg=#555555 guibg=NONE gui=NONE cterm=NONE
-hi Folded guifg=#eeee00 guibg=#4d4d4d gui=NONE cterm=NONE
+hi Folded guifg=#bbbbbb guibg=#4d4d4d gui=NONE cterm=NONE
 hi Visual guifg=#f0e68c guibg=#6b8e24 gui=NONE cterm=NONE
 hi VisualNOS guifg=#f0e68c guibg=#6dceeb gui=NONE cterm=NONE
 hi LineNr guifg=#666666 guibg=NONE gui=NONE cterm=NONE

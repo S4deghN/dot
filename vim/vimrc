@@ -21,6 +21,8 @@ set grepprg=grep\ -rnI
 set termguicolors
 set textwidth=80
 set complete-=i # can be very slow
+# Experimental
+set regexpengine=1
 
 # &t_md = "" # disable bold
 &t_SI = "\e[5 q" # Insert mode
@@ -33,6 +35,7 @@ g:loaded_netrw = 1 | g:loaded_matchparen = 1 | g:loaded_vimballPlugin = 1
 silent! packadd! matchit
 silent! packadd! comment
 plug#begin("~/.local/share/vim/plugged")
+Plug 'Coacher/vim9-buckler'
 Plug 'mhinz/vim-grepper'
 Plug 'mhinz/vim-tree'
 Plug 'preservim/tagbar'
@@ -56,10 +59,7 @@ Plug '~/.vim/local/vim-fm'
 Plug '~/.vim/local/lsp' | runtime lsp.vim
 plug#end()
 
-set regexpengine=1
-
-color lightgruv
-hi Normal guibg=#1c1c1c
+color vim9
 
 # TODO:
 # Plug 'kana/vim-smartword'

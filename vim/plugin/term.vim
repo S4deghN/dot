@@ -245,7 +245,7 @@ def OpenFile()
     if !empty(col) && str2nr(col) > 1
         execute "normal!" (str2nr(col)) .. "|"
     endif
-    normal! zz
+    normal! zvzz
 enddef
 
 def TermToQf()
