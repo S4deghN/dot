@@ -173,8 +173,8 @@ get-source() {
 # advantage of using READLINE stuff over normal functions is command history population
 # and easy input usage.
 vi-find() {
-    selection=$(find "${1:-.}" -name "*${READLINE_LINE:-*}*" \
-        -not -path "*/${2:-.}*/*" -type f 2>/dev/null |
+    selection=$(find "${@:-.}" -name "*${READLINE_LINE:-*}*" \
+        -not -path "*/.git*/*" -type f 2>/dev/null |
         fzf --preview 'highlight -O ansi -l {}')
 
     if [[ -n $selection ]]; then
@@ -224,9 +224,9 @@ bind '"\M-al": accept-line'
 bind '"\e@": end-of-line'
 
 bind -x '"\ex1": vi-find'
-bind -x '"\ex2": vi-find ""     .git'
-bind -x '"\ex3": vi-find ~/dot  .git'
-bind -x '"\ex4": vi-find ~/note .git'
+bind -x '"\ex2": vi-find ""    '
+bind -x '"\ex3": vi-find ~/dot ~/repo/st ~/repo/dwm'
+bind -x '"\ex4": vi-find ~/note'
 bind -x '"\ex5": vi-grep'
 # take in history from other shells
 # NOTE: do not use C-h because backspace sends  when capslock is on in st!

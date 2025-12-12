@@ -39,7 +39,7 @@ Plug 'Coacher/vim9-buckler'
 Plug 'mhinz/vim-grepper'
 Plug 'mhinz/vim-tree'
 Plug 'preservim/tagbar'
-Plug 'romainl/vim-qf' | g:qf_auto_resize = 0
+Plug 'romainl/vim-qf' | g:qf_auto_resize = 1 | g:qf_auto_open_quickfix = 0
 Plug 'AndrewRadev/splitjoin.vim'
 # Plug 'guns/vim-sexp' | g:sexp_filetypes = '*' | g:sexp_enable_insert_mode_mappings = false
 Plug 'coacher/vim9-buckler'
@@ -186,7 +186,7 @@ command! -nargs=+ -complete=function RR put = execute('echo ' .. <q-args>)->trim
 command! -nargs=? Format utils#KeepView(':%!clang-format', winsaveview(), 'c')
 command! -nargs=? Expand utils#KeepView(':%!expand -t ' .. (!<q-args> ? '4' : <q-args>), winsaveview(), 'c')
 command! -nargs=? Unexpand utils#KeepView(':%!unexpand -t ' .. (!<q-args> ? '4' : <q-args>), winsaveview(), 'c')
-command! -nargs=1 -bang Grep g:Term("rg -S --column --sort=path " .. <f-args>, <bang>0, "[Grep]", "")
+command! -nargs=1 -bang Grep g:Term("rg -S -C 3 --column --sort=path " .. <f-args>, <bang>0, "[Grep]", "")
 # Dump {binfile}
 command! -nargs=1 -bang -complete=file Dump g:Term("objdump -ClSd --disassembler-color=on " .. <f-args>, <bang>0, "[dump]", "asm")
 # Assembly {compiler} {sourcefile}

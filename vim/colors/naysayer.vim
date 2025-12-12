@@ -11,8 +11,8 @@ endif
 let g:colors_name="naysayer"
 
 " highlight! Normal guifg=#d1b897 guibg=#042327 gui=NONE
-highlight! Normal guifg=#d1b897 guibg=#282828 gui=NONE
-" highlight! Normal guifg=#d1b897 guibg=#062020 gui=NONE
+" highlight! Normal guifg=#d1b897 guibg=#282828 gui=NONE
+highlight! Normal guifg=#d1b897 guibg=#062020 gui=NONE
 " highlight! Normal guifg=#d1b897 guibg=#242424 gui=NONE
 " highlight! Normal guifg=#d1b897 guibg=#062626 gui=NONE
 " highlight! Normal guifg=#d1c8a7 guibg=#062626 gui=NONE
