@@ -19,6 +19,8 @@
 #include <assert.h>
 #include <errno.h>
 #include <pthread.h>
+#include <jalali/jalali.h>
+#include <jalali/jtime.h>
 
 #include "timer.h"
 
@@ -273,8 +275,9 @@ static char *disk(int signum, siginfo_t *si, void *ucontext)// {{{
 static char *timedate(int signum, siginfo_t *si, void *ucontext)// {{{
 {
 
-    static char output_str[32];
+    static char output_str[64];
     static struct tm tm;
+    static struct jtm jtm;
     static bool alternative_format;
 
     if (signum > SIGRTMIN) {
@@ -290,9 +293,11 @@ static char *timedate(int signum, siginfo_t *si, void *ucontext)// {{{
     localtime_r(&t, &tm);
 
     if (alternative_format) {
-        strftime(output_str, sizeof(output_str), "%b-%d %H:%M", &tm);
-    } else {
         strftime(output_str, sizeof(output_str), "%Y-%m-%d %H:%M:%S", &tm);
+    } else {
+        jlocaltime_r(&t, &jtm);
+        int n = jstrftime(output_str, sizeof(output_str), "%B %d  ", &jtm);
+        strftime(output_str + n, sizeof(output_str) - n, "%b %d  %H:%M", &tm);
     }
 
     return output_str;

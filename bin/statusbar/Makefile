@@ -11,7 +11,7 @@ bin/%: %.c | bin/
 	$(CC) $(CFLAGS) $< -o $@
 
 bin/dwm-status: dwm-status.c
-	$(CC) $(CFLAGS) $< -o $@ -lX11 -lxkbfile
+	$(CC) $(CFLAGS) $< -o $@ -lX11 -lxkbfile -ljalali
 
 
 bin/:
