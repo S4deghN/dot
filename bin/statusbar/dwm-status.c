@@ -48,8 +48,8 @@ typedef struct {
     char *postfix;
 } StatusBlock;
 
-
 static uint sec_count;
+static Display* dpy;
 
 static char *timer(int signum, siginfo_t *si, void *ucontext)// {{{
 {
@@ -304,7 +304,11 @@ static char *timedate(int signum, siginfo_t *si, void *ucontext)// {{{
 }// }}}
 
 uint xk_led_state;
-char xk_layout[8];
+struct xk_layout {
+    uint num;
+    uint num_max;
+    char name[8];
+} xk_layout;
 void *_xkeyboard_listener(void *arg);
 char *xkeyboard(int signum, siginfo_t *si, void *ucontext)// {{{
 {
@@ -319,11 +323,30 @@ char *xkeyboard(int signum, siginfo_t *si, void *ucontext)// {{{
 
     if (signum > SIGRTMIN) {
         if (si && si->si_value.sival_int) {
+            int button = si->si_value.sival_int;
+
+            if (button == LeftClick ||
+                button == ScrollUp ||
+                button == ScrollDown
+               ) { // Switch layout
+                int step = button == ScrollUp ? -1 : +1;
+                uint group = (xk_layout.num + step) % xk_layout.num_max;
+                XkbLockGroup(dpy, XkbUseCoreKbd, group);
+            }
+
+            if (button == RightClick) { // Reset locks (leds)
+                XkbLockModifiers(dpy, XkbUseCoreKbd, LockMask, 0);
+            }
+
+            if (button == MiddleClick) { // Reset all
+                XkbLockModifiers(dpy, XkbUseCoreKbd, LockMask, 0);
+                XkbLockGroup(dpy, XkbUseCoreKbd, 0);
+            }
         }
         output_str[0] = '\0';
         char *p = output_str;
 
-        p = stpcpy(p, xk_layout);
+        p = stpcpy(p, xk_layout.name);
 
         if (xk_led_state & 0x01) {
             p = stpcpy(p, ":CAPS");
@@ -337,14 +360,18 @@ char *xkeyboard(int signum, siginfo_t *si, void *ucontext)// {{{
 
     return output_str;
 }// }}}
-void _xkeyboard_get_layout(Display *dpy, char *layout_buf, int size)// {{{
+void _xkeyboard_get_layout(Display *dpy, struct xk_layout *layout)// {{{
 {
     XkbRF_VarDefsRec vd;
     XkbStateRec state;
+    XkbDescPtr keydes;
 
     XkbGetState(dpy, XkbUseCoreKbd, &state);
-    XkbRF_GetNamesProp(dpy, NULL, &vd);
 
+    keydes = XkbGetKeyboard(dpy, XkbControlsMask, XkbUseCoreKbd);
+    assert(XkbGetControls(dpy, XkbAllControlsMask, keydes) == Success);
+
+    XkbRF_GetNamesProp(dpy, NULL, &vd);
     char *group = strtok(vd.layout, ",");
     for (int i = 0; i < state.group; i++) {
         group = strtok(NULL, ",");
@@ -353,7 +380,12 @@ void _xkeyboard_get_layout(Display *dpy, char *layout_buf, int size)// {{{
             return;
         }
     }
-    strncpy(layout_buf, group, size);
+
+    layout->num = state.group;
+    layout->num_max = keydes->ctrls->num_groups;
+    strncpy(layout->name, group, sizeof(layout->name)-1);
+
+    XkbFreeKeyboard(keydes, 0, True);
 }// }}}
 void *_xkeyboard_listener(void *arg)// {{{
 {
@@ -361,24 +393,23 @@ void *_xkeyboard_listener(void *arg)// {{{
     int xkb_event_base;
     XEvent event;
     XkbEvent *xkb_event = (XkbEvent*)&event;
-    Display *main_display = XOpenDisplay(0);
 
     // update on startup
-    XkbGetIndicatorState(main_display, XkbUseCoreKbd, &xk_led_state);
-    _xkeyboard_get_layout(main_display, xk_layout, sizeof(xk_layout));
+    XkbGetIndicatorState(dpy, XkbUseCoreKbd, &xk_led_state);
+    _xkeyboard_get_layout(dpy, &xk_layout);
 
     xkeyboard(SIGRTMIN+xk_signum, NULL, NULL);
 
-    XkbSelectEvents(main_display, XkbUseCoreKbd,
+    XkbSelectEvents(dpy, XkbUseCoreKbd,
         XkbIndicatorStateNotifyMask, XkbIndicatorStateNotifyMask);
 
-    if (!XkbQueryExtension(main_display, NULL, &xkb_event_base, NULL, NULL, NULL)) {
+    if (!XkbQueryExtension(dpy, NULL, &xkb_event_base, NULL, NULL, NULL)) {
         fprintf(stderr, "XKB extension not available\n");
         return NULL;
     }
 
     while (1) {
-        XNextEvent(main_display, &event);
+        XNextEvent(dpy, &event);
 
         if (event.type != xkb_event_base + XkbEventCode) {
             fprintf(stderr, "WARN: stray event %d\n", event.type);
@@ -387,7 +418,7 @@ void *_xkeyboard_listener(void *arg)// {{{
         switch (xkb_event->any.xkb_type) {
             case XkbIndicatorStateNotify: {
                 xk_led_state = xkb_event->indicators.state;
-                _xkeyboard_get_layout(main_display, xk_layout, sizeof(xk_layout));
+                _xkeyboard_get_layout(dpy, &xk_layout);
                 sigqueue(getpid(), SIGRTMIN+xk_signum, (union sigval)0);
             } break;
             default:
@@ -409,8 +440,8 @@ StatusBlock blocks[] = {
 
 
 int main() {
-    Display* main_display = XOpenDisplay(0);
-    Window root_window = XDefaultRootWindow(main_display);
+    dpy = XOpenDisplay(0);
+    Window root_window = XDefaultRootWindow(dpy);
 
     for (int i = 0; i < countof(blocks); ++i) {
         struct sigaction sa = {
@@ -436,8 +467,8 @@ int main() {
 
         // fprintf(stderr, "%s\n", status_str);
 
-        XStoreName(main_display, root_window, status_str);
-        XFlush(main_display);
+        XStoreName(dpy, root_window, status_str);
+        XFlush(dpy);
         sleep(1);
     }
 }

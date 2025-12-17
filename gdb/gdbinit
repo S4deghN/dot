@@ -2,6 +2,7 @@ set debuginfod enabled on
 # set debuginfod urls https://debuginfod.elfutils.org/
 set directories ~/repo/glibc-2.41/:~/repo/libx11-1.8.12/
 set confirm on
+set print pretty on
 set print array on
 set history filename ~/.gdb_history
 set history save
