@@ -3,7 +3,8 @@ vim9script
 # --- config ---
 # -----------------------------------------------
 g:fzf_vim = {}
-g:fzf_vim.preview_window = ['right,50%,<70(up,40%),hidden', 'ctrl-l']
+g:fzf_vim.preview_window = ['right,50%,<80(up,40%),hidden', 'ctrl-l']
+# g:fzf_vim.preview_window = ['up,50%,hidden', 'ctrl-l']
 # g:fzf_vim.preview_window = ['down,70%,hidden', 'ctrl-l']
 def BuildQfList(lines: string)
     call setqflist(map(copy(lines), '{ "filename": v:val, "lnum": 1 }'))
@@ -20,7 +21,7 @@ g:fzf_action = {
 
 # g:fzf_layout = { 'window': { 'width': 1, 'height': 0.5, 'yoffset': .95, 'reletavie': v:true, 'border': 'top'} }
 # g:fzf_layout = { 'window': '10new' }
-g:fzf_layout = { 'down': "55%" }
+g:fzf_layout = { 'down': "70%" }
 
 autocmd! FileType fzf set laststatus=0 noshowmode noruler
             \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
@@ -173,6 +174,8 @@ def g:LiveGrep(query: string, fullscreen: bool, previous = false, dir = "")
             '--delimiter', ':',
             '--prompt', '*Rg> ',
             '--header', getcwd() .. dir,
+            # '--height', fullscreen ? '100%' : '50%',
+            '--height', '100%',
             '--phony',
             '--query', q,
             '--bind', 'alt-a:select-all,alt-d:deselect-all',
@@ -193,7 +196,8 @@ def g:LiveGrep(query: string, fullscreen: bool, previous = false, dir = "")
         extend(options['options'], [ '--bind', 'start:' .. transform ])
     endif
     # var ret = fzf#vim#grep(initial_grep, 1, fzf#vim#with_preview(options), fullscreen)
-    var spec = fzf#vim#with_preview(fzf#wrap(options))
+    var spec = fzf#wrap(options, fullscreen)
+    spec = fzf#vim#with_preview(spec)
     # var original_spec = copy(spec)
     unlet spec.sinklist
     unlet spec['sink*']
