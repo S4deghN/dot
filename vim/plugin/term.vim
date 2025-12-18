@@ -211,8 +211,10 @@ def OpenFile()
 
     # construct absolute path because vim's cwd might have changed since command
     # was run.
-    var term_cwd = get(b:, 'term_cwd', '')
-    fname = term_cwd .. fname
+    if (fname[0] != '/')
+        var term_cwd = get(b:, 'term_cwd', '')
+        fname = term_cwd .. fname
+    endif
 
     if !filereadable(fname) | return | endif
 
