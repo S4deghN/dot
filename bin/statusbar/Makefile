@@ -11,7 +11,10 @@ bin/%: %.c | bin/
 	$(CC) $(CFLAGS) $< -o $@
 
 bin/dwm-status: dwm-status.c
-	$(CC) $(CFLAGS) $< -o $@ -lX11 -lxkbfile -ljalali
+	$(CC) $(CFLAGS) $< -o $@ -lX11 -lxkbfile -ljalali && \
+		killall $(patsubst bin/%,%,$@) && \
+		setsid -f $@
+
 
 
 bin/:

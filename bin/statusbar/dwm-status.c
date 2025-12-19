@@ -292,6 +292,98 @@ static char *cpu_temp(int signum, siginfo_t *si, void *ucontext)// {{{
     return output_str;
 }// }}}
 
+static char *battery(int signum, siginfo_t *si, void *ucontext)// {{{
+{
+    static char output_str[16];
+    static int has_battery = 1;
+    static int stat_fd;
+    static int cap_fd;
+
+    if (!has_battery) return NULL;
+
+    if (sec_count % 3) return output_str;
+
+    INIT {
+        const char* path = "/sys/class/power_supply/BAT?/{status,capacity}";
+        glob_t globbuf;
+
+        if (glob(path, GLOB_BRACE, NULL, &globbuf) != 0) {
+            perror("glob: ");
+            has_battery = 0;
+            return NULL;
+        }
+
+        if (globbuf.gl_pathc < 2) {
+            perror("pathc: ");
+            has_battery = 0;
+            return NULL;
+        }
+
+        stat_fd = open(globbuf.gl_pathv[0], O_RDONLY);
+        if (stat_fd == -1) {
+            fprintf(stderr, "Could not open file: %s", globbuf.gl_pathv[0]);
+            has_battery = 0;
+            return NULL;
+        }
+
+        cap_fd = open(globbuf.gl_pathv[1], O_RDONLY);
+        if (cap_fd == -1) {
+            fprintf(stderr, "Could not open file: %s", globbuf.gl_pathv[1]);
+            has_battery = 0;
+            return NULL;
+        }
+    }
+
+    char status;
+    char *status_icon = "";
+    lseek(stat_fd, 0, SEEK_SET);
+    read(stat_fd, &status, sizeof(status));
+
+    char cap[4];
+    lseek(cap_fd, 0, SEEK_SET);
+    int n = read(cap_fd, cap, sizeof(cap));
+    cap[n - (int)(n == sizeof(cap))] = '\0';
+
+    int cap_num = strtol(cap, NULL, 10);
+
+    switch (status) {
+    case /* Unknown */      'U': status_icon = "!"; break;
+    case /* Charging */     'C': {
+        if (cap_num < 10) {
+            status_icon = "󰢜";
+        } else if (cap_num < 30) {
+            status_icon = "󰂇";
+        } else if (cap_num < 60) {
+            status_icon = "󰂉";
+        } else if (cap_num < 90) {
+            status_icon = "󰂋";
+        } else {
+            status_icon = "󰂅";
+        }
+    } break;
+    case /* Discharging */  'D': {
+        if (cap_num < 10) {
+            status_icon = "󰂎!";
+        } else if (cap_num < 30) {
+            status_icon = "󰁼";
+        } else if (cap_num < 60) {
+            status_icon = "󰁿";
+        } else if (cap_num < 90) {
+            status_icon = "󰂂";
+        } else {
+            status_icon = "󰁹";
+        }
+    } break;
+    case /* Not charging */ 'N': status_icon = ""; break;
+    case /* Full */         'F': status_icon = "󱟢"; break;
+    default:                     status_icon = "?"; break;
+    }
+
+    snprintf(output_str, sizeof(output_str), "%s %.*s%%", status_icon, n, cap);
+
+    return output_str;
+}// }}}
+
 static char *mem(int signum, siginfo_t *si, void *ucontext)// {{{
 {
     const char unit[] = { 'k', 'M', 'G'};
@@ -399,7 +491,7 @@ static char *timedate(int signum, siginfo_t *si, void *ucontext)// {{{
         strftime(output_str, sizeof(output_str), "%Y-%m-%d %H:%M:%S", &tm);
     } else {
         jlocaltime_r(&t, &jtm);
-        int n = jstrftime(output_str, sizeof(output_str), "%B %d  ", &jtm);
+        int n = jstrftime(output_str, sizeof(output_str), "%b %d  ", &jtm);
         strftime(output_str + n, sizeof(output_str) - n, "%b %d  %H:%M", &tm);
     }
 
@@ -539,6 +631,7 @@ StatusBlock blocks[] = {
     {disk,      5, hex_str(5)" ",   hex_str(5)},
     {volume,    7, hex_str(7),       hex_str(7)},
     {xkeyboard, 6, hex_str(6)" ",   hex_str(6)},
+    {battery,   9, hex_str(9),       hex_str(9)},
     {timedate,  8, hex_str(8),       hex_str(8)},
 };
 
