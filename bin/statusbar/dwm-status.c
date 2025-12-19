@@ -51,6 +51,128 @@ typedef struct {
 static uint sec_count;
 static Display* dpy;
 
+
+int run_pipe(char *argv[], char *out, int out_cap) {
+    int out_size = 0;
+    int pipefd[2];
+    assert(pipe(pipefd) != -1);
+
+    pid_t cpid = fork();
+    if (cpid == 0) {
+        close(pipefd[0]); // close unused read end.
+        dup2(pipefd[1], STDOUT_FILENO); // redirect stdout to pipe.
+        if (execvp(argv[0], argv)) {
+            perror("fork:");
+            exit(1);
+        }
+    } else {
+        close(pipefd[1]); // close unused write end.
+
+        char buff[32];
+        int n;
+        while((n = read(pipefd[0], buff, sizeof(buff))) && out_size < out_cap) {
+            memcpy(out + out_size, buff, out_cap - out_size);
+            out_size += n;
+        }
+
+        int wstatus;
+        if (waitpid(cpid, &wstatus, 0) == -1) {
+            exit(1);
+        }
+
+        close(pipefd[0]);
+    }
+
+    return out_size;
+}
+
+void *_volume_listener(void *arg);
+static char *volume(int signum, siginfo_t *si, void *ucontext)// {{{
+{
+    static char output_str[32];
+    static char buff[32];
+    int n = 0;
+
+    INIT {
+        // pthread_t thr;
+        // int *volume_signum = &(((StatusBlock*)ucontext)->rt_signum);
+        // pthread_create(&thr, NULL, _volume_listener, volume_signum);
+        // pthread_detach(thr);
+
+        n = run_pipe((char*[]){"pamixer", "--get-volume-human", NULL}, buff,
+            sizeof(buff));
+        snprintf(output_str, sizeof(output_str), "🔈 %.*s", n, buff);
+    }
+
+    if (signum > SIGRTMIN) {
+        if (si && si->si_value.sival_int) {
+            int button = si->si_value.sival_int;
+            if (button == ScrollUp) {
+                n = run_pipe((char*[]){"pamixer", "--get-volume-human",
+                    "--increase", "5", NULL}, buff, sizeof(buff));
+            }
+            if (button == ScrollDown) {
+                n = run_pipe((char*[]){"pamixer", "--get-volume-human",
+                    "--decrease", "5", NULL}, buff, sizeof(buff));
+            }
+            if (button == LeftClick) {
+                n = run_pipe((char*[]){"pamixer", "--get-volume-human",
+                    "--toggle-mute", NULL}, buff, sizeof(buff));
+            }
+        } else {
+            n = run_pipe((char*[]){"pamixer", "--get-volume-human", NULL}, buff,
+                sizeof(buff));
+        }
+
+        buff[n - (int)(n == sizeof(buff))] = '\0';
+        int vol = strtol(buff, NULL, 10);
+        char *icon;
+        if (vol == 0) {
+            icon = "🔇";
+        } else if (vol < 30) {
+            icon = "🔈";
+        } else if (vol < 60) {
+            icon = "🔉";
+        } else {
+            icon = "🔊";
+        }
+
+        snprintf(output_str, sizeof(output_str), "%s %.*s", icon, n, buff);
+    }
+
+    return output_str;
+}// }}}
+// void *_volume_listener(void *arg) {
+//     int volume_signum = *(int*)arg;
+//     int pipefd[2];
+//     assert(pipe(pipefd) != -1);
+//     // assert(fcntl(pipefd[0], F_SETFL, O_NONBLOCK) != -1);
+
+//     pid_t cpid = fork();
+//     if (cpid == 0) {
+//         close(pipefd[0]);
+//         dup2(pipefd[1], STDOUT_FILENO);
+//         if (execvp("pactl", (char*[]){"pactl", "subscribe", NULL})) {
+//             perror("fork:");
+//             exit(1);
+//         }
+//     }
+
+//     close(pipefd[1]);
+//     int dev_null = open("/dev/null", O_WRONLY);
+//     char b;
+//     char buff[1024];
+//     int num = 0;
+//     while (1) {
+//         int n = read(pipefd[0], buff, sizeof(buff));
+//         printf("read: %.*s", n, buff);
+//         sendfile(dev_null, pipefd[0], 0, INT_MAX);
+//         // ftruncate(pipefd[0], 0);
+//         // perror("turnc: ");
+//         printf("%d: changed\n", num++);
+//     }
+// }
+
 static char *timer(int signum, siginfo_t *si, void *ucontext)// {{{
 {
     static char output_str[32];
@@ -435,7 +557,8 @@ StatusBlock blocks[] = {
     {mem,       4, hex_str(4)"MEM ",  hex_str(4)},
     {disk,      5, hex_str(5)"/ ",   hex_str(5)},
     {xkeyboard, 6, hex_str(6)" ",   hex_str(6)},
-    {timedate,  7, hex_str(7),       hex_str(7)},
+    {volume,    7, hex_str(7),       hex_str(7)},
+    {timedate,  8, hex_str(8),       hex_str(8)},
 };
 
 
@@ -465,7 +588,7 @@ int main() {
             }
         }
 
-        // fprintf(stderr, "%s\n", status_str);
+        // fprintf(stderr, "%d\n", SIGRTMIN);
 
         XStoreName(dpy, root_window, status_str);
         XFlush(dpy);

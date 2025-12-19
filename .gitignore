@@ -18,3 +18,4 @@ nvim/local
 ranger/plugins/
 ranger/commands_full.py
 bin/statusbar/bin/
+core.[0-9]*
