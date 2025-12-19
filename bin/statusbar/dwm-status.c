@@ -52,7 +52,7 @@ static uint sec_count;
 static Display* dpy;
 
 
-int run_pipe(char *argv[], char *out, int out_cap) {
+int run_pipe(char *argv[], char *out, int out_cap) {// {{{
     int out_size = 0;
     int pipefd[2];
     assert(pipe(pipefd) != -1);
@@ -84,7 +84,7 @@ int run_pipe(char *argv[], char *out, int out_cap) {
     }
 
     return out_size;
-}
+}// }}}
 
 void *_volume_listener(void *arg);
 static char *volume(int signum, siginfo_t *si, void *ucontext)// {{{
@@ -583,7 +583,7 @@ int main() {
                 p = stpcpy(p, blocks[i].prefix);
                 p = stpcpy(p, block_str);
                 p = stpcpy(p, blocks[i].postfix);
-                p = stpcpy(p, "|");
+                p = stpcpy(p, " | ");
             }
         }
 
