@@ -83,6 +83,10 @@ int run_pipe(char *argv[], char *out, int out_cap) {// {{{
         close(pipefd[0]);
     }
 
+    // we don't want newlines here
+    if (out[out_size - 1] == '\n')
+        out[out_size - 1] = '\0';
+
     return out_size;
 }// }}}
 
@@ -99,9 +103,7 @@ static char *volume(int signum, siginfo_t *si, void *ucontext)// {{{
         // pthread_create(&thr, NULL, _volume_listener, volume_signum);
         // pthread_detach(thr);
 
-        n = run_pipe((char*[]){"pamixer", "--get-volume-human", NULL}, buff,
-            sizeof(buff));
-        snprintf(output_str, sizeof(output_str), "🔈 %.*s", n, buff);
+        signum = SIGRTMIN+1;
     }
 
     if (signum > SIGRTMIN) {
@@ -128,16 +130,16 @@ static char *volume(int signum, siginfo_t *si, void *ucontext)// {{{
         int vol = strtol(buff, NULL, 10);
         char *icon;
         if (vol == 0) {
-            icon = "🔇";
+            icon = "󰖁";
         } else if (vol < 30) {
-            icon = "🔈";
+            icon = "󰕿";
         } else if (vol < 60) {
-            icon = "🔉";
+            icon = "󰖀";
         } else {
-            icon = "🔊";
+            icon = "󰕾";
         }
 
-        snprintf(output_str, sizeof(output_str), "%s %.*s", icon, n, buff);
+        snprintf(output_str, sizeof(output_str), "%s %.*s", icon, n - 1, buff);
     }
 
     return output_str;
@@ -372,28 +374,6 @@ static char *disk(int signum, siginfo_t *si, void *ucontext)// {{{
     return number;
 }// }}}
 
-// static char *volume(int signum, siginfo_t *si, void *ucontext)// {{{
-// {
-//     static char output_str[32];
-
-//     if (signum > SIGRTMIN) {
-//         int signal = signum - SIGRTMIN;
-//         int button = si->si_value.sival_int;
-
-//         if (button == ScrollUp) {
-//             // pactl set-sink-volume @DEFAULT_SINK@ +5%
-//         }
-//     }
-
-//     if (sec_count % -1) {
-//         return output_str;
-//     } else {
-//         printf("priodic update\n");
-//     }
-
-//     return output_str;
-// }// }}}
-
 static char *timedate(int signum, siginfo_t *si, void *ucontext)// {{{
 {
 
@@ -403,9 +383,11 @@ static char *timedate(int signum, siginfo_t *si, void *ucontext)// {{{
     static bool alternative_format;
 
     if (signum > SIGRTMIN) {
-        int signal = signum - SIGRTMIN;
         int button = si->si_value.sival_int;
-        if (button == LeftClick) {
+        if (button == LeftClick ||
+            button == ScrollUp ||
+            button == ScrollDown
+           ) {
             alternative_format = !alternative_format;
         }
     }
@@ -431,6 +413,7 @@ struct xk_layout {
     char name[8];
 } xk_layout;
 void *_xkeyboard_listener(void *arg);
+void _xkeyboard_get_layout(Display *dpy, struct xk_layout *layout);
 char *xkeyboard(int signum, siginfo_t *si, void *ucontext)// {{{
 {
     static char output_str[32] = {0};
@@ -440,6 +423,11 @@ char *xkeyboard(int signum, siginfo_t *si, void *ucontext)// {{{
         int *xk_signum = &(((StatusBlock*)ucontext)->rt_signum);
         pthread_create(&xk_thr, NULL, _xkeyboard_listener, xk_signum);
         pthread_detach(xk_thr);
+
+        // update on startup
+        XkbGetIndicatorState(dpy, XkbUseCoreKbd, &xk_led_state);
+        _xkeyboard_get_layout(dpy, &xk_layout);
+        signum = SIGRTMIN+1;
     }
 
     if (signum > SIGRTMIN) {
@@ -515,12 +503,6 @@ void *_xkeyboard_listener(void *arg)// {{{
     XEvent event;
     XkbEvent *xkb_event = (XkbEvent*)&event;
 
-    // update on startup
-    XkbGetIndicatorState(dpy, XkbUseCoreKbd, &xk_led_state);
-    _xkeyboard_get_layout(dpy, &xk_layout);
-
-    xkeyboard(SIGRTMIN+xk_signum, NULL, NULL);
-
     XkbSelectEvents(dpy, XkbUseCoreKbd,
         XkbIndicatorStateNotifyMask, XkbIndicatorStateNotifyMask);
 
@@ -553,10 +535,10 @@ StatusBlock blocks[] = {
     {timer,     1, hex_str(1),       hex_str(1)},
     {net,       2, hex_str(2),       hex_str(2)},
     {cpu_temp,  3, hex_str(3),       "°C"hex_str(3)},
-    {mem,       4, hex_str(4)"MEM ",  hex_str(4)},
-    {disk,      5, hex_str(5)"/ ",   hex_str(5)},
-    {xkeyboard, 6, hex_str(6)" ",   hex_str(6)},
+    {mem,       4, hex_str(4)" ",   hex_str(4)},
+    {disk,      5, hex_str(5)" ",   hex_str(5)},
     {volume,    7, hex_str(7),       hex_str(7)},
+    {xkeyboard, 6, hex_str(6)" ",   hex_str(6)},
     {timedate,  8, hex_str(8),       hex_str(8)},
 };
 
