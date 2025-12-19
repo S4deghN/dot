@@ -258,10 +258,13 @@ def TermToQf()
 enddef
 
 const ErrJumpPattern =
-    '\(^\(\)\(\d\+:\)\(\d\+:\)\?[^0-9]\+\)\|' ..
-    '\(^\f\+:\d\+\(:\d\+:\?\)\?\)\|' ..
-    '\(^\s*File ".\{-}", line \d\+,\)\|' ..
-    '\(^\s\+in function\s\+.\{-}(.\{-}, line \d\+)\)'
+    '\%(' ..
+        '\%(^\(\)\(\d\+:\)\(\d\+:\)\?[^0-9]\+\)' ..
+        '\|\%(^\f\+:\d\+\(:\d\+:\?\)\?\)' ..
+        '\|\%(^\s*File ".\{-}", line \d\+,\)' ..
+        '\|\%(^\s\+in function\s\+.\{-}(.\{-}, line \d\+)\)' ..
+    '\)' ..
+    '\&\%(^\d\+:\d\+:\d\+\)\@!'
 def NextError()
     var did_match = search(ErrJumpPattern, 'W')
     if !!did_match
