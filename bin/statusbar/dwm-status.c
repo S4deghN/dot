@@ -405,7 +405,6 @@ static char *timedate(int signum, siginfo_t *si, void *ucontext)// {{{
     if (signum > SIGRTMIN) {
         int signal = signum - SIGRTMIN;
         int button = si->si_value.sival_int;
-        printf("signal: %d, button: %d\n", signal, button);
         if (button == LeftClick) {
             alternative_format = !alternative_format;
         }
@@ -584,7 +583,7 @@ int main() {
                 p = stpcpy(p, blocks[i].prefix);
                 p = stpcpy(p, block_str);
                 p = stpcpy(p, blocks[i].postfix);
-                p = stpcpy(p, " | ");
+                p = stpcpy(p, "|");
             }
         }
 
