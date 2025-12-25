@@ -87,7 +87,7 @@ hlset([
     {name: 'Identifier',        guifg: 'fg', cterm: {}},
     # {name: 'Function',          guifg: 'fg', cterm: {bold: 0}},
     # {name: 'Function',          guifg: '#99bbdd', cterm: {}},
-    {name: 'Function',          guifg: 'orange', cterm: {}},
+    # {name: 'Function',          guifg: 'orange', cterm: {}},
     # {name: 'Function',          guifg: '#FE9C20', cterm: {}},
     # {name: 'Function',          guifg: '#EFBBBB', cterm: {}},
     # {name: 'Function',          guifg: 'lightsalmon', cterm: {}},

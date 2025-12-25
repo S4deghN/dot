@@ -9,8 +9,11 @@ if [ $de = "dwm" ]; then
     picom --config ~/.config/picom/picom-dwm.conf &
     dwm-status &
     qlipper &
+    mate-polkit &
 elif [ $de = "i3" ]; then
     continue
+elif [ $de = "xfce4" ]; then
+    de=startxfce4
 fi
 
 #Activate dbus variables
