@@ -13,7 +13,7 @@ set nostartofline splitbelow splitright
 set hlsearch incsearch ignorecase nosmartcase tagcase=match # if match case is not set to `match` tag search becomes really slow!
 set smartindent nosmarttab expandtab shiftwidth=4 tabstop=4
 set fillchars+=diff:╱,fold:\ ,vert:│
-set list listchars=tab:›\ ,nbsp:␣,trail:·,extends:…,precedes:… showbreak=–
+set list listchars=tab:›\ ,nbsp:␣,trail:·,extends:…,precedes:… showbreak=󱞵\ 
 set cpoptions+=n foldmethod=marker
 set cinoptions+=:s,=s,l1,b1,g0,N-s,E-s,(s,k0,j1,J1,t0,Ls
 set path=.,**,/usr/include,/usr/include/x86_64-linux-gnu
@@ -156,9 +156,9 @@ noremap  <space>B  <cmd>Buffers<cr>
 noremap  <space>H  <cmd>Helptags<cr>
 noremap  <space>t  :Tags <C-r><C-w><cr>
 noremap  <space>T  <cmd>Tags<space>
-nnoremap <space>g  <cmd>LiveGrep<cr>
-vnoremap <space>g  :<C-u>LiveGrepVisual<cr>
-nnoremap <space>w  :LiveGrep <C-r>=expand('<cword>')<cr><cr>
+nnoremap <space>g  <cmd>LiveGrep!<cr>
+vnoremap <space>g  :<C-u>LiveGrepVisual!<cr>
+nnoremap <space>w  :LiveGrep! \b<C-r>=expand('<cword>')<cr>\b<cr>
 nnoremap <space><enter> :LiveGrepPrevious<cr>
 nnoremap <space>vv :Git<cr>
 nnoremap <space>vb <cmd>echo utils#GetGitBranch()<cr>
@@ -212,6 +212,8 @@ augroup autoCommands
     autocmd BufAdd *.lub set filetype=lua
     autocmd BufAdd .clang* set filetype=yaml
     autocmd BufAdd /tmp/bash* set filetype=sh
+
+    autocmd User FugitiveIndex norm! zt
 
     def CapsOff()
         timer_start(100, (_) => {
