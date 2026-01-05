@@ -4,7 +4,7 @@ vim9script
 # -----------------------------------------------
 g:fzf_vim = {}
 # g:fzf_vim.preview_window = ['right,50%,<80(up,40%),hidden', 'ctrl-l']
-g:fzf_vim.preview_window = ['up,60%,nohidden', 'ctrl-l']
+g:fzf_vim.preview_window = ['up,55%,nohidden', 'ctrl-l']
 # g:fzf_vim.preview_window = ['down,70%,hidden', 'ctrl-l']
 def BuildQfList(lines: string)
     call setqflist(map(copy(lines), '{ "filename": v:val, "lnum": 1 }'))

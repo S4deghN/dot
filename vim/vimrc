@@ -35,7 +35,7 @@ g:loaded_netrw = 1 | g:loaded_matchparen = 1 | g:loaded_vimballPlugin = 1
 silent! packadd! matchit
 silent! packadd! comment
 plug#begin("~/.local/share/vim/plugged")
-Plug 'bfrg/vim-c-cpp-modern'
+# Plug 'bfrg/vim-c-cpp-modern'
 Plug 'Coacher/vim9-buckler'
 Plug 'mhinz/vim-grepper'
 Plug 'mhinz/vim-tree'
@@ -98,6 +98,31 @@ noremap <C-j> <cmd>cn<cr>
 noremap <C-k> <cmd>cp<cr>
 noremap <Down> 3<C-e>3j
 noremap <Up> 3<C-y>3k
+
+def Scroll(lines: number, up = false): string
+    echom lines
+    var cmd = up ? "\<C-y>k" :  "\<C-e>j"
+    var ret = ""
+    for i in range(lines)
+        ret ..= cmd
+    endfor
+    return ret
+enddef
+noremap <expr> <C-f> Scroll(winheight(0))
+noremap <expr> <C-b> Scroll(winheight(0), true)
+
+def Scroll2(div: number, up = false): string
+    set scroll=0
+    var cmd = &scroll / div .. (up ? "\<C-u>" :  "\<C-d>")
+    var ret = ""
+    for i in range(div * 2)
+        ret ..= cmd
+    endfor
+    set scroll=0
+    return ret
+enddef
+# noremap <C-f> <C-d><C-d>
+# noremap <C-b> <C-u><C-u>
 
 noremap  } <cmd>keepj norm! }<cr>
 noremap  { <cmd>keepj norm! {<cr>

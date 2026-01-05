@@ -9,7 +9,8 @@ endif
 set background=dark
 g:colors_name = "vim9"
 
-var black        = '#282828'
+# var black        = '#282828'
+var black        = '#202020'
 # var black        = '#2a2a2a'
 var blue         = '#88aacc'
 var brown        = '#cc8c3c'

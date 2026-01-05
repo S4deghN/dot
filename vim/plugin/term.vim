@@ -264,7 +264,7 @@ const ErrJumpPattern =
         '\|\%(^\s*File ".\{-}", line \d\+,\)' ..
         '\|\%(^\s\+in function\s\+.\{-}(.\{-}, line \d\+)\)' ..
     '\)' ..
-    '\&\%(^\d\+:\d\+:\d\+\)\@!'
+    '\&\%(^\d\+:\d\+:\d\+\)\@!' # skip '12:23:30'
 def NextError()
     var did_match = search(ErrJumpPattern, 'W')
     if !!did_match

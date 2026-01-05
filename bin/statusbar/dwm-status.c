@@ -626,7 +626,7 @@ void *_xkeyboard_listener(void *arg)// {{{
 StatusBlock blocks[] = {
     {timer,     1, hex_str(1),       hex_str(1)},
     {net,       2, hex_str(2),       hex_str(2)},
-    {cpu_temp,  3, hex_str(3),       "°C"hex_str(3)},
+    {cpu_temp,  3, hex_str(3)" ",   "°C"hex_str(3)},
     {mem,       4, hex_str(4)" ",   hex_str(4)},
     {disk,      5, hex_str(5)" ",   hex_str(5)},
     {volume,    7, hex_str(7),       hex_str(7)},
