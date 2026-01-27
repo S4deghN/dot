@@ -342,7 +342,7 @@ static char *battery(int signum, siginfo_t *si, void *ucontext)// {{{
     char cap[4];
     lseek(cap_fd, 0, SEEK_SET);
     int n = read(cap_fd, cap, sizeof(cap));
-    cap[n - (int)(n == sizeof(cap))] = '\0';
+    cap[n - 1] = '\0'; // erase the new line.
 
     int cap_num = strtol(cap, NULL, 10);
 

@@ -4,7 +4,7 @@
 # Tab Completion Context
 #------------------------
 if [ -n "$COMP_LINE" ]; then
-    commands=$(find $HOME/.local/bin/ -type f -printf "%f\n")
+    commands=$(find $HOME/.local/bin/ -not -path '*/statusbar/bin/*' -type f -printf "%f\n")
 
     pre=${COMP_LINE##* } # remove any finished word from the line. ('word ')
 

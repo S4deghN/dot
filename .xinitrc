@@ -8,7 +8,7 @@ if [ $de = "dwm" ]; then
     nitrogen --restore &
     picom --config ~/.config/picom/picom-dwm.conf &
     dwm-status &
-    qlipper &
+    xfce4-clipman &
     mate-polkit &
 elif [ $de = "i3" ]; then
     continue

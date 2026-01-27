@@ -1,7 +1,7 @@
-#!/usr/bin/bash -ex
+#!/usr/bin/bash -e
 
 host=${1:-$(basename $0)}
 
 # `-t` before the address in ssh asks the host to provide a pesudo terminal so
 # the shell running the command doesn't exit after completion.
-st -e ssh -t root@$host "tmux attach || tmux new"
+ping $host -c 1 && st -e ssh -t root@$host "tmux attach || tmux new"

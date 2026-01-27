@@ -4,28 +4,32 @@
 draw_bold_text_with_bright_colors = true
 
 [colors.primary]
-background = "#1a1a1a"
-foreground = "#9aa9aa"
+background = "#242424"
+foreground = "#dcddde"
+
+[colors.cursor]
+cursor = "#99bbdd"
+text   = "#1c2619"
 
 [colors.normal]
-black   = "#191920"
-blue    = "#789AC0"
-cyan    = "#68BEA2"
-green   = "#8F9D6A"
-magenta = "#b16286"
-red     = "#CF6A4C"
-white   = "#6B7278"
-yellow  = "#CDA869"
+black   = "#202020"
+red     = "#ff4444"
+green   = "#6BAD23"
+yellow  = "#EDB322"
+blue    = "#88aacc"
+magenta = "#d3869b"
+cyan    = "#95a99f"
+white   = "#635E5C"
 
 [colors.bright]
-black   = "#747C84"
-blue    = "#789AC0"
-cyan    = "#5FAFAF"
-green   = "#87AF87"
+black   = "#555555"
+red     = "#ff4444"
+green   = "#6BAD23"
+yellow  = "#EDB322"
+blue    = "#88aacc"
 magenta = "#d3869b"
-red     = "#CF6A4C"
-white   = "#BCBCBC"
-yellow  = "#CDA869"
+cyan    = "#95a99f"
+white   = "#dcddde"
 
 
 [cursor]
@@ -39,11 +43,11 @@ shape = "Block"
 TERM = "xterm-256color"
 
 [font]
-size = 13.5
+size = 13
 
 [font.normal]
 # ibm plex mono
-family = "SF Mono"
+family = "Liberation Mono"
 
 [font.glyph_offset]
 x = 0
@@ -98,7 +102,7 @@ history = 10000
 multiplier = 3
 
 [terminal.shell]
-args = ["--login"]
+# args = ["--login"]
 program = "/usr/bin/bash"
 
 [window]

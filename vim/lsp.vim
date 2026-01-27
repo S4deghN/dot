@@ -43,11 +43,16 @@ var lspServers = [
         path: 'rust-analyzer',
         args: [],
         rootSearch: ['Cargo.toml', '.git']
+    },
+    {
+        name: 'pylsp',
+        filetype: ['python'],
+        path: 'pylsp',
     }
 ]
 
 def LspOnAttach()
-    nmap <buffer> K    :LspHover<cr>
+    nmap <buffer> gh   :LspHover<cr>
     nmap <buffer> gr   :LspRename<cr>
     nmap <buffer> gla  :LspCodeAction<cr>
     nmap <buffer> gls  :LspSwitchSourceHeader<cr>
@@ -61,7 +66,7 @@ def LspOnAttach()
 
     nmap <buffer> ]d  :LspDiagNext<cr>
     nmap <buffer> [d  :LspDiagPrev<cr>
-    nmap <buffer> gh  :LspDiagCurrent<cr>
+    nmap <buffer> gH  :LspDiagCurrent<cr>
     nmap <buffer> gld :LspDiagShow<cr>
 
     hi! link LspSigActiveParameter Tag
