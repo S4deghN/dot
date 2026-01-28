@@ -124,8 +124,8 @@ enddef
 # noremap <C-f> <C-d><C-d>
 # noremap <C-b> <C-u><C-u>
 
-noremap  } <cmd>keepj norm! }<cr>
-noremap  { <cmd>keepj norm! {<cr>
+# noremap  } <cmd>keepj norm! }<cr>
+# noremap  { <cmd>keepj norm! {<cr>
 noremap  n <cmd>keepj norm! n<cr>
 noremap  N <cmd>keepj norm! N<cr>
 nnoremap * *<cmd>keepj norm! N<cr>

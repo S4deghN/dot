@@ -35,6 +35,9 @@ hi Visual       guifg=NONE    guibg=#444444 cterm=none
 hi NonText      guifg=#505050 cterm=none
 hi SpecialKey   guifg=#505050 cterm=none
 hi Title        guifg=#8ac6f2 cterm=bold
+hi Search       guifg=#ffffff guibg=#6B5300 cterm=NONE
+hi IncSearch    guifg=#000000 guibg=#FCE094 cterm=NONE
+hi CurSearch    guifg=#000000 guibg=#FCE094 cterm=NONE
 
 " Syntax highlighting
 hi Comment      guifg=#99968b cterm=none
