@@ -35,7 +35,7 @@ g:loaded_netrw = 1 | g:loaded_matchparen = 1 | g:loaded_vimballPlugin = 1
 silent! packadd! matchit
 silent! packadd! comment
 plug#begin("~/.local/share/vim/plugged")
-# Plug 'bfrg/vim-c-cpp-modern'
+Plug 'bfrg/vim-c-cpp-modern'
 Plug 'Coacher/vim9-buckler'
 Plug 'mhinz/vim-grepper'
 Plug 'mhinz/vim-tree'
