@@ -35,15 +35,14 @@ g:loaded_netrw = 1 | g:loaded_matchparen = 1 | g:loaded_vimballPlugin = 1
 silent! packadd! matchit
 silent! packadd! comment
 plug#begin("~/.local/share/vim/plugged")
-Plug 'bfrg/vim-c-cpp-modern'
-Plug 'Coacher/vim9-buckler'
+# Plug 'bfrg/vim-c-cpp-modern'
+# Plug 'Coacher/vim9-buckler'
 Plug 'mhinz/vim-grepper'
 Plug 'mhinz/vim-tree'
 Plug 'preservim/tagbar'
 Plug 'romainl/vim-qf' | g:qf_auto_resize = 1 | g:qf_auto_open_quickfix = 0
 Plug 'AndrewRadev/splitjoin.vim'
 # Plug 'guns/vim-sexp' | g:sexp_filetypes = '*' | g:sexp_enable_insert_mode_mappings = false
-Plug 'coacher/vim9-buckler'
 Plug 'ycm/shimp'
 Plug 'zeminzhou/diffview.vim'
 Plug 'junegunn/vim-easy-align'
@@ -57,7 +56,7 @@ Plug 'BourgeoisBear/clrzr' | g:clrzr_startup = 0
 Plug 'mg979/vim-visual-multi'
 Plug 'airblade/vim-rooter' | g:rooter_cd_cmd = 'lcd' | g:rooter_silent_chdir = 1 | g:rooter_patterns = [ '.git', '.svn', 'tags'] | g:rooter_targets = ['*'] # avoid setting root for directories
 Plug '~/.vim/local/vim-fm'
-Plug '~/.vim/local/lsp' | runtime lsp.vim
+Plug 'yegappan/lsp' | runtime lsp.vim
 plug#end()
 
 color wombat

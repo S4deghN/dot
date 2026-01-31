@@ -19,6 +19,7 @@ var lspOpts = {
     autoHighlightDiags: false,
     showSignature: false,
     useQuickfixForLocations: true,
+    popupBorder: true,
 }
 
 var lspServers = [
@@ -94,21 +95,37 @@ var gd_fallbacks = [
     'normal! [\<C-I>',
 ]
 def JumpToDefinition()
+    var save_view = winsaveview()
+    var save_buf = bufnr()
     for cmd in gd_fallbacks
         try
             var s = execute(cmd)
             # echomsg $'s: {s}'
+            var view = winsaveview()
+            var buf = bufnr()
+            if save_view == view && save_buf == buf
+                continue
+            endif
             if strlen(s) < 2 || s =~? '"\([\~\/]\|\S\+\/\)\S\+"\s.*'
                 norm! zvzz
                 # utils#Spotlight()
-                echomsg $'used {cmd}'
-                break
+                timer_start(5, (_) => {
+                    var reloc_msg: string
+
+                    reloc_msg ..= save_buf != buf ? '-' : save_view.lnum - view.lnum > 0 ? '^' : 'v'
+                    reloc_msg ..= ' L'
+                    reloc_msg ..= view.lnum
+
+                    echomsg $'{cmd}: {reloc_msg}'
+                })
+                return
             endif
         catch
             # echomsg $'we catched on: {cmd}: {v:exception}'
             continue
         endtry
     endfor
+    echomsg $'Nothing worked!'
 enddef
 
 def SplitJumpToDefinition()
