@@ -187,6 +187,23 @@ vi-find() {
     fi
 }
 
+vi-git-ls-files() {
+    if [[ $(git describe --all 2>/dev/null) ]]; then
+        selection=$(git ls-files ${@:-.} | fzf --preview 'highlight -O ansi -l {}')
+
+        if [[ -n $selection ]]; then
+            READLINE_LINE="$EDITOR $selection${READLINE_LINE:$READLINE_POINT}"
+            READLINE_POINT=$(( ${#EDITOR} + 1 + ${#selection} ))
+
+            builtin bind '"\e@": accept-line'
+        else
+            builtin bind '"\e@": abort'
+        fi
+    else
+        vi-find $@
+    fi
+}
+
 vi-grep() {
     # selection=$(grep --color=always -rni ${READLINE_LINE:-} 2>/dev/null |
     #     fzf --ansi |
@@ -223,8 +240,8 @@ bind '"\M-al": accept-line'
 
 bind '"\e@": end-of-line'
 
-bind -x '"\ex1": vi-find'
-bind -x '"\ex2": vi-find ""    '
+bind -x '"\ex1": vi-git-ls-files'
+bind -x '"\ex2": vi-find'
 bind -x '"\ex3": vi-find ~/dot ~/repo/st ~/repo/dwm'
 bind -x '"\ex4": vi-find ~/note'
 bind -x '"\ex5": vi-grep'
