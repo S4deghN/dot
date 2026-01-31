@@ -112,9 +112,14 @@ def JumpToDefinition()
                 timer_start(5, (_) => {
                     var reloc_msg: string
 
-                    reloc_msg ..= save_buf != buf ? '-' : save_view.lnum - view.lnum > 0 ? '^' : 'v'
-                    reloc_msg ..= ' L'
-                    reloc_msg ..= view.lnum
+                    if save_buf != buf
+                        reloc_msg = '-'
+                    else
+                        var line_diff = save_view.lnum - view.lnum
+                        reloc_msg ..= line_diff > 0 ? '^ ' : 'v '
+                        reloc_msg ..= line_diff
+                        reloc_msg ..= 'L'
+                    endif
 
                     echomsg $'{cmd}: {reloc_msg}'
                 })
