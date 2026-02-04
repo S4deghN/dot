@@ -18,6 +18,7 @@ set cpoptions+=n foldmethod=marker
 set cinoptions+=:s,=s,l1,b1,g0,N-s,E-s,(s,k0,j1,J1,t0,Ls
 set path=.,**,/usr/include,/usr/include/x86_64-linux-gnu
 set grepprg=grep\ -rnI
+set keywordprg=:Man
 set termguicolors
 set textwidth=80
 set complete-=i # can be very slow
@@ -57,6 +58,7 @@ Plug 'mg979/vim-visual-multi'
 Plug 'airblade/vim-rooter' | g:rooter_cd_cmd = 'lcd' | g:rooter_silent_chdir = 1 | g:rooter_patterns = [ '.git', '.svn', 'tags'] | g:rooter_targets = ['*'] # avoid setting root for directories
 Plug '~/.vim/local/vim-fm'
 Plug 'yegappan/lsp' | runtime lsp.vim
+Plug 'skywind3000/asyncrun.vim' | g:asyncrun_timer = 999999 | g:asyncrun_open = 10
 plug#end()
 
 color wombat
@@ -98,30 +100,8 @@ noremap <C-k> <cmd>cp<cr>
 noremap <Down> 3<C-e>3j
 noremap <Up> 3<C-y>3k
 
-def Scroll(lines: number, up = false): string
-    echom lines
-    var cmd = up ? "\<C-y>k" :  "\<C-e>j"
-    var ret = ""
-    for i in range(lines)
-        ret ..= cmd
-    endfor
-    return ret
-enddef
-noremap <expr> <C-f> Scroll(winheight(0))
-noremap <expr> <C-b> Scroll(winheight(0), true)
-
-def Scroll2(div: number, up = false): string
-    set scroll=0
-    var cmd = &scroll / div .. (up ? "\<C-u>" :  "\<C-d>")
-    var ret = ""
-    for i in range(div * 2)
-        ret ..= cmd
-    endfor
-    set scroll=0
-    return ret
-enddef
-# noremap <C-f> <C-d><C-d>
-# noremap <C-b> <C-u><C-u>
+noremap <C-f> <C-d><C-d>
+noremap <C-b> <C-u><C-u>
 
 # noremap  } <cmd>keepj norm! }<cr>
 # noremap  { <cmd>keepj norm! {<cr>
@@ -163,6 +143,25 @@ cmap <C-k>  <Up>
 cmap <C-x>f <C-r>=expand('%:p')<cr>
 cmap <C-x>d <C-r>=expand('%:p:h:s?\S\+:\/\/??').'/'<cr>
 cmap %% <C-x>f
+cnoremap <expr> <CR> CmdCr()
+def CmdCr(): string
+    var cmdline = getcmdline()
+    if cmdline =~ '\v\C/(#|nu|num|numb|numbe|number)$'
+        return "\<CR>:"
+    else
+        return "\<CR>"
+    endif
+enddef
+cnoremap <expr> <C-u> CmdCtrlU()
+def CmdCtrlU(): string
+    var cmdline = getcmdline()
+    var match_list = matchlist(cmdline, '\v\C^(Term |Grep )(.+)')
+    if len(match_list) == 0
+        return "\<C-u>"
+    else
+        return "\<C-u>" .. match_list[1]
+    endif
+enddef
 
 tnoremap <C-]> <C-\><C-n>
 tnoremap <ScrollWheelUp> <C-\><C-n><ScrollWheelUp>
@@ -211,7 +210,7 @@ command! -nargs=+ -complete=function RR put = execute('echo ' .. <q-args>)->trim
 command! -nargs=? Format utils#KeepView(':%!clang-format', winsaveview(), 'c')
 command! -nargs=? Expand utils#KeepView(':%!expand -t ' .. (!<q-args> ? '4' : <q-args>), winsaveview(), 'c')
 command! -nargs=? Unexpand utils#KeepView(':%!unexpand -t ' .. (!<q-args> ? '4' : <q-args>), winsaveview(), 'c')
-command! -nargs=1 -bang Grep g:Term("rg -S -C 3 --column --sort=path " .. <f-args>, <bang>0, "[Grep]", "")
+command! -nargs=1 -bang Grep g:Term("rg -S --column --sort=path " .. <f-args>, <bang>0, "[Grep]", "")
 # Dump {binfile}
 command! -nargs=1 -bang -complete=file Dump g:Term("objdump -ClSd --disassembler-color=on " .. <f-args>, <bang>0, "[dump]", "asm")
 # Assembly {compiler} {sourcefile}
