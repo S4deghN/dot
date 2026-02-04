@@ -44,11 +44,13 @@ def g:TermInput()
     finally | echohl None | endtry
     if len(cmd) == 0 | return | endif
 
-    g:Term(cmd, false)
+    g:Term([cmd], false)
 enddef
 
 
-def g:Term(cmd: string, bang: bool, ...args: list<any>): number
+def g:Term(cmd_list: list<string>, bang: bool, ...args: list<any>): number
+
+    var cmd = join(cmd_list, ' ')
     t:term_cmd = cmd
 
     S_bufname = get(args, 0, '')
@@ -79,7 +81,7 @@ def g:Term(cmd: string, bang: bool, ...args: list<any>): number
         &shellcmdflag,
         'printf "\e[32m$\e[m %s\n" "' .. cmd .. '" ;' ..
         'start=$EPOCHREALTIME;' ..
-        escape(cmd, '\') .. ';' ..
+        cmd .. ';' ..
         'exit_code=$?;' ..
         'end=$EPOCHREALTIME;' ..
         'awk ''{printf "\n%.2fs - exit \033[%dm%d\033[m", $2-$1, $3 == 0 ? 32 : 31, $3}'' <<< "$start $end $exit_code";'
@@ -169,7 +171,7 @@ enddef
 def OpenTermWindow(): number
     var bufnr = GetTermBufnr()
     if bufnr < 0
-        return g:Term("echo Hello!", 0)
+        return g:Term(["echo", "Hello!"], 0)
     endif
 
     var winid = bufwinid(bufnr)
@@ -322,7 +324,7 @@ enddef
 
 defcom
 
-command! -nargs=1 -bang -complete=shellcmdline Term g:Term(<q-args>, <bang>0)
+command! -nargs=* -bang -complete=shellcmdline Term g:Term([<f-args>], <bang>0)
 command! -nargs=0 -bar TermToggleWin      ToggleWindow()
 command! -nargs=0 -bar TermToQf           TermToQf()
 command! -nargs=0 -bar TermKill           TermKill()
@@ -334,7 +336,8 @@ command! -nargs=0 -bar TermThisErrorJump  TermThisErrorJump()
 
 # Configuration -----------------------------------------------------
 # nnoremap cc :wa<cr>:Term <C-r>=get(t:, 'term_cmd', '')<cr>
-nnoremap cc :wa<cr><cmd>call TermInput()<cr>
+# nnoremap cc :wa<cr><cmd>call TermInput()<cr>
+nnoremap cc :wa<cr>:Term OA
 nnoremap sn :Term<space>
 nnoremap ss <cmd>TermToggleWin<cr>
 nnoremap sq <cmd>TermToQf<cr>
