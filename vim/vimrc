@@ -58,10 +58,37 @@ Plug 'mg979/vim-visual-multi'
 Plug 'airblade/vim-rooter' | g:rooter_cd_cmd = 'lcd' | g:rooter_silent_chdir = 1 | g:rooter_patterns = [ '.git', '.svn', 'tags'] | g:rooter_targets = ['*'] # avoid setting root for directories
 Plug '~/.vim/local/vim-fm'
 Plug 'yegappan/lsp' | runtime lsp.vim
-Plug 'skywind3000/asyncrun.vim' | g:asyncrun_timer = 999999 | g:asyncrun_open = 10
+# Plug 'skywind3000/asyncrun.vim' | g:asyncrun_timer = 999999 | g:asyncrun_open = 10
+Plug 'yegappan/grep'
+Plug 'eugen0329/vim-esearch'
 plug#end()
 
 color wombat
+
+g:esearch = {}
+g:esearch.root_markers = [] # use default root
+g:esearch.case = 'smart'
+g:esearch.select_prefilled = false
+g:esearch.out = 'win'
+g:esearch.name = '[esearch]'
+g:esearch.win_new = (esearch) => esearch#buf#goto_or_open(esearch.name, 'new')
+g:esearch.live_update_min_len = 2
+# Make header less colorful
+hi link esearchHeader     Comment
+# Don't emphasize numbers lines/files count in the header with colors
+hi link esearchStatistics esearchHeader
+hi link esearchFilename   Function
+# Don't emphasize basename with bold text attribute
+hi link esearchBasename   esearchFilename
+hi esearchMatch      guifg=#ff4444
+g:esearch = extend(get(g:, 'esearch', {}), {'win_context_len_annotations': 0, 'win_contexts_syntax': 0})
+
+augroup esearch_group
+# autocmd User esearch_win_config {
+#     b:autopreview = esearch#async#debounce(b:esearch.split_preview_open, 100)
+#     autocmd CursorMoved <buffer> b:autopreview.apply('split')
+# }
+augroup end
 
 # TODO:
 # Plug 'kana/vim-smartword'
@@ -143,7 +170,6 @@ cmap <C-k>  <Up>
 cmap <C-x>f <C-r>=expand('%:p')<cr>
 cmap <C-x>d <C-r>=expand('%:p:h:s?\S\+:\/\/??').'/'<cr>
 cmap %% <C-x>f
-cnoremap <expr> <CR> CmdCr()
 def CmdCr(): string
     var cmdline = getcmdline()
     if cmdline =~ '\v\C/(#|nu|num|numb|numbe|number)$'
@@ -152,7 +178,10 @@ def CmdCr(): string
         return "\<CR>"
     endif
 enddef
-cnoremap <expr> <C-u> CmdCtrlU()
+if len(CmdCr()) > 0
+    cnoremap <expr> <CR> CmdCr()
+endif
+
 def CmdCtrlU(): string
     var cmdline = getcmdline()
     var match_list = matchlist(cmdline, '\v\C^(Term |Grep )(.+)')
@@ -162,6 +191,9 @@ def CmdCtrlU(): string
         return "\<C-u>" .. match_list[1]
     endif
 enddef
+if len(CmdCtrlU()) > 0
+    cnoremap <expr> <C-u> CmdCtrlU()
+endif
 
 tnoremap <C-]> <C-\><C-n>
 tnoremap <ScrollWheelUp> <C-\><C-n><ScrollWheelUp>
@@ -189,6 +221,11 @@ nnoremap <space>a  <cmd>Apropos<cr>
 nnoremap <space>z  <cmd>setl spell!<cr>
 nnoremap <space>D  <scriptcmd>g:Dict(expand("<cword>"))<cr>
 nnoremap <space>'  <cmd>Marks<cr>
+nnoremap <space>q  <Plug>(qf_qf_toggle)
+
+nmap <space>g <plug>(esearch)
+vmap <space>g <plug>(operator-esearch-exec)
+map  <space>w <plug>(operator-esearch-exec)iw
 
 inoremap <expr> <C-e> pumvisible() ? "\<C-e>" : "\<esc>A"
 inoremap <silent> <Esc> <Esc>g`^
@@ -210,7 +247,7 @@ command! -nargs=+ -complete=function RR put = execute('echo ' .. <q-args>)->trim
 command! -nargs=? Format utils#KeepView(':%!clang-format', winsaveview(), 'c')
 command! -nargs=? Expand utils#KeepView(':%!expand -t ' .. (!<q-args> ? '4' : <q-args>), winsaveview(), 'c')
 command! -nargs=? Unexpand utils#KeepView(':%!unexpand -t ' .. (!<q-args> ? '4' : <q-args>), winsaveview(), 'c')
-command! -nargs=1 -bang Grep g:Term("rg -S --column --sort=path " .. <f-args>, <bang>0, "[Grep]", "")
+command! -nargs=1 -bang Grep g:Term(["rg -S --column --sort=path ", <f-args>], <bang>0, "[Grep]", "")
 # Dump {binfile}
 command! -nargs=1 -bang -complete=file Dump g:Term("objdump -ClSd --disassembler-color=on " .. <f-args>, <bang>0, "[dump]", "asm")
 # Assembly {compiler} {sourcefile}

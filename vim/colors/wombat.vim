@@ -27,9 +27,12 @@ endif
 hi Cursor       guifg=NONE    guibg=#656565 cterm=none
 hi Normal       guifg=#f6f3e8 guibg=#242424 cterm=none
 hi LineNr       guifg=#857b6f cterm=none
+hi CursorLineNr guifg=yellow  cterm=none
 hi StatusLine   guifg=#f6f3e8 guibg=#444444 cterm=none
 hi StatusLineNC guifg=#857b6f guibg=#444444 cterm=none
 hi VertSplit    guifg=#444444 guibg=#444444 cterm=none
+hi TabLine      guibg=#444444 cterm=NONE
+hi TabLineFill  guibg=#444444 cterm=NONE
 hi Folded       guifg=#b0a8a0 guibg=#383838 cterm=none
 hi Visual       guifg=NONE    guibg=#444444 cterm=none
 hi NonText      guifg=#505050 cterm=none
