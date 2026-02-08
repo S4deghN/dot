@@ -117,7 +117,7 @@ def JumpToDefinition()
                     else
                         var line_diff = save_view.lnum - view.lnum
                         reloc_msg ..= line_diff > 0 ? '^ ' : 'v '
-                        reloc_msg ..= line_diff
+                        reloc_msg ..= abs(line_diff)
                         reloc_msg ..= 'L'
                     endif
 

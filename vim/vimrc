@@ -24,6 +24,7 @@ set textwidth=80
 set complete-=i # can be very slow
 # Experimental
 set regexpengine=1
+set updatetime=2000
 
 # &t_md = "" # disable bold
 &t_SI = "\e[5 q" # Insert mode
@@ -57,7 +58,7 @@ Plug 'BourgeoisBear/clrzr' | g:clrzr_startup = 0
 Plug 'mg979/vim-visual-multi'
 Plug 'airblade/vim-rooter' | g:rooter_cd_cmd = 'lcd' | g:rooter_silent_chdir = 1 | g:rooter_patterns = [ '.git', '.svn', 'tags'] | g:rooter_targets = ['*'] # avoid setting root for directories
 Plug '~/.vim/local/vim-fm'
-Plug 'yegappan/lsp' | runtime lsp.vim
+Plug 'S4deghN/lsp' | runtime lsp.vim
 # Plug 'skywind3000/asyncrun.vim' | g:asyncrun_timer = 999999 | g:asyncrun_open = 10
 Plug 'yegappan/grep'
 Plug 'eugen0329/vim-esearch'
@@ -82,6 +83,8 @@ hi link esearchFilename   Function
 hi link esearchBasename   esearchFilename
 hi esearchMatch      guifg=#ff4444
 g:esearch = extend(get(g:, 'esearch', {}), {'win_context_len_annotations': 0, 'win_contexts_syntax': 0})
+g:esearch = extend(g:esearch, {'adapters': {'rg': {'options': '--no-follow'}}})
+# g:esearch.adapters.rg.options = '--no-follow'
 
 augroup esearch_group
 # autocmd User esearch_win_config {
@@ -124,8 +127,8 @@ map +  =i{
 
 noremap <C-j> <cmd>cn<cr>
 noremap <C-k> <cmd>cp<cr>
-noremap <Down> 3<C-e>3j
-noremap <Up> 3<C-y>3k
+# noremap <Down> 3<C-e>3j
+# noremap <Up> 3<C-y>3k
 
 noremap <C-f> <C-d><C-d>
 noremap <C-b> <C-u><C-u>
