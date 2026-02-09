@@ -172,7 +172,6 @@ cmap <C-j>  <Down>
 cmap <C-k>  <Up>
 cmap <C-x>f <C-r>=expand('%:p')<cr>
 cmap <C-x>d <C-r>=expand('%:p:h:s?\S\+:\/\/??').'/'<cr>
-cmap %% <C-x>f
 def CmdCr(): string
     var cmdline = getcmdline()
     if cmdline =~ '\v\C/(#|nu|num|numb|numbe|number)$'
@@ -297,6 +296,23 @@ augroup autoCommands
         })
     enddef
     autocmd InsertLeave * CapsOff()
+
+    if exists('$TMUX')
+        g:tmux_title_timer = 0
+        def TmuxSetTitle()
+            if g:tmux_title_timer != 0 | return | endif
+            g:tmux_title_timer = timer_start(100, (_) => {
+                var title = expand("%:t")
+                if isdirectory(expand("%")) | title ..= '/' | endif
+                if strlen(title) > 0
+                    system("tmux rename-window [\"" .. title .. "\"]")
+                endif
+                g:tmux_title_timer = 0
+            })
+        enddef
+        autocmd VimResume,VimEnter,BufEnter * TmuxSetTitle()
+        autocmd VimLeave,VimSuspend * system("tmux set-window-option automatic-rename on")
+    endif
 augroup end
 
 defcomp # to catch errors early.

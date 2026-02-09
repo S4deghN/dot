@@ -41,6 +41,8 @@ hi Title        guifg=#8ac6f2 cterm=bold
 hi Search       guifg=#ffffff guibg=#6B5300 cterm=NONE
 hi IncSearch    guifg=#000000 guibg=#FCE094 cterm=NONE
 hi CurSearch    guifg=#000000 guibg=#FCE094 cterm=NONE
+hi ErrorMsg     guifg=#ff2222 guibg=bg cterm=NONE
+hi Error        guifg=#ff2222 guibg=bg cterm=NONE
 
 " Syntax highlighting
 hi Comment      guifg=#99968b cterm=none
