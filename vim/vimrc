@@ -187,7 +187,7 @@ endif
 
 def CmdCtrlU(): string
     var cmdline = getcmdline()
-    var match_list = matchlist(cmdline, '\v\C^(Term |Grep )(.+)')
+    var match_list = matchlist(cmdline, '\v\C^(Term |Grep |Git )(.+)')
     if len(match_list) == 0
         return "\<C-u>"
     else
@@ -196,6 +196,20 @@ def CmdCtrlU(): string
 enddef
 if len(CmdCtrlU()) > 0
     cnoremap <expr> <C-u> CmdCtrlU()
+endif
+
+def CmdCtrlW(): string
+    var cursor_pos = getcmdpos()
+    var line_before_cursor = getcmdline()[0 : cursor_pos - 2]
+    var match_idx = match(line_before_cursor, '\v[^ /]{-1,}/\s*$') # /this/and/[that/ ]
+    if match_idx != -1
+        return repeat("\<BS>", len(line_before_cursor) - match_idx)
+    else
+        return "\<C-w>"
+    endif
+enddef
+if len(CmdCtrlW()) > 0
+    cnoremap <expr> <C-w> CmdCtrlW()
 endif
 
 tnoremap <C-]> <C-\><C-n>
@@ -285,3 +299,5 @@ augroup autoCommands
     enddef
     autocmd InsertLeave * CapsOff()
 augroup end
+
+defcomp # to catch errors early.
