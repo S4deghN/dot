@@ -240,9 +240,8 @@ nnoremap <space>D  <scriptcmd>g:Dict(expand("<cword>"))<cr>
 nnoremap <space>'  <cmd>Marks<cr>
 nnoremap <space>q  <Plug>(qf_qf_toggle)
 
-nmap <space>g <plug>(esearch)
-vmap <space>g <plug>(operator-esearch-exec)
-map  <space>w <plug>(operator-esearch-exec)iw
+nmap <space>s <plug>(esearch)
+vmap <space>s <plug>(operator-esearch-exec)
 
 inoremap <expr> <C-e> pumvisible() ? "\<C-e>" : "\<esc>A"
 inoremap <silent> <Esc> <Esc>g`^
