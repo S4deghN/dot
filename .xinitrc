@@ -1,6 +1,6 @@
 #!/bin/sh
 
-de=${DE:-xfce4}
+de=${DE:-dwm}
 
 [ -f ~/.xprofile ] && . ~/.xprofile
 
