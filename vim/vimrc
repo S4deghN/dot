@@ -180,7 +180,7 @@ def CmdCr(): string
         return "\<CR>"
     endif
 enddef
-if len(CmdCr()) > 0
+if exists('*CmdCr')
     cnoremap <expr> <CR> CmdCr()
 endif
 
@@ -193,7 +193,7 @@ def CmdCtrlU(): string
         return "\<C-u>" .. match_list[1]
     endif
 enddef
-if len(CmdCtrlU()) > 0
+if exists('*CmdCtrlU')
     cnoremap <expr> <C-u> CmdCtrlU()
 endif
 
@@ -207,9 +207,10 @@ def CmdCtrlW(): string
         return "\<C-w>"
     endif
 enddef
-if len(CmdCtrlW()) > 0
+if exists("*CmdCtrlW")
     cnoremap <expr> <C-w> CmdCtrlW()
 endif
+
 
 tnoremap <C-]> <C-\><C-n>
 tnoremap <ScrollWheelUp> <C-\><C-n><ScrollWheelUp>
