@@ -44,9 +44,9 @@ __ps1() {
 
     # set terminal title
     printf "\033]0;${PWD}\007"
-    if [ -n "$TMUX" ]; then
-        tmux rename-window $(basename ${PWD})
-    fi
+    # if [ -n "$TMUX" ]; then
+    #     tmux rename-window $(basename ${PWD})
+    # fi
 }
 
 PROMPT_COMMAND="__ps1"

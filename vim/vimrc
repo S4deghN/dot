@@ -10,7 +10,7 @@ set completeopt=menu,longest
 set nowildmenu wildignorecase wildmode=longest,list,full wildcharm=<Tab>
 set notitle showcmd showcmdloc=statusline laststatus=2 shortmess=aoOFtT
 set nostartofline splitbelow splitright
-set hlsearch incsearch ignorecase nosmartcase tagcase=match # if match case is not set to `match` tag search becomes really slow!
+set hlsearch incsearch ignorecase smartcase tagcase=match # if match case is not set to `match` tag search becomes really slow!
 set smartindent nosmarttab expandtab shiftwidth=4 tabstop=4
 set fillchars+=diff:╱,fold:\ ,vert:│
 set list listchars=tab:›\ ,nbsp:␣,trail:·,extends:…,precedes:… showbreak=󱞵\ 
