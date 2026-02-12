@@ -61,19 +61,11 @@ Plug '~/.vim/local/vim-fm'
 Plug 'S4deghN/lsp' | runtime lsp.vim
 # Plug 'skywind3000/asyncrun.vim' | g:asyncrun_timer = 999999 | g:asyncrun_open = 10
 Plug 'yegappan/grep'
-Plug 'eugen0329/vim-esearch'
+Plug 'eugen0329/vim-esearch' | runtime esearch.vim
 plug#end()
 
 color wombat
 
-g:esearch = {}
-g:esearch.root_markers = [] # use default root
-g:esearch.case = 'smart'
-g:esearch.select_prefilled = false
-g:esearch.out = 'win'
-g:esearch.name = '[esearch]'
-g:esearch.win_new = (esearch) => esearch#buf#goto_or_open(esearch.name, 'new')
-g:esearch.live_update_min_len = 2
 # Make header less colorful
 hi link esearchHeader     Comment
 # Don't emphasize numbers lines/files count in the header with colors
@@ -82,16 +74,6 @@ hi link esearchFilename   Function
 # Don't emphasize basename with bold text attribute
 hi link esearchBasename   esearchFilename
 hi esearchMatch      guifg=#ff4444
-g:esearch = extend(get(g:, 'esearch', {}), {'win_context_len_annotations': 0, 'win_contexts_syntax': 0})
-g:esearch = extend(g:esearch, {'adapters': {'rg': {'options': '--no-follow'}}})
-# g:esearch.adapters.rg.options = '--no-follow'
-
-augroup esearch_group
-# autocmd User esearch_win_config {
-#     b:autopreview = esearch#async#debounce(b:esearch.split_preview_open, 100)
-#     autocmd CursorMoved <buffer> b:autopreview.apply('split')
-# }
-augroup end
 
 # TODO:
 # Plug 'kana/vim-smartword'
@@ -186,7 +168,7 @@ endif
 
 def CmdCtrlU(): string
     var cmdline = getcmdline()
-    var match_list = matchlist(cmdline, '\v\C^(Term |Grep |Git )(.+)')
+    var match_list = matchlist(cmdline, '\v\C^(e%[dit] |Term |Grep |Git )(.+)')
     if len(match_list) == 0
         return "\<C-u>"
     else
@@ -258,11 +240,11 @@ map  Y  yg_
 command! Syn utils#Syn()
 command! RT RooterToggle | exec "norm :\<C-u>cd \<C-x>d\<cr>"
 command! SudoWrite exec ':silent w !sudo tee' expand('%:p') | e!
-command! -nargs=+ -complete=command  R put = execute(<q-args>)->trim()
-command! -nargs=+ -complete=function RR put = execute('echo ' .. <q-args>)->trim()
-command! -nargs=? Format utils#KeepView(':%!clang-format', winsaveview(), 'c')
-command! -nargs=? Expand utils#KeepView(':%!expand -t ' .. (!<q-args> ? '4' : <q-args>), winsaveview(), 'c')
-command! -nargs=? Unexpand utils#KeepView(':%!unexpand -t ' .. (!<q-args> ? '4' : <q-args>), winsaveview(), 'c')
+command! -nargs=+ -complete=command  R put = execute(<q-args>)->trim()             # write vim command output into buffer
+command! -nargs=+ -complete=function RR put = execute('echo ' .. <q-args>)->trim() # write vim function output into buffer
+command! -range=% Format utils#KeepView($':{<line1>},{<line2>}!clang-format', winsaveview(), 'c')
+command! -range=% -nargs=? Expand utils#KeepView($':{<line1>},{<line2>}!expand -t ' .. (!<q-args> ? '4' : <q-args>), winsaveview(), 'c')
+command! -range=% -nargs=? Unexpand utils#KeepView($':{<line1>},{<line2>}!unexpand -t ' .. (!<q-args> ? '4' : <q-args>), winsaveview(), 'c')
 command! -nargs=1 -bang Grep g:Term(["rg -S --column --sort=path ", <f-args>], <bang>0, "[Grep]", "")
 # Dump {binfile}
 command! -nargs=1 -bang -complete=file Dump g:Term("objdump -ClSd --disassembler-color=on " .. <f-args>, <bang>0, "[dump]", "asm")
@@ -273,7 +255,7 @@ command! -nargs=1 -bang -complete=file PreProc g:Term(<f-args>  .. " -o- -E", <b
 
 augroup autoCommands
     autocmd!
-    autocmd BufWritePost *.vim,vimrc source %
+    autocmd BufWritePost *.vim,vimrc source % | set ft=vim
     autocmd BufReadPost * if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit' | exe "normal! g`\"zz" | endif
     # this option is set by ftplugin for each file type.
     # I just want a consistant format option across all file types thus the autocmd.
@@ -314,6 +296,21 @@ augroup autoCommands
         autocmd VimResume,VimEnter,BufEnter * TmuxSetTitle()
         autocmd VimLeave,VimSuspend * system("tmux set-window-option automatic-rename on")
     endif
+
+    def g:DeleteUnusedBuffers()
+        var delete_count = 0
+        var now = localtime()
+        getbufinfo({buflisted: 1})->foreach((_, v) => {
+            if !v.changed && (now - v.lastused > 300) && bufwinnr(v.bufnr) == -1
+                exec 'bdelete' v.bufnr
+                delete_count += 1
+            endif
+        })
+        if delete_count > 0
+            echom $"Deleted {delete_count} unused buffer."
+        endif
+    enddef
+    timer_start(20000, (_) => g:DeleteUnusedBuffers(), {repeat: -1})
 augroup end
 
 defcomp # to catch errors early.
