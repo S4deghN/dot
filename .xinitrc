@@ -18,4 +18,4 @@ fi
 
 #Activate dbus variables
 # dbus-update-activation-environment --all
-exec dbus-launch --exit-with-session $de
+exec dbus-launch --exit-with-session ssh-agent $de

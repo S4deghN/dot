@@ -22,9 +22,10 @@ set keywordprg=:Man
 set termguicolors
 set textwidth=80
 set complete-=i # can be very slow
-# Experimental
 set regexpengine=1
 set updatetime=2000
+set display=lastline
+set maxsearchcount=9999
 
 # &t_md = "" # disable bold
 &t_SI = "\e[5 q" # Insert mode
@@ -62,6 +63,7 @@ Plug 'S4deghN/lsp' | runtime lsp.vim
 # Plug 'skywind3000/asyncrun.vim' | g:asyncrun_timer = 999999 | g:asyncrun_open = 10
 Plug 'yegappan/grep'
 Plug 'eugen0329/vim-esearch' | runtime esearch.vim
+Plug 'chaoren/vim-wordmotion' | g:wordmotion_mappings = {"<C-R><C-W>": "", "<C-R><C-A>": ""}
 plug#end()
 
 color wombat
