@@ -42,7 +42,7 @@ plug#begin("~/.local/share/vim/plugged")
 # Plug 'Coacher/vim9-buckler'
 Plug 'mhinz/vim-grepper'
 Plug 'mhinz/vim-tree'
-Plug 'preservim/tagbar'
+Plug 'preservim/tagbar' | g:tagbar_position = 'vertical leftabove'
 Plug 'romainl/vim-qf' | g:qf_auto_resize = 1 | g:qf_auto_open_quickfix = 0
 Plug 'AndrewRadev/splitjoin.vim'
 # Plug 'guns/vim-sexp' | g:sexp_filetypes = '*' | g:sexp_enable_insert_mode_mappings = false
@@ -63,7 +63,7 @@ Plug 'S4deghN/lsp' | runtime lsp.vim
 # Plug 'skywind3000/asyncrun.vim' | g:asyncrun_timer = 999999 | g:asyncrun_open = 10
 Plug 'yegappan/grep'
 Plug 'eugen0329/vim-esearch' | runtime esearch.vim
-Plug 'chaoren/vim-wordmotion' | g:wordmotion_mappings = {"<C-R><C-W>": "", "<C-R><C-A>": ""}
+# Plug 'chaoren/vim-wordmotion' | g:wordmotion_mappings = {"<C-R><C-W>": "", "<C-R><C-A>": ""}
 plug#end()
 
 color wombat
@@ -210,7 +210,7 @@ nmap     <space>F  :Files<space><C-x>d
 noremap  <space>r  <cmd>Histor<cr>
 noremap  <space>B  <cmd>Buffers<cr>
 noremap  <space>H  <cmd>Helptags<cr>
-noremap  <space>t  :Tags <C-r><C-w><cr>
+noremap  <space>t  <cmd>TagbarToggle<cr>
 noremap  <space>T  <cmd>Tags<space>
 nnoremap <space>g  <cmd>LiveGrep!<cr>
 vnoremap <space>g  :<C-u>LiveGrepVisual!<cr>
@@ -312,7 +312,7 @@ augroup autoCommands
             echom $"Deleted {delete_count} unused buffer."
         endif
     enddef
-    timer_start(20000, (_) => g:DeleteUnusedBuffers(), {repeat: -1})
+    # timer_start(20000, (_) => g:DeleteUnusedBuffers(), {repeat: -1})
 augroup end
 
 defcomp # to catch errors early.
