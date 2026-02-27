@@ -42,7 +42,11 @@ TAB:    menu-complete
 # shift tab sends "esc [ Z" 🤷
 "\e[Z": menu-complete-backward
 "\C-x": shell-expand-line
+"\C-l": clear-screen
+"\C-j": history-search-forward
+"\C-k": history-search-backward
 "\e.":  yank-last-arg
+"\e>":  "\e\\-\e."
 # this solves the problem where sometime C-w would get stuck on start of a word!
 "\ew": backward-kill-word
 "\C-w": "\ew"

@@ -234,7 +234,7 @@ fzf-rl() {
     "
 }
 bind -x '"\exx":  fzf-rl'
-bind -m vi-insert '"\C-l": "\exx\e#"'
+bind -m vi-insert '"\ec": "\exx\e#"'
 
 #---------------------------------------------------
 # binds
