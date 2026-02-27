@@ -38,6 +38,8 @@ export LESS_TERMCAP_ue=$'\e[0m'
 export LESS_TERMCAP_so=$'\e[0;7;35m'
 export LESS_TERMCAP_se=$'\e[0m'
 
+export GCC_COLORS="locus=32"
+
 # This makes symlinks work on windows with git-bash if developer mode is
 # enabled or the process is run as admin.
 export MSYS=winsymlinks:nativestrict

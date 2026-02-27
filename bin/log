@@ -1,10 +1,15 @@
-#!/usr/bin/sh
+#!/usr/bin/bash
 
 date=$(date +%y-%m-%d)
-file="$HOME/note/log/$date.adoc"
+title="$date"
 
-[ ! -f "$file" ] && cat > $file << EOF
-= $date
+read -e -p "extra words for the title: " -r extra_words
+[ -n "$extra_words" ] && title+=" - ${extra_words}"
+
+file="$HOME/note/log/${title// /-}.adoc"
+
+[ ! -f "$file" ] && cat > "$file" << EOF
+= $title
 EOF
 
-$EDITOR $file
+$EDITOR "$file"
