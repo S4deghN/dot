@@ -32,7 +32,7 @@
     co    = checkout
     sw    = switch
     amend = commit --amend --no-edit
-    s     = status
+    s     = status -sb
     d     = diff
     dh1   = diff HEAD~1
     ds    = diff --staged
@@ -58,7 +58,12 @@
 [diff]
     noprefix = 1
 [merge]
+    tool = vimdiff3
     conflictstyle = merge
+[diff]
+    tool = vimdiff
+[difftool "vimdiff"]
+    cmd = "vim -d -c 'set wrap' -c 'wincmd w' $LOCAL $REMOTE "
 [init]
     defaultBranch = master
 [includeIf "gitdir:~/repo/naad/"]

@@ -20,7 +20,8 @@ var dark4  = '#7c6f64'
 var medium = '#928374'
 var light0 = '#fdf4c1'
 # var light1 = '#dad1bf'
-var light1 = '#dcd3c1'
+# var light1 = '#dcd3c1'
+var light1 = '#d5d5d5'
 var light2 = '#d5c4a1'
 var light3 = '#c8b9a4'
 var light4 = '#928374'
@@ -137,7 +138,7 @@ hlset([
     {name: 'SignColumn', guifg: 'NONE', guibg: dark1, cterm: {}, gui: {}},
 
     # Line used for closed folds
-    {name: 'Folded', guifg: non_text, guibg: 'bg', cterm: {italic: 1}, gui: {italic: 1}},
+    {name: 'Folded', guifg: medium, guibg: dark1, cterm: {italic: 1}, gui: {italic: 1}},
     # Column where folds are displayed
     {name: 'FoldColumn', guifg: medium, guibg: dark1, cterm: {}, gui: {}},
     # }}},
@@ -237,11 +238,18 @@ hlset([
     # Diffs: {{{
 
     {name: 'DiffDelete', guifg: '#504945', guibg: 'NONE', cterm: {}, gui: {}},
-    {name: 'DiffAdd',    guifg: 'NONE', guibg: '#283f2f', cterm: {}, gui: {}},
+    {name: 'DiffAdd',    guifg: 'NONE', guibg: '#213425', cterm: {}, gui: {}},
 
     # Alternative setting
-    {name: 'DiffChange', guifg: 'NONE', guibg: '#1F385B', cterm: {}, gui: {}},
-    {name: 'DiffText',   guifg: 'NONE', guibg: '#172A45', cterm: {}, gui: {}},
+
+    # {name: 'DiffChange', guifg: 'NONE', guibg: '#0d2649', cterm: {}, gui: {}},
+    # {name: 'DiffText',   guifg: 'NONE', guibg: '#1F385B', cterm: {}, gui: {}},
+    # {name: 'DiffText',   guifg: 'NONE', guibg: '#3F587B', cterm: {}, gui: {}},
+    {name: 'DiffText',   guifg: 'NONE', guibg: '#2E404B', cterm: {}, gui: {}},
+
+    # {name: 'DiffChange', guifg: 'NONE', guibg: '#003355', cterm: {}, gui: {}},
+    {name: 'DiffChange', guifg: 'NONE', guibg: '#212C34', cterm: {}, gui: {}},
+    # {name: 'DiffText',   guifg: 'NONE', guibg: '#00557F', cterm: {}, gui: {}},
 
     {name: 'diffAdded',   guifg: green,  cterm: {}, gui: {}},
     {name: 'diffRemoved', guifg: red,    cterm: {}, gui: {}},

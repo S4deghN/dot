@@ -11,16 +11,16 @@
 __ps1() {
     ExitCode=$?
     if [ $ExitCode -ne 0 ]; then
-        errP='\[\e[1;31m\][$ExitCode]\[\e[m\]'
+        errP='\[\e[1;31m\][$ExitCode]\[\e[m\]\n'
     else
         errP=''
     fi
 
-    Branch=$(git branch --show-current 2>/dev/null)
-    if [ $? -eq 0 ] && [ -z $Branch ]; then
-        Branch=$(git describe --all --contains 2>/dev/null)
-    fi
-    branchP='\[\e[0;31m\] $Branch\[\e[m\]'
+    # Branch=$(git branch --show-current 2>/dev/null)
+    # if [ $? -eq 0 ] && [ -z $Branch ]; then
+    #     Branch=$(git describe --all --contains 2>/dev/null)
+    # fi
+    # branchP='\[\e[0;31m\] $Branch\[\e[m\]'
 
     # Root=$(git rev-parse --show-toplevel 2>/dev/null)
     # Root=${Root##*/}
@@ -30,17 +30,18 @@ __ps1() {
     # so to be treaded as non-printing character. Otherwise the positoning of
     # the cursor becomes faulty. In Readline's config file, `.inputrc`, this
     # method doesn't work and we use `\1 \2` instead according to its manual.
-    userP='\[\e[0;33m\]\u\[\e[m\]'
-    hostP='\[\e[0;29m\]\h\[\e[m\]'
+    userP='\[\e[01;32m\]\u\[\e[m\]'
+    hostP='\[\e[01;32m\]\h\[\e[m\]'
     suffixP='\[\e[1;32m\]$\[\e[m\]'
-    dircP='\[\e[0;32m\]\w\[\e[m\]'
+    dirP='\[\e[01;34m\]\w\[\e[m\]'
 
 #   ╭─────╮
 #   │ box │
 #   ╰─────╯
     # Testing the __git_ps1
-    # PS1="$userP@$hostP $dircP$branchP$(__git_ps1) $errP\n$suffixP "
-    PS1="$userP@$hostP $dircP$branchP $errP\n$suffixP "
+    # PS1="$userP@$hostP $dirP$branchP$(__git_ps1) $errP\n$suffixP "
+    # PS1="$userP@$hostP $dirP$branchP $errP\n$suffixP "
+    PS1="$errP$userP@$hostP:$dirP$ "
 
     # set terminal title
     printf "\033]0;${PWD}\007"
@@ -117,7 +118,7 @@ alias o="octave"
 alias r="ranger"
 alias apt="sudo apt"
 
-alias gits="git status"
+alias gits="git status -bs && git describe --all --contains"
 alias gitd="git diff"
 alias gitds="git diff --staged"
 alias gita="git add"

@@ -26,6 +26,7 @@ set regexpengine=1
 set updatetime=2000
 set display=lastline
 set maxsearchcount=9999
+set diffopt+=followwrap,foldcolumn:0,algorithm:histogram
 
 # &t_md = "" # disable bold
 &t_SI = "\e[5 q" # Insert mode
@@ -66,7 +67,7 @@ Plug 'eugen0329/vim-esearch' | runtime esearch.vim
 # Plug 'chaoren/vim-wordmotion' | g:wordmotion_mappings = {"<C-R><C-W>": "", "<C-R><C-A>": ""}
 plug#end()
 
-color wombat
+color lightgruv
 
 # Make header less colorful
 hi link esearchHeader     Comment
@@ -111,6 +112,8 @@ map +  =i{
 
 noremap <C-j> <cmd>cn<cr>
 noremap <C-k> <cmd>cp<cr>
+noremap <C-h> <cmd>bp<cr>
+noremap <C-l> <cmd>bn<cr>
 # noremap <Down> 3<C-e>3j
 # noremap <Up> 3<C-y>3k
 
@@ -136,6 +139,7 @@ vnoremap gk  :<C-u>ManVisual<cr>
 nnoremap zs  <scriptcmd>utils#KeepView(':%s/\s\+$//e', winsaveview(), 'c')<cr>
 nnoremap gL  <scriptcmd>utils#OpenLink(expand("<cfile>"))<cr>
 nmap     gcd <cmd>let @c=col('.')<cr>yygccp<cmd>call cursor(0,@c)<cr>
+nnoremap ZA :wqa<cr>
 
 exe "set <M-t>=\et"
 nmap <M-t> :t.<cr>
