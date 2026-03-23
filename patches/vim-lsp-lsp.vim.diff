@@ -1,0 +1,13 @@
+# add a listener to track changes to this buffer
+b:lsp_buf_update_timer = 0
+listener_add((_bnr: number, start: number, end: number, added: number, changes: list<dict<number>>) => {
+	if b:lsp_buf_update_timer != 0
+		timer_stop(b:lsp_buf_update_timer)
+			endif
+
+			b:lsp_buf_update_timer = timer_start(150, (_) => {
+				lspserver.textdocDidChange(bnr, start, end, added, changes)
+					b:lsp_buf_update_timer = 0
+			})
+}, bnr)
+
