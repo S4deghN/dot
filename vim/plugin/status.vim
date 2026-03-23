@@ -2,7 +2,7 @@ vim9script
 
 # set statusline=%(%{get(w:,'git_branch','')}:%)%f:%-10(%l:%c%)%=
 
-def UpdateGitBranch()
+def g:UpdateGitBranch()
     if len(&buftype) > 0 && &filetype != 'fm'
         w:git_branch = ''
         return
@@ -19,5 +19,7 @@ def UpdateGitBranch()
         w:git_branch = ''
     endif
 enddef
+
+set statusline=%<%f\ %h%m%r%{FugitiveStatusline()}%=%-14.(%l,%c%V%)\ %P
 
 # autocmd DirChanged,WinNew,VimEnter,TerminalWinOpen,FileType * call timer_start(100, 
