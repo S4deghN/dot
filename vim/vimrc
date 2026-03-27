@@ -121,6 +121,11 @@ noremap <C-l> <cmd>bn<cr>
 noremap <C-f> <C-d><C-d>
 noremap <C-b> <C-u><C-u>
 
+# [_CTRL-I with no [count] jumps to the first non-comment result but with
+# a [count] it would count the comments.
+noremap [I [I:let nr = input("goto: ")<bar>exe "norm! " .. nr .. "[\<C-I>"<cr>
+noremap ]I ]I:let nr = input("goto: ")<bar>exe "norm! " .. nr .. "]\<C-I>"<cr>
+
 # noremap  } <cmd>keepj norm! }<cr>
 # noremap  { <cmd>keepj norm! {<cr>
 noremap  n <cmd>keepj norm! n<cr>

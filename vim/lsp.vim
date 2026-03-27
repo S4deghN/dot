@@ -89,10 +89,10 @@ enddef
 
 # --- jump to definition with fallback ---
 var gd_fallbacks = [
-    'LspGotoDefinition',
-    'call JumpTag()',
-    'normal! gd',
-    'normal! [\<C-I>',
+    "LspGotoDefinition",
+    "call JumpTag()",
+    "normal! [\<C-I>",
+    "normal! gd",
 ]
 def JumpToDefinition()
     var save_view = winsaveview()

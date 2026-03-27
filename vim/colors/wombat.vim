@@ -54,7 +54,7 @@ hi Type         guifg=#A1B967 cterm=none
 hi Statement    guifg=#8ac6f2 cterm=none
 hi Keyword      guifg=#8ac6f2 cterm=none
 hi PreProc      guifg=#e5786d cterm=none
-hi Number       guifg=#e5786d cterm=none
+hi Macro        guifg=#65a5a8
 hi Special      guifg=#d7e6ca cterm=none
 
 " Diff

@@ -17,15 +17,15 @@ let s:t_Co = has('gui_running') ? -1 : (&t_Co ?? 0)
 
 if (has('termguicolors') && &termguicolors) || has('gui_running')
   let g:terminal_ansi_colors = [
-        \ '#7f7f8c',
+        \ '#5f5f6c',
         \ '#cd5c5c',
         \ '#89fb98',
         \ '#f0e68c',
         \ '#6dceeb',
         \ '#ffa0a0',
         \ '#75a0ff',
-        \ '#777777',
-        \ '#7a6f6f',
+        \ '#555555',
+        \ '#5a4f4f',
         \ '#cd5c5c',
         \ '#89fb98',
         \ '#f0e68c',
@@ -46,7 +46,7 @@ hi! link EndOfBuffer NonText
 hi! link MessageWindow Pmenu
 hi! link PopupNotification Todo
 hi! link PopupSelected PmenuSel
-hi Normal guifg=#ffffff guibg=#333333 gui=NONE cterm=NONE
+hi Normal guifg=#ffffff guibg=#303030 gui=NONE cterm=NONE
 hi StatusLine guifg=black guibg=#c2bfa5 gui=NONE cterm=NONE
 hi StatusLineNC guifg=#444444 guibg=#c2bfa5 gui=NONE cterm=NONE
 hi StatusLineTerm guifg=black guibg=#c2bfa5 gui=NONE cterm=NONE

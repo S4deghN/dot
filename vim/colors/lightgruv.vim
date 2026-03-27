@@ -21,7 +21,7 @@ var medium = '#928374'
 var light0 = '#fdf4c1'
 # var light1 = '#dad1bf'
 # var light1 = '#dcd3c1'
-var light1 = '#d5d5d5'
+var light1 = '#dcdcdc'
 var light2 = '#d5c4a1'
 var light3 = '#c8b9a4'
 var light4 = '#928374'
@@ -206,9 +206,9 @@ hlset([
     # Generic type
     {name: 'Type', guifg: yellow, cterm: {}, gui: {}},
     # static, register, volatile, etc
-    {name: 'StorageClass', guifg: orange, cterm: {}, gui: {}},
+    {name: 'StorageClass', guifg: yellow, cterm: {}, gui: {}},
     # struct, union, enum, etc.
-    {name: 'Structure', guifg: orange, cterm: {}, gui: {}},
+    {name: 'Structure', guifg: yellow, cterm: {}, gui: {}},
     # typedef
     {name: 'Typedef', guifg: yellow, cterm: {}, gui: {}},
 
@@ -295,8 +295,8 @@ hi! link diffNewFile Type
 #hi! link diffline function
 hi! link diffSubname Normal
 
-# sizeof, "+", "*", etc.
 hi Delimiter guifg=fg
+# sizeof, "+", "*", etc.
 hi Operator guifg=fg
 hi Signcolumn guibg=bg
 

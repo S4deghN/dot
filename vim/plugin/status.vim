@@ -20,6 +20,6 @@ def g:UpdateGitBranch()
     endif
 enddef
 
-set statusline=%<%f\ %h%m%r%{FugitiveStatusline()}%=%-14.(%l,%c%V%)\ %P
+# set statusline=%<%f\ %h%m%r%{FugitiveStatusline()}%=%-14.(%l,%c%V%)\ %P
 
 # autocmd DirChanged,WinNew,VimEnter,TerminalWinOpen,FileType * call timer_start(100, 
