@@ -52,9 +52,10 @@
     untracked = cyan
 [color "diff"]
     meta = white
-    frag = blue
-    old = red
-    new = green
+    frag = yellow
+    func = blue
+    ; old = red
+    ; new = green
 [diff]
     noprefix = 1
 [merge]

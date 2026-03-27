@@ -118,7 +118,7 @@ alias o="octave"
 alias r="ranger"
 alias apt="sudo apt"
 
-alias gits="git status -bs && git describe --all --contains"
+alias gits="git status -bs"
 alias gitd="git diff"
 alias gitds="git diff --staged"
 alias gita="git add"

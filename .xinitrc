@@ -16,5 +16,5 @@ elif [ $de = "xfce4" ]; then
 fi
 
 #Activate dbus variables
-# dbus-update-activation-environment --all
+dbus-update-activation-environment --all --systemd
 exec dbus-launch --exit-with-session ssh-agent $de

@@ -52,7 +52,7 @@ export FZF_COLORS="bg+:gray,fg:-1,fg+:-1,hl:yellow,hl+:yellow:reverse,border:gra
 export FZF_DEFAULT_OPTS="\
     --prompt  '󱞵 ' \
     --pointer '' \
-    --height 50% \
+    --height 80% \
     --reverse \
     --info inline-right \
     --no-separator \

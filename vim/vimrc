@@ -27,6 +27,7 @@ set updatetime=2000
 set display=lastline
 set maxsearchcount=9999
 set diffopt+=followwrap,foldcolumn:0,algorithm:histogram
+set diffopt-=closeoff
 
 # &t_md = "" # disable bold
 &t_SI = "\e[5 q" # Insert mode
