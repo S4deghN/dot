@@ -1,0 +1,14 @@
+#!/bin/bash -e
+
+# Could also use this. But because of /usr/share/cppreference/ it gets very
+# cluttered also almost no other useful documentation lives anywhere else other
+# than /usr/share/doc
+# ```sh
+# find /usr/share -path "*/doc/*"
+# ```
+
+selection=$(find /usr/share/doc  -name "*${@:-.}*" -type f 2>/dev/null |
+    fzf --preview 'highlight -O ansi -l {}')
+
+echo $selection
+open $selection
