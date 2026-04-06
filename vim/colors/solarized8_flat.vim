@@ -130,7 +130,7 @@ hi ToolbarButton guifg=#93a1a1 guibg=#073642 guisp=NONE gui=bold
 hi ToolbarLine guifg=NONE guibg=#073642 guisp=NONE gui=NONE
 hi Type guifg=#b58900 guibg=NONE guisp=NONE gui=NONE
 hi Underlined guifg=#6c71c4 guibg=NONE guisp=NONE gui=NONE
-hi VertSplit guifg=#586e75 guibg=#073642 guisp=NONE gui=NONE
+hi VertSplit guifg=#586e75 guibg=#586e75 guisp=NONE gui=NONE
 hi Visual guifg=#586e75 guibg=#002b36 guisp=NONE gui=reverse
 hi VisualMode guifg=#073642 guibg=#d33682 guisp=NONE gui=bold,reverse
 hi VisualNOS guifg=NONE guibg=#073642 guisp=NONE gui=reverse

@@ -28,7 +28,8 @@ var yellow       = '#ffda33'
 var dark_gray    = '#343434'
 var gray         = '#444444'
 var light_gray   = '#505050'
-var quartz       = '#95a99f'
+# var quartz       = '#95a99f'
+var quartz       = '#9aaea5'
 var redish_brown = '#aa8888'
 # var goldenrod    = '#D9A420'
 var goldenrod    = 'goldenrod1'
@@ -86,19 +87,21 @@ hlset([
     {name: 'diffRemoved',       guifg: red, cterm: {}},
     {name: 'diffSubname',       guifg: blue, cterm: {}},
     {name: 'Identifier',        guifg: 'fg', cterm: {}},
-    {name: 'Function',          guifg: 'fg', cterm: {bold: 0}},
-    {name: 'Function',          guifg: '#99bbdd', cterm: {}},
-    # {name: 'Function',          guifg: blue, cterm: {}},
-    # {name: 'Function',          guifg: '#FE9C20', cterm: {}},
-    # {name: 'Function',          guifg: '#EFBBBB', cterm: {}},
-    # {name: 'Function',          guifg: 'lightsalmon', cterm: {}},
-    # {name: 'Function',          guifg: '#FEAC8C', cterm: {}},
-    # {name: 'Function',          guifg: 'seashell3', cterm: {}},
     {name: 'Operator',          guifg: 'fg', cterm: {}},
     {name: 'PreProc',           guifg: quartz, cterm: {}},
     {name: 'delimiter',         guifg: 'fg'},
     {name: 'Special',           guifg: cyan, cterm: {}},
     {name: 'Statement',         guifg: goldenrod, cterm: {}},
+    {name: 'Type',              guifg: quartz, cterm: {}},
+    # {name: 'Type',              guifg: '#E1A600', cterm: {}},
+    {name: 'Function',          guifg: blue, cterm: {}},
+    # {name: 'Function',          guifg: 'fg', cterm: {bold: 0}},
+    # {name: 'Function',          guifg: '#99bbdd', cterm: {}},
+    # {name: 'Function',          guifg: '#FE9C20', cterm: {}},
+    # {name: 'Function',          guifg: '#EFBBBB', cterm: {}},
+    # {name: 'Function',          guifg: 'lightsalmon', cterm: {}},
+    # {name: 'Function',          guifg: '#FEAC8C', cterm: {}},
+    # {name: 'Function',          guifg: 'seashell3', cterm: {}},
     # {name: 'Number',            guifg: oldivory, cterm: {}},
     # {name: 'Constant',          guifg: oldivory, cterm: {}},
     {name: 'Number',            guifg: oldivory, cterm: {}},
@@ -106,8 +109,8 @@ hlset([
     {name: 'MatchParen',        guifg: 'skyblue', guibg: light_gray, cterm: {}},
     # {name: 'Comment',           guifg: '#878889'},
     # {name: 'Comment',           guifg: '#979999'},
-    # {name: 'Comment',           guifg: 'ivory4'},
-    {name: 'Comment',           guifg: brown},
+    {name: 'Comment',           guifg: 'ivory4'},
+    # {name: 'Comment',           guifg: brown},
     # {name: 'Comment',           guifg: 'orange2'},
     {name: 'VertSplit',         guifg: 'bg', guibg: gray},
     {name: 'Statusline',        guifg: '#bbbbbb', guibg: gray, cterm: {}},
@@ -131,11 +134,10 @@ hlset([
     {name: 'QuickFixLine',      guifg: 'NONE', guibg: '#333333', cterm: {}, gui: {}},
 ])
 
-hi! link Type              Statement
-hi! link cStructure        statement
-hi! link cppStructure      statement
-hi! link cTypedef          statement
-hi! link cStorageClass     statement
+hi! link cStructure        Type
+hi! link cppStructure      Type
+hi! link cTypedef          Type
+hi! link cStorageClass     Type
 hi! link HelpHyperTextJump Statement
 hi! link SpecialChar       Special
 hi! link Tag               Special
