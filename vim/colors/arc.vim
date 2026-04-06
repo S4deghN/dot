@@ -17,11 +17,13 @@ set bg=dark
 
 let g:colors_name='green-arc'
 
-"let s:black           = { "gui": "#1C2024", "cterm": "232" }
-"let s:black           = { "gui": "#202424", "cterm": "232" }
-"let s:black           = { "gui": "#191d1d", "cterm": "232" }
-"let s:black           = { "gui": "#1d1d1d", "cterm": "232" }
-let s:black           = { "gui": "#242424", "cterm": "232" }
+" let s:black           = { "gui": "#1C2024", "cterm": "232" }
+" let s:black           = { "gui": "#202424", "cterm": "232" }
+" let s:black           = { "gui": "#191d1d", "cterm": "232" }
+" let s:black           = { "gui": "#101414", "cterm": "232" }
+let s:black           = { "gui": "#090d0d", "cterm": "232" }
+" let s:black           = { "gui": "#1d1d1d", "cterm": "232" }
+" let s:black           = { "gui": "#242424", "cterm": "232" }
 let s:medium_gray     = { "gui": "#767676", "cterm": "243" }
 let s:white           = { "gui": "#F1F1F1", "cterm": "15"  }
 let s:actual_white    = { "gui": "#FFFFFF", "cterm": "231" }
@@ -131,7 +133,7 @@ call s:h("Underlined",    {"fg": s:norm, "gui": "underline", "cterm": "underline
 call s:h("Ignore",        {"fg": s:bg})
 call s:h("Error",         {"fg": s:actual_white, "bg": s:red, "cterm": "bold"})
 call s:h("Todo",          {"fg": s:purple, "gui": "underline", "cterm": "underline"})
-call s:h("SpecialKey",    {"fg": s:light_green})
+call s:h("SpecialKey",    {"fg": s:lighter_black})
 call s:h("NonText",       {"fg": s:medium_gray})
 call s:h("Directory",     {"fg": s:dark_blue})
 call s:h("ErrorMsg",      {"fg": s:red})
@@ -319,7 +321,7 @@ hi visual guifg=NONE guibg=#285577
 " hi VertSplit guifg=#000000       guibg=NONE         gui=NONE
 "hi VertSplit guifg=#232729 guibg=bg
 hi WinSeparator guibg=bg guifg=#303030
-hi! link VertSplit winSeperator
+hi! link VertSplit WinSeparator
 "hi! link FloatBorder VertSplit
 hi! link CmpPmenuBorder VertSplit
 hi Pmenu guibg=#303030

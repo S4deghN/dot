@@ -117,6 +117,7 @@ alias t="tmux a || tmux"
 alias o="octave"
 alias r="ranger"
 alias apt="sudo apt"
+alias p="proxychains"
 
 alias gits="git status -bs"
 alias gitd="git diff"
