@@ -1,4 +1,5 @@
 // TODO:
+// - Add new line to output if in a tty
 // - Support human readlable time input. 1h, 50min, ...
 #define __USE_XOPEN       /* See feature_test_macros(7) */
 #define _XOPEN_SOURCE       /* See feature_test_macros(7) */

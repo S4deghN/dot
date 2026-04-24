@@ -20,7 +20,6 @@ set path=.,**,/usr/include,/usr/include/x86_64-linux-gnu
 set grepprg=grep\ -rnI
 set keywordprg=:Man
 set termguicolors
-set textwidth=80
 set complete-=i # can be very slow
 set regexpengine=1
 set updatetime=2000
@@ -42,6 +41,8 @@ silent! packadd! comment
 plug#begin("~/.local/share/vim/plugged")
 # Plug 'bfrg/vim-c-cpp-modern'
 # Plug 'Coacher/vim9-buckler'
+Plug 'cohama/agit.vim'
+Plug 'romainl/vim-redir'
 Plug 'mhinz/vim-grepper'
 Plug 'mhinz/vim-tree'
 Plug 'preservim/tagbar' | g:tagbar_position = 'vertical leftabove'
@@ -230,7 +231,7 @@ nnoremap <space>vv :Git<cr>
 nnoremap <space>vb <cmd>echo utils#GetGitBranch()<cr>
 nnoremap <space>a  <cmd>Apropos<cr>
 nnoremap <space>z  <cmd>setl spell!<cr>
-nnoremap <space>D  <scriptcmd>g:Dict(expand("<cword>"))<cr>
+nnoremap <space>W  <scriptcmd>g:Dict(expand("<cword>"))<cr>
 nnoremap <space>'  <cmd>Marks<cr>
 nnoremap <space>q  <Plug>(qf_qf_toggle)
 

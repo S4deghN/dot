@@ -146,6 +146,7 @@ alias ffmpeg-combine='ffmpeg -i "" -i "" out.mp4'
 
 alias bf="/home/s4/Games/bf/drive_c/Program\ Files/BattleForge"
 alias hw="/home/s4/repo/naad/HWIPSec_SW/"
+alias pro="/home/s4/projects/compiler/cc"
 
 #---------------------------------------------------
 # env

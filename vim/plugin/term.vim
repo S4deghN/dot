@@ -127,20 +127,21 @@ def GetTermBufnr(): number
 enddef
 
 var was_a_win_there: bool = false
+var vsplit_col_limit = 164
 def CreateWindow(force_split: bool = 0): number
     var current_win_pos = win_screenpos(0)
     var winnr = winnr()
 
     if force_split
         var width = getwininfo(win_getid(winnr))[0].width
-        exe (width >= 160 ? 'v' : '') .. 'split'
+        exe (width >= vsplit_col_limit ? 'v' : '') .. 'split'
         wincmd p
         return win_getid(winnr('#'))
     endif
 
-    var lj = &columns >= 160 ? '1l' : '1j'
-    var hk = &columns >= 160 ? '1h' : '1k'
-    var v  = (&columns >= 160) && (g:term_vertical == 1) ? 'v' : ''
+    var lj = &columns > vsplit_col_limit ? '1l' : '1j'
+    var hk = &columns > vsplit_col_limit ? '1h' : '1k'
+    var v  = (&columns > vsplit_col_limit) && (g:term_vertical == 1) ? 'v' : ''
     if winnr != winnr(lj)
         was_a_win_there = true
         return win_getid(winnr(lj))
@@ -337,7 +338,7 @@ command! -nargs=0 -bar TermThisErrorJump  TermThisErrorJump()
 # Configuration -----------------------------------------------------
 # nnoremap cc :wa<cr>:Term <C-r>=get(t:, 'term_cmd', '')<cr>
 # nnoremap cc :wa<cr><cmd>call TermInput()<cr>
-nnoremap cc :wa<cr>:Term OA
+nnoremap cc :silent! wa!<cr>:Term OA
 nnoremap sn :Term<space>
 nnoremap ss <cmd>TermToggleWin<cr>
 nnoremap sq <cmd>TermToQf<cr>
