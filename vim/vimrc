@@ -224,7 +224,7 @@ noremap  <space>H  <cmd>Helptags<cr>
 noremap  <space>t  <cmd>TagbarToggle<cr>
 noremap  <space>T  <cmd>Tags<space>
 nnoremap <space>g  <cmd>LiveGrep!<cr>
-vnoremap <space>g  :<C-u>LiveGrepVisual!<cr>
+vnoremap <space>w  :<C-u>LiveGrepVisual!<cr>
 nnoremap <space>w  :LiveGrep! \b<C-r>=expand('<cword>')<cr>\b<cr>
 nnoremap <space><enter> :LiveGrepPrevious<cr>
 nnoremap <space>vv :Git<cr>
