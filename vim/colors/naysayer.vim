@@ -26,7 +26,7 @@ highlight! link SpecialKey NonText
 highlight! link EndOfBuffer NonText
 
 highlight! link Constant Number
-" highlight! String guifg=#2ec09c guibg=NONE gui=NONE
+highlight! String guifg=#2ec09c guibg=NONE gui=NONE
 " highlight! String guifg=#EDD400 guibg=NONE gui=NONE
 " highlight! String guifg=#44b340 guibg=NONE gui=NONE
 " highlight! String guifg=#55CA43 guibg=NONE gui=NONE

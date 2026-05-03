@@ -10,7 +10,8 @@ set background=dark
 g:colors_name = "vim9"
 
 # var black        = '#282828'
-var black        = '#242424'
+# var black        = '#242424'
+var black        = '#202020'
 # var black        = '#2a2a2a'
 var blue         = '#88aacc'
 var brown        = '#cc8c3c'
@@ -107,9 +108,10 @@ hlset([
     {name: 'Number',            guifg: oldivory, cterm: {}},
     {name: 'Constant',          guifg: oldivory, cterm: {}},
     {name: 'MatchParen',        guifg: 'skyblue', guibg: light_gray, cterm: {}},
-    # {name: 'Comment',           guifg: '#878889'},
+    {name: 'Comment',           guifg: '#878889'},
     # {name: 'Comment',           guifg: '#979999'},
-    {name: 'Comment',           guifg: 'ivory4'},
+    # {name: 'Comment',           guifg: 'ivory4'},
+    {name: 'Comment',           guifg: '#AA9D80'},
     # {name: 'Comment',           guifg: brown},
     # {name: 'Comment',           guifg: 'orange2'},
     {name: 'VertSplit',         guifg: 'bg', guibg: gray},
