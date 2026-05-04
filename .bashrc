@@ -79,7 +79,7 @@ export HISTSIZE=-1
 export HISTFILESIZE=-1
 
 # enable core dump
-ulimit -c unlimited
+# ulimit -c unlimited
 
 # # Stupid!!!!
 # if [[ "$OSTYPE" == "linux-gnu" ]]; then

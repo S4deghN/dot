@@ -127,7 +127,7 @@ def GetTermBufnr(): number
 enddef
 
 var was_a_win_there: bool = false
-var vsplit_col_limit = 164
+var vsplit_col_limit = 174
 def CreateWindow(force_split: bool = 0): number
     var current_win_pos = win_screenpos(0)
     var winnr = winnr()
@@ -162,7 +162,11 @@ def ToggleWindow()
         OpenTermWindow()
     else
         if was_a_win_there
-            win_execute(win_getid(winnr), "norm! \<C-^>")
+            try
+                win_execute(win_getid(winnr), "norm! \<C-^>")
+            catch /.*/
+                exe $":{winnr}close"
+            endtry
         else
             exe $":{winnr}close"
         endif
