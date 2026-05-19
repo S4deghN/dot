@@ -2,7 +2,7 @@ vim9script
 
 set nocompatible
 set ttimeout ttimeoutlen=0
-set history=1000 termwinscroll=1000000
+set history=10000 termwinscroll=1000000
 set hidden noswapfile undofile undodir=/tmp/$USER.vim9undo | silent system("mkdir -p /tmp/$USER.vim9undo")
 set mouse=ar ttymouse=sgr
 set scrolloff=3
@@ -167,6 +167,8 @@ cmap <C-j>  <Down>
 cmap <C-k>  <Up>
 cmap <C-x>f <C-r>=expand('%:p')<cr>
 cmap <C-x>d <C-r>=expand('%:p:h:s?\S\+:\/\/??').'/'<cr>
+# Escape sequence search
+cmap <C-s>e \(<C-v><Esc>\|#033\)\[\d\+\(;\d*\)\?m\?
 def CmdCr(): string
     var cmdline = getcmdline()
     if cmdline =~ '\v\C/(#|nu|num|numb|numbe|number)$'

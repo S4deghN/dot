@@ -1,3 +1,5 @@
 [user]
     name = Sadegh Nobakhti
     email = m.nobakhti@naadsecure.local
+[alias]
+    push-jobs-manual = push -o ci.variable="ALL_JOBS_MANUAL=true"
