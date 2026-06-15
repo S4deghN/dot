@@ -85,6 +85,10 @@ for bin in $HOME/.local/bin/*/bin; do
     PATH="$bin:$PATH"
 done
 
+if [ -d "$HOME/opt/bin" ] ; then
+    PATH="$HOME/opt/bin:$PATH"
+fi
+
 if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi

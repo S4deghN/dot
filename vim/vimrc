@@ -69,7 +69,11 @@ Plug 'eugen0329/vim-esearch' | runtime esearch.vim
 # Plug 'chaoren/vim-wordmotion' | g:wordmotion_mappings = {"<C-R><C-W>": "", "<C-R><C-A>": ""}
 plug#end()
 
-color vim9
+if system("hostname") =~? "x580"
+    color vim9
+else
+    color lightgruv
+endif
 
 # Make header less colorful
 hi link esearchHeader     Comment
