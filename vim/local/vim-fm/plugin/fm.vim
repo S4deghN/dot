@@ -50,6 +50,8 @@ def g:GetDirList(dir: string): list<list<string>>
 enddef
 
 def Refresh(bufnr: number, list_info: list<string>, list_name: list<string>)
+    setl modifiable
+
     var bufinfo = getbufinfo(bufnr)[0]
 
     silent deletebufline(bufnr, 1, '$')
@@ -83,6 +85,8 @@ def Refresh(bufnr: number, list_info: list<string>, list_name: list<string>)
     else
         cursor(bufinfo.lnum, 0)
     endif
+
+    setl nomodifiable
 enddef
 
 def OpenFmBuffer(dir: string): list<any>
@@ -299,7 +303,7 @@ def g:Extract()
     endif
 
     var res = system('atool --extract --each ' ..  join(t:mark_list))
-    if v:shell_error
+    if !!v:shell_error
         echohl Error | echom res->trim() | echohl None
     endif
     t:mark_list = []

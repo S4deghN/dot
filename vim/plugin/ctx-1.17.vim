@@ -23,6 +23,7 @@ let CTX_minrows=0       " minimum num of rows for context win             "
 let CTX_maxrows=20      " maximum num of rows for context win             "
 let CTX_seetop=1        " always see the top of the context buf? BROKEN   "
 let CTX_debug=0
+let CTX_save_updatetime=&updatetime
 
 " Only load once. Let loaded_ctx = 1 in your ~/.vimrc to never load at all"
 if exists("loaded_ctx")
@@ -355,7 +356,7 @@ function! s:autohide()
         let start = winnr()
         let foundc = 0
         while 1
-            if bufname('%') =~ '\.[cC]'
+            if bufname('%') =~ '\.\([hcC]\|cpp\)'
                 let foundc = foundc + 1
             endif
             wincmd w
@@ -397,9 +398,12 @@ endfunction
 " toggle the context buffer on and off "
 function! s:toggle()
     if bufloaded('--context--') > 0
+        let &updatetime=g:CTX_save_updatetime
         let g:CTX_autoupdate = 0
         call s:hide()
     else
+        let g:CTX_save_updatetime=&updatetime
+        let &updatetime=500
         let g:CTX_autoupdate = 1
         call s:update()
     endif
@@ -426,7 +430,7 @@ endfunction
 
 augroup CTX
     au!
-    au CursorHold  *.[cC] call <SID>cursorhold()
+    au CursorHold  *.{[hcC],cpp} call <SID>cursorhold()
     au BufEnter    *      call <SID>autohide()
 augroup END
 

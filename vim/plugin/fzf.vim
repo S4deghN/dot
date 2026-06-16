@@ -7,7 +7,7 @@ g:fzf_vim = {}
 g:fzf_vim.preview_window = ['up,55%,nohidden', 'ctrl-l']
 # g:fzf_vim.preview_window = ['down,70%,hidden', 'ctrl-l']
 def BuildQfList(lines: string)
-    call setqflist(map(copy(lines), '{ "filename": v:val, "lnum": 1 }'))
+    call setqflist(map(copy(lines), '{ "filename": ' .. pwd .. '/v:val, "lnum": 1 }'))
     copen
     cc
 enddef

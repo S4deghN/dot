@@ -11,6 +11,7 @@ vim9script
 # setl noswapfile
 setl nowrap
 setl nobuflisted
+setl nomodifiable
 
 var nop_maps = ['r', 'd', 'c', 'a', 'I', 'K',
     'gp', 'gP', 'gi', 'gI', 'gu', 'gU',  'gH', 'gw',
