@@ -2,14 +2,18 @@
 
 date=$(date +%y-%m-%d)
 title="$date"
+log_path="$HOME/note/log/"
+
+file=$(find $log_path -type f -name "$date*.adoc" -print -quit)
+[ -n "$file" ] && exec $EDITOR $file
 
 read -e -p "extra words for the title: " -r extra_words
 [ -n "$extra_words" ] && title+=" - ${extra_words}"
 
-file="$HOME/note/log/${title// /-}.adoc"
+file="$log_path/${title// /-}.adoc"
 
-[ ! -f "$file" ] && cat > "$file" << EOF
+cat > "$file" << EOF
 = $title
 EOF
 
-$EDITOR "$file"
+exec $EDITOR "$file"
