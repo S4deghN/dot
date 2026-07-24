@@ -1,6 +1,6 @@
 #!/bin/sh
 
-de=${DE:-dwm}
+de=${DE:-i3}
 
 [ -f ~/.xprofile ] && . ~/.xprofile
 
