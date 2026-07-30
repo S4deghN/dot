@@ -39,7 +39,7 @@ g:loaded_netrw = 1 | g:loaded_matchparen = 1 | g:loaded_vimballPlugin = 1
 silent! packadd! matchit
 silent! packadd! comment
 plug#begin("~/.local/share/vim/plugged")
-Plug 'jlanzarotta/bufexplorer'
+Plug 'jlanzarotta/bufexplorer' | g:bufExplorerDisableDefaultKeyMapping = 1
 Plug 'ycm/shimp'
 Plug 'cohama/agit.vim'
 Plug 'romainl/vim-redir'
@@ -62,7 +62,7 @@ Plug 'glts/vim-magnum'
 Plug 'glts/vim-radical'
 Plug 'alx741/vinfo'
 Plug 'BourgeoisBear/clrzr' | g:clrzr_startup = 0
-Plug 'nda-cunh/PropColor'
+# Plug 'nda-cunh/PropColor'
 Plug 'mg979/vim-visual-multi'
 Plug 'airblade/vim-rooter' | g:rooter_cd_cmd = 'lcd' | g:rooter_silent_chdir = 1 | g:rooter_patterns = [ '.git', '.svn', 'tags'] | g:rooter_targets = ['*'] # avoid setting root for directories
 Plug '~/.vim/local/vim-fm'
@@ -221,14 +221,10 @@ tnoremap <C-]> <C-\><C-n>
 tnoremap <ScrollWheelUp> <C-\><C-n><ScrollWheelUp>
 
 
-nnoremap <silent> <F11> :BufExplorer<CR>
-nnoremap <silent> <s-F11> :ToggleBufExplorer<CR>
-nnoremap <silent> <m-F11> :BufExplorerHorizontalSplit<CR>
-nnoremap <silent> <c-F11> :BufExplorerVerticalSplit<CR>
-
 nnoremap <space>d  :Bdelete<cr>
 # nmap     <space>b  :b<space>
 nmap     <space>b  :ToggleBufExplorer<cr>
+# nmap     <space>b  :Buffer<cr>
 nmap     <space>e  :e<space><C-x>d
 nnoremap <space>E  :e ~/.vim/**/
 nnoremap <space><C-e> :e $VIMRUNTIME/**/
