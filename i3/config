@@ -87,9 +87,6 @@ default_floating_border normal 1
 smart_borders on
 # for_window [all] title_window_icon on
 
-gaps outer 20
-gaps inner 5
-
 # class                 border  backgr. text    indicator child_border
 client.focused          #4c7899 #285577 #ffffff #2e9ef4   #285577
 client.focused_inactive #333333 #5f676a #ffffff #484e50   #5f676a
@@ -154,7 +151,10 @@ bindsym --release Print exec --no-startup-id import -window root "$HOME/Pictures
 bindsym --release $mod+Print exec --no-startup-id import "$HOME/Pictures/screenshot-$(date +%y-%m-%d-%H-%M-%S).png"         && notify-send "Screenshot taken!"
 
 # toggle gaps
-bindsym $mod+Shift+g exec --no-startup-id "i3-toggle-gap $HOME/.config/i3/config && i3-msg reload"
+set $gap_config_path $HOME/dot/i3/gap-config
+bindsym $mod+Shift+g exec --no-startup-id "i3-toggle-gap $gap_config_path && i3-msg reload"
+include $gap_config_path
+
 
 # start a terminal
 # depends on jq and custom i3WorkspaceName script
