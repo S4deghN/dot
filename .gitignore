@@ -9,6 +9,7 @@
 .emacs.d/ede-projects.el
 .emacs.d/tutorial
 .emacs.d/url
+i3/gap-config
 *~
 vim/plugged
 vim/.netrw*
