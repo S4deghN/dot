@@ -10,8 +10,11 @@ set background=dark
 g:colors_name = "vim9"
 
 # var black        = '#282828'
-# var black        = '#242424'
-var black        = '#202020'
+var black        = '#242424'
+# var black        = '#181818'
+# var black        = '#001c20'
+# var black        = '#021818'
+# var black        = '#202020'
 # var black        = '#2a2a2a'
 var blue         = '#88aacc'
 var brown        = '#cc8c3c'
@@ -30,7 +33,8 @@ var dark_gray    = '#343434'
 var gray         = '#444444'
 var light_gray   = '#505050'
 # var quartz       = '#95a99f'
-var quartz       = '#9aaea5'
+# var quartz       = '#9aaea5'
+var quartz       = '#aabeb5'
 # var quartz       = '#489EA2'
 var redish_brown = '#aa8888'
 # var goldenrod    = '#D9A420'
@@ -112,7 +116,8 @@ hlset([
     {name: 'Comment',           guifg: '#878889'},
     # {name: 'Comment',           guifg: '#979999'},
     # {name: 'Comment',           guifg: 'ivory4'},
-    {name: 'Comment',           guifg: '#AA9D80'},
+    # {name: 'Comment',           guifg: '#AA9D80'},
+    {name: 'Comment',           guifg: '#BAAD90'},
     # {name: 'Comment',           guifg: brown},
     # {name: 'Comment',           guifg: 'orange2'},
     {name: 'VertSplit',         guifg: 'bg', guibg: gray},
