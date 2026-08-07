@@ -152,7 +152,9 @@ bindsym --release $mod+Print exec --no-startup-id import "$HOME/Pictures/screens
 
 # toggle gaps
 set $gap_config_path $HOME/dot/i3/gap-config
-bindsym $mod+Shift+g exec --no-startup-id "i3-toggle-gap $gap_config_path && i3-msg reload"
+bindsym $mod+backslash       exec --no-startup-id "i3-toggle-gap $gap_config_path   && i3-msg reload"
+bindsym Mod1+backslash       exec --no-startup-id "i3-toggle-gap $gap_config_path 5 && i3-msg reload"
+bindsym Mod1+shift+backslash exec --no-startup-id "i3-toggle-gap $gap_config_path -5 && i3-msg reload"
 include $gap_config_path
 
 
@@ -174,8 +176,8 @@ bindsym --release $mod+Shift+d exec --no-startup-id xkill
 
 bindsym $mod+x exec --no-startup-id rofi -show run
 
-bindsym $mod+m       exec --no-startup-id dmenu-emoji !
-bindsym $mod+shift+m exec --no-startup-id dmenu-emoji
+bindsym $mod+slash       exec --no-startup-id dmenu-emoji !
+bindsym $mod+shift+slash exec --no-startup-id dmenu-emoji
 # bindsym $mod+m exec --no-startup-id rofi -modi emoji -show emoji
 
 bindsym Mod1+Shift+v exec --no-startup-id xfce4-popup-clipman
@@ -281,7 +283,7 @@ bindsym $mod+semicolon exec --no-startup-id i3-scratchpad-or-launch \
       "discord"
 
 
-set $apps Apps: [f]irefox, [q]utebrowser, [t]hunar, [h]top, [n]itrogen, [c]hrome, [l]utris, [b]lueman-manager
+set $apps Apps: [f]irefox, [q]utebrowser, [t]hunar, [h]top, [n]itrogen, [c]hrome, [l]utris, [b]lueman
 bindsym $mod+a mode "$apps"
 mode "$apps" {
         bindsym f exec --no-startup-id firefox, mode "default"
