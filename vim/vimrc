@@ -62,7 +62,7 @@ Plug 'glts/vim-magnum'
 Plug 'glts/vim-radical'
 Plug 'alx741/vinfo'
 Plug 'BourgeoisBear/clrzr' | g:clrzr_startup = 0
-# Plug 'nda-cunh/PropColor'
+Plug 'nda-cunh/PropColor'
 Plug 'mg979/vim-visual-multi'
 Plug 'airblade/vim-rooter' | g:rooter_cd_cmd = 'lcd' | g:rooter_silent_chdir = 1 | g:rooter_patterns = [ '.git', '.svn', 'tags'] | g:rooter_targets = ['*'] # avoid setting root for directories
 Plug '~/.vim/local/vim-fm'
@@ -74,9 +74,10 @@ Plug 'eugen0329/vim-esearch' | runtime esearch.vim
 plug#end()
 
 if system("hostname") =~? "x580"
-    color vim9
+    colorscheme arc
+    hi Normal guibg=NONE
 else
-    color lightgruv
+    colorscheme lightgruv
 endif
 
 # Make header less colorful
@@ -262,6 +263,8 @@ nnoremap <expr> y utils#SetOpFunc(function('utils#JumpToEndOfOp', ['y']))
 vnoremap y <scriptcmd>utils#JumpToEndOfOp('y', 'v')<cr>
 nmap yy y_
 map  Y  yg_
+
+nnoremap <enter> O<esc>
 
 command! Syn utils#Syn()
 command! RT RooterToggle | exec "norm :\<C-u>cd \<C-x>d\<cr>"

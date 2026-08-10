@@ -21,9 +21,10 @@ let g:colors_name='green-arc'
 " let s:black           = { "gui": "#202424", "cterm": "232" }
 " let s:black           = { "gui": "#191d1d", "cterm": "232" }
 " let s:black           = { "gui": "#101414", "cterm": "232" }
-let s:black           = { "gui": "#090d0d", "cterm": "232" }
+" let s:black           = { "gui": "#090d0d", "cterm": "232" }
 " let s:black           = { "gui": "#1d1d1d", "cterm": "232" }
 " let s:black           = { "gui": "#242424", "cterm": "232" }
+let s:black           = { "gui": "#202020", "cterm": "232" }
 let s:medium_gray     = { "gui": "#767676", "cterm": "243" }
 let s:white           = { "gui": "#F1F1F1", "cterm": "15"  }
 let s:actual_white    = { "gui": "#FFFFFF", "cterm": "231" }
@@ -35,7 +36,8 @@ let s:light_gray      = { "gui": "#A8A8A8", "cterm": "248" }
 " let s:lighter_gray    = { "gui": "#aaaaaa", "cterm": "251" }
 " let s:lighter_gray    = { "gui": "#9aa9aa", "cterm": "251" }
 " let s:lighter_gray    = { "gui": "#9faeaf", "cterm": "251" }
-let s:lighter_gray    = { "gui": "#b2baba", "cterm": "251" }
+" let s:lighter_gray    = { "gui": "#b2baba", "cterm": "251" }
+let s:lighter_gray    = { "gui": "#d5d5d5", "cterm": "251" }
 let s:lightest_gray   = { "gui": "#EEEEEE", "cterm": "255" }
 let s:pink            = { "gui": "#fb007a", "cterm": "9"   }
 let s:dark_red        = { "gui": "#C30771", "cterm": "1"   }
@@ -233,13 +235,15 @@ hi  Cursor guibg=#8ec07c
 " #EBC06D
 " #458588
 " #E19972
-hi  Constant        guifg=#cda869
+" hi  Constant        guifg=#cda869
+hi  Constant        guifg=#d0ab6c
 hi  Directory       guifg=#789AC0
 " hi  Function        guifg=#789AC0
 hi  Function        guifg=#88aacc
-hi  String          guifg=#8F9D6A
-hi  Preproc         guifg=#458588
-" hi  Preproc         guifg=#559598
+" hi  String          guifg=#8F9D6A
+hi  String          guifg=#92a06d
+" hi  Preproc         guifg=#458588
+hi  Preproc         guifg=#559598
 hi! link            Special           Constant
 hi  Delimiter       guifg=fg
 hi  Type            guifg=#68BEA2
@@ -281,13 +285,14 @@ hi  Search          guibg=#23272E     guifg=lightblue
 " hi  PmenuSel        guibg=bg          guifg=#a790d5
 
 
-hi  htmlH1          guibg=NONE          guifg=#cda869 gui=bold cterm=bold
-hi  htmlH2          guibg=NONE          guifg=#cda869 gui=bold cterm=bold
-hi  htmlH3          guibg=NONE          guifg=#cda869 gui=bold cterm=bold
-hi  htmlH4          guibg=NONE          guifg=#cda869 gui=bold cterm=bold
-hi  htmlH5          guibg=NONE          guifg=#cda869 gui=bold cterm=bold
-hi  htmlH6          guibg=NONE          guifg=#cda869 gui=bold cterm=bold
-hi! link            helpHyperTextJump Statement
+hi! link htmlH1 Title
+hi! link htmlH2 Title
+hi! link htmlH3 Title
+hi! link htmlH4 Title
+hi! link htmlH5 Title
+hi! link htmlH6 Title
+hi Title guifg=#dDb869
+hi! link helpHyperTextJump Statement
 hi  markdownCode guifg=#458588
 
 hi  SpellBad guifg=fg gui=underline
@@ -345,7 +350,15 @@ hi Search        guibg=#218058 guifg=black gui=NONE
 hi! link cppStructure statement
 hi! link cStructure statement
 ""hi! link cStorageClass statement
-"hi! link cTypedef statement
+" hi! link cTypedef statement
+
+" Highlighting in git (diff) files
+hi! link diffIndexLine comment
+hi! link diffFile comment
+hi! link diffOldFile function
+hi! link diffNewFile function
+hi! link diffline function
+hi! link diffSubname Normal
 
 let g:terminal_ansi_colors = [
             \"#191919",
@@ -365,3 +378,18 @@ let g:terminal_ansi_colors = [
             \"#5FAFAF",
             \"#BCBCBC",
             \]
+
+let g:fzf_colors =
+  \ { 'fg':      ['fg', 'NormalFloat'],
+  \   'bg':      ['bg', 'NormalFloat'],
+  \   'hl':      ['fg', 'Search'],
+  \   'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \   'bg+':     ['bg', 'Visual'],
+  \   'hl+':     ['bg', 'IncSearch'],
+  \   'info':    ['fg', 'PreProc'],
+  \   'border':  ['fg', 'Normal'],
+  \   'prompt':  ['fg', 'Constatn'],
+  \   'pointer': ['fg', 'Exception'],
+  \   'marker':  ['fg', 'Keyword'],
+  \   'spinner': ['fg', 'Label'],
+  \   'header':  ['fg', 'Title'] }
