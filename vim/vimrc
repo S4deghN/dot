@@ -28,6 +28,8 @@ set maxsearchcount=9999
 set diffopt+=followwrap,foldcolumn:0,algorithm:histogram
 set diffopt-=closeoff
 
+# g:fzf_vim.grep_multi_line = 2
+
 # &t_md = "" # disable bold
 &t_SI = "\e[5 q" # Insert mode
 &t_SR = "\e[4 q" # Replace mode
@@ -243,6 +245,7 @@ nnoremap <space>w  :LiveGrep! \b<C-r>=expand('<cword>')<cr>\b<cr>
 nnoremap <space><enter> :LiveGrepPrevious<cr>
 nnoremap <space>vv :Git<cr>
 nnoremap <space>vb <cmd>echo utils#GetGitBranch()<cr>
+nnoremap <space>vl <cmd>Commits<cr>
 nnoremap <space>a  <cmd>Apropos<cr>
 nnoremap <space>z  <cmd>setl spell!<cr>
 nnoremap <space>W  <scriptcmd>g:Dict(expand("<cword>"))<cr>
@@ -255,6 +258,7 @@ vmap <space>s <plug>(operator-esearch-exec)
 inoremap <expr> <C-e> pumvisible() ? "\<C-e>" : "\<esc>A"
 inoremap <silent> <Esc> <Esc>g`^
 inoremap <C-x>t <C-r>=strftime("%H:%M")<Cr>
+inoremap <C-o> <Esc>:a<cr><enter><C-c>gi
 
 noremap j gj
 noremap k gk
@@ -263,8 +267,6 @@ nnoremap <expr> y utils#SetOpFunc(function('utils#JumpToEndOfOp', ['y']))
 vnoremap y <scriptcmd>utils#JumpToEndOfOp('y', 'v')<cr>
 nmap yy y_
 map  Y  yg_
-
-nnoremap <enter> O<esc>
 
 command! Syn utils#Syn()
 command! RT RooterToggle | exec "norm :\<C-u>cd \<C-x>d\<cr>"
