@@ -25,6 +25,8 @@
     smudge = git-lfs smudge -- %f
     process = git-lfs filter-process
     required = true
+[log]
+    date = iso
 [alias]
     des   = describe --all --contains
     l     = log --color --graph --pretty=format:'%C(auto)%h%d %s %C(black)%C(bold)%an, %ar' --abbrev-commit --decorate

@@ -2,6 +2,7 @@ vim9script
 # -----------------------------------------------
 # --- config ---
 # -----------------------------------------------
+
 g:fzf_vim = {}
 # g:fzf_vim.preview_window = ['right,50%,<80(up,40%),hidden', 'ctrl-l']
 g:fzf_vim.preview_window = ['up,55%,nohidden', 'ctrl-l']
@@ -12,16 +13,16 @@ def BuildQfList(lines: string)
     cc
 enddef
 
-g:fzf_action = {
-    'ctrl-q': function('BuildQfList'),
-    'ctrl-t': 'tab split',
-    'ctrl-x': 'split',
-    'ctrl-v': 'vsplit'
-}
+# g:fzf_action = {
+#     'ctrl-q': function('BuildQfList'),
+#     'ctrl-t': 'tab split',
+#     'ctrl-x': 'split',
+#     'ctrl-v': 'vsplit'
+# }
 
-# g:fzf_layout = { 'window': { 'width': 1, 'height': 0.5, 'yoffset': .95, 'reletavie': v:true, 'border': 'top'} }
+# g:fzf_layout = { 'window': { 'width': 1, 'height': 0.5, 'yoffset': 1, 'reletavie': v:true, 'border': 'top'} }
 # g:fzf_layout = { 'window': '10new' }
-g:fzf_layout = { 'down': "70%" }
+g:fzf_layout = { 'down': "100%" }
 
 autocmd! FileType fzf set laststatus=0 noshowmode noruler
             \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
@@ -29,16 +30,21 @@ autocmd! FileType fzf set laststatus=0 noshowmode noruler
 # -----------------------------------------------
 # --- extend ---
 # -----------------------------------------------
-def g:FzfChistory(): list<string>
+def g:Chistory(): list<string>
     var hlist = execute("chistory")
-    #echo hlist
 
-    var src = split(hlist, '\n')
-    src = map(src, (_, v): string => {
-        return substitute(v, '^\(>*\s*\)[^0-9]*\|\sof\s[0-9]\|errors', '\1\ ', 'g')
+    var src = mapnew(split(hlist, '\n'), (_, v): string => {
+        return substitute(v, '^\(>\?\s\+\).\{-}\(\d\+\).*\(\d\+\) errors\s\+\(.*\)$', '\1\2: (\3) \4', 'g')
     })
 
-    return fzf#run(fzf#wrap('chistory', { 'source': src, 'sink': (num) => execute(num[3] .. "chistory") } ))
+    return fzf#run(fzf#wrap('chistory', {
+        'down': '20%',
+        'source': src,
+        'sink': (line) => {
+            exec 'chistory' matchstr(line, '.\{-}\(\d\+\)')
+            copen
+        }
+    }))
 enddef
 
 def g:FzfApropos(): list<string>
@@ -141,11 +147,11 @@ def g:RemoteSelect(key: string)
 enddef
 
 # TODO: Add support for fzf_action.
-def g:LiveGrep(query: string, fullscreen: bool, previous = false, dir = "")
+def g:LiveGrep(query_arg: string, fullscreen: bool, previous = false, dir_opt = "")
     # var bufnr = get(t:, 'fzf_rg_bufnr', -1)
     # echom "bufnr:" bufnr
     # if !!bufexists(bufnr)
-    #     if query == ""
+    #     if query_arg == ""
     #         exec "botright sbuf" bufnr
     #         return
     #     else
@@ -155,44 +161,49 @@ def g:LiveGrep(query: string, fullscreen: bool, previous = false, dir = "")
     #     endif
     # endif
 
-    var command_fmt = 'rg -. --glob ''!**/.git/*'' -S -n --column --color=always --sort=path %s %s 2>/dev/null || true'
-    var prompt = ''
-    var q = previous ? system('cat /tmp/rg-fzf-p') : query
-    var initial_grep = printf(command_fmt, shellescape(q), dir)
-    var reload_grep = printf(command_fmt, '{q}', dir)
-    var cwd = getcwd()
-    t:fzf_port_tmpfile = get(t:, 'fzf_port_tmpfile', tempname())
-    var transform =
+    # t:fzf_port_tmpfile = get(t:, 'fzf_port_tmpfile', tempname())
+
+    const command_fmt = 'rg -. --glob ''!**/.git/*'' -S -n --column --color=always --sort=path %s %s 2>/dev/null || true'
+    const query = previous ? readfile('/tmp/rg-fzf-regex')[0] : query_arg
+    const dir = getcwd()
+    const initial_grep = printf(command_fmt, shellescape(query), dir_opt)
+    const reload_grep = printf(command_fmt, '{q}', dir_opt)
+
+    const transform =
         'transform:[[ ! {fzf:prompt} == "*Rg> " ]] &&' ..
-        'echo "rebind(change)+change-prompt(*Rg> )+disable-search+transform-query:echo \{q} > /tmp/rg-fzf-f; cat /tmp/rg-fzf-r" ||' ..
-        'echo "unbind(change)+change-prompt({q}> )+enable-search+transform-query:echo \{q} > /tmp/rg-fzf-r; cat /tmp/rg-fzf-f"'
-    var save_query = 'execute([[ {fzf:prompt} == "*Rg> " ]] && printf {q} > /tmp/rg-fzf-p || cat /tmp/rg-fzf-r > /tmp/rg-fzf-p)'
+        'echo "rebind(change)+change-prompt(*Rg> )+disable-search+transform-query:echo \{q} > /tmp/rg-fzf-fuzzy; cat /tmp/rg-fzf-regex" ||' ..
+        'echo "unbind(change)+change-prompt({q}> )+enable-search+transform-query:echo \{q} > /tmp/rg-fzf-regex; cat /tmp/rg-fzf-fuzzy"'
+
+    const save_query = 'execute([[ {fzf:prompt} == "*Rg> " ]] && echo {q} > /tmp/rg-fzf-regex)'
+
+    const select_all_if_no_select = 'transform([ $FZF_SELECT_COUNT -eq 0 ] && echo "select-all+print({n})")'
+
     var options = {
         'options': [
             '--ansi',
             '--multi',
             '--delimiter', ':',
             '--prompt', '*Rg> ',
-            '--header', getcwd() .. dir,
-            # '--height', fullscreen ? '100%' : '50%',
+            '--header', dir .. '/' .. dir_opt,
             '--height', '100%',
             '--phony',
-            '--query', q,
+            '--query', query,
             '--bind', 'alt-a:select-all,alt-d:deselect-all',
             '--bind', 'change:reload:sleep 0.1;' .. reload_grep,
             '--bind', 'ctrl-g:' .. transform,
-            '--bind', 'enter:execute([[ {fzf:prompt} == "*Rg> " ]] && printf {q} > /tmp/rg-fzf-p || printf $(cat /tmp/rg-fzf-r) > /tmp/rg-fzf-p)+accept',
-            '--bind', 'esc:execute([[ {fzf:prompt} == "*Rg> " ]] && printf {q} > /tmp/rg-fzf-p || printf $(cat /tmp/rg-fzf-r) > /tmp/rg-fzf-p)+abort',
+            '--bind', 'esc:'    .. save_query .. '+abort',
+            '--bind', 'enter:'  .. save_query .. '+' .. select_all_if_no_select .. '+accept',
+            '--bind', 'ctrl-r:' .. save_query .. '+print(change-dir)+accept',
             '--delimiter', ':',
             '--preview-window', '+{2}/2',
-            '--expect', 'ctrl-^',
+            '--no-clear',
             # '--border=horizontal'
             # '--listen', '127.0.0.1:0',
             # '--bind', 'start:execute-silent:echo $FZF_PORT > ' .. t:fzf_port_tmpfile,
         ],
         'source': initial_grep,
     }
-    if q != ""
+    if query != ""
         extend(options['options'], [ '--bind', 'start:' .. transform ])
     endif
     # var ret = fzf#vim#grep(initial_grep, 1, fzf#vim#with_preview(options), fullscreen)
@@ -203,21 +214,36 @@ def g:LiveGrep(query: string, fullscreen: bool, previous = false, dir = "")
     unlet spec['sink*']
 
     spec.sinklist = (lines) => {
-        # echom lines
         if len(lines) < 2
-            echom "less than 2!\n" .. string(lines)
+            # echom "less than 2!\n" .. string(lines)
             return
         endif
-        if lines[0] == 'ctrl-^'
-            call g:LiveGrep(q, fullscreen, false, dir .. "../")
+
+        var exit_key = remove(lines, 0) # query on exit or empty!
+
+        if lines[0] == 'change-dir'
+            var new_dir = ''
+            echohl ModeMsg
+            try
+                new_dir = input('Directory: ', dir, 'dir')
+            finally | echohl None | endtry
+            if len(new_dir) != 0
+                exec 'lcd' new_dir
+            endif
+
+            call g:LiveGrep("", fullscreen, true, "")
         else
-            remove(lines, 0) # it must be empty!
+            var cursor_index = 0
+            if lines[0] =~ '^\d\+$'
+                cursor_index = str2nr(remove(lines, 0))
+            endif
 
             var list = lines
                 ->filter((_, line) => len(line) > 0)
                 ->map((_, line): dict<any> => {
                     var parts = matchlist(line, '\(.\{-}\)\s*:\s*\(\d\+\)\%(\s*:\s*\(\d\+\)\)\?\%(\s*:\(.*\)\)\?')
-                    var file = &autochdir ? fnamemodify(parts[1], ':p') : parts[1]
+                    # var file = &autochdir ? fnamemodify(parts[1], ':p') : parts[1]
+                    var file = dir .. '/' .. parts[1]
                     if has('win32unix') && file !~ '/'
                         file = substitute(file, '\', '/', 'g')
                     endif
@@ -228,18 +254,18 @@ def g:LiveGrep(query: string, fullscreen: bool, previous = false, dir = "")
                     return dict
                 })
 
-            # echom list
-
             if empty(list) | return | endif
 
-            var ok = OpenFile(list[0].filename, list[0].lnum, list[0].col)
             if len(list) > 1
-                setqflist(list)
+                setqflist([], ' ', { 'items': list, 'title': $"LiveGrep: {query}", 'nr': '$'})
+                exec 'cc' cursor_index + 1
+            else
+                OpenFile(list[cursor_index].filename, list[cursor_index].lnum, list[cursor_index].col)
             endif
 
-            if ok
+            # if ok
                 # utils#Spotlight()
-            endif
+            # endif
 
 
         endif
@@ -252,6 +278,6 @@ command! -nargs=* -bang LiveGrep call LiveGrep(<q-args>, <bang>0, false)
 command! -bang LiveGrepPrevious call LiveGrep("", <bang>0, true)
 command! -nargs=* -bang LiveGrepVisual call LiveGrep(escape(utils#GetVisualSelection(), "()\+*.[]\|"), <bang>0)
 # I don't like the default with shortened path name
-command! -bang -nargs=? -complete=dir Files call fzf#vim#files(<q-args>, {options: ['--prompt=' .. getcwd() .. '/']}, <bang>0)
+# command! -bang -nargs=? -complete=dir Files call fzf#vim#files(<q-args>, {options: ['--prompt=' .. getcwd() .. '/']}, <bang>0)
 # Requires :Man command
 command! Apropos call FzfApropos()

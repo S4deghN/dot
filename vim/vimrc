@@ -8,7 +8,7 @@ set mouse=ar ttymouse=sgr
 set scrolloff=3
 set completeopt=menu,longest
 set nowildmenu wildignorecase wildmode=longest,list,full wildcharm=<Tab>
-set notitle showcmd showcmdloc=statusline laststatus=2 shortmess=aoOFtT
+set notitle showcmd showcmdloc=statusline laststatus=2 shortmess=aoFtT
 set nostartofline splitbelow splitright
 set hlsearch incsearch ignorecase smartcase tagcase=match # if match case is not set to `match` tag search becomes really slow!
 set smartindent nosmarttab expandtab shiftwidth=4 tabstop=4
@@ -27,6 +27,7 @@ set display=lastline
 set maxsearchcount=9999
 set diffopt+=followwrap,foldcolumn:0,algorithm:histogram
 set diffopt-=closeoff
+set switchbuf=useopen,uselast
 
 # g:fzf_vim.grep_multi_line = 2
 
@@ -41,6 +42,7 @@ g:loaded_netrw = 1 | g:loaded_matchparen = 1 | g:loaded_vimballPlugin = 1
 silent! packadd! matchit
 silent! packadd! comment
 plug#begin("~/.local/share/vim/plugged")
+Plug 'dyng/ctrlsf.vim'
 Plug 'jlanzarotta/bufexplorer' | g:bufExplorerDisableDefaultKeyMapping = 1
 Plug 'ycm/shimp'
 Plug 'cohama/agit.vim'
@@ -77,7 +79,6 @@ plug#end()
 
 if system("hostname") =~? "x580"
     colorscheme arc
-    hi Normal guibg=NONE
 else
     colorscheme lightgruv
 endif
@@ -159,6 +160,7 @@ nnoremap gL  <scriptcmd>utils#OpenLink(expand("<cfile>"))<cr>
 nmap     gcd <cmd>let @c=col('.')<cr>yygccp<cmd>call cursor(0,@c)<cr>
 nnoremap ZA :wqa<cr>
 
+exe "set <M-f>=\ef"
 exe "set <M-t>=\et"
 nmap <M-t> :t.<cr>
 imap <M-t> <C-o><M-t>
@@ -171,9 +173,11 @@ nmap <silent> <M-k> :m-2<cr>==
 vmap <silent> <M-k> :m'<-2<cr>gv=gv
 
 noremap <C-g> 1<C-g>
-nnoremap <C-s>s :%s/<C-r><C-w>/
-xnoremap <C-s>s "vy:%s/<C-r>v/
+# nnoremap <C-s>s :%s/<C-r><C-w>/
+# xnoremap <C-s>s "vy:%s/<C-r>v/
 
+cmap <M-b>  <S-Left>
+cmap <M-f>  <S-Right>
 cmap <C-j>  <Down>
 cmap <C-k>  <Up>
 cmap <C-x>f <C-r>=expand('%:p')<cr>
@@ -194,7 +198,7 @@ endif
 
 def CmdCtrlU(): string
     var cmdline = getcmdline()
-    var match_list = matchlist(cmdline, '\v\C^(e%[dit] |Term |Grep |Git )(.+)')
+    var match_list = matchlist(cmdline, '\v\C^(e%[dit] |Term |Grep |Git |CtrlSF\S* )(.+)')
     if len(match_list) == 0
         return "\<C-u>"
     else
@@ -219,7 +223,6 @@ if exists("*CmdCtrlW")
     cnoremap <expr> <C-w> CmdCtrlW()
 endif
 
-
 tnoremap <C-]> <C-\><C-n>
 tnoremap <ScrollWheelUp> <C-\><C-n><ScrollWheelUp>
 
@@ -239,21 +242,41 @@ noremap  <space>B  <cmd>Buffers<cr>
 noremap  <space>H  <cmd>Helptags<cr>
 noremap  <space>t  <cmd>TagbarToggle<cr>
 noremap  <space>T  <cmd>Tags<space>
-nnoremap <space>g  <cmd>LiveGrep!<cr>
-vnoremap <space>w  :<C-u>LiveGrepVisual!<cr>
-nnoremap <space>w  :LiveGrep! \b<C-r>=expand('<cword>')<cr>\b<cr>
+nnoremap <space>g  <cmd>LiveGrep<cr>
+vnoremap <space>w  :<C-u>LiveGrepVisual<cr>
+nnoremap <space>w  :LiveGrep \b<C-r>=expand('<cword>')<cr>\b<cr>
 nnoremap <space><enter> :LiveGrepPrevious<cr>
 nnoremap <space>vv :Git<cr>
 nnoremap <space>vb <cmd>echo utils#GetGitBranch()<cr>
-nnoremap <space>vl <cmd>Commits<cr>
+nnoremap <space>vl :Git log --decorate --abbrev-commit --graph<space>
+vnoremap <space>vl :Commits<cr>
 nnoremap <space>a  <cmd>Apropos<cr>
 nnoremap <space>z  <cmd>setl spell!<cr>
 nnoremap <space>W  <scriptcmd>g:Dict(expand("<cword>"))<cr>
 nnoremap <space>'  <cmd>Marks<cr>
 nnoremap <space>q  <Plug>(qf_qf_toggle)
+nnoremap <space>Q <scriptcmd>g:Chistory()<cr>
 
-nmap <space>s <plug>(esearch)
-vmap <space>s <plug>(operator-esearch-exec)
+nmap <space>\\ <plug>(esearch)
+vmap <space>\\ <plug>(operator-esearch-exec)
+
+g:ctrlsf_backend = 'rg'
+g:ctrlsf_position = 'right_local'
+g:ctrlsf_populate_qflist = 1
+g:ctrlsf_auto_close = {
+    'normal':  0,
+    'compact': 0
+}
+g:ctrlsf_preview_position = 'inside'
+g:ctrlsf_auto_focus = { 'at': 'start' }
+g:ctrlsf_indent = 2
+g:ctrlsf_extra_backend_args = {
+    'rg': '-. --glob !**/.git/* --sort=path'
+}
+nnoremap <C-s> :CtrlSF <C-r><C-w>
+vnoremap <C-s> <Plug>CtrlSFVwordExec
+nnoremap <space>s <cmd>CtrlSFToggle<cr>
+nnoremap <space>S <Plug>CtrlSFPwordPath
 
 inoremap <expr> <C-e> pumvisible() ? "\<C-e>" : "\<esc>A"
 inoremap <silent> <Esc> <Esc>g`^
@@ -293,6 +316,7 @@ augroup autoCommands
     autocmd BufEnter * set formatoptions=tcrqljn1p # default: tcroql
     autocmd BufWinEnter */doc/*.txt call utils#MoveOpenedWindowToSaneSplit() | setl nolist
 
+    autocmd Filetype markdown,asciidoc,text setl spell
     autocmd Filetype qf nmap <buffer> <Esc> ZQ
     autocmd Filetype man nmap <buffer> q ZQ
     autocmd CmdwinEnter * nmap <buffer> q     :q<cr>
