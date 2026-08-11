@@ -369,7 +369,7 @@ let g:terminal_ansi_colors = [
             \"#b16286",
             \"#68BEA2",
             \"#6B7278",
-            \"#747C84",
+            \"#444444",
             \"#CF6A4C",
             \"#87AF87",
             \"#CDA869",
@@ -382,14 +382,15 @@ let g:terminal_ansi_colors = [
 let g:fzf_colors =
   \ { 'fg':      ['fg', 'NormalFloat'],
   \   'bg':      ['bg', 'NormalFloat'],
-  \   'hl':      ['fg', 'Search'],
   \   'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
   \   'bg+':     ['bg', 'Visual'],
-  \   'hl+':     ['bg', 'IncSearch'],
   \   'info':    ['fg', 'PreProc'],
   \   'border':  ['fg', 'Normal'],
-  \   'prompt':  ['fg', 'Constatn'],
+  \   'prompt':  ['fg', 'Function'],
   \   'pointer': ['fg', 'Exception'],
   \   'marker':  ['fg', 'Keyword'],
   \   'spinner': ['fg', 'Label'],
   \   'header':  ['fg', 'Title'] }
+  " \   'hl':      ['fg', 'Search'],
+  " \   'hl+':     ['bg', 'IncSearch'],
+

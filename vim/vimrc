@@ -255,7 +255,7 @@ nnoremap <space>z  <cmd>setl spell!<cr>
 nnoremap <space>W  <scriptcmd>g:Dict(expand("<cword>"))<cr>
 nnoremap <space>'  <cmd>Marks<cr>
 nnoremap <space>q  <Plug>(qf_qf_toggle)
-nnoremap <space>Q <scriptcmd>g:Chistory()<cr>
+nnoremap <space>Q <scriptcmd>g:FzfChistory()<cr>
 
 nmap <space>\\ <plug>(esearch)
 vmap <space>\\ <plug>(operator-esearch-exec)

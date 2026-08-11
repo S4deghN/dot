@@ -5,7 +5,7 @@ vim9script
 
 g:fzf_vim = {}
 # g:fzf_vim.preview_window = ['right,50%,<80(up,40%),hidden', 'ctrl-l']
-g:fzf_vim.preview_window = ['up,55%,nohidden', 'ctrl-l']
+g:fzf_vim.preview_window = ['up,50%,nohidden', 'ctrl-l']
 # g:fzf_vim.preview_window = ['down,70%,hidden', 'ctrl-l']
 def BuildQfList(lines: string)
     call setqflist(map(copy(lines), '{ "filename": ' .. pwd .. '/v:val, "lnum": 1 }'))
@@ -22,23 +22,28 @@ enddef
 
 # g:fzf_layout = { 'window': { 'width': 1, 'height': 0.5, 'yoffset': 1, 'reletavie': v:true, 'border': 'top'} }
 # g:fzf_layout = { 'window': '10new' }
-g:fzf_layout = { 'down': "100%" }
+# g:fzf_layout = { 'down': "100%" }
+g:fzf_layout = { 'window': { 'width': 0.95, 'height': 0.8 } }
 
-autocmd! FileType fzf set laststatus=0 noshowmode noruler
-            \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+# autocmd! FileType fzf set laststatus=0 noshowmode noruler
+#             \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 
 # -----------------------------------------------
 # --- extend ---
 # -----------------------------------------------
-def g:Chistory(): list<string>
+def g:FzfChistory(): list<string>
     var hlist = execute("chistory")
 
     var src = mapnew(split(hlist, '\n'), (_, v): string => {
-        return substitute(v, '^\(>\?\s\+\).\{-}\(\d\+\).*\(\d\+\) errors\s\+\(.*\)$', '\1\2: (\3) \4', 'g')
+        return substitute(v, '^\(>\?\s\+\).\{-}\(\d\+\).\{-}\(\d\+\) errors\s\+\(.*\)$', '\1\2: (\3) \4', 'g')
     })
 
     return fzf#run(fzf#wrap('chistory', {
-        'down': '20%',
+        # 'down': '20%',
+        'window': { 'width': 0.6, 'height': 0.5 },
+        'options': [
+            '--header', ':chistory',
+        ],
         'source': src,
         'sink': (line) => {
             exec 'chistory' matchstr(line, '.\{-}\(\d\+\)')
@@ -55,6 +60,7 @@ def g:FzfApropos(): list<string>
             # '--no-sort',
             '--header', src_cmd,
             '--query', '^',
+            '--preview', 'man {1}{2} 2>/dev/null',
         ],
         'source': src_cmd,
         'sink': (line) => {
@@ -99,7 +105,7 @@ enddef
 #     autocmd FileType fzf tmap <nowait> <Esc> <Plug>CloseFzfRg
 # augroup end
 
-def g:RemoteSelect(key: string)
+def g:RemoteSelect(key: string) # {{{
     echom "Called this!" key
     # Only run if it's rg window, otherwise just pass the key to terminal
     var line1 = term_getline(bufnr(), 1)
@@ -144,7 +150,7 @@ def g:RemoteSelect(key: string)
         return
     endif
     ch_sendraw(ch, "GET /?limit=0 HTTP/1.1\r\n\r\n")
-enddef
+enddef # }}}
 
 # TODO: Add support for fzf_action.
 def g:LiveGrep(query_arg: string, fullscreen: bool, previous = false, dir_opt = "")
@@ -170,11 +176,11 @@ def g:LiveGrep(query_arg: string, fullscreen: bool, previous = false, dir_opt = 
     const reload_grep = printf(command_fmt, '{q}', dir_opt)
 
     const transform =
-        'transform:[[ ! {fzf:prompt} == "*Rg> " ]] &&' ..
-        'echo "rebind(change)+change-prompt(*Rg> )+disable-search+transform-query:echo \{q} > /tmp/rg-fzf-fuzzy; cat /tmp/rg-fzf-regex" ||' ..
-        'echo "unbind(change)+change-prompt({q}> )+enable-search+transform-query:echo \{q} > /tmp/rg-fzf-regex; cat /tmp/rg-fzf-fuzzy"'
+        'transform:[ {fzf:prompt} = "*Rg> " ] &&' ..
+        'echo "unbind(change)+change-prompt({q}> )+enable-search+transform-query(echo \{q} > /tmp/rg-fzf-regex; cat /tmp/rg-fzf-fuzzy)" ||' ..
+        'echo "rebind(change)+change-prompt(*Rg> )+disable-search+transform-query(echo \{q} > /tmp/rg-fzf-fuzzy; cat /tmp/rg-fzf-regex)"'
 
-    const save_query = 'execute([[ {fzf:prompt} == "*Rg> " ]] && echo {q} > /tmp/rg-fzf-regex)'
+    const save_query = 'execute([ {fzf:prompt} = "*Rg> " ] && echo {q} > /tmp/rg-fzf-regex || echo {q} > /tmp/rg-fzf-fuzzy)'
 
     const select_all_if_no_select = 'transform([ $FZF_SELECT_COUNT -eq 0 ] && echo "select-all+print({n})")'
 
