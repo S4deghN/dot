@@ -31,12 +31,28 @@ g:fzf_layout = { 'window': { 'width': 0.95, 'height': 0.8 } }
 # -----------------------------------------------
 # --- extend ---
 # -----------------------------------------------
+def g:FzfVimHelp(): list<string>
+    lcd $VIMRUNTIME
+    var pathes = split(&runtimepath, ',')
+        ->map((_, v): string => {
+            return fnamemodify(v .. '/doc', ':~:.')
+        })
+        ->sort((a, b): number => {
+            return len(a) - len(b)
+        })
+
+    g:LiveGrep("", false, { 'dir': join(pathes) })
+    return pathes
+enddef
+command! Help call FzfVimHelp()
+
 def g:FzfChistory(): list<string>
     var hlist = execute("chistory")
 
     var src = mapnew(split(hlist, '\n'), (_, v): string => {
         return substitute(v, '^\(>\?\s\+\).\{-}\(\d\+\).\{-}\(\d\+\) errors\s\+\(.*\)$', '\1\2: (\3) \4', 'g')
     })
+    ->reverse()
 
     return fzf#run(fzf#wrap('chistory', {
         # 'down': '20%',
@@ -51,6 +67,7 @@ def g:FzfChistory(): list<string>
         }
     }))
 enddef
+command! Chistory call FzfChistory()
 
 def g:FzfApropos(): list<string>
     # var src_list = systemlist("apropos .")
@@ -68,6 +85,7 @@ def g:FzfApropos(): list<string>
             exec 'Man' name .. section
         } }))
 enddef
+command! Apropos call FzfApropos()
 
 def OpenFile(fname_arg: string, lnum: number, col = 0): bool
     if !filereadable(fname_arg) | echoe $'{fname_arg} not readable!' | return false | endif
@@ -153,24 +171,13 @@ def g:RemoteSelect(key: string) # {{{
 enddef # }}}
 
 # TODO: Add support for fzf_action.
-def g:LiveGrep(query_arg: string, fullscreen: bool, previous = false, dir_opt = "")
-    # var bufnr = get(t:, 'fzf_rg_bufnr', -1)
-    # echom "bufnr:" bufnr
-    # if !!bufexists(bufnr)
-    #     if query_arg == ""
-    #         exec "botright sbuf" bufnr
-    #         return
-    #     else
-    #         # BUG: stupid fzf jumps back to previous window with a delay after buffer
-    #         # is whped!!!
-    #         exec ":" .. bufnr .. "bwipe!"
-    #     endif
-    # endif
-
+def g:LiveGrep(query_arg: string, fullscreen: bool, opt = {})
     # t:fzf_port_tmpfile = get(t:, 'fzf_port_tmpfile', tempname())
+    var dir_opt = get(opt, 'dir', '')
+    var select_all = get(opt, 'select_all', false)
 
     const command_fmt = 'rg -. --glob ''!**/.git/*'' -S -n --column --color=always --sort=path %s %s 2>/dev/null || true'
-    const query = previous ? readfile('/tmp/rg-fzf-regex')[0] : query_arg
+    const query = get(opt, 'use_last_query', false) ? readfile('/tmp/rg-fzf-regex')[0] : query_arg
     const dir = getcwd()
     const initial_grep = printf(command_fmt, shellescape(query), dir_opt)
     const reload_grep = printf(command_fmt, '{q}', dir_opt)
@@ -190,7 +197,7 @@ def g:LiveGrep(query_arg: string, fullscreen: bool, previous = false, dir_opt = 
             '--multi',
             '--delimiter', ':',
             '--prompt', '*Rg> ',
-            '--header', dir .. '/' .. dir_opt,
+            '--header', dir .. (len(dir_opt) > 0 ? ': ' .. dir_opt : ''),
             '--height', '100%',
             '--phony',
             '--query', query,
@@ -198,7 +205,7 @@ def g:LiveGrep(query_arg: string, fullscreen: bool, previous = false, dir_opt = 
             '--bind', 'change:reload:sleep 0.1;' .. reload_grep,
             '--bind', 'ctrl-g:' .. transform,
             '--bind', 'esc:'    .. save_query .. '+abort',
-            '--bind', 'enter:'  .. save_query .. '+' .. select_all_if_no_select .. '+accept',
+            '--bind', 'enter:'  .. save_query .. (select_all ? '+' .. select_all_if_no_select : '') .. '+accept',
             '--bind', 'ctrl-r:' .. save_query .. '+print(change-dir)+accept',
             '--delimiter', ':',
             '--preview-window', '+{2}/2',
@@ -225,7 +232,7 @@ def g:LiveGrep(query_arg: string, fullscreen: bool, previous = false, dir_opt = 
             return
         endif
 
-        var exit_key = remove(lines, 0) # query on exit or empty!
+        var exit_key = remove(lines, 0) # empty!
 
         if lines[0] == 'change-dir'
             var new_dir = ''
@@ -237,7 +244,7 @@ def g:LiveGrep(query_arg: string, fullscreen: bool, previous = false, dir_opt = 
                 exec 'lcd' new_dir
             endif
 
-            call g:LiveGrep("", fullscreen, true, "")
+            call g:LiveGrep("", fullscreen, extend(opt, { 'use_last_query': true }))
         else
             var cursor_index = 0
             if lines[0] =~ '^\d\+$'
@@ -263,7 +270,8 @@ def g:LiveGrep(query_arg: string, fullscreen: bool, previous = false, dir_opt = 
             if empty(list) | return | endif
 
             if len(list) > 1
-                setqflist([], ' ', { 'items': list, 'title': $"LiveGrep: {query}", 'nr': '$'})
+                setqflist([], ' ', { 'items': list, 'nr': '$',
+                    'title': $"LiveGrep: { readfile('/tmp/rg-fzf-regex')[0] }" })
                 exec 'cc' cursor_index + 1
             else
                 OpenFile(list[cursor_index].filename, list[cursor_index].lnum, list[cursor_index].col)
@@ -280,10 +288,9 @@ def g:LiveGrep(query_arg: string, fullscreen: bool, previous = false, dir_opt = 
     fzf#run(spec)
 enddef
 
-command! -nargs=* -bang LiveGrep call LiveGrep(<q-args>, <bang>0, false)
-command! -bang LiveGrepPrevious call LiveGrep("", <bang>0, true)
+command! -nargs=* -bang LiveGrep call LiveGrep(<q-args>, <bang>0, { 'select_all': true })
+command! -bang LiveGrepPrevious call LiveGrep("", <bang>0, { 'select_all': true, 'use_last_query': true })
 command! -nargs=* -bang LiveGrepVisual call LiveGrep(escape(utils#GetVisualSelection(), "()\+*.[]\|"), <bang>0)
 # I don't like the default with shortened path name
 # command! -bang -nargs=? -complete=dir Files call fzf#vim#files(<q-args>, {options: ['--prompt=' .. getcwd() .. '/']}, <bang>0)
 # Requires :Man command
-command! Apropos call FzfApropos()

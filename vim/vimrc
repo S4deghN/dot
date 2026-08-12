@@ -28,6 +28,7 @@ set maxsearchcount=9999
 set diffopt+=followwrap,foldcolumn:0,algorithm:histogram
 set diffopt-=closeoff
 set switchbuf=useopen,uselast
+set chistory=15
 
 # g:fzf_vim.grep_multi_line = 2
 
@@ -239,7 +240,7 @@ noremap  <space>f  <cmd>Files<cr>
 nmap     <space>F  :Files<space><C-x>d
 noremap  <space>r  <cmd>Histor<cr>
 noremap  <space>B  <cmd>Buffers<cr>
-noremap  <space>H  <cmd>Helptags<cr>
+noremap  <space>H  <cmd>Help<cr>
 noremap  <space>t  <cmd>TagbarToggle<cr>
 noremap  <space>T  <cmd>Tags<space>
 nnoremap <space>g  <cmd>LiveGrep<cr>
@@ -254,8 +255,8 @@ nnoremap <space>a  <cmd>Apropos<cr>
 nnoremap <space>z  <cmd>setl spell!<cr>
 nnoremap <space>W  <scriptcmd>g:Dict(expand("<cword>"))<cr>
 nnoremap <space>'  <cmd>Marks<cr>
-nnoremap <space>q  <Plug>(qf_qf_toggle)
-nnoremap <space>Q <scriptcmd>g:FzfChistory()<cr>
+nnoremap <space>c  <Plug>(qf_qf_toggle)
+nnoremap <space>C  <cmd>Chistory<cr>
 
 nmap <space>\\ <plug>(esearch)
 vmap <space>\\ <plug>(operator-esearch-exec)
