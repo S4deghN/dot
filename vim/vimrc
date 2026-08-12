@@ -30,8 +30,6 @@ set diffopt-=closeoff
 set switchbuf=useopen,uselast
 set chistory=15
 
-# g:fzf_vim.grep_multi_line = 2
-
 # &t_md = "" # disable bold
 &t_SI = "\e[5 q" # Insert mode
 &t_SR = "\e[4 q" # Replace mode
@@ -46,29 +44,30 @@ plug#begin("~/.local/share/vim/plugged")
 Plug 'dyng/ctrlsf.vim'
 Plug 'jlanzarotta/bufexplorer' | g:bufExplorerDisableDefaultKeyMapping = 1
 Plug 'ycm/shimp'
-Plug 'cohama/agit.vim'
-Plug 'romainl/vim-redir'
-Plug 'mhinz/vim-grepper'
 Plug 'mhinz/vim-tree'
 Plug 'preservim/tagbar' | g:tagbar_position = 'vertical leftabove'
 Plug 'romainl/vim-qf' | g:qf_auto_resize = 1 | g:qf_auto_open_quickfix = 0
-Plug 'AndrewRadev/splitjoin.vim'
+Plug 'romainl/vim-redir'
+# Plug 'AndrewRadev/splitjoin.vim'
 # Plug 'guns/vim-sexp' | g:sexp_filetypes = '*' | g:sexp_enable_insert_mode_mappings = false
-Plug 'ycm/shimp'
-Plug 'zeminzhou/diffview.vim'
+# g:sexp_mappings = {
+#     sexp_swap_list_backward: '', # '<M-k>',
+#     sexp_swap_list_forward:  '', # '<M-j>',
+# }
 
-Plug 'junegunn/vim-easy-align'
+# Plug 'junegunn/vim-easy-align'
+Plug 'junegunn/fzf.vim' | silent source /usr/share/doc/fzf/examples/fzf.vim
+
 Plug 'mityu/vim-alith'
 
-Plug 'junegunn/fzf.vim' | silent source /usr/share/doc/fzf/examples/fzf.vim
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-sleuth'
-Plug 'glts/vim-magnum'
-Plug 'glts/vim-radical'
-Plug 'alx741/vinfo'
-Plug 'BourgeoisBear/clrzr' | g:clrzr_startup = 0
-Plug 'nda-cunh/PropColor'
 Plug 'mg979/vim-visual-multi'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-sleuth' # Heuristically set buffer options
+Plug 'glts/vim-magnum'
+Plug 'glts/vim-radical' # [C]hange [R]adix with 'cr' operator, 'gA' to view all representations
+Plug 'alx741/vinfo'
+# Plug 'BourgeoisBear/clrzr' | g:clrzr_startup = 0
+Plug 'nda-cunh/PropColor'
 Plug 'airblade/vim-rooter' | g:rooter_cd_cmd = 'lcd' | g:rooter_silent_chdir = 1 | g:rooter_patterns = [ '.git', '.svn', 'tags'] | g:rooter_targets = ['*'] # avoid setting root for directories
 Plug '~/.vim/local/vim-fm'
 Plug 'S4deghN/lsp' | runtime lsp.vim
@@ -76,6 +75,8 @@ Plug 'S4deghN/lsp' | runtime lsp.vim
 Plug 'yegappan/grep'
 
 # Plug 'chaoren/vim-wordmotion' | g:wordmotion_mappings = {"<C-R><C-W>": "", "<C-R><C-A>": ""}
+# TODO:
+# Plug 'kana/vim-smartword'
 plug#end()
 
 if system("hostname") =~? "x580"
@@ -84,29 +85,9 @@ else
     colorscheme lightgruv
 endif
 
-# TODO:
-# Plug 'kana/vim-smartword'
-# map w  <Plug>(smartword-w)
-# map b  <Plug>(smartword-b)
-# map e  <Plug>(smartword-e)
-# map ge <Plug>(smartword-ge)
-# noremap ,w  w
-# noremap ,b  b
-# noremap ,e  e
-# noremap ,ge ge
-
-g:sexp_mappings = {
-    sexp_swap_list_backward: '', # '<M-k>',
-    sexp_swap_list_forward:  '', # '<M-j>',
-}
-
-exe "set <M-w>=\ew"
-exe "set <M-b>=\eb"
-exe "set <M-e>=\ee"
-exe "set <M-i>=\ei"
-exe "set <M-j>=\ej"
-exe "set <M-h>=\eh"
-exe "set <M-l>=\el"
+for key in 'befhijkltw'
+    exe $"set <M-{key}>=\e{key}"
+endfor
 
 map ' `
 map Y y$
@@ -133,6 +114,7 @@ noremap ]I ]I:let nr = input("goto: ")<bar>exe "norm! " .. nr .. "]\<C-I>"<cr>
 
 # noremap  } <cmd>keepj norm! }<cr>
 # noremap  { <cmd>keepj norm! {<cr>
+
 noremap  n <cmd>keepj norm! n<cr>
 noremap  N <cmd>keepj norm! N<cr>
 nnoremap * *<cmd>keepj norm! N<cr>
@@ -142,9 +124,12 @@ xnoremap # y?\V<C-R>"<cr><cmd>keepj norm! N<cr>
 
 nnoremap yo  :let @+=@"<cr>
 nnoremap gz  1z=
-nnoremap ga  <plug>(EasyAlign)
-xnoremap ga  <plug>(EasyAlign)
-nnoremap ga\ mz<plug>(EasyAlign)ap<C-x>\\<cr>g`z
+
+xnoremap ga   :Alith<cr>\v\zs<left><left><left>
+nmap     gaip vipga
+nmap     gaap vapga
+nnoremap ga\ mzvap:Alith \\$<cr>g`z
+
 nnoremap gk  :ManCword<cr>
 vnoremap gk  :<C-u>ManVisual<cr>
 nnoremap zs  <scriptcmd>utils#KeepView(':%s/\s\+$//e', winsaveview(), 'c')<cr>
@@ -152,15 +137,11 @@ nnoremap gL  <scriptcmd>utils#OpenLink(expand("<cfile>"))<cr>
 nmap     gcd <cmd>let @c=col('.')<cr>yygccp<cmd>call cursor(0,@c)<cr>
 nnoremap ZA :wqa<cr>
 
-exe "set <M-f>=\ef"
-exe "set <M-t>=\et"
 nmap <M-t> :t.<cr>
 imap <M-t> <C-o><M-t>
 vmap <M-t> :t'><cr>`[V`]
-exe "set <M-j>=\ej"
 nmap <silent> <M-j> :m+1<cr>==
 vmap <silent> <M-j> :m'>+1<cr>gv=gv
-exe "set <M-k>=\ek"
 nmap <silent> <M-k> :m-2<cr>==
 vmap <silent> <M-k> :m'<-2<cr>gv=gv
 
@@ -289,7 +270,7 @@ command! -nargs=+ -complete=function RR put = execute('echo ' .. <q-args>)->trim
 command! -range=% Format utils#KeepView($':{<line1>},{<line2>}!clang-format', winsaveview(), 'c')
 command! -range=% -nargs=? Expand utils#KeepView($':{<line1>},{<line2>}!expand -t ' .. (!<q-args> ? '4' : <q-args>), winsaveview(), 'c')
 command! -range=% -nargs=? Unexpand utils#KeepView($':{<line1>},{<line2>}!unexpand -t ' .. (!<q-args> ? '4' : <q-args>), winsaveview(), 'c')
-command! -nargs=1 -bang Grep g:Term(["rg -S --column --sort=path ", <f-args>], <bang>0, "[Grep]", "")
+# command! -nargs=1 -bang Grep g:Term(["rg -S --column --sort=path ", <f-args>], <bang>0, "[Grep]", "")
 # Dump {binfile}
 command! -nargs=1 -bang -complete=file Dump g:Term("objdump -ClSd --disassembler-color=on " .. <f-args>, <bang>0, "[dump]", "asm")
 # Assembly {compiler} {sourcefile}
