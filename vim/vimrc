@@ -74,7 +74,7 @@ Plug '~/.vim/local/vim-fm'
 Plug 'S4deghN/lsp' | runtime lsp.vim
 # Plug 'skywind3000/asyncrun.vim' | g:asyncrun_timer = 999999 | g:asyncrun_open = 10
 Plug 'yegappan/grep'
-Plug 'eugen0329/vim-esearch' | runtime esearch.vim
+
 # Plug 'chaoren/vim-wordmotion' | g:wordmotion_mappings = {"<C-R><C-W>": "", "<C-R><C-A>": ""}
 plug#end()
 
@@ -83,15 +83,6 @@ if system("hostname") =~? "x580"
 else
     colorscheme lightgruv
 endif
-
-# Make header less colorful
-hi link esearchHeader     Comment
-# Don't emphasize numbers lines/files count in the header with colors
-hi link esearchStatistics esearchHeader
-hi link esearchFilename   Function
-# Don't emphasize basename with bold text attribute
-hi link esearchBasename   esearchFilename
-hi esearchMatch      guifg=#ff4444
 
 # TODO:
 # Plug 'kana/vim-smartword'
@@ -257,9 +248,6 @@ nnoremap <space>W  <scriptcmd>g:Dict(expand("<cword>"))<cr>
 nnoremap <space>'  <cmd>Marks<cr>
 nnoremap <space>c  <Plug>(qf_qf_toggle)
 nnoremap <space>C  <cmd>Chistory<cr>
-
-nmap <space>\\ <plug>(esearch)
-vmap <space>\\ <plug>(operator-esearch-exec)
 
 g:ctrlsf_backend = 'rg'
 g:ctrlsf_position = 'right_local'
