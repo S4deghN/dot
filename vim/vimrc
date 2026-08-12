@@ -283,6 +283,7 @@ inoremap <expr> <C-e> pumvisible() ? "\<C-e>" : "\<esc>A"
 inoremap <silent> <Esc> <Esc>g`^
 inoremap <C-x>t <C-r>=strftime("%H:%M")<Cr>
 inoremap <C-o> <Esc>:a<cr><enter><C-c>gi
+inoremap <expr> <c-x><c-z> fzf#vim#complete#word()
 
 noremap j gj
 noremap k gk
