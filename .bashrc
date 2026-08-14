@@ -182,10 +182,10 @@ get-source() {
 vi-find() {
     selection=$(find "${@:-.}" -name "*${READLINE_LINE:-*}*" \
         -not -path "*/.git*/*" -type f 2>/dev/null |
-        fzf --preview 'highlight -O ansi -l {}')
+        fzf --preview 'highlight -O ansi -l "{}"')
 
     if [[ -n $selection ]]; then
-        READLINE_LINE="$EDITOR $selection${READLINE_LINE:$READLINE_POINT}"
+        READLINE_LINE="$EDITOR '$selection'${READLINE_LINE:$READLINE_POINT}"
         READLINE_POINT=$(( ${#EDITOR} + 1 + ${#selection} ))
 
         builtin bind '"\e@": accept-line'
@@ -199,7 +199,7 @@ vi-git-ls-files() {
         selection=$(git ls-files ${@:-.} | fzf --preview 'highlight -O ansi -l {}')
 
         if [[ -n $selection ]]; then
-            READLINE_LINE="$EDITOR $selection${READLINE_LINE:$READLINE_POINT}"
+            READLINE_LINE="$EDITOR '$selection'${READLINE_LINE:$READLINE_POINT}"
             READLINE_POINT=$(( ${#EDITOR} + 1 + ${#selection} ))
 
             builtin bind '"\e@": accept-line'
@@ -215,7 +215,7 @@ vi-grep() {
     # selection=$(grep --color=always -rni ${READLINE_LINE:-} 2>/dev/null |
     #     fzf --ansi |
     #     awk -F : '{print $1 " +" $2}')
-    selection=$(Rg | awk -F : '{print $1 " +" $2}')
+    selection=$(Rg | awk -F : '{print "'\''" $1 "'\'' +" $2}')
 
     if [[ -n $selection ]]; then
         READLINE_LINE="$EDITOR $selection${READLINE_LINE:$READLINE_POINT}"
@@ -256,8 +256,8 @@ bind -x '"\ex5": vi-grep'
 # NOTE: do not use C-h because backspace sends  when capslock is on in st!
 bind -x '"\eh": history -n'
 
-bind -m vi-insert '"\C-f": "\ex1\e@"'
-bind -m vi-insert '"\ef":  "\ex2\e@"'
+bind -m vi-insert '"\ef": "\ex1\e@"'
+bind -m vi-insert '"\C-f":  "\ex2\e@"'
 bind -m vi-insert '"\C-e": "\ex3\e@"'
 bind -m vi-insert '"\C-n": "\ex4\e@"'
 bind -m vi-insert '"\C-g": "\ex5\e@"'
