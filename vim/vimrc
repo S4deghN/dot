@@ -296,6 +296,7 @@ augroup autoCommands
     autocmd BufAdd *.lub set filetype=lua
     autocmd BufAdd .clang* set filetype=yaml
     autocmd BufAdd /tmp/bash* set filetype=sh
+    autocmd BufAdd *-MIB.txt set filetype=mib
 
     autocmd User FugitiveIndex norm! zt
 
