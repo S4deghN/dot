@@ -63,7 +63,7 @@ def g:FzfChistory(): list<string>
         'source': src,
         'sink': (line) => {
             exec 'chistory' matchstr(line, '.\{-}\(\d\+\)')
-            copen
+            # copen
         }
     }))
 enddef
@@ -288,8 +288,8 @@ def g:LiveGrep(query_arg: string, fullscreen: bool, opt = {})
     fzf#run(spec)
 enddef
 
-command! -nargs=* -bang LiveGrep call LiveGrep(<q-args>, <bang>0, { 'select_all': true })
-command! -bang LiveGrepPrevious call LiveGrep("", <bang>0, { 'select_all': true, 'use_last_query': true })
+command! -nargs=* -bang LiveGrep call LiveGrep(<q-args>, <bang>0, { 'select_all': false })
+command! -bang LiveGrepPrevious call LiveGrep("", <bang>0, { 'select_all': false, 'use_last_query': true })
 command! -nargs=* -bang LiveGrepVisual call LiveGrep(escape(utils#GetVisualSelection(), "()\+*.[]\|"), <bang>0)
 # I don't like the default with shortened path name
 # command! -bang -nargs=? -complete=dir Files call fzf#vim#files(<q-args>, {options: ['--prompt=' .. getcwd() .. '/']}, <bang>0)

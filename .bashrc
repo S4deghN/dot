@@ -256,8 +256,8 @@ bind -x '"\ex5": vi-grep'
 # NOTE: do not use C-h because backspace sends  when capslock is on in st!
 bind -x '"\eh": history -n'
 
-bind -m vi-insert '"\ef": "\ex1\e@"'
-bind -m vi-insert '"\C-f":  "\ex2\e@"'
+bind -m vi-insert '"\C-f": "\ex1\e@"'
+bind -m vi-insert '"\ef":  "\ex2\e@"'
 bind -m vi-insert '"\C-e": "\ex3\e@"'
 bind -m vi-insert '"\C-n": "\ex4\e@"'
 bind -m vi-insert '"\C-g": "\ex5\e@"'

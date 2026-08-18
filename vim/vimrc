@@ -8,7 +8,7 @@ set mouse=ar ttymouse=sgr
 set scrolloff=3
 set completeopt=menu,longest
 set nowildmenu wildignorecase wildmode=longest,list,full wildcharm=<Tab>
-set notitle showcmd showcmdloc=statusline laststatus=2 shortmess=aoFtT
+set notitle showcmd showcmdloc=statusline laststatus=2 shortmess=aoOFtT
 set nostartofline splitbelow splitright
 set hlsearch incsearch ignorecase smartcase tagcase=match # if match case is not set to `match` tag search becomes really slow!
 set smartindent nosmarttab expandtab shiftwidth=4 tabstop=4
@@ -215,10 +215,10 @@ noremap  <space>B  <cmd>Buffers<cr>
 noremap  <space>H  <cmd>Help<cr>
 noremap  <space>t  <cmd>TagbarToggle<cr>
 noremap  <space>T  <cmd>Tags<space>
-nnoremap <space>g  <cmd>LiveGrep<cr>
-vnoremap <space>w  :<C-u>LiveGrepVisual<cr>
-nnoremap <space>w  :LiveGrep \b<C-r>=expand('<cword>')<cr>\b<cr>
-nnoremap <space><enter> :LiveGrepPrevious<cr>
+nnoremap <space>g  <cmd>LiveGrep!<cr>
+vnoremap <space>w  :<C-u>LiveGrepVisual!<cr>
+nnoremap <space>w  :LiveGrep! \b<C-r>=expand('<cword>')<cr>\b<cr>
+nnoremap <space><enter> :LiveGrepPrevious!<cr>
 nnoremap <space>vv :Git<cr>
 nnoremap <space>vb <cmd>echo utils#GetGitBranch()<cr>
 nnoremap <space>vl :Git log --decorate --abbrev-commit --graph<space>
