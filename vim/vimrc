@@ -257,6 +257,9 @@ inoremap <expr> <c-x><c-z> fzf#vim#complete#word()
 noremap j gj
 noremap k gk
 
+map p p`]
+map P P`]
+
 nnoremap <expr> y utils#SetOpFunc(function('utils#JumpToEndOfOp', ['y']))
 vnoremap y <scriptcmd>utils#JumpToEndOfOp('y', 'v')<cr>
 nmap yy y_
