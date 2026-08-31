@@ -179,13 +179,15 @@ get-source() {
 # READLINE variable are only populated if the function is called by `bind -x`. The
 # advantage of using READLINE stuff over normal functions is command history population
 # and easy input usage.
-vi-find() {
+fzf-find() {
     selection=$(find "${@:-.}" -name "*${READLINE_LINE:-*}*" \
         -not -path "*/.git*/*" -type f 2>/dev/null |
         fzf --preview 'highlight -O ansi -l "{}"')
+    selection=${selection#./}
+    selection=${selection// /\\ }
 
     if [[ -n $selection ]]; then
-        READLINE_LINE="$EDITOR '$selection'${READLINE_LINE:$READLINE_POINT}"
+        READLINE_LINE="$EDITOR $selection${READLINE_LINE:$READLINE_POINT}"
         READLINE_POINT=$(( ${#EDITOR} + 1 + ${#selection} ))
 
         builtin bind '"\e@": accept-line'
@@ -194,12 +196,14 @@ vi-find() {
     fi
 }
 
-vi-git-ls-files() {
+fzf-find-git-ls() {
     if [[ $(git describe --all 2>/dev/null) ]]; then
         selection=$(git ls-files ${@:-.} | fzf --preview 'highlight -O ansi -l {}')
+        selection=${selection#./}
+        selection=${selection// /\\ }
 
         if [[ -n $selection ]]; then
-            READLINE_LINE="$EDITOR '$selection'${READLINE_LINE:$READLINE_POINT}"
+            READLINE_LINE="$EDITOR $selection${READLINE_LINE:$READLINE_POINT}"
             READLINE_POINT=$(( ${#EDITOR} + 1 + ${#selection} ))
 
             builtin bind '"\e@": accept-line'
@@ -207,15 +211,35 @@ vi-git-ls-files() {
             builtin bind '"\e@": abort'
         fi
     else
-        vi-find $@
+        fzf-find $@
     fi
 }
 
-vi-grep() {
+fzf-cd() {
+    selection=$(find "${@:-.}" -name "*${READLINE_LINE:-*}*" \
+        -not -path "*/.git*/*" -type d 2>/dev/null |
+        fzf --preview 'highlight -O ansi -l "{}"')
+    selection=${selection#./}
+    selection=${selection// /\\ }
+
+    local cmd=cd
+    if [[ -n $selection ]]; then
+        READLINE_LINE="$cmd $selection${READLINE_LINE:$READLINE_POINT}"
+        READLINE_POINT=$(( ${#cmd} + 1 + ${#selection} ))
+
+        builtin bind '"\e@": accept-line'
+    else
+        builtin bind '"\e@": abort'
+    fi
+}
+
+fzf-grep() {
     # selection=$(grep --color=always -rni ${READLINE_LINE:-} 2>/dev/null |
     #     fzf --ansi |
     #     awk -F : '{print $1 " +" $2}')
-    selection=$(Rg | awk -F : '{print "'\''" $1 "'\'' +" $2}')
+    selection=$(Rg | cut -d ':' -f 1-2)
+    selection=${selection// /\\ }
+    selection=${selection/:/ +}
 
     if [[ -n $selection ]]; then
         READLINE_LINE="$EDITOR $selection${READLINE_LINE:$READLINE_POINT}"
@@ -247,11 +271,12 @@ bind '"\M-al": accept-line'
 
 bind '"\e@": end-of-line'
 
-bind -x '"\ex1": vi-git-ls-files'
-bind -x '"\ex2": vi-find'
-bind -x '"\ex3": vi-find ~/dot ~/repo/st ~/repo/dwm'
-bind -x '"\ex4": vi-find ~/note'
-bind -x '"\ex5": vi-grep'
+bind -x '"\ex1": fzf-find-git-ls'
+bind -x '"\ex2": fzf-find'
+bind -x '"\ex3": fzf-find ~/dot ~/repo/st ~/repo/dwm'
+bind -x '"\ex4": fzf-find ~/note'
+bind -x '"\ex5": fzf-grep'
+bind -x '"\ex6": fzf-cd'
 # take in history from other shells
 # NOTE: do not use C-h because backspace sends  when capslock is on in st!
 bind -x '"\eh": history -n'
@@ -261,4 +286,5 @@ bind -m vi-insert '"\ef":  "\ex2\e@"'
 bind -m vi-insert '"\C-e": "\ex3\e@"'
 bind -m vi-insert '"\C-n": "\ex4\e@"'
 bind -m vi-insert '"\C-g": "\ex5\e@"'
+bind -m vi-insert '"\ed":  "\ex6\e@"'
 # TODO: Add a selector for all available executables
