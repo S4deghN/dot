@@ -91,11 +91,12 @@ endfor
 
 map ' `
 map Y y$
+map +  =i{
+
 map gy "+y
 map gY "+Y
 map gp "+p
 map gP "+P
-map +  =i{
 
 noremap <C-j> <cmd>cn<cr>
 noremap <C-k> <cmd>cp<cr>
@@ -123,6 +124,10 @@ xnoremap * y/\V<C-R>"<cr><cmd>keepj norm! N<cr>
 xnoremap # y?\V<C-R>"<cr><cmd>keepj norm! N<cr>
 
 nnoremap yo  :let @+=@"<cr>
+if getenv("SSH_TTY") != null
+    nnoremap yo :call system("tmux load-buffer -w -", getreg('"'))<cr>
+endif
+
 nnoremap gz  1z=
 
 xnoremap ga   :Alith<cr>\v\zs<left><left><left>
