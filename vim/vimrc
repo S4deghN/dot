@@ -262,13 +262,26 @@ inoremap <expr> <c-x><c-z> fzf#vim#complete#word()
 noremap j gj
 noremap k gk
 
-map p p`]
-map P P`]
-
 nnoremap <expr> y utils#SetOpFunc(function('utils#JumpToEndOfOp', ['y']))
 vnoremap y <scriptcmd>utils#JumpToEndOfOp('y', 'v')<cr>
 nmap yy y_
 map  Y  yg_
+
+def BetterPaste(op: string): string
+    var ret_val: string
+    if col('.') != 1 &&
+            col('.') == col('$') - 1 &&
+            getreg(v:register) !~ '^\s\|\n' &&
+            getline(".")[-1] !~ '\s'
+        ret_val = "a \<esc>"
+    endif
+    ret_val ..= op
+    ret_val ..= "g`]"
+    return ret_val
+enddef
+nnoremap <expr> p BetterPaste("p")
+nnoremap <expr> P BetterPaste("P")
+
 
 command! Syn utils#Syn()
 command! RT RooterToggle | exec "norm :\<C-u>cd \<C-x>d\<cr>"
