@@ -1,20 +1,28 @@
 #!/bin/sh
 
+gap_file="$1"
+delta="$2"
+
+[ ! -e "$gap_file" ] && cat > "$gap_file" <<-EOF
+gaps outer 30
+gaps inner 5
+EOF
+
 # Ugly but works!
-if [ $# -eq 1 ] && [ -n "$(sed -nE 's/^gaps outer/&/p' $1)" ]; then
+if [ $# -eq 1 ] && [ -n "$(sed -nE 's/^gaps outer/&/p' $gap_file)" ]; then
     # if no comment, add comment. i.e. OFF
-    sed -i -E 's/^(gaps outer.*)/# \1/g' $1
-    sed -i -E 's/^(gaps inner.*)/# \1/g' $1
+    sed -i -E 's/^(gaps outer.*)/# \1/g' $gap_file
+    sed -i -E 's/^(gaps inner.*)/# \1/g' $gap_file
     exit 0
 fi
 
 # if comment, remove comment. i.e. ON
-sed -i -E 's/^(#\s*)(gaps outer)/\2/g' $1
-sed -i -E 's/^(#\s*)(gaps inner)/\2/g' $1
+sed -i -E 's/^(#\s*)(gaps outer)/\2/g' $gap_file
+sed -i -E 's/^(#\s*)(gaps inner)/\2/g' $gap_file
 
-if [ -n "$2" ]; then
-    gap=$(sed -nE 's/gaps outer ([0-9]+)/\1/p' $1)
-    gap=$((gap + $2))
+if [ -n "$delta" ]; then
+    gap=$(sed -nE 's/gaps outer ([0-9]+)/\1/p' $gap_file)
+    gap=$((gap + $delta))
     [ $gap -lt 0 ] && gap=0
-    sed -i -E "s/(gaps outer ).*/\1$gap/g" $1
+    sed -i -E "s/(gaps outer ).*/\1$gap/g" $gap_file
 fi
