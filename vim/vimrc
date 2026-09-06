@@ -80,7 +80,7 @@ Plug 'yegappan/grep'
 plug#end()
 
 if system("hostname") =~? "x580"
-    colorscheme arc
+    colorscheme wombat
 else
     colorscheme lightgruv
 endif
@@ -267,7 +267,7 @@ vnoremap y <scriptcmd>utils#JumpToEndOfOp('y', 'v')<cr>
 nmap yy y_
 map  Y  yg_
 
-def BetterPaste(op: string): string
+def SmartPaste(op: string): string
     var ret_val: string
     if col('.') != 1 &&
             col('.') == col('$') - 1 &&
@@ -279,8 +279,7 @@ def BetterPaste(op: string): string
     ret_val ..= "g`]"
     return ret_val
 enddef
-nnoremap <expr> p BetterPaste("p")
-nnoremap <expr> P BetterPaste("P")
+nnoremap <expr> p SmartPaste("p")
 
 
 command! Syn utils#Syn()
