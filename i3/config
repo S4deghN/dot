@@ -292,10 +292,11 @@ bindsym $mod+semicolon exec --no-startup-id i3-scratchpad-or-launch \
       "discord"
 
 
-set $apps Apps: [f]irefox, [q]utebrowser, [t]hunar, [h]top, [n]itrogen, [c]hrome, [l]utris, [b]lueman
+set $apps Apps: [f]irefox, [e]macs, [q]utebrowser, [t]hunar, [h]top, [n]itrogen, [c]hrome, [l]utris, [b]lueman
 bindsym $mod+a mode "$apps"
 mode "$apps" {
         bindsym f exec --no-startup-id firefox, mode "default"
+        bindsym e exec --no-startup-id emacs, mode "default"
         bindsym q exec --no-startup-id qutebrowser, mode "default"
         bindsym t exec --no-startup-id pcmanfm, mode "default"
         bindsym h exec --no-startup-id $TERMINAL -e htop, mode "default"
