@@ -82,7 +82,9 @@ plug#end()
 if system("hostname") =~? "x580"
     colorscheme wombat
 else
-    colorscheme lightgruv
+    colorscheme arc
+    hi Normal guibg=#1d1d1d guifg=#ccdada
+    hi Normal guibg=#242424 guifg=#ccdada
 endif
 
 for key in 'befhijkltw'
