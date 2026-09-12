@@ -208,8 +208,8 @@ tnoremap <ScrollWheelUp> <C-\><C-n><ScrollWheelUp>
 
 
 nnoremap <space>d  :Bdelete<cr>
-# nmap     <space>b  :b<space>
-nmap     <space>b  :ToggleBufExplorer<cr>
+nmap     <space>b  :b<space>
+# nmap     <space>b  :ToggleBufExplorer<cr>
 # nmap     <space>b  :Buffer<cr>
 nmap     <space>e  :e<space><C-x>d
 nnoremap <space>E  :e ~/.vim/**/
