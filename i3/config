@@ -30,7 +30,8 @@ exec --no-startup-id picom --daemon
 
 # Enables mounting removable devices from graphical file managers.
 # Requires polkit-gnome in archlinux.
-exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+# exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec --no-startup-id /usr/bin/mate-polkit
 
 # Start XDG autostart .desktop files using dex. See also
 # https://wiki.archlinux.org/index.php/XDG_Autostart
