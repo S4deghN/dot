@@ -40,6 +40,10 @@ g:mapleader = " "
 g:loaded_netrw = 1 | g:loaded_matchparen = 1 | g:loaded_vimballPlugin = 1
 silent! packadd! matchit
 silent! packadd! comment
+silent! packadd! osc52
+timer_start(10, (_) => {
+    set clipmethod+=osc52
+})
 plug#begin("~/.local/share/vim/plugged")
 Plug 'dyng/ctrlsf.vim'
 Plug 'jlanzarotta/bufexplorer' | g:bufExplorerDisableDefaultKeyMapping = 1
@@ -80,7 +84,7 @@ Plug 'yegappan/grep'
 plug#end()
 
 if system("hostname") =~? "x580"
-    colorscheme wombat
+    colorscheme arc
 else
     colorscheme arc
     hi Normal guibg=#1d1d1d guifg=#ccdada
