@@ -9,24 +9,19 @@ export def Syn()
   endfor
 enddef
 
-export def Time(count: number, ...args: list<string>)
-  echom args
+export def Time(count: number, Lambda: func): float
   var repeat = (count <= 0 ? 1 : count)
   var k = 0
   var start = reltime()
   while k < repeat
-    exe join(args)
+      Lambda()
     k += 1
   endwhile
-  var time = reltimestr(reltime(start))
+  var time = reltimefloat(reltime(start))
 
   redraw
 
-  if repeat == 1
-    echomsg "Execution took " .. time .. " sec."
-  else
-    echomsg repeat .. " repetitions took " .. time .. " sec."
-  endif
+  return time
 enddef
 
 export def Vertical(): string
@@ -220,4 +215,15 @@ export def Spotlight(): void
         hlset([{name: 'Cursorline', guibg: savehl.guibg}])
         setl cursorline<
     })
+enddef
+
+def g:ShellCmdInput(prompt: string): string
+    var cmd = ''
+    echohl ModeMsg
+    try
+        cmd = input(prompt, "\<Up>", 'shellcmdline')
+    finally | echohl None | endtry
+    if len(cmd) == 0 | return | endif
+
+    return cmd
 enddef

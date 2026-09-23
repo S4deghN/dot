@@ -41,9 +41,9 @@ g:loaded_netrw = 1 | g:loaded_matchparen = 1 | g:loaded_vimballPlugin = 1
 silent! packadd! matchit
 silent! packadd! comment
 silent! packadd! osc52
-timer_start(10, (_) => {
-    set clipmethod+=osc52
-})
+# timer_start(100, (_) => {
+#     set clipmethod+=osc52
+# })
 plug#begin("~/.local/share/vim/plugged")
 Plug 'dyng/ctrlsf.vim'
 Plug 'jlanzarotta/bufexplorer' | g:bufExplorerDisableDefaultKeyMapping = 1
@@ -298,11 +298,11 @@ command! -range=% -nargs=? Expand utils#KeepView($':{<line1>},{<line2>}!expand -
 command! -range=% -nargs=? Unexpand utils#KeepView($':{<line1>},{<line2>}!unexpand -t ' .. (!<q-args> ? '4' : <q-args>), winsaveview(), 'c')
 # command! -nargs=1 -bang Grep g:Term(["rg -S --column --sort=path ", <f-args>], <bang>0, "[Grep]", "")
 # Dump {binfile}
-command! -nargs=1 -bang -complete=file Dump g:Term("objdump -ClSd --disassembler-color=on " .. <f-args>, <bang>0, "[dump]", "asm")
+# command! -nargs=1 -bang -complete=file Dump g:Term("objdump -ClSd --disassembler-color=on " .. <f-args>, <bang>0, "[dump]", "asm")
 # Assembly {compiler} {sourcefile}
-command! -nargs=1 -bang -complete=file Assembly g:Term(<f-args>  .. " -o- -S -fverbose-asm", <bang>0, "[asm]", "asm")
+# command! -nargs=1 -bang -complete=file Assembly g:Term(<f-args>  .. " -o- -S -fverbose-asm", <bang>0, "[asm]", "asm")
 # PreProc {compiler} {sourcefile}
-command! -nargs=1 -bang -complete=file PreProc g:Term(<f-args>  .. " -o- -E", <bang>0, "[PreProc]", "c")
+# command! -nargs=1 -bang -complete=file PreProc g:Term(<f-args>  .. " -o- -E", <bang>0, "[PreProc]", "c")
 
 augroup autoCommands
     autocmd!

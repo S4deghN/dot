@@ -4,58 +4,45 @@ vim9script
 # - [ ] path is not always set currectly
 
 var term_bufnr = -1
-var term_cwd = ''
-
-var S_bufname: string
-var S_filetype: string
+var term_tty = ''
+var term_qf = []
 
 g:term_vertical = 1
+
+# Ignore time format 12:12:12
+set efm^=%-G%l:%e:%c
 
 if empty(prop_type_get('term_jump_line'))
     prop_type_add('term_jump_line', {highlight: 'QuickFixLine'})
 endif
 
-if empty(prop_type_get('term_footer'))
-    prop_type_add('term_footer', {highlight: 'Comment'})
-endif
+const PATTERNS = [
+    # GNU-style diagnostics, GCC/Clang include chains and the colon form of
+    # CMake diagnostics all reduce to file:line[:col]:.
+    '\v^\s*%(In file included from |from |CMake %(Error|Warning) at )?(.{-}):([1-9]\d*)%([.:]([1-9]\d*))?:',
+    '\v^\s*File "([^"]+)", line ([1-9]\d*)',
+    '\v^In (.+) line ([1-9]\d*):',
+    '\v^(.+): line ([1-9]\d*):',
+]
 
 def OnTermWinOpen()
     setl foldmethod=manual
     setl nonu
-    setl nowrap
     setl showbreak=NONE
 
     hi! link StatuslineTerm Statusline
     hi! link StatuslineTermNC StatuslineNC
 
-    nnoremap <buffer> <C-q> <scriptcmd>TermToQf()<CR>
+    # nnoremap <buffer> <C-q> <scriptcmd>TermToQf()<CR>
     nnoremap <buffer> <C-c> <scriptcmd>TermKill()<CR>
-    nnoremap <buffer> <CR> <scriptcmd>OpenFile()<CR>
+    nnoremap <buffer> <CR> <scriptcmd>CurrentError()<CR>
     nnoremap <buffer> ]] <scriptcmd>NextError()<CR>
     nnoremap <buffer> [[ <scriptcmd>PrevError()<CR>
     nnoremap <buffer> ]} <scriptcmd>LastError()<CR>
     nnoremap <buffer> [{ <scriptcmd>FirstError()<CR>
 enddef
 
-def g:TermInput()
-    var cmd = ''
-    echohl ModeMsg
-    try
-        cmd = input('Term: ', "\<Up>", 'shellcmdline')
-    finally | echohl None | endtry
-    if len(cmd) == 0 | return | endif
-
-    g:Term(cmd, false)
-enddef
-
-
-def g:Term(cmd: string, bang: bool, ...args: list<any>): number
-    t:term_cmd = cmd
-
-    S_bufname = get(args, 0, '')
-    S_filetype = get(args, 1, '')
-    g:term_vertical = get(args, 2, 1)
-
+def g:Term(cmd: string, bang: bool): number
     if term_getstatus(term_bufnr) == "running"
         job_stop(term_getjob(term_bufnr), "kill")
     endif
@@ -68,33 +55,38 @@ def g:Term(cmd: string, bang: bool, ...args: list<any>): number
         win_to_use = CreateWindow()
     endif
 
-    term_cwd = getcwd() .. '/'
-
     var old_bufnr = bufexists(term_bufnr) ? term_bufnr : -1
     var initila_winid = win_getid()
     win_gotoid(win_to_use)
 
-    var escaped_cmd = has('win32') ?  cmd : [
-        &shell,
-        &shellcmdflag,
-        'printf "\e[32m$\e[m %s\n\n" "' .. cmd .. '" ;' ..
-        'start=$EPOCHREALTIME;' ..
-        cmd .. ';' ..
-        'exit_code=$?;' ..
-        'end=$EPOCHREALTIME;' ..
-        'awk ''{printf "\n%.2fs - exit \033[%dm%d\033[m", $2-$1, $3 == 0 ? 32 : 31, $3}'' <<< "$start $end $exit_code";'
-    ]
-
-    term_bufnr = term_start(escaped_cmd, {
-        cwd: term_cwd,
+    term_qf = []
+    var job_keeper: job
+    var job_ended = false
+    var job_start_time = reltime()
+    term_bufnr = term_start([&shell, &shellcmdflag, cmd], {
+        cwd: getcwd(),
         curwin: 1,
         term_name: '[term]',
-        out_modifiable: true,
         exit_cb: (job, ec) => {
-            setbufvar(term_bufnr, 'term_ec', ec)
+            var footer = printf("\n%.2fs - exit \e[%dm%d\e[m", reltimefloat(reltime(job_start_time)), ec == 0 ? 32 : 31, ec)
+            writefile([footer], term_tty)
+            job_stop(job_keeper, "kill")
+        },
+        close_cb: (job) => {
+            job_ended = true
+            timer_start(200, (_) => {
+                var start = reltime()
+                term_qf = getqflist({lines: getbufline(term_bufnr, 1, '$')}).items
+                echo 'scan took: ' .. reltimestr(reltime(start))
+            })
         },
     })
+    term_tty = term_gettty(term_bufnr)
+    job_keeper = job_start(['sleep', '2147483647'], {out_io: 'file', out_name: term_tty})
+    writefile([$"\e[32m$\e[m {cmd}\n"], term_tty)
+
     OnTermWinOpen()
+
     win_gotoid(initila_winid)
 
     if old_bufnr != -1
@@ -165,136 +157,117 @@ def OpenTermWindow(): number
     return winid
 enddef
 
-def OpenFile()
-    const file_patterns = [
-        '^\s*\s\+File "\(.\{-}\)", line \(\d\+\)',
-        '^\s*\s\+in function\s\+.\{-}(\(.\{-}\), line \(\d\+\))',
-        '^\s*\s\+--> \(.\{-}\):\(\d\+\):\(\d\+\)',
-        '^\s*\(\)\(\d\+:\)\(\d\+:\)\?',
-        '^\s*\(.\{-}\):\(\d\+:\)\?\(\d\+:\)\?',
-        '^\s*\(\S\+\)'
-    ]
-    var matches: list<string>
-    for pattern in file_patterns
-        matches = matchlist(getline('.'), pattern)
-        if len(matches) > 0 | break | endif
-    endfor
-    if len(matches) == 0 | return | endif
-
-    var [_, fname, lnum, col; _] = matches
-
-    # echom "reached before fname check"
-
-    # check if it's a regular rg output with filename as a header
-    if empty(fname)
-        var fname_line = search('^$', 'bnW') + 1
-        if fname_line == 1 | fname_line = 2 | endif
-        var header = getline(fname_line)
-        fname = header
+def GetQfItem(line_number: number): dict<any>
+    var item: dict<any>
+    if line_number < term_qf->len()
+        item = term_qf[line_number - 1]
+    else
+        echo $"fell back, lnum: {line_number}"
+        item = getqflist({'lines': getbufline(term_bufnr, line_number)}).items[0]
     endif
+    return item
+enddef
 
-    # construct absolute path because vim's cwd might have changed since command
-    # was run.
-    if (fname[0] != '/')
-        fname = term_cwd .. fname
-    endif
-
-    if !filereadable(fname) | return | endif
+def JumpQfItem(item: dict<any>)
+    echo $"Item: {item}"
+    if !item.valid | return | endif
 
     # Highlight the line
     prop_remove({type: 'term_jump_line', all: true}, 1, line('$')) # returns number of removed props. No error if removed none.
     prop_add(line('.'), 1, {length: col("$"), type: 'term_jump_line', bufnr: term_bufnr})
 
-
-    var buffers = filter(getbufinfo(), (idx, v) => fname == v.name)
-    fname = substitute(fname, '#', '\&', 'g')
-
-    if len(buffers) > 0
-        if len(buffers[0].windows) > 0
-            win_gotoid(buffers[0].windows[0])
-        else
-            win_gotoid(CreateWindow())
-            execute "buffer" fname
-        endif
+    var buf_winid = bufwinid(item.bufnr)
+    if buf_winid > 0
+        win_gotoid(buf_winid)
     else
         win_gotoid(CreateWindow())
-        execute "edit" fname
+        execute "buffer" item.bufnr
     endif
 
-    if !empty(lnum)
-        execute ":" .. lnum
+    if item.lnum > 0
+        execute ":" .. item.lnum
         execute "normal! ^"
     endif
 
-    if !empty(col) && str2nr(col) > 1
-        execute "normal!" (str2nr(col)) .. "|"
+    if item.col > 1
+        execute "normal!" item.col .. "|"
     endif
     normal! zvzz
 enddef
 
-def TermToQf()
-    if bufexists(term_bufnr)
-        cgetexpr getbufline(term_bufnr, 1, "$")
-    endif
+# def TermToQf()
+#     if bufexists(term_bufnr)
+#         cgetexpr getbufline(term_bufnr, 1, "$")
+#     endif
+# enddef
+
+def CurrentError()
+    JumpQfItem(GetQfItem(line('.')))
 enddef
 
-const ErrJumpPattern =
-    '\%(' ..
-        '\%(^\(\)\(\d\+:\)\(\d\+:\)\?[^0-9]\+\)' ..
-        '\|\%(^\f\+:\d\+\(:\d\+:\?\)\?\)' ..
-        '\|\%(^\s*File ".\{-}", line \d\+,\)' ..
-        '\|\%(^\s\+in function\s\+.\{-}(.\{-}, line \d\+)\)' ..
-    '\)' ..
-    '\&\%(^\d\+:\d\+:\d\+\)\@!' # skip '12:23:30'
-def NextError()
-    var did_match = search(ErrJumpPattern, 'W')
-    if !!did_match
-        normal! zz
-    endif
+def NextError(): dict<any>
+    var item: dict<any>
+    var line_number = line('.') + 1
+    while line_number < line('$')
+        item = GetQfItem(line_number)
+        if item.valid
+            cursor(line_number, 0)
+            return item
+        endif
+        line_number += 1
+    endwhile
+    return {valid: false}
 enddef
 
-def PrevError(accept_current: bool = false)
-    var did_match = search(ErrJumpPattern, 'bW' .. (accept_current ? 'c' : ''))
-    if !!did_match
-        normal! zz
-    endif
+def PrevError(): dict<any>
+    var item: dict<any>
+    var line_number = line('.') - 1
+    while line_number > 1
+        item = GetQfItem(line_number)
+        if item.valid
+            cursor(line_number, 0)
+            return item
+        endif
+        line_number -= 1
+    endwhile
+    return {valid: false}
 enddef
 
-def FirstError()
-    :0 | NextError()
+def FirstError(): dict<any>
+    :0 | return NextError()
 enddef
 
-def LastError()
-    :$ | PrevError(true)
+def LastError(): dict<any>
+    :$ | return PrevError()
 enddef
 
 def TermNextErrorJump()
     win_gotoid(OpenTermWindow())
-    NextError()
-    OpenFile()
+    var item = NextError()
+    JumpQfItem(item)
 enddef
 
 def TermPrevErrorJump()
     win_gotoid(OpenTermWindow())
-    PrevError()
-    OpenFile()
+    var item = PrevError()
+    JumpQfItem(item)
 enddef
 
 def TermFirstErrorJump()
     win_gotoid(OpenTermWindow())
-    FirstError()
-    OpenFile()
+    var item = FirstError()
+    JumpQfItem(item)
 enddef
 
 def TermLastErrorJump()
     win_gotoid(OpenTermWindow())
-    LastError()
-    OpenFile()
+    var item = LastError()
+    JumpQfItem(item)
 enddef
 
 def TermThisErrorJump()
     win_gotoid(OpenTermWindow())
-    OpenFile()
+    JumpQfItem(GetQfItem(line('.')))
 enddef
 
 def TermKill()
@@ -305,7 +278,7 @@ defcom
 
 command! -nargs=* -bang -complete=shellcmdline Term g:Term(<q-args>, <bang>0)
 command! -nargs=0 -bar TermToggleWin      ToggleWindow()
-command! -nargs=0 -bar TermToQf           TermToQf()
+# command! -nargs=0 -bar TermToQf           TermToQf()
 command! -nargs=0 -bar TermKill           TermKill()
 command! -nargs=0 -bar TermNextErrorJump  TermNextErrorJump()
 command! -nargs=0 -bar TermFirstErrorJump TermFirstErrorJump()
@@ -314,12 +287,11 @@ command! -nargs=0 -bar TermLastErrorJump  TermLastErrorJump()
 command! -nargs=0 -bar TermThisErrorJump  TermThisErrorJump()
 
 # Configuration -----------------------------------------------------
-# nnoremap cc :wa<cr>:Term <C-r>=get(t:, 'term_cmd', '')<cr>
 # nnoremap cc :wa<cr><cmd>call TermInput()<cr>
 nnoremap cc :silent! wa!<cr>:Term OA
 nnoremap sn :Term<space>
 nnoremap ss <cmd>TermToggleWin<cr>
-nnoremap sq <cmd>TermToQf<cr>
+# nnoremap sq <cmd>TermToQf<cr>
 nnoremap sx <cmd>TermKill<cr>
 nnoremap sj <cmd>TermNextErrorJump<cr>
 nnoremap sk <cmd>TermPrevErrorJump<cr>
