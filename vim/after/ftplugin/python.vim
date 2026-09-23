@@ -1,5 +1,8 @@
 vim9script
 
+g:python_highlight_all = 1
+
+setl efm=%*\\sFile\ \"%f\"\\,\ line\ %l
 setl keywordprg=:Pydoc
 
 def g:Pydoc(word: string)

@@ -6,11 +6,12 @@ vim9script
 var term_bufnr = -1
 var term_tty = ''
 var term_qf = []
+var term_efm = &g:efm
 
 g:term_vertical = 1
 
 # Ignore time format 12:12:12
-set efm^=%-G%l:%e:%c
+setglobal efm^=%-G%l:%e:%c
 
 if empty(prop_type_get('term_jump_line'))
     prop_type_add('term_jump_line', {highlight: 'QuickFixLine'})
@@ -47,6 +48,13 @@ def g:Term(cmd: string, bang: bool): number
         job_stop(term_getjob(term_bufnr), "kill")
     endif
 
+    if !empty(&l:efm) && (bufnr() != term_bufnr || !empty(&ft))
+        term_efm = join([&l:efm, &g:efm], ',')
+            # we rely on having the whole buffer lines in qflist so remove any possible dicard pattern
+            ->substitute(',%-G%.%#', '', 'g')
+            ->substitute('^,\+', '', 'g')
+    endif
+
     var windows = win_findbuf(term_bufnr)
     var win_to_use: number
     if len(windows)
@@ -76,8 +84,8 @@ def g:Term(cmd: string, bang: bool): number
             job_ended = true
             timer_start(200, (_) => {
                 var start = reltime()
-                term_qf = getqflist({lines: getbufline(term_bufnr, 1, '$')}).items
-                echo 'scan took: ' .. reltimestr(reltime(start))
+                term_qf = getqflist({lines: getbufline(term_bufnr, 1, '$'), efm: term_efm }).items
+                echom 'scan took: ' .. reltimestr(reltime(start))
             })
         },
     })
@@ -163,7 +171,7 @@ def GetQfItem(line_number: number): dict<any>
         item = term_qf[line_number - 1]
     else
         echo $"fell back, lnum: {line_number}"
-        item = getqflist({'lines': getbufline(term_bufnr, line_number)}).items[0]
+        item = getqflist({lines: getbufline(term_bufnr, line_number), efm: term_efm}).items[0]
     endif
     return item
 enddef
@@ -272,6 +280,16 @@ enddef
 
 def TermKill()
     job_stop(term_getjob(term_bufnr), "kill")
+enddef
+
+# Debug
+
+def g:TermInspectQf(): list<any>
+    return term_qf
+enddef
+
+def g:TermInspectEfm(): string
+    return term_efm
 enddef
 
 defcom
