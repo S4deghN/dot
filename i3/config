@@ -158,8 +158,8 @@ bindsym --release $mod+Print exec --no-startup-id import "$HOME/Pictures/screens
 # toggle gaps
 set $gap_config_path $HOME/dot/i3/gap-config
 bindsym $mod+backslash       exec --no-startup-id "i3-toggle-gap $gap_config_path   && i3-msg reload"
-bindsym Mod1+backslash       exec --no-startup-id "i3-toggle-gap $gap_config_path 5 && i3-msg reload"
-bindsym Mod1+shift+backslash exec --no-startup-id "i3-toggle-gap $gap_config_path -5 && i3-msg reload"
+bindsym $mod+Mod1+backslash  exec --no-startup-id "i3-toggle-gap $gap_config_path 5 && i3-msg reload"
+bindsym $mod+shift+backslash exec --no-startup-id "i3-toggle-gap $gap_config_path -5 && i3-msg reload"
 include $gap_config_path
 
 

@@ -6,6 +6,13 @@ syn keyword cType s8 s16 s32 s64 s128
 syn keyword cType f32 f64
 syn keyword cType uint ulong
 
+" Merget cDefine and cPreProc
+syn clear cDefine
+syn clear cPreProc
+syn match cPreProc   "^\s*\zs\%(%:\|#\)\s*\%(define\>\|undef\>\|pragma\>\|line\>\|warning\>\|warn\>\|error\>\)"
+syn clear cPreCondit
+syn match cPreCondit "^\s*\zs\%(%:\|#\)\s*\%(el\)\=\%(if\|ifdef\|ifndef\)\>"
+
 finish
 
 "identifier -> \I\i*
