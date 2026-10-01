@@ -284,6 +284,7 @@ command! -range=% -nargs=? Unexpand utils#KeepView($':{<line1>},{<line2>}!unexpa
 
 augroup autoCommands
     autocmd!
+    autocmd VimEnter * if len(expand("<afile>")) == 0 | :e ~/.scratch | endif
     autocmd BufWritePost *.vim,vimrc source % | set ft=vim
     autocmd BufReadPost * if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit' | exe "normal! g`\"zz" | endif
     # this option is set by ftplugin for each file type.
