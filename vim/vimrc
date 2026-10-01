@@ -13,7 +13,7 @@ set nostartofline splitbelow splitright
 set hlsearch incsearch ignorecase smartcase tagcase=match # if match case is not set to `match` tag search becomes really slow!
 set smartindent nosmarttab expandtab shiftwidth=4 tabstop=4
 set fillchars+=diff:╱,fold:\ ,vert:│
-set list listchars=tab:›\ ,nbsp:␣,trail:·,extends:…,precedes:… showbreak=󱞵\ 
+set list listchars=tab:›\ ,nbsp:␣,trail:·,extends:…,precedes:… showbreak=󱞵\
 set cpoptions+=n foldmethod=marker
 set cinoptions+=:s,=s,l1,b1,g0,N-s,E-s,(s,k0,j1,J1,t0,Ls
 set path=.,**,/usr/include,/usr/include/x86_64-linux-gnu
@@ -30,57 +30,54 @@ set diffopt-=closeoff
 set switchbuf=useopen,uselast
 set chistory=15
 
-# &t_md = "" # disable bold
-# &t_SI = "\e[5 q" # Insert mode
-&t_SR = "\e[4 q" # Replace mode
-&t_EI = "\e[1 q" # Normal mode (else)
-
 g:mapleader = " "
 
 g:loaded_netrw = 1 | g:loaded_matchparen = 1 | g:loaded_vimballPlugin = 1
 silent! packadd! matchit
 silent! packadd! comment
-silent! packadd! osc52
-# timer_start(100, (_) => {
-#     set clipmethod+=osc52
-# })
+
 plug#begin("~/.local/share/vim/plugged")
-Plug 'dyng/ctrlsf.vim'
-Plug 'jlanzarotta/bufexplorer' | g:bufExplorerDisableDefaultKeyMapping = 1
-Plug 'ycm/shimp'
-Plug 'mhinz/vim-tree'
-Plug 'preservim/tagbar' | g:tagbar_position = 'vertical leftabove'
-Plug 'romainl/vim-qf' | g:qf_auto_resize = 1 | g:qf_auto_open_quickfix = 0
-Plug 'romainl/vim-redir'
-# Plug 'AndrewRadev/splitjoin.vim'
-# Plug 'guns/vim-sexp' | g:sexp_filetypes = '*' | g:sexp_enable_insert_mode_mappings = false
-# g:sexp_mappings = {
-#     sexp_swap_list_backward: '', # '<M-k>',
-#     sexp_swap_list_forward:  '', # '<M-j>',
-# }
+    Plug 'tpope/vim-fugitive'
+    Plug 'tpope/vim-sleuth' # Heuristically set buffer options
 
-# Plug 'junegunn/vim-easy-align'
-Plug 'junegunn/fzf.vim' | silent source /usr/share/doc/fzf/examples/fzf.vim
+    Plug 'romainl/vim-redir'
+    Plug 'romainl/vim-qf'
+        g:qf_auto_resize = 1
+        g:qf_auto_open_quickfix = 0
 
-Plug 'mityu/vim-alith'
+    Plug 'junegunn/vim-easy-align'
+    Plug 'junegunn/gv.vim'
+    Plug 'junegunn/fzf.vim', { 'commit': 'd6aa214', 'froze': 1 }
+        silent source /usr/share/doc/fzf/examples/fzf.vim
 
-Plug 'mg979/vim-visual-multi'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-sleuth' # Heuristically set buffer options
-Plug 'glts/vim-magnum'
-Plug 'glts/vim-radical' # [C]hange [R]adix with 'cr' operator, 'gA' to view all representations
-Plug 'alx741/vinfo'
-# Plug 'BourgeoisBear/clrzr' | g:clrzr_startup = 0
-Plug 'nda-cunh/PropColor'
-Plug 'airblade/vim-rooter' | g:rooter_cd_cmd = 'lcd' | g:rooter_silent_chdir = 1 | g:rooter_patterns = [ '.git', '.svn', 'tags'] | g:rooter_targets = ['*'] # avoid setting root for directories
-Plug '~/.vim/local/vim-fm'
-Plug 'S4deghN/lsp' | runtime lsp.vim
-# Plug 'skywind3000/asyncrun.vim' | g:asyncrun_timer = 999999 | g:asyncrun_open = 10
-Plug 'yegappan/grep'
+    Plug 'airblade/vim-rooter'
+        g:rooter_cd_cmd = 'lcd'
+        g:rooter_silent_chdir = 1
+        g:rooter_patterns = [ '.git', '.svn', 'tags']
+        g:rooter_targets = ['*'] # avoid setting root for directories
 
-# Plug 'chaoren/vim-wordmotion' | g:wordmotion_mappings = {"<C-R><C-W>": "", "<C-R><C-A>": ""}
-# TODO:
-# Plug 'kana/vim-smartword'
+    Plug 'jlanzarotta/bufexplorer'
+        g:bufExplorerDisableDefaultKeyMapping = 1
+    Plug 'preservim/tagbar'
+        g:tagbar_position = 'vertical leftabove'
+
+    Plug 'mg979/vim-visual-multi'
+
+    Plug 'glts/vim-magnum'
+    Plug 'glts/vim-radical' # [C]hange [R]adix with 'cr' operator, 'gA' to view all representations
+
+    Plug 'alx741/vinfo'
+
+    # Plug 'yegappan/grep'
+
+    Plug 'kana/vim-textobj-user'
+    Plug 'kana/vim-textobj-function'
+
+    Plug 's4deghn/PropColor'
+        g:prop_colors_style = 'icon'
+    Plug 's4deghn/lsp'
+        runtime lsp.vim
+    Plug '~/.vim/local/vim-fm'
 plug#end()
 
 if system("hostname") =~? "x580"
@@ -95,33 +92,38 @@ for key in 'befhijkltw'
     exe $"set <M-{key}>=\e{key}"
 endfor
 
-map ' `
-map Y y$
-map +  =i{
+nnoremap <expr> y utils#SetOpFunc(function('utils#JumpToEndOfOp', ['y']))
+vnoremap y <scriptcmd>utils#JumpToEndOfOp('y', 'v')<cr>
+nmap yy y_
+map  Y  yg_
+map  Y  y$
 
 map gy "+y
 map gY "+Y
 map gp "+p
 map gP "+P
 
+map ' `
+map + =i{
+inoremap <silent> <Esc> <Esc>g`^
+
 noremap <C-j> <cmd>cn<cr>
 noremap <C-k> <cmd>cp<cr>
 noremap <C-h> <cmd>bp<cr>
 noremap <C-l> <cmd>bn<cr>
-# noremap <Down> 3<C-e>3j
-# noremap <Up> 3<C-y>3k
 
 noremap <C-f> <C-d><C-d>
 noremap <C-b> <C-u><C-u>
 
-# [_CTRL-I with no [count] jumps to the first non-comment result but with
-# a [count] it would count the comments.
+
+# [_CTRL-I with no [count] jumps to the first non-comment result but with a [count] it would count the comments.
 noremap [I [I:let nr = input("goto: ")<bar>exe "norm! " .. nr .. "[\<C-I>"<cr>
 noremap ]I ]I:let nr = input("goto: ")<bar>exe "norm! " .. nr .. "]\<C-I>"<cr>
 
 # noremap  } <cmd>keepj norm! }<cr>
 # noremap  { <cmd>keepj norm! {<cr>
-
+noremap  j gj
+noremap  k gk
 noremap  n <cmd>keepj norm! n<cr>
 noremap  N <cmd>keepj norm! N<cr>
 nnoremap * *<cmd>keepj norm! N<cr>
@@ -129,24 +131,25 @@ nnoremap # #<cmd>keepj norm! N<cr>
 xnoremap * y/\V<C-R>"<cr><cmd>keepj norm! N<cr>
 xnoremap # y?\V<C-R>"<cr><cmd>keepj norm! N<cr>
 
+noremap <C-g> 1<C-g>
+
 nnoremap yo  :let @+=@"<cr>
 if getenv("SSH_TTY") != null
     nnoremap yo :call system("tmux load-buffer -w -", getreg('"'))<cr>
 endif
 
 nnoremap gz  1z=
+nnoremap zs  <scriptcmd>utils#KeepView(':%s/\s\+$//e', winsaveview(), 'c')<cr>
 
-xnoremap ga   :Alith<cr>\v\zs<left><left><left>
-nmap     gaip vipga
-nmap     gaap vapga
-nnoremap ga\ mzvap:Alith \\$<cr>g`z
+nnoremap ga  <plug>(EasyAlign)
+xnoremap ga  <plug>(EasyAlign)
+nnoremap ga\ mz<plug>(EasyAlign)ap<C-x>\\<cr>g`z
 
 nnoremap gk  :ManCword<cr>
 vnoremap gk  :<C-u>ManVisual<cr>
-nnoremap zs  <scriptcmd>utils#KeepView(':%s/\s\+$//e', winsaveview(), 'c')<cr>
 nnoremap gL  <scriptcmd>utils#OpenLink(expand("<cfile>"))<cr>
+
 nmap     gcd <cmd>let @c=col('.')<cr>yygccp<cmd>call cursor(0,@c)<cr>
-nnoremap ZA :wqa<cr>
 
 nmap <M-t> :t.<cr>
 imap <M-t> <C-o><M-t>
@@ -156,65 +159,22 @@ vmap <silent> <M-j> :m'>+1<cr>gv=gv
 nmap <silent> <M-k> :m-2<cr>==
 vmap <silent> <M-k> :m'<-2<cr>gv=gv
 
-noremap <C-g> 1<C-g>
-# nnoremap <C-s>s :%s/<C-r><C-w>/
-# xnoremap <C-s>s "vy:%s/<C-r>v/
-
 cmap <M-b>  <S-Left>
+cmap <c-b>  <Left>
 cmap <M-f>  <S-Right>
 cmap <C-j>  <Down>
 cmap <C-k>  <Up>
+cmap <C-x>% <C-r>=expand('%')<cr>
 cmap <C-x>f <C-r>=expand('%:p')<cr>
 cmap <C-x>d <C-r>=expand('%:p:h:s?\S\+:\/\/??').'/'<cr>
 # Escape sequence search
 cmap <C-s>e \(<C-v><Esc>\|#033\)\[\d\+\(;\d*\)\?m\?
-def CmdCr(): string
-    var cmdline = getcmdline()
-    if cmdline =~ '\v\C/(#|nu|num|numb|numbe|number)$'
-        return "\<CR>:"
-    else
-        return "\<CR>"
-    endif
-enddef
-if exists('*CmdCr')
-    cnoremap <expr> <CR> CmdCr()
-endif
-
-def CmdCtrlU(): string
-    var cmdline = getcmdline()
-    var match_list = matchlist(cmdline, '\v\C^(e%[dit] |Term |Grep |Git |CtrlSF\S* )(.+)')
-    if len(match_list) == 0
-        return "\<C-u>"
-    else
-        return "\<C-u>" .. match_list[1]
-    endif
-enddef
-if exists('*CmdCtrlU')
-    cnoremap <expr> <C-u> CmdCtrlU()
-endif
-
-def CmdCtrlW(): string
-    var cursor_pos = getcmdpos()
-    var line_before_cursor = getcmdline()[0 : cursor_pos - 2]
-    var match_idx = match(line_before_cursor, '\v[^ /]{-1,}/\s*$') # /this/and/[that/ ]
-    if match_idx != -1
-        return repeat("\<BS>", len(line_before_cursor) - match_idx)
-    else
-        return "\<C-w>"
-    endif
-enddef
-if exists("*CmdCtrlW")
-    cnoremap <expr> <C-w> CmdCtrlW()
-endif
 
 tnoremap <C-]> <C-\><C-n>
 tnoremap <ScrollWheelUp> <C-\><C-n><ScrollWheelUp>
 
-
 nnoremap <space>d  :Bdelete<cr>
 nmap     <space>b  :b<space>
-# nmap     <space>b  :ToggleBufExplorer<cr>
-# nmap     <space>b  :Buffer<cr>
 nmap     <space>e  :e<space><C-x>d
 nnoremap <space>E  :e ~/.vim/**/
 nnoremap <space><C-e> :e $VIMRUNTIME/**/
@@ -241,68 +201,86 @@ nnoremap <space>'  <cmd>Marks<cr>
 nnoremap <space>c  <Plug>(qf_qf_toggle)
 nnoremap <space>C  <cmd>Chistory<cr>
 
-g:ctrlsf_backend = 'rg'
-g:ctrlsf_position = 'right_local'
-g:ctrlsf_populate_qflist = 1
-g:ctrlsf_auto_close = {
-    'normal':  0,
-    'compact': 0
-}
-g:ctrlsf_preview_position = 'inside'
-g:ctrlsf_auto_focus = { 'at': 'start' }
-g:ctrlsf_indent = 2
-g:ctrlsf_extra_backend_args = {
-    'rg': '-. --glob !**/.git/* --sort=path'
-}
-nnoremap <C-s> :CtrlSF <C-r><C-w>
-vnoremap <C-s> <Plug>CtrlSFVwordExec
-nnoremap <space>s <cmd>CtrlSFToggle<cr>
-nnoremap <space>S <Plug>CtrlSFPwordPath
-
-inoremap <expr> <C-e> pumvisible() ? "\<C-e>" : "\<esc>A"
-inoremap <silent> <Esc> <Esc>g`^
-inoremap <C-x>t <C-r>=strftime("%H:%M")<Cr>
-inoremap <C-o> <Esc>:a<cr><enter><C-c>gi
+inoremap <expr> <C-e>      pumvisible() ? "\<C-e>" : "\<esc>A"
+inoremap        <C-o>      <Esc>:a<cr><enter><C-c>gi
+inoremap        <C-x>t     <C-r>=strftime("%H:%M")<Cr>
 inoremap <expr> <c-x><c-z> fzf#vim#complete#word()
 
-noremap j gj
-noremap k gk
+try
+    def SmartPaste(op: string): string
+        var ret_val: string
+        if col('.') != 1 &&
+                col('.') == col('$') - 1 &&
+                getreg(v:register) !~ '^\s\|\n' &&
+                getline(".")[-1] !~ '\s'
+            ret_val = "a \<esc>"
+        endif
+        ret_val ..= op
+        ret_val ..= "g`]"
+        return ret_val
+    enddef
+    nnoremap <expr> p SmartPaste("p")
+catch
+    silent! nunmap p
+    echom $'{expand("%")}:{line('.')}: {v:exception}'
+endtry
 
-nnoremap <expr> y utils#SetOpFunc(function('utils#JumpToEndOfOp', ['y']))
-vnoremap y <scriptcmd>utils#JumpToEndOfOp('y', 'v')<cr>
-nmap yy y_
-map  Y  yg_
+try
+    def CmdCr(): string
+        var cmdline = getcmdline()
+        if cmdline =~ '\v\C/(#|nu|num|numb|numbe|number)$'
+            return "\<CR>:"
+        else
+            return "\<CR>"
+        endif
+    enddef | defcomp
+    cnoremap <expr> <CR> CmdCr()
+catch
+    silent! cunmap <CR>
+    echom $'{expand("%")}:{line('.')}: {v:exception}'
+endtry
 
-def SmartPaste(op: string): string
-    var ret_val: string
-    if col('.') != 1 &&
-            col('.') == col('$') - 1 &&
-            getreg(v:register) !~ '^\s\|\n' &&
-            getline(".")[-1] !~ '\s'
-        ret_val = "a \<esc>"
-    endif
-    ret_val ..= op
-    ret_val ..= "g`]"
-    return ret_val
-enddef
-nnoremap <expr> p SmartPaste("p")
+try
+    def CmdCtrlU(): string
+        var cmdline = getcmdline()
+        var match_list = matchlist(cmdline, '\v\C^(e%[dit] |Term |Grep |Git )(.+)')
+        if len(match_list) == 0
+            return "\<C-u>"
+        else
+            return "\<C-u>" .. match_list[1]
+        endif
+    enddef | defcomp
+    cnoremap <expr> <C-u> CmdCtrlU()
+catch
+    silent! cunmap <C-u>
+    echom $'{expand("%")}:{line('.')}: {v:exception}'
+endtry
 
+try
+    def CmdCtrlW(): string
+        var cursor_pos = getcmdpos()
+        var line_before_cursor = getcmdline()[0 : cursor_pos - 2]
+        var match_idx = match(line_before_cursor, '\v[^ /]{-1,}/\s*$') # /this/and/[that/ ]
+        if match_idx != -1
+            return repeat("\<BS>", len(line_before_cursor) - match_idx)
+        else
+            return "\<C-w>"
+        endif
+    enddef | defcomp
+    cnoremap <expr> <C-w> CmdCtrlW()
+catch
+    silent! cunmap <C-w>
+    echom $'{expand("%")}:{line('.')}: {v:exception}'
+endtry
 
 command! Syn utils#Syn()
 command! RT RooterToggle | exec "norm :\<C-u>cd \<C-x>d\<cr>"
 command! SudoWrite exec ':silent w !sudo tee' expand('%:p') | e!
-command! -nargs=+ -complete=command  R put = execute(<q-args>)->trim()             # write vim command output into buffer
-command! -nargs=+ -complete=function RR put = execute('echo ' .. <q-args>)->trim() # write vim function output into buffer
-command! -range=% Format utils#KeepView($':{<line1>},{<line2>}!clang-format', winsaveview(), 'c')
-command! -range=% -nargs=? Expand utils#KeepView($':{<line1>},{<line2>}!expand -t ' .. (!<q-args> ? '4' : <q-args>), winsaveview(), 'c')
+command! -nargs=+ -complete=command R put = execute(<q-args>)->trim() # write vim command output into buffer
+
+command! -range=%          Format   utils#KeepView($':{<line1>},{<line2>}!clang-format', winsaveview(), 'c')
+command! -range=% -nargs=? Expand   utils#KeepView($':{<line1>},{<line2>}!expand -t ' .. (!<q-args> ? '4' : <q-args>), winsaveview(), 'c')
 command! -range=% -nargs=? Unexpand utils#KeepView($':{<line1>},{<line2>}!unexpand -t ' .. (!<q-args> ? '4' : <q-args>), winsaveview(), 'c')
-# command! -nargs=1 -bang Grep g:Term(["rg -S --column --sort=path ", <f-args>], <bang>0, "[Grep]", "")
-# Dump {binfile}
-# command! -nargs=1 -bang -complete=file Dump g:Term("objdump -ClSd --disassembler-color=on " .. <f-args>, <bang>0, "[dump]", "asm")
-# Assembly {compiler} {sourcefile}
-# command! -nargs=1 -bang -complete=file Assembly g:Term(<f-args>  .. " -o- -S -fverbose-asm", <bang>0, "[asm]", "asm")
-# PreProc {compiler} {sourcefile}
-# command! -nargs=1 -bang -complete=file PreProc g:Term(<f-args>  .. " -o- -E", <bang>0, "[PreProc]", "c")
 
 augroup autoCommands
     autocmd!
@@ -323,6 +301,9 @@ augroup autoCommands
     autocmd BufAdd .clang* set filetype=yaml
     autocmd BufAdd /tmp/bash* set filetype=sh
     autocmd BufAdd *-MIB.txt set filetype=mib
+
+    autocmd ShellFilterPost * if v:shell_error != 0 | undo | endif
+    autocmd CompleteDone * silent! pclose
 
     autocmd User FugitiveIndex norm! zt
 
@@ -349,21 +330,6 @@ augroup autoCommands
         autocmd VimResume,VimEnter,BufEnter * TmuxSetTitle()
         autocmd VimLeave,VimSuspend * system("tmux set-window-option automatic-rename on")
     endif
-
-    def g:DeleteUnusedBuffers()
-        var delete_count = 0
-        var now = localtime()
-        getbufinfo({buflisted: 1})->foreach((_, v) => {
-            if !v.changed && (now - v.lastused > 300) && bufwinnr(v.bufnr) == -1
-                exec 'bdelete' v.bufnr
-                delete_count += 1
-            endif
-        })
-        if delete_count > 0
-            echom $"Deleted {delete_count} unused buffer."
-        endif
-    enddef
-    # timer_start(20000, (_) => g:DeleteUnusedBuffers(), {repeat: -1})
 augroup end
 
 defcomp # to catch errors early.
