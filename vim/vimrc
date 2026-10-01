@@ -1,6 +1,5 @@
 vim9script
 
-set nocompatible
 set ttimeout ttimeoutlen=0
 set history=10000 termwinscroll=1000000
 set hidden noswapfile undofile undodir=/tmp/$USER.vim9undo | silent system("mkdir -p /tmp/$USER.vim9undo")
@@ -8,10 +7,10 @@ set mouse=ar ttymouse=sgr
 set scrolloff=3
 set completeopt=menu,longest
 set nowildmenu wildignorecase wildmode=longest,list,full wildcharm=<Tab>
-set notitle showcmd showcmdloc=statusline laststatus=2 shortmess=aoOFtT
+set notitle showcmdloc=statusline laststatus=2 shortmess=aoOFtT
 set nostartofline splitbelow splitright
 set hlsearch incsearch ignorecase smartcase tagcase=match # if match case is not set to `match` tag search becomes really slow!
-set smartindent nosmarttab expandtab shiftwidth=4 tabstop=4
+set smartindent expandtab shiftwidth=4 tabstop=4
 set fillchars+=diff:╱,fold:\ ,vert:│
 set list listchars=tab:›\ ,nbsp:␣,trail:·,extends:…,precedes:… showbreak=󱞵\
 set cpoptions+=n foldmethod=marker
@@ -21,12 +20,10 @@ set grepprg=grep\ -rnI
 set keywordprg=:Man
 set termguicolors
 set complete-=i # can be very slow
-set regexpengine=1
 set updatetime=2000
 set display=lastline
 set maxsearchcount=9999
-set diffopt+=followwrap,foldcolumn:0,algorithm:histogram
-set diffopt-=closeoff
+set diffopt+=followwrap,foldcolumn:0,algorithm:patience
 set switchbuf=useopen,uselast
 set chistory=15
 
@@ -333,4 +330,4 @@ augroup autoCommands
     endif
 augroup end
 
-defcomp # to catch errors early.
+defcomp # to catch errors early
