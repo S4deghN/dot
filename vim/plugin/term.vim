@@ -1,30 +1,38 @@
 vim9script
 
-# - [ ] jobs are not killed porperlly all the times
+# - [ ] polish window creation
 # - [ ] path is not always set currectly
+
+g:use_local_efm = 0
+g:term_vertical = 1
 
 var term_bufnr = -1
 var term_tty = ''
+var term_efm = ''
 var term_qf = []
-var term_efm = &g:efm
 
-g:term_vertical = 1
-
-# Ignore time format 12:12:12
-setglobal efm^=%-G%l:%e:%c
+const BASE_EFM = join([
+    '%-G%l:%e:%c', # ignore time format 12:12:12
+    '%*[^"]"%f"%*\D%l: %m',
+    '%f%\ze:%l:%c:%m',
+    '%f(%l):%m',
+    '%f:%l:%m',
+    '%f: %\\%(line %\\)%\\?%l: %m', # shell error (bash has that extra "line")
+    '%f|%l| %m',
+    '"%f"%*\D%l: %m',
+    '"%f"\, line %l%*\D%c%*[^ ] %m',
+    '%D%*\a[%*\d]: Entering directory %*[`'']%f''',
+    '%X%*\a[%*\d]: Leaving directory %*[`'']%f''',
+    '%D%*\a: Entering directory %*[`'']%f''',
+    '%X%*\a: Leaving directory %*[`'']%f''',
+    '%DMaking %*\a in %f',
+    '%*\sFile "%f"\, line %l', # Python
+    'In %f line %l:', # shellcheck
+], ',')
 
 if empty(prop_type_get('term_jump_line'))
     prop_type_add('term_jump_line', {highlight: 'QuickFixLine'})
 endif
-
-const PATTERNS = [
-    # GNU-style diagnostics, GCC/Clang include chains and the colon form of
-    # CMake diagnostics all reduce to file:line[:col]:.
-    '\v^\s*%(In file included from |from |CMake %(Error|Warning) at )?(.{-}):([1-9]\d*)%([.:]([1-9]\d*))?:',
-    '\v^\s*File "([^"]+)", line ([1-9]\d*)',
-    '\v^In (.+) line ([1-9]\d*):',
-    '\v^(.+): line ([1-9]\d*):',
-]
 
 def OnTermWinOpen()
     setl foldmethod=manual
@@ -48,12 +56,7 @@ def g:Term(cmd: string, bang: bool): number
         job_stop(term_getjob(term_bufnr), "kill")
     endif
 
-    if !empty(&l:efm) && (bufnr() != term_bufnr || !empty(&ft))
-        term_efm = join([&l:efm, &g:efm], ',')
-            # we rely on having the whole buffer lines in qflist so remove any possible dicard pattern
-            ->substitute(',%-G%.%#', '', 'g')
-            ->substitute('^,\+', '', 'g')
-    endif
+    term_efm = GetEfm()
 
     var windows = win_findbuf(term_bufnr)
     var win_to_use: number
@@ -76,7 +79,8 @@ def g:Term(cmd: string, bang: bool): number
         curwin: 1,
         term_name: '[term]',
         exit_cb: (job, ec) => {
-            var footer = printf("\n%.2fs - exit \e[%dm%d\e[m", reltimefloat(reltime(job_start_time)), ec == 0 ? 32 : 31, ec)
+            var exit_term = ec != -1 ? ec : job_info(job).termsig
+            var footer = printf("\n\r%.2fs - exit \e[%dm%s\e[m", reltimefloat(reltime(job_start_time)), ec == 0 ? 32 : 31, exit_term)
             writefile([footer], term_tty)
             job_stop(job_keeper, "kill")
         },
@@ -86,6 +90,12 @@ def g:Term(cmd: string, bang: bool): number
                 var start = reltime()
                 term_qf = getqflist({lines: getbufline(term_bufnr, 1, '$'), efm: term_efm }).items
                 echom 'scan took: ' .. reltimestr(reltime(start))
+            })
+            timer_start(0, (_) => { # wait one loop for buffer redraw
+                var winid = bufwinid(term_bufnr)
+                if winid != -1 && getcurpos(winid)[1] == getbufinfo(term_bufnr)[0].linecount
+                    win_execute(winid, 'norm! G')
+                endif
             })
         },
     })
@@ -102,6 +112,20 @@ def g:Term(cmd: string, bang: bool): number
     endif
 
     return win_to_use
+enddef
+
+def GetEfm(): string
+    if g:use_local_efm != 0
+        var local_efm = (bufnr() == term_bufnr ?
+            getbufvar(winbufnr(winnr('#')), &l:efm) :
+            &l:efm
+        )->substitute(',%-G%.%#', '', 'g')
+         ->substitute('^,\+', '', 'g')
+
+        return join([local_efm, BASE_EFM], ',')
+    else
+        return BASE_EFM
+    endif
 enddef
 
 var was_a_win_there: bool = false
@@ -177,7 +201,7 @@ def GetQfItem(line_number: number): dict<any>
 enddef
 
 def JumpQfItem(item: dict<any>)
-    echo $"Item: {item}"
+    # echo $"Item: {item}"
     if !item.valid | return | endif
 
     # Highlight the line
