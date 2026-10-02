@@ -4,17 +4,22 @@ de=${DE:-i3}
 
 [ -f ~/.xprofile ] && . ~/.xprofile
 
+if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
+    eval "$(dbus-launch --sh-syntax --exit-with-session)"
+fi
+
 if [ $de = "dwm" ]; then
     nitrogen --restore &
     picom --config ~/.config/picom/picom-dwm.conf &
     dwm-status &
     mate-polkit &
+    xfce4-clipman &
 elif [ $de = "i3" ]; then
-    continue
+    mate-polkit &
+    xfce4-clipman &
 elif [ $de = "xfce4" ]; then
     de=startxfce4
 fi
 
-#Activate dbus variables
 dbus-update-activation-environment --all --systemd
-exec dbus-launch --exit-with-session ssh-agent $de
+exec ssh-agent "$de"
