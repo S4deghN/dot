@@ -94,7 +94,7 @@ def g:Term(cmd: string, bang: bool): number
             timer_start(0, (_) => { # wait one loop for buffer redraw
                 var winid = bufwinid(term_bufnr)
                 if winid != -1 && getcurpos(winid)[1] == getbufinfo(term_bufnr)[0].linecount
-                    win_execute(winid, 'norm! G')
+                    win_execute(winid, 'keepjump norm! G')
                 endif
             })
         },
