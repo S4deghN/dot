@@ -1,7 +1,7 @@
 vim9script
 
 # - [ ] polish window creation
-# - [ ] path is not always set currectly
+# - [ ] path is not always set correctly
 
 g:use_local_efm = 0
 g:term_vertical = 1
