@@ -1,8 +1,26 @@
 #!/usr/bin/sh
 
-max=$(cat /sys/class/backlight/intel_backlight/max_brightness)
-setto=${1:-$((max*2/3))}
+case $1 in
+    laptop)
+        max=$(cat /sys/class/backlight/intel_backlight/max_brightness)
+        set_to=${2:-$((max*2/3))}
 
-echo "max: $max"
-echo "set: $setto"
-echo $setto | sudo tee /sys/class/backlight/intel_backlight/brightness 1>/dev/null
+        echo "max: $max"
+        echo "set: $set_to"
+        echo $set_to | sudo tee /sys/class/backlight/intel_backlight/brightness 1>/dev/null
+        ;;
+    monitor)
+        sudo modprobe i2c-dev
+        if [ -z "$2" ]; then
+            ddcutil getvcp 10
+        else
+            ddcutil setvcp 10 $2
+        fi
+        ;;
+    *)
+        prog_name=$(basename $0)
+        printf "%s\n" \
+            "Usage:" \
+            "   $prog_name <monitor|laptop> BRIGHTNESS"
+        exit 1
+esac
