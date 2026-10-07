@@ -54,8 +54,8 @@
     changed = green
     untracked = cyan
 [color "diff"]
-    meta = white
-    frag = yellow
+    meta = yellow
+    frag = blue
     func = blue
     ; old = red
     ; new = green

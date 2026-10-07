@@ -311,6 +311,10 @@ hi Added   guifg=#8F9D6A
 hi Removed guifg=#CF6A4C
 hi Changed guifg=NONE guibg=#1F385B
 
+hi! link diffAdded   Added
+hi! link diffRemoved Removed
+hi! link diffChanged Changed
+
 " Naysayer merge
 hi Normal guifg=fg guibg=bg gui=NONE
 "hi NormalFloat guibg=#303030
