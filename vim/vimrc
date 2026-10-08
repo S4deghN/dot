@@ -45,7 +45,7 @@ plug#begin("~/.local/share/vim/plugged")
     Plug 'junegunn/vim-easy-align'
     Plug 'junegunn/gv.vim'
     Plug 'junegunn/fzf.vim', { 'commit': 'd6aa214', 'froze': 1 }
-        silent source /usr/share/doc/fzf/examples/fzf.vim
+        silent! source /usr/share/doc/fzf/examples/fzf.vim # only on Debian based
 
     Plug 'airblade/vim-rooter'
         g:rooter_cd_cmd = 'lcd'

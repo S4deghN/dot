@@ -1,5 +1,9 @@
 #!/bin/bash
 
+mkdir -p ~/.config
+mkdir -p ~/.local
+mkdir -p ~/.local/share
+
 pushd ~/dot/ || return
 
 ln -sfv "$PWD"/.gitconfig    "$HOME"/

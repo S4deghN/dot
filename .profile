@@ -8,6 +8,8 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
+unset LS_COLORS
+
 export VISUAL=vim
 export EDITOR=vim
 export TERMINAL=st

@@ -57,7 +57,7 @@ PROMPT_COMMAND="__ps1"
 #---------------------------------------------------
 # export TERM=xterm-256color
 # experimental
-export MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu noma' -\""
+export MANPAGER="manpager"
 
 #---------------------------------------------------
 # options
@@ -117,6 +117,7 @@ alias t="tmux a || tmux"
 alias o="octave"
 alias r="ranger"
 alias apt="sudo apt"
+alias xbps-install="sudo xbps-install"
 alias p="proxychains"
 
 alias gits="git status -bs"

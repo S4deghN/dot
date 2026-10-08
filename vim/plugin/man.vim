@@ -10,7 +10,9 @@ def g:Man(word: string)
         return
     endif
 
-    var cmd = [&shell, &shellcmdflag, 'man ' .. escape(word, '()')]
+    var [_, name, section; _] = matchlist(word, '^\([^(]\+\)\%((\(.\+\))\)\?')
+
+    var cmd = [&shell, &shellcmdflag, $'{{ self=$$; man {section} {name} || kill $self; }} | col -b']
 
     var bufnr = bufadd(bufname)
 
@@ -32,6 +34,7 @@ def g:Man(word: string)
                 set nobuflisted
                 set bt=nofile
                 set ft=man
+                setl nolist
                 setl keywordprg=:Man
             else
                 exe ':' bufnr 'bwipeout'

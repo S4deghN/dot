@@ -81,8 +81,8 @@ def g:FzfApropos(): list<string>
         ],
         'source': src_cmd,
         'sink': (line) => {
-            var [_, name, section; _] = matchlist(line, '^\(\S\+\)\s\+\((\w\+)\)')
-            exec 'Man' name .. section
+            var [_, names, sections; _] = matchlist(line, '^\(.\{-}\)(\(.\{-}\))')
+            exec 'Man' names->split(',')[0] .. '(' .. sections->split(',')[0] .. ')'
         } }))
 enddef
 command! Apropos call FzfApropos()
