@@ -7,6 +7,4 @@ kill $(pgrep polybar)
 
 # Launch Polybar, using default config location ~/.config/polybar/config.ini
 # polybar $HOSTNAME 2>&1 | tee -a /tmp/polybar.log & disown
-polybar "x580vd" 2>&1 | tee -a /dev/null & disown
-
-echo "Polybar launched..."
+exec polybar "x580vd"

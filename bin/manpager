@@ -1,6 +1,4 @@
-#!/bin/bash
-
-set -e -o pipefail
+#!/bin/sh -e
 
 if [ -p /dev/stdin ]; then
     file=/dev/stdin

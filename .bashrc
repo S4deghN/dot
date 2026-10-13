@@ -146,9 +146,9 @@ alias yt-dlp-video='yt-dlp --cookies-from-browser firefox --proxy socks5://192.1
 alias yt-dlp-audio='yt-dlp --cookies-from-browser firefox --proxy socks5://192.168.1.100:9909 -f "ba"'
 alias ffmpeg-combine='ffmpeg -i "" -i "" out.mp4'
 
-alias bf="/home/s4/Games/bf/drive_c/Program\ Files/BattleForge"
-alias hw="/home/s4/repo/naad/HWIPSec_SW/"
-alias pro="/home/s4/projects/compiler/cc"
+alias bf="~/Games/BattleForge/drive_c/Program\ Files\ \(x86\)/BattleForge/"
+alias hw="~/repo/naad/HWIPSec_SW/"
+alias pro="~/projects/compiler/cc"
 
 #---------------------------------------------------
 # env

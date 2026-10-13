@@ -12,9 +12,9 @@ case $1 in
     monitor)
         sudo modprobe i2c-dev
         if [ -z "$2" ]; then
-            ddcutil getvcp 10
+            sudo ddcutil getvcp 10
         else
-            ddcutil setvcp 10 $2
+            sudo ddcutil setvcp 10 $2
         fi
         ;;
     *)
