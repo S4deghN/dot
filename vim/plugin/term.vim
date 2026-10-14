@@ -9,10 +9,11 @@ g:term_vertical = 1
 var term_bufnr = -1
 var term_tty = ''
 var term_efm = ''
-var term_qf = []
+var term_tag_lines: dict<any>
+var term_cwd = ''
 
 const BASE_EFM = join([
-    '%-G%l:%e:%c', # ignore time format 12:12:12
+    '%+G\ze%*\d:%*\d:%*\d', # ignore time format 12:12:12
     '%*[^"]"%f"%*\D%l: %m',
     '%f%\ze:%l:%c:%m',
     '%f(%l):%m',
@@ -29,6 +30,41 @@ const BASE_EFM = join([
     '%*\sFile "%f"\, line %l', # Python
     'In %f line %l:', # shellcheck
 ], ',')
+
+# TODO: Verify and optimize these patterns
+const DEFAULT_PATTERNS = [
+  # # GNU/Clang/GCC and simple grep/ripgrep output.  The dot-column form mirrors
+  # # the second GNU syntax accepted by Emacs's broad `gnu' matcher.
+  # '\v^\s*(.{-}):([1-9]\d*):\s*.*$',
+  # '\v^\s*(.{-}):([1-9]\d*):([1-9]\d*):\s*.*$',
+  # '\v^\s*(.{-}):([1-9]\d*)\.([1-9]\d*):\s*.*$',
+
+  # # MSVC/EDG-style: file.cpp(12,34): error ... / file.cpp(12): ...
+  # '\v^\s*(.{-})\(([1-9]\d*)\)\s*:',
+  # '\v^\s*(.{-})\(([1-9]\d*),\s*([1-9]\d*)\)\s*:',
+
+  # # CMake Error/Warning at path/file.cmake:12 (...):
+  # '\v^CMake (Error|Warning) at (.{-}):([1-9]\d*)($|\s)',
+
+  # # GCC/Clang include chain: In file included from foo.h:12:3:
+  # '\v^(In file included from |[ \t]*from )(.{-}):([1-9]\d*)(:([1-9]\d*))?:',
+
+  # # Bash: script.sh: line 12: syntax error ...
+  # '\v^(.+): line ([1-9]\d*):',
+
+  # # ShellCheck: In script.sh line 12:
+  # '\v^In (.+) line ([1-9]\d*):',
+
+  # # Python traceback:   File "foo.py", line 12, in func
+  # '\v^\s*File "([^"]+)", line ([1-9]\d*)',
+
+  '\v^\s*%(In file included from |from |CMake %(Error|Warning) at )?(\f{-}):(\d+)([.:](\d+))?:',
+  # '\v^CMake (Error|Warning) at (\f{-}):(\d+)($|\s)',
+  '\v^\s*File "([^"]+)", line (\d+)',
+  '\v^In (.+) line (\d+):',
+  '\v^(.+): line (\d+):',
+  '\v^\s*(.{-})\((\d+)(,\s*(\d+))?\)\s*:',
+]
 
 if empty(prop_type_get('term_jump_line'))
     prop_type_add('term_jump_line', {highlight: 'QuickFixLine'})
@@ -51,6 +87,22 @@ def OnTermWinOpen()
     nnoremap <buffer> [{ <scriptcmd>FirstError()<CR>
 enddef
 
+def MatchTermLines(lines: list<string>): dict<any>
+    var matched_lines: dict<any>
+    var i = 1 # lines start form 1
+    for line in lines
+        for pattern in DEFAULT_PATTERNS
+            var match = matchlist(line, pattern)
+            if !empty(match)
+                matched_lines[i] = {fname: match[1], lnum: match[2], col: match[3]}
+                break
+            endif
+        endfor
+        i += 1
+    endfor
+    return matched_lines
+enddef
+
 def g:Term(cmd: string, bang: bool): number
     if term_getstatus(term_bufnr) == "running"
         job_stop(term_getjob(term_bufnr), "kill")
@@ -70,12 +122,13 @@ def g:Term(cmd: string, bang: bool): number
     var initila_winid = win_getid()
     win_gotoid(win_to_use)
 
-    term_qf = []
+    term_cwd = getcwd()
+    term_tag_lines = {}
     var job_keeper: job
     var job_ended = false
     var job_start_time = reltime()
     term_bufnr = term_start([&shell, &shellcmdflag, cmd], {
-        cwd: getcwd(),
+        cwd: term_cwd,
         curwin: 1,
         term_name: '[term]',
         exit_cb: (job, ec) => {
@@ -88,7 +141,8 @@ def g:Term(cmd: string, bang: bool): number
             job_ended = true
             timer_start(200, (_) => {
                 var start = reltime()
-                term_qf = getqflist({lines: getbufline(term_bufnr, 1, '$'), efm: term_efm }).items
+                # term_tag_lines = getqflist({lines: getbufline(term_bufnr, 1, '$'), efm: term_efm }).items
+                term_tag_lines = MatchTermLines(getbufline(term_bufnr, 1, '$'))
                 echom 'scan took: ' .. reltimestr(reltime(start))
             })
             timer_start(0, (_) => { # wait one loop for buffer redraw
@@ -189,40 +243,53 @@ def OpenTermWindow(): number
     return winid
 enddef
 
-def GetQfItem(line_number: number): dict<any>
-    var item: dict<any>
-    if line_number < term_qf->len()
-        item = term_qf[line_number - 1]
+def GetTermLine(line_number: number): dict<any>
+    var line: dict<any>
+    # if line_number < term_tag_lines->len()
+    if has_key(term_tag_lines, line_number)
+        line = term_tag_lines[line_number]
     else
-        echo $"fell back, lnum: {line_number}"
-        item = getqflist({lines: getbufline(term_bufnr, line_number), efm: term_efm}).items[0]
+        # echo $"fell back, lnum: {line_number}"
+        # line = getqflist({lines: getbufline(term_bufnr, line_number), efm: term_efm}).items[0]
     endif
-    return item
+    return line
 enddef
 
-def JumpQfItem(item: dict<any>)
-    # echo $"Item: {item}"
-    if !item.valid | return | endif
+def JumpTermLine(line: dict<any>)
+    echo $"line: {line}"
+    if empty(line) | return | endif
 
     # Highlight the line
     prop_remove({type: 'term_jump_line', all: true}, 1, line('$')) # returns number of removed props. No error if removed none.
     prop_add(line('.'), 1, {length: col("$"), type: 'term_jump_line', bufnr: term_bufnr})
 
-    var buf_winid = bufwinid(item.bufnr)
+    # construct full path
+    if line.fname[0] != '/'
+        line.fname = term_cwd .. line.fname
+    endif
+
+    var buf_winid = bufwinid(line.fname)
     if buf_winid > 0
+        echo "just jumped open window"
         win_gotoid(buf_winid)
     else
         win_gotoid(CreateWindow())
-        execute "buffer" item.bufnr
+        if bufexists(line.fname)
+            echo "used :buf"
+            execute "b" line.fname
+        else
+            echo "used :edit"
+            execute "e" line.fname
+        endif
     endif
 
-    if item.lnum > 0
-        execute ":" .. item.lnum
+    if str2nr(line.lnum) > 0
+        execute ":" .. line.lnum
         execute "normal! ^"
     endif
 
-    if item.col > 1
-        execute "normal!" item.col .. "|"
+    if str2nr(line.col) > 1
+        execute "normal!" line.col .. "|"
     endif
     normal! zvzz
 enddef
@@ -234,35 +301,35 @@ enddef
 # enddef
 
 def CurrentError()
-    JumpQfItem(GetQfItem(line('.')))
+    JumpTermLine(GetTermLine(line('.')))
 enddef
 
 def NextError(): dict<any>
-    var item: dict<any>
+    var line: dict<any>
     var line_number = line('.') + 1
     while line_number < line('$')
-        item = GetQfItem(line_number)
-        if item.valid
+        line = GetTermLine(line_number)
+        if !empty(line)
             cursor(line_number, 0)
-            return item
+            return line
         endif
         line_number += 1
     endwhile
-    return {valid: false}
+    return {}
 enddef
 
 def PrevError(): dict<any>
-    var item: dict<any>
+    var line: dict<any>
     var line_number = line('.') - 1
     while line_number > 1
-        item = GetQfItem(line_number)
-        if item.valid
+        line = GetTermLine(line_number)
+        if !empty(line)
             cursor(line_number, 0)
-            return item
+            return line
         endif
         line_number -= 1
     endwhile
-    return {valid: false}
+    return {}
 enddef
 
 def FirstError(): dict<any>
@@ -275,31 +342,31 @@ enddef
 
 def TermNextErrorJump()
     win_gotoid(OpenTermWindow())
-    var item = NextError()
-    JumpQfItem(item)
+    var line = NextError()
+    JumpTermLine(line)
 enddef
 
 def TermPrevErrorJump()
     win_gotoid(OpenTermWindow())
-    var item = PrevError()
-    JumpQfItem(item)
+    var line = PrevError()
+    JumpTermLine(line)
 enddef
 
 def TermFirstErrorJump()
     win_gotoid(OpenTermWindow())
-    var item = FirstError()
-    JumpQfItem(item)
+    var line = FirstError()
+    JumpTermLine(line)
 enddef
 
 def TermLastErrorJump()
     win_gotoid(OpenTermWindow())
-    var item = LastError()
-    JumpQfItem(item)
+    var line = LastError()
+    JumpTermLine(line)
 enddef
 
 def TermThisErrorJump()
     win_gotoid(OpenTermWindow())
-    JumpQfItem(GetQfItem(line('.')))
+    JumpTermLine(GetTermLine(line('.')))
 enddef
 
 def TermKill()
@@ -308,15 +375,15 @@ enddef
 
 # Debug
 
-def g:TermInspectQf(): list<any>
-    return term_qf
+def g:TermInspectQf(): dict<any>
+    return term_tag_lines
 enddef
 
 def g:TermInspectEfm(): string
     return term_efm
 enddef
 
-defcom
+defcomp
 
 command! -nargs=* -bang -complete=shellcmdline Term g:Term(<q-args>, <bang>0)
 command! -nargs=0 -bar TermToggleWin      ToggleWindow()
