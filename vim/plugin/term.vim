@@ -208,7 +208,7 @@ def JumpTermTag(tag: dict<any>)
 
     # construct full path
     if tag.fname[0] != '/'
-        tag.fname = term_cwd .. tag.fname
+        tag.fname = term_cwd .. '/' .. tag.fname
     endif
 
     var buf_winid = bufwinid(tag.fname)
