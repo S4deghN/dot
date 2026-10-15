@@ -1,69 +1,28 @@
 vim9script
 
-# - [ ] polish window creation
-# - [ ] path is not always set correctly
+# TODO:
+# - Add more patterns
+# - Polish window creation
+# - Path is not always set correctly
 
-g:use_local_efm = 0
 g:term_vertical = 1
 
 var term_bufnr = -1
 var term_tty = ''
-var term_efm = ''
-var term_tag_lines: dict<any>
+var term_tags: dict<any>
 var term_cwd = ''
+var scan_ended = false
 
-const BASE_EFM = join([
-    '%+G\ze%*\d:%*\d:%*\d', # ignore time format 12:12:12
-    '%*[^"]"%f"%*\D%l: %m',
-    '%f%\ze:%l:%c:%m',
-    '%f(%l):%m',
-    '%f:%l:%m',
-    '%f: %\\%(line %\\)%\\?%l: %m', # shell error (bash has that extra "line")
-    '%f|%l| %m',
-    '"%f"%*\D%l: %m',
-    '"%f"\, line %l%*\D%c%*[^ ] %m',
-    '%D%*\a[%*\d]: Entering directory %*[`'']%f''',
-    '%X%*\a[%*\d]: Leaving directory %*[`'']%f''',
-    '%D%*\a: Entering directory %*[`'']%f''',
-    '%X%*\a: Leaving directory %*[`'']%f''',
-    '%DMaking %*\a in %f',
-    '%*\sFile "%f"\, line %l', # Python
-    'In %f line %l:', # shellcheck
-], ',')
-
-# TODO: Verify and optimize these patterns
 const DEFAULT_PATTERNS = [
-  # # GNU/Clang/GCC and simple grep/ripgrep output.  The dot-column form mirrors
-  # # the second GNU syntax accepted by Emacs's broad `gnu' matcher.
-  # '\v^\s*(.{-}):([1-9]\d*):\s*.*$',
-  # '\v^\s*(.{-}):([1-9]\d*):([1-9]\d*):\s*.*$',
-  # '\v^\s*(.{-}):([1-9]\d*)\.([1-9]\d*):\s*.*$',
-
-  # # MSVC/EDG-style: file.cpp(12,34): error ... / file.cpp(12): ...
-  # '\v^\s*(.{-})\(([1-9]\d*)\)\s*:',
-  # '\v^\s*(.{-})\(([1-9]\d*),\s*([1-9]\d*)\)\s*:',
-
-  # # CMake Error/Warning at path/file.cmake:12 (...):
-  # '\v^CMake (Error|Warning) at (.{-}):([1-9]\d*)($|\s)',
-
-  # # GCC/Clang include chain: In file included from foo.h:12:3:
-  # '\v^(In file included from |[ \t]*from )(.{-}):([1-9]\d*)(:([1-9]\d*))?:',
-
-  # # Bash: script.sh: line 12: syntax error ...
-  # '\v^(.+): line ([1-9]\d*):',
-
-  # # ShellCheck: In script.sh line 12:
-  # '\v^In (.+) line ([1-9]\d*):',
-
-  # # Python traceback:   File "foo.py", line 12, in func
-  # '\v^\s*File "([^"]+)", line ([1-9]\d*)',
-
-  '\v^\s*%(In file included from |from |CMake %(Error|Warning) at )?(\f{-}):(\d+)([.:](\d+))?:',
-  # '\v^CMake (Error|Warning) at (\f{-}):(\d+)($|\s)',
-  '\v^\s*File "([^"]+)", line (\d+)',
-  '\v^In (.+) line (\d+):',
-  '\v^(.+): line (\d+):',
-  '\v^\s*(.{-})\((\d+)(,\s*(\d+))?\)\s*:',
+    # Default: (stuff)?file:13:35
+    '\v^\s*%(In file included from |from |CMake %(Error|Warning) at )?(\f{-}):(\d+)([.:](\d+))?:',
+    # Python: File "file.py", line 10
+    '\v^\s*File "([^"]+)", line (\d+)',
+    # Shellcheck: In file.sh line 10
+    '\v^In (\f+) line (\d+):',
+    # Bash: file.sh: line 10
+    # Sh:   file.sh: 10
+    '\v^(\f+): %(line )?(\d+):',
 ]
 
 if empty(prop_type_get('term_jump_line'))
@@ -87,7 +46,7 @@ def OnTermWinOpen()
     nnoremap <buffer> [{ <scriptcmd>FirstError()<CR>
 enddef
 
-def MatchTermLines(lines: list<string>): dict<any>
+def MatchTermTags(lines: list<string>): dict<any>
     var matched_lines: dict<any>
     var i = 1 # lines start form 1
     for line in lines
@@ -103,12 +62,10 @@ def MatchTermLines(lines: list<string>): dict<any>
     return matched_lines
 enddef
 
-def g:Term(cmd: string, bang: bool): number
+def g:Term(cmd: string): number
     if term_getstatus(term_bufnr) == "running"
         job_stop(term_getjob(term_bufnr), "kill")
     endif
-
-    term_efm = GetEfm()
 
     var windows = win_findbuf(term_bufnr)
     var win_to_use: number
@@ -123,9 +80,9 @@ def g:Term(cmd: string, bang: bool): number
     win_gotoid(win_to_use)
 
     term_cwd = getcwd()
-    term_tag_lines = {}
+    term_tags = {}
+    scan_ended = false
     var job_keeper: job
-    var job_ended = false
     var job_start_time = reltime()
     term_bufnr = term_start([&shell, &shellcmdflag, cmd], {
         cwd: term_cwd,
@@ -138,12 +95,11 @@ def g:Term(cmd: string, bang: bool): number
             job_stop(job_keeper, "kill")
         },
         close_cb: (job) => {
-            job_ended = true
             timer_start(200, (_) => {
                 var start = reltime()
-                # term_tag_lines = getqflist({lines: getbufline(term_bufnr, 1, '$'), efm: term_efm }).items
-                term_tag_lines = MatchTermLines(getbufline(term_bufnr, 1, '$'))
-                echom 'scan took: ' .. reltimestr(reltime(start))
+                term_tags = MatchTermTags(getbufline(term_bufnr, 1, '$'))
+                echo 'scan took: ' .. reltimestr(reltime(start))
+                scan_ended = true
             })
             timer_start(0, (_) => { # wait one loop for buffer redraw
                 var winid = bufwinid(term_bufnr)
@@ -166,20 +122,6 @@ def g:Term(cmd: string, bang: bool): number
     endif
 
     return win_to_use
-enddef
-
-def GetEfm(): string
-    if g:use_local_efm != 0
-        var local_efm = (bufnr() == term_bufnr ?
-            getbufvar(winbufnr(winnr('#')), &l:efm) :
-            &l:efm
-        )->substitute(',%-G%.%#', '', 'g')
-         ->substitute('^,\+', '', 'g')
-
-        return join([local_efm, BASE_EFM], ',')
-    else
-        return BASE_EFM
-    endif
 enddef
 
 var was_a_win_there: bool = false
@@ -231,7 +173,7 @@ enddef
 
 def OpenTermWindow(): number
     if !bufexists(term_bufnr)
-        return g:Term("echo Hello!", 0)
+        return g:Term("")
     endif
 
     var winid = bufwinid(term_bufnr)
@@ -243,75 +185,71 @@ def OpenTermWindow(): number
     return winid
 enddef
 
-def GetTermLine(line_number: number): dict<any>
-    var line: dict<any>
-    # if line_number < term_tag_lines->len()
-    if has_key(term_tag_lines, line_number)
-        line = term_tag_lines[line_number]
-    else
+def GetTermTag(line_number: number): dict<any>
+    var tag = {}
+
+    if scan_ended == false
         # echo $"fell back, lnum: {line_number}"
-        # line = getqflist({lines: getbufline(term_bufnr, line_number), efm: term_efm}).items[0]
+        tag = MatchTermTags(getbufline(term_bufnr, line_number))
+    elseif has_key(term_tags, line_number)
+        tag = term_tags[line_number]
     endif
-    return line
+
+    return tag
 enddef
 
-def JumpTermLine(line: dict<any>)
-    echo $"line: {line}"
-    if empty(line) | return | endif
+def JumpTermTag(tag: dict<any>)
+    # echo $"tag: {tag}"
+    if empty(tag) | return | endif
 
     # Highlight the line
     prop_remove({type: 'term_jump_line', all: true}, 1, line('$')) # returns number of removed props. No error if removed none.
     prop_add(line('.'), 1, {length: col("$"), type: 'term_jump_line', bufnr: term_bufnr})
 
     # construct full path
-    if line.fname[0] != '/'
-        line.fname = term_cwd .. line.fname
+    if tag.fname[0] != '/'
+        tag.fname = term_cwd .. tag.fname
     endif
 
-    var buf_winid = bufwinid(line.fname)
+    var buf_winid = bufwinid(tag.fname)
     if buf_winid > 0
-        echo "just jumped open window"
+        # echo "just jumped open window"
         win_gotoid(buf_winid)
     else
         win_gotoid(CreateWindow())
-        if bufexists(line.fname)
-            echo "used :buf"
-            execute "b" line.fname
+        if bufexists(tag.fname)
+            # echo "used :buf"
+            execute "b" tag.fname
         else
-            echo "used :edit"
-            execute "e" line.fname
+            # echo "used :edit"
+            execute "e" tag.fname
         endif
     endif
 
-    if str2nr(line.lnum) > 0
-        execute ":" .. line.lnum
+    if str2nr(tag.lnum) > 0
+        execute ":" .. tag.lnum
         execute "normal! ^"
     endif
 
-    if str2nr(line.col) > 1
-        execute "normal!" line.col .. "|"
+    if str2nr(tag.col) > 1
+        execute "normal!" tag.col .. "|"
     endif
     normal! zvzz
 enddef
 
-# def TermToQf()
-#     if bufexists(term_bufnr)
-#         cgetexpr getbufline(term_bufnr, 1, "$")
-#     endif
-# enddef
-
 def CurrentError()
-    JumpTermLine(GetTermLine(line('.')))
+    JumpTermTag(GetTermTag(line('.')))
 enddef
 
 def NextError(): dict<any>
-    var line: dict<any>
+    var tag: dict<any>
     var line_number = line('.') + 1
+    # TODO: Test if searching sorted list of keys makes this faster.
     while line_number < line('$')
-        line = GetTermLine(line_number)
-        if !empty(line)
+        tag = GetTermTag(line_number)
+        if !empty(tag)
             cursor(line_number, 0)
-            return line
+            return tag
         endif
         line_number += 1
     endwhile
@@ -319,13 +257,13 @@ def NextError(): dict<any>
 enddef
 
 def PrevError(): dict<any>
-    var line: dict<any>
+    var tag: dict<any>
     var line_number = line('.') - 1
     while line_number > 1
-        line = GetTermLine(line_number)
-        if !empty(line)
+        tag = GetTermTag(line_number)
+        if !empty(tag)
             cursor(line_number, 0)
-            return line
+            return tag
         endif
         line_number -= 1
     endwhile
@@ -342,31 +280,37 @@ enddef
 
 def TermNextErrorJump()
     win_gotoid(OpenTermWindow())
-    var line = NextError()
-    JumpTermLine(line)
+    var tag = NextError()
+    if empty(tag) | wincmd p | return | endif
+    JumpTermTag(tag)
 enddef
 
 def TermPrevErrorJump()
     win_gotoid(OpenTermWindow())
-    var line = PrevError()
-    JumpTermLine(line)
+    var tag = PrevError()
+    if empty(tag) | wincmd p | return | endif
+    JumpTermTag(tag)
 enddef
 
 def TermFirstErrorJump()
     win_gotoid(OpenTermWindow())
-    var line = FirstError()
-    JumpTermLine(line)
+    var tag = FirstError()
+    if empty(tag) | wincmd p | return | endif
+    JumpTermTag(tag)
 enddef
 
 def TermLastErrorJump()
     win_gotoid(OpenTermWindow())
-    var line = LastError()
-    JumpTermLine(line)
+    var tag = LastError()
+    if empty(tag) | wincmd p | return | endif
+    JumpTermTag(tag)
 enddef
 
 def TermThisErrorJump()
     win_gotoid(OpenTermWindow())
-    JumpTermLine(GetTermLine(line('.')))
+    var tag = GetTermTag(line('.'))
+    if empty(tag) | wincmd p | return | endif
+    JumpTermTag(tag)
 enddef
 
 def TermKill()
@@ -375,36 +319,29 @@ enddef
 
 # Debug
 
-def g:TermInspectQf(): dict<any>
-    return term_tag_lines
-enddef
-
-def g:TermInspectEfm(): string
-    return term_efm
+def g:TermInspectTags(): dict<any>
+    return term_tags
 enddef
 
 defcomp
 
-command! -nargs=* -bang -complete=shellcmdline Term g:Term(<q-args>, <bang>0)
-command! -nargs=0 -bar TermToggleWin      ToggleWindow()
-# command! -nargs=0 -bar TermToQf           TermToQf()
-command! -nargs=0 -bar TermKill           TermKill()
-command! -nargs=0 -bar TermNextErrorJump  TermNextErrorJump()
-command! -nargs=0 -bar TermFirstErrorJump TermFirstErrorJump()
-command! -nargs=0 -bar TermPrevErrorJump  TermPrevErrorJump()
-command! -nargs=0 -bar TermLastErrorJump  TermLastErrorJump()
-command! -nargs=0 -bar TermThisErrorJump  TermThisErrorJump()
+command! -nargs=* -complete=shellcmdline
+            \ Term           g:Term(<q-args>)
+command! -bar TermToggleWin  ToggleWindow()
+command! -bar TermKill       TermKill()
+command! -bar TermThisError  TermThisErrorJump()
+command! -bar TermFirstError TermFirstErrorJump()
+command! -bar TermLastError  TermLastErrorJump()
+command! -bar TermNextError  TermNextErrorJump()
+command! -bar TermPrevError  TermPrevErrorJump()
 
 # Configuration -----------------------------------------------------
-# nnoremap cc :wa<cr><cmd>call TermInput()<cr>
-nnoremap cc :silent! wa!<cr>:Term OA
+nnoremap cc :silent! wa!<cr>:Term <Up>
 nnoremap sn :Term<space>
 nnoremap ss <cmd>TermToggleWin<cr>
-# nnoremap sq <cmd>TermToQf<cr>
 nnoremap sx <cmd>TermKill<cr>
-nnoremap sj <cmd>TermNextErrorJump<cr>
-nnoremap sk <cmd>TermPrevErrorJump<cr>
-nnoremap s$ <cmd>TermLastErrorJump<cr>
-nnoremap s0 <cmd>TermFirstErrorJump<cr>
-nnoremap s<cr> <cmd>TermThisErrorJump<cr>
-
+nnoremap sj <cmd>TermNextError<cr>
+nnoremap sk <cmd>TermPrevError<cr>
+nnoremap s$ <cmd>TermLastError<cr>
+nnoremap s0 <cmd>TermFirstError<cr>
+nnoremap s<cr> <cmd>TermThisError<cr>
