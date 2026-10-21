@@ -22,3 +22,10 @@ Wireguard
 #hecl
 checl/!
 battery
+eMMC
+QEMU
+QSPI
+Xilffs
+FatFs
+SWEM
+rebased
