@@ -189,8 +189,9 @@ def GetTermTag(line_number: number): dict<any>
     var tag = {}
 
     if scan_ended == false
-        # echo $"fell back, lnum: {line_number}"
-        tag = MatchTermTags(getbufline(term_bufnr, line_number))
+        # echom $"fell back, lnum: {line_number}"
+        var tags = MatchTermTags(getbufline(term_bufnr, line_number))
+        if !empty(tags) | tag = tags[1] | endif
     elseif has_key(term_tags, line_number)
         tag = term_tags[line_number]
     endif
@@ -208,7 +209,7 @@ def JumpTermTag(tag: dict<any>)
 
     # construct full path
     if tag.fname[0] != '/'
-        tag.fname = term_cwd .. '/' .. tag.fname
+        tag.fname = fnamemodify(term_cwd .. '/' .. tag.fname, ":p")
     endif
 
     var buf_winid = bufwinid(tag.fname)
