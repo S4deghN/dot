@@ -2,7 +2,8 @@ vim9script
 
 set notimeout ttimeout ttimeoutlen=0
 set history=10000 termwinscroll=1000000
-set hidden noswapfile undofile undodir=/tmp/$USER.vim9undo | silent system("mkdir -p /tmp/$USER.vim9undo")
+set hidden noswapfile undofile undodir=/tmp/$USER.vim9undo
+    if !isdirectory(&undodir) | mkdir(&undodir, "", 0o700) | endif
 set mouse=ar ttymouse=sgr
 set scrolloff=3
 set completeopt=menu,longest
