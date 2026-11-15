@@ -250,7 +250,9 @@ hi  Type            guifg=#68BEA2
 " hi  Statement       guifg=#CF6A4C
 hi  Statement       guifg=#DF6A4C
 " hi  Comment         guifg=#5D646A     gui=NONE cterm=NONE
-hi  Comment         guifg=#60676d gui=NONE cterm=NONE
+" hi  Comment         guifg=#60676d gui=NONE cterm=NONE
+" hi  Comment         guifg=#828A8A gui=NONE cterm=NONE
+hi  Comment         guifg=ivory4 gui=NONE cterm=NONE
 hi  Ignore          guibg=#1c2020 guifg=NONE   cterm=NONE
 if has('nvim')
     hi! link @lsp.type.comment Ignore
