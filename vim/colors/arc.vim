@@ -111,8 +111,6 @@ hi! link Label            Statement
 hi! link Keyword          Statement
 hi! link Exception        Statement
 
-call s:h("Operator",      {"fg": s:norm})
-
 call s:h("PreProc",     {"fg": s:norm_subtle})
 hi! link Include          PreProc
 hi! link Define           PreProc
@@ -286,6 +284,7 @@ hi! link            IncSearch         Visual
 hi  Search          guibg=#23272E     guifg=lightblue
 " hi  PmenuSel        guibg=bg          guifg=#a790d5
 
+hi! link Operator Normal
 
 hi! link htmlH1 Title
 hi! link htmlH2 Title
